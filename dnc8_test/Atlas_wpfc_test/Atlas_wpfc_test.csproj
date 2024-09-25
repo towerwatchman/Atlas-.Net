@@ -9,16 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Page Remove="assets\Images\icons.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="assets\Images\icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="SharpVectors" Version="1.8.4.2" />
   </ItemGroup>
 

@@ -89,40 +89,46 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Margin="8">
-                <StackPanel.Resources>
-                    <Style x:Key="WindowButtonSyyle" TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Height" Value="25"/>
-                        <Setter Property="Width" Value="25"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate
-                                    TargetType="{x:Type Button}">
-                                    <Border
-                                        Background="{TemplateBinding Background}">
-                                        <Path
-                                            Data="{Binding Content, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-                                            Fill="{StaticResource Secondary}"
-                                            Height="{TemplateBinding FontSize}"
-                                            Width="{TemplateBinding FontSize}"
-                                            Stretch="Uniform"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </StackPanel.Resources>
+
                 <Button
                     x:Name="minimizeButton"
-                    
-                    Click="minimizeButton_Click" Background="{x:Null}"/>
+                    Width="25"
+                    Height="25"
+                    Click="minimizeButton_Click" 
+                    Background="Transparent"
+                    BorderThickness="0">
+                    <Image
+                    Height="10"
+                    Width="10"
+                    Stretch="Uniform"
+                    Source="{StaticResource minimize_icon}"/>
+                </Button>
                 <Button
                     x:Name="maximizeButton"
-                    Click="maximizeButton_Click"/>
+                    Width="25"
+                    Height="25"
+                    Click="maximizeButton_Click"
+                    Background="Transparent"
+                    BorderThickness="0">
+                    <Image
+                    Height="10"
+                    Width="10"
+                    Stretch="Uniform"
+                    Source="{StaticResource maximize_icon}"/>
+                </Button>
                 <Button
                     x:Name="closeButton"
-                    Click="closeButton_Click"/>
+                    Width="25"
+                    Height="25"
+                    Click="closeButton_Click"
+                    Background="Transparent"
+                    BorderThickness="0">
+                    <Image
+                    Height="10"
+                    Width="10"
+                    Stretch="Uniform"
+                    Source="{StaticResource close_iconDrawingImage}"/>
+                </Button>
             </StackPanel>
             <!--#endregion-->
 

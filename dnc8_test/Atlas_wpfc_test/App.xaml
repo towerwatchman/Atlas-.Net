@@ -7,7 +7,7 @@
         <!-- Icons -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/assets/Images/atlas_icon.xaml"/>
+                <ResourceDictionary Source="/assets/Images/icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
      
         <!-- Brushes Default Color Scheme-->
