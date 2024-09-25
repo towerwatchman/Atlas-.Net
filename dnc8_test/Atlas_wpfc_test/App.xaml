@@ -1,0 +1,21 @@
+﻿<Application x:Class="Atlas_wpfc_test.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Atlas_wpfc_test"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- Icons -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/assets/Images/atlas_icon.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+     
+        <!-- Brushes Default Color Scheme-->
+        <SolidColorBrush x:Key="Default" Color="#16181E"/>
+        <SolidColorBrush x:Key="Canvas" Color="#20202C"/>
+        <SolidColorBrush x:Key="Primary" Color="#FF2C8EA9"/>
+        <SolidColorBrush x:Key="Secondary" Color="White"/>
+        <SolidColorBrush x:Key="DimBrush" Color="#3E3E46"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
