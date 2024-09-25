@@ -41,6 +41,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            
             <!--#region Header-->
             <!-- Left Corner-->
             <Polygon
@@ -132,6 +133,20 @@
             </StackPanel>
             <!--#endregion-->
 
+            <!--#region Menu-->
+            <Grid
+                Grid.Row="1">
+                <StackPanel
+                   Orientation="Horizontal"
+                   HorizontalAlignment="Left"
+                   Margin="40,0">
+                    <RadioButton
+                       Content="Games"
+                       IsChecked="True"
+                       Style="{StaticResource TopNavigationStyle}"/>
+                </StackPanel>
+            </Grid>
+            <!--#endregion-->
         </Grid>
         <!--#endregion-->
     </Grid>
