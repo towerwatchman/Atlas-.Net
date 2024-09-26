@@ -142,8 +142,8 @@
                    Margin="40,0">
                     <RadioButton
                        Content="Games"
-                       IsChecked="True"
-                       Style="{StaticResource TopNavigationStyle}"/>
+                       IsChecked="True"/>
+                       <!--"{StaticResource TopNavigationStyle}"-->
                 </StackPanel>
             </Grid>
             <!--#endregion-->
