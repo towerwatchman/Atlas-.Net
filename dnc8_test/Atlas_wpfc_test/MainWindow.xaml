@@ -8,7 +8,10 @@
         Title="MainWindow" Height="720" Width="1280"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None">
+        WindowStyle="None"
+        FontSize="13"
+        Background="Transparent"
+        AllowsTransparency="True">
     <Grid Background="{StaticResource Default}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
@@ -133,20 +136,64 @@
             </StackPanel>
             <!--#endregion-->
 
-            <!--#region Menu-->
+
             <Grid
                 Grid.Row="1">
+                <!--#region Menu-->
                 <StackPanel
                    Orientation="Horizontal"
                    HorizontalAlignment="Left"
                    Margin="40,0">
                     <RadioButton
                        Content="Games"
-                       IsChecked="True"/>
+                       IsChecked="True"
+                       Style="{StaticResource TopNavigationStyle}"/>
+                    <RadioButton
+                       Content="Comics"
+                       IsChecked="True"
+                       Style="{StaticResource TopNavigationStyle}"/>
+                    <RadioButton
+                       Content="Artwork"
+                       IsChecked="True"
+                       Style="{StaticResource TopNavigationStyle}"/>
+                    <RadioButton
+                       Content="Assets"
+                       IsChecked="True"
+                       Style="{StaticResource TopNavigationStyle}"/>
                     <!--"{StaticResource TopNavigationStyle}"-->
                 </StackPanel>
+                <!--#endregion-->
+                
+                <!--#region Search Box -->
+                <Grid Background="{StaticResource DimBrush}"
+                      HorizontalAlignment="Stretch"
+                      Height="40"
+                      MinWidth="400"
+                      Margin="450,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image
+                        Source="{StaticResource search_icon}"
+                        Stretch="Uniform"
+                        Height="15"
+                        Width="15"/>
+                    
+                    <!-- Search Text-->
+                    <TextBox
+                        Grid.Column="1"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="{StaticResource Secondary}"
+                        Text="Search Atlas"
+                        VerticalAlignment="Center"/>
+                </Grid>
+                <!--#endregion-->
             </Grid>
-            <!--#endregion-->
+
+            
         </Grid>
         <!--#endregion-->
         
