@@ -19,6 +19,7 @@ namespace Atlas_wpfc_test
         public MainWindow()
         {
             InitializeComponent();
+            EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
         }
 
         private void minimizeButton_Click(object sender, RoutedEventArgs e)
@@ -37,7 +38,13 @@ namespace Atlas_wpfc_test
 
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
+            System.Windows.Application.Current.Shutdown();
+        }
 
+        private void OnListBoxNavButtonUp(object sender, RoutedEventArgs e)
+        {
+            var Item = (ListBoxItem)sender;
+            Console.WriteLine(Item.Name.ToString());
         }
     }
 }

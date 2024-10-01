@@ -26,7 +26,10 @@
 
         <!--#region  Logo-->
         <Grid
-            Background="{StaticResource Primary}">
+            Panel.ZIndex="2"
+            Background="{StaticResource Primary}"
+            BitmapEffect="{StaticResource RightShadowEffect}">
+            
             <Image
                 Height="50"
                 Width="50"
@@ -37,6 +40,8 @@
 
         <!--#region  Top Navigation-->
         <Grid 
+            Panel.ZIndex="1"
+            BitmapEffect="{StaticResource BottomShadowEffect}"
             Background="{StaticResource Canvas}"
             Grid.Column="1">
 
@@ -199,9 +204,64 @@
         
         <!--#region Left Nav-->
         <Grid
+            Panel.ZIndex="1"
             Background="{StaticResource Canvas}"
+            BitmapEffect="{StaticResource RightShadowEffect}"
             Grid.Row="1">
-            
+            <ListBox
+                Background="Transparent"
+                BorderThickness="0">
+                <ListBox.Resources>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Height" Value="60"/>
+                        <Setter Property="Width" Value="60"/>
+                        <Setter Property="Margin" Value="-1"/>
+                        <Setter Property="Template">
+
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <Rectangle
+                                            x:Name="indicator"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Stretch"
+                                            Width="4"/>
+                                        <Path
+                                            x:Name="icon"
+                                            Data="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"
+                                            Fill="{StaticResource Secondary}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="indicator"
+                                                    Property="Fill"
+                                                    Value="{StaticResource Primary}"/>
+                                            <Setter TargetName="icon"
+                                                    Property="Fill"
+                                                    Value="{StaticResource Primary}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.Resources>
+                <ListBoxItem
+                    x:Name="Home"
+                    Content="{StaticResource home_icon}"
+                    IsSelected="True"/>
+                <ListBoxItem
+                    x:Name="Import"
+                    Content="{StaticResource import_icon}"
+                    IsSelected="True"/>
+                <ListBoxItem
+                    x:Name="Settings"
+                    Content="{StaticResource settings_icon}"
+                    IsSelected="True"/>
+            </ListBox>
+
         </Grid>
         <!--#endregion-->
 

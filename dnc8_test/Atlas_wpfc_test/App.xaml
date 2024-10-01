@@ -39,6 +39,20 @@
                     </Setter.Value>                    
                 </Setter>
             </Style>
+
+            <DropShadowBitmapEffect
+                x:Key="BottomShadowEffect"
+                ShadowDepth="3"
+                Softness=".2"
+                Direction="-59"
+                Color="#0c0d12"/>
+            <DropShadowBitmapEffect
+                x:Key="RightShadowEffect"
+                ShadowDepth="3"
+                Softness=".2"
+                Direction="-59"
+                Color="#0c0d12"/>
+
         </ResourceDictionary>
 
     </Application.Resources>
