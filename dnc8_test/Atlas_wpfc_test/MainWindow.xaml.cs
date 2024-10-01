@@ -8,8 +8,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Atlas.UI.Importer;
 
-namespace Atlas_wpfc_test
+namespace Atlas
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -44,7 +45,13 @@ namespace Atlas_wpfc_test
         private void OnListBoxNavButtonUp(object sender, RoutedEventArgs e)
         {
             var Item = (ListBoxItem)sender;
-            Console.WriteLine(Item.Name.ToString());
+            if (Item.Name.ToString() == "Import") ;
+            {
+                BatchImporter batchImporter = new BatchImporter();
+                batchImporter.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                batchImporter.Show();
+            }
+
         }
     }
 }

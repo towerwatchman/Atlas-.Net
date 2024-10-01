@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace Atlas_wpfc_test
+namespace Atlas
 {
     /// <summary>
     /// Interaction logic for App.xaml
