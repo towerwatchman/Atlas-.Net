@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System;
 using Microsoft.VisualBasic;
+using static System.Net.WebRequestMethods;
+using System.Data;
 
 namespace Atlas;
 
@@ -14,8 +16,14 @@ internal class Program
         string[] directories = Directory.GetDirectories(path);
 
         int total_dirs = directories.Length;
+        string root_path = "";
+        string game_path = "";
+        string title = "";
+        string version = "";
+        string creator = "";
+        int folder_size = 0;
 
-        Console.WriteLine($"There are a total of {total_dirs} folders");
+        Console.WriteLine($"There are a total of {total_dirs} folders\n");
 
         //We need to go through each item and find if it is a folder or file
         foreach (string dir in directories)
@@ -31,13 +39,29 @@ internal class Program
                     List<string> potential_executables = Executable.DetectExecutable(Directory.GetFiles(t));
                     if (potential_executables.Count > 0)
                     {
-                        //Console.WriteLine($"{t} | {cur_level} <= {stop_level}");
                         stop_level = t.Split('\\').Length;
-                        Console.WriteLine($"There were {potential_executables.Count} executables found.");
+                        //Now that we have a list of executables, we need to try and parse the engine, version, name etc..,
+                        game_path = t;
+                        string[] file_list = Walk(t);//This is the list we will use to determine the engine
+                        string game_engine = Engine.FindEngine(file_list);
+                        string[] game_data = Details.ParseDetails(t.Replace($"{path}\\",""));
+                        if(game_data.Length > 0)
+                        {
+                            title = game_data[0];
+                            version = game_data[1];
+                        }
+                        if(game_data.Length > 2)
+                        {
+                            creator = game_data[2];
+                        }
+
+                        Console.WriteLine($"Title: {title}\nCreator: {creator}\nEngine: {game_engine}\nVersion: {version}");
                         foreach(var exe in potential_executables)
                         {
-                            Console.WriteLine($"GAME | {exe}");
+                            Console.WriteLine($"Petential Executable: {Path.GetFileName(exe)}");
                         }
+                        Console.WriteLine($"Folder: {t}\nFolder Size: {folder_size}");
+                        Console.WriteLine("*-----------------------------------------------------*");
                     }
                 }
 
