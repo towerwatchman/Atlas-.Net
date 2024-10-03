@@ -45,7 +45,8 @@ namespace Atlas
         private void OnListBoxNavButtonUp(object sender, RoutedEventArgs e)
         {
             var Item = (ListBoxItem)sender;
-            if (Item.Name.ToString() == "Import") ;
+            Console.WriteLine(Item.Name);
+            if (Item.Name.ToString() == "Import")
             {
                 BatchImporter batchImporter = new BatchImporter();
                 batchImporter.WindowStartupLocation = WindowStartupLocation.CenterScreen;

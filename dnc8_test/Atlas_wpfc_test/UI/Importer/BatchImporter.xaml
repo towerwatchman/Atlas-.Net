@@ -5,9 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Atlas.UI.Importer"
         mc:Ignorable="d"
-        Title="BatchImporter" Height="450" Width="800">
-    <Grid>
-        <StackPanel Grid.Row="2" Grid.Column="1"/>
+        Title="BatchImporter" Height="720" Width="1280">
+    <Grid Background="{DynamicResource Canvas}">
+        <DockPanel VerticalAlignment="Stretch" Height="Auto">            
+            <DockPanel
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Height="Auto">
+
+                <Grid 
+                    DockPanel.Dock="Bottom" 
+                    Height="60"
+                    Background="{DynamicResource Primary}" 
+                    VerticalAlignment="Stretch">
+                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
+                        <Button Content="Next" Margin="4" Style="{StaticResource DefaultButtonStyle}"/>
+                        <Button Content="Cancel" Margin="4" Style="{StaticResource DefaultButtonStyle}"/>
+                    </DockPanel>
+                </Grid>
+
+                <StackPanel 
+                    DockPanel.Dock="Top" 
+                    Width="Auto" 
+                    HorizontalAlignment="Stretch"
+                    Background="{DynamicResource Secondary}">
+                    
+                </StackPanel>
+            </DockPanel>
+        </DockPanel>
 
     </Grid>
 </Window>

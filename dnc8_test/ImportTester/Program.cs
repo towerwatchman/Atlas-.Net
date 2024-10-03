@@ -10,7 +10,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        string path = "I:\\Games";
+        string path = "I:\\_Extracted";
         List<string> root_paths = new List<string>();
 
         string[] directories = Directory.GetDirectories(path);
@@ -24,13 +24,14 @@ internal class Program
         int folder_size = 0;
 
         Console.WriteLine($"There are a total of {total_dirs} folders\n");
-
+        StreamWriter outputFile = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "Atlas_Output.txt"));
         //We need to go through each item and find if it is a folder or file
         foreach (string dir in directories)
         {
            int cur_level = 0;
            int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
-           foreach(string t in Directory.GetDirectories(dir,"*", SearchOption.AllDirectories)) 
+            
+           foreach (string t in Directory.GetDirectories(dir,"*", SearchOption.AllDirectories)) 
            {
                 cur_level = t.Split('\\').Length;
                 string[] s = t.Split('\\');
@@ -55,24 +56,25 @@ internal class Program
                             creator = game_data[2];
                         }
 
-                        Console.WriteLine($"Title: {title}\nCreator: {creator}\nEngine: {game_engine}\nVersion: {version}");
+                        string output = $"Title: {title}\nCreator: {creator}\nEngine: {game_engine}\nVersion: {version}\n" ;
                         foreach(var exe in potential_executables)
                         {
-                            Console.WriteLine($"Petential Executable: {Path.GetFileName(exe)}");
+                            output += $" + Potential Executable: {Path.GetFileName(exe)}\n";
                         }
-                        Console.WriteLine($"Folder: {t}\nFolder Size: {folder_size}");
-                        Console.WriteLine("*-----------------------------------------------------*");
+                       output += ($"Folder: {t}\nFolder Size: {folder_size}\n");
+                       output += ("*-----------------------------------------------------*");
+                       Console.WriteLine(output);
+                        outputFile.WriteLine(output);
                     }
                 }
 
            }
-
         }
-
+        outputFile.Close();
 
         //root_paths.Add(Path.GetPathRoot(Item));
         //Console.WriteLine(Item);
-       
+
 
         Console.ReadLine();
     }

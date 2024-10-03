@@ -10,20 +10,34 @@
                 <ResourceDictionary Source="/assets/Images/icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
      
-        <!-- Brushes Default Color Scheme-->
-        <SolidColorBrush x:Key="Default" Color="#16181E"/>
-        <SolidColorBrush x:Key="Canvas" Color="#20202C"/>
-        <SolidColorBrush x:Key="Primary" Color="#FF2C8EA9"/>
-        <SolidColorBrush x:Key="Secondary" Color="White"/>
-        <SolidColorBrush x:Key="DimBrush" Color="#3E3E46"/>
+        <!-- Brushes Canvas Color Scheme-->
+            <!-- There will be 7 total brushes
+                - Canvas
+                - Primary            
+                - Secondary
+                - Accent
+                - Border
+                - Text
+                - Highlight
+            -->
+            <SolidColorBrush x:Key="Canvas" Color="#000000"/>
+            <SolidColorBrush x:Key="Primary" Color="#19191c"/>
+            <SolidColorBrush x:Key="Secondary" Color="#242629"/>
+            <SolidColorBrush x:Key="Tertiary" Color="#313338"/>
+            <SolidColorBrush x:Key="Accent" Color="#FF2C8EA9"/>
+            <SolidColorBrush x:Key="Border" Color="#51535A"/>
+            <SolidColorBrush x:Key="Selected" Color="#404249"/>
+            <SolidColorBrush x:Key="Text" Color="#d2d2d2"/>
+            <SolidColorBrush x:Key="Highlight" Color="#FFFFFF"/>            
+
             
         <!-- TOP NAV -->
-            <Style x:Key="TopNavigationStyle"
+            <Style x:Key="TopNavigationStyle" 
                    TargetType="{x:Type RadioButton}">
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Width" Value="80"/>
-                <Setter Property="Foreground" Value="{StaticResource Secondary}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type RadioButton}">
@@ -38,6 +52,27 @@
                         </ControlTemplate>                    
                     </Setter.Value>                    
                 </Setter>
+            </Style>
+
+            <Style x:Key="DefaultButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{DynamicResource Secondary}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                <Setter Property="Width" Value="70"/>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource Border}" BorderThickness="1" CornerRadius="2">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource Selected}"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
 
             <DropShadowBitmapEffect

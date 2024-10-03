@@ -117,12 +117,15 @@ namespace Atlas
             }
             if(text.Length == 2)
             {
-                if (CheckForSimilarStrings(text[0], text[1]) > 80)
+                int distance = CheckForSimilarStrings(text[0], text[1]);
+
+                if (distance <20)
                 {
                     data = ParseSingleFileName(text[1]);
                 }
                 else
                 {
+                    //Check to see if the first folder has any numbers in it
                     //Assume Title, Version
                     data = [text[0], text[1]];
                 }
@@ -162,7 +165,7 @@ namespace Atlas
                 }
             }
 
-            return []; 
+            return file_data; 
         }
 
         private static string[] ParseStringByDelimeter(string v, char c)
@@ -184,28 +187,31 @@ namespace Atlas
                 //Check if it has a number or has an OS name
                 else
                 {
-                    if(!CheckOSNames(item) && !CheckLanguages(item))
+                    if (!CheckOSNames(item) && !CheckLanguages(item))
                     {
-                        var version_result = FindVersionType(item);
-                        title += version_result[0];
-                        version += version_result[1];
-                        //Check for version chapter or season
-                    }
-                    else
-                    {
-                        is_version = true;
-                        version += item;
+                        if(!(i > 0  && IsDigit(item)) && is_version == false)
+                        {
+                            var version_result = FindVersionType(item);
+                            title += version_result[0];
+                            version += version_result[1];
+                            //Check for version chapter or season
+                        }
+                        else
+                        {
+                            is_version = true;
+                            version += item;
+                        } 
                     }
                 }
             }
-            return [AddSpaces(title), version];
+            return [AddSpaces(title.Replace("_","")), version];
         }
 
 
         private static bool CheckOSNames(string v)
         {
             string[] os = { "pc", "win", "linux", "windows", "unc", "win64" };
-            if (os.Any(x => v.Contains(x)))
+            if (os.Any(x => v.ToLower().Contains(x)))
             {
                 return true;
             }
@@ -226,13 +232,12 @@ namespace Atlas
             foreach( char c in v )
             {
                 if(char.IsDigit(c)) return true;
-                else return false;
             } 
             return false;
         }
         private static string AddSpaces(string v)
         {
-            return Regex.Replace(v, @"(\w)([A-Z])", @"\1 \2");
+            return Regex.Replace(v, "[A-Z]", @" $0");
         }
 
         private static string[] FindVersionType(string v)
@@ -240,18 +245,15 @@ namespace Atlas
             string title = string.Empty;
             string version = string.Empty;
             string[] delimiters = { "final", "episode", "chapter", "version", "season", "v." };
-            foreach(var item in delimiters)
+
+            if(delimiters.Any(x=> v.Contains(x)))
             {
-                if (v.ToLower().Contains(item))
-                {
-                    version = item;
-                }
-                else
-                {
-                    title = item;
-                }
+                return ["", v];
             }
-            return [title, version];
+            else
+            {
+                return [v, ""];
+            }
         }
 
         private static int CheckForSimilarStrings(string input1, string input2)

@@ -12,7 +12,7 @@
         FontSize="13"
         Background="Transparent"
         AllowsTransparency="True">
-    <Grid Background="{StaticResource Default}">
+    <Grid Background="{DynamicResource Canvas}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="1*"/>
@@ -27,22 +27,22 @@
         <!--#region  Logo-->
         <Grid
             Panel.ZIndex="2"
-            Background="{StaticResource Primary}"
-            BitmapEffect="{StaticResource RightShadowEffect}">
+            Background="{DynamicResource Accent}"
+            BitmapEffect="{DynamicResource RightShadowEffect}">
             
             <Image
                 Height="50"
                 Width="50"
                 Stretch="Uniform"
-                Source="{StaticResource atlas_logo_s}"/>
+                Source="{DynamicResource atlas_logo_s}"/>
         </Grid>
         <!--#endregion-->
 
         <!--#region  Top Navigation-->
         <Grid 
             Panel.ZIndex="1"
-            BitmapEffect="{StaticResource BottomShadowEffect}"
-            Background="{StaticResource Canvas}"
+            BitmapEffect="{DynamicResource BottomShadowEffect}"
+            Background="{DynamicResource Primary}"
             Grid.Column="1">
 
             <Grid.RowDefinitions>
@@ -53,7 +53,7 @@
             <!--#region Header-->
             <!-- Left Corner-->
             <Polygon
-                Fill="{StaticResource DimBrush}"
+                Fill="{DynamicResource Secondary}"
                 HorizontalAlignment="Left"
                 Margin="40,0,100,0"
                 Stretch="Uniform"
@@ -69,14 +69,14 @@
 
             <!-- Center -->
             <Rectangle
-                Fill="{StaticResource DimBrush}"
+                Fill="{DynamicResource Secondary}"
                 Margin="50,0,110,0"/>
 
             <!-- Right Corner-->
             <Polygon
 
                 
-    Fill="{StaticResource DimBrush}"
+    Fill="{DynamicResource Secondary}"
     HorizontalAlignment="Right"
     Margin="40,0,100,0"
     Stretch="Uniform"
@@ -105,12 +105,13 @@
                     Height="25"
                     Click="minimizeButton_Click" 
                     Background="Transparent"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    BorderBrush="Transparent">
                     <Image
                     Height="10"
                     Width="10"
                     Stretch="Uniform"
-                    Source="{StaticResource minimize_icon}"/>
+                    Source="{DynamicResource minimize_icon}"/>
                 </Button>
                 <Button
                     x:Name="maximizeButton"
@@ -123,7 +124,7 @@
                     Height="10"
                     Width="10"
                     Stretch="Uniform"
-                    Source="{StaticResource maximize_icon}"/>
+                    Source="{DynamicResource maximize_icon}"/>
                 </Button>
                 <Button
                     x:Name="closeButton"
@@ -136,7 +137,7 @@
                     Height="10"
                     Width="10"
                     Stretch="Uniform"
-                    Source="{StaticResource close_iconDrawingImage}"/>
+                    Source="{DynamicResource close_iconDrawingImage}"/>
                 </Button>
             </StackPanel>
             <!--#endregion-->
@@ -152,25 +153,25 @@
                     <RadioButton
                        Content="Games"
                        IsChecked="True"
-                       Style="{StaticResource TopNavigationStyle}"/>
+                       Style="{DynamicResource TopNavigationStyle}"/>
                     <RadioButton
                        Content="Comics"
                        IsChecked="True"
-                       Style="{StaticResource TopNavigationStyle}"/>
+                       Style="{DynamicResource TopNavigationStyle}"/>
                     <RadioButton
                        Content="Artwork"
                        IsChecked="True"
-                       Style="{StaticResource TopNavigationStyle}"/>
+                       Style="{DynamicResource TopNavigationStyle}"/>
                     <RadioButton
                        Content="Assets"
                        IsChecked="True"
-                       Style="{StaticResource TopNavigationStyle}"/>
-                    <!--"{StaticResource TopNavigationStyle}"-->
+                       Style="{DynamicResource TopNavigationStyle}"/>
+                    <!--"{DynamicResource TopNavigationStyle}"-->
                 </StackPanel>
                 <!--#endregion-->
                 
                 <!--#region Search Box -->
-                <Grid Background="{StaticResource DimBrush}"
+                <Grid Background="{DynamicResource Secondary}"
                       HorizontalAlignment="Stretch"
                       Height="40"
                       MinWidth="400"
@@ -181,7 +182,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Image
-                        Source="{StaticResource search_icon}"
+                        Source="{DynamicResource search_icon}"
                         Stretch="Uniform"
                         Height="15"
                         Width="15"/>
@@ -191,7 +192,7 @@
                         Grid.Column="1"
                         Background="Transparent"
                         BorderThickness="0"
-                        Foreground="{StaticResource Secondary}"
+                        Foreground="{DynamicResource Text}"
                         Text="Search Atlas"
                         VerticalAlignment="Center"/>
                 </Grid>
@@ -205,8 +206,8 @@
         <!--#region Left Nav-->
         <Grid
             Panel.ZIndex="1"
-            Background="{StaticResource Canvas}"
-            BitmapEffect="{StaticResource RightShadowEffect}"
+            Background="{DynamicResource Primary}"
+            BitmapEffect="{DynamicResource RightShadowEffect}"
             Grid.Row="1">
             <ListBox
                 Background="Transparent"
@@ -229,7 +230,7 @@
                                         <Path
                                             x:Name="icon"
                                             Data="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"
-                                            Fill="{StaticResource Secondary}"
+                                            Fill="{DynamicResource Text}"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"/>
                                     </Grid>
@@ -237,10 +238,10 @@
                                         <Trigger Property="IsSelected" Value="True">
                                             <Setter TargetName="indicator"
                                                     Property="Fill"
-                                                    Value="{StaticResource Primary}"/>
+                                                    Value="{DynamicResource Accent}"/>
                                             <Setter TargetName="icon"
                                                     Property="Fill"
-                                                    Value="{StaticResource Primary}"/>
+                                                    Value="{DynamicResource Accent}"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -250,15 +251,15 @@
                 </ListBox.Resources>
                 <ListBoxItem
                     x:Name="Home"
-                    Content="{StaticResource home_icon}"
+                    Content="{DynamicResource home_icon}"
                     IsSelected="True"/>
                 <ListBoxItem
                     x:Name="Import"
-                    Content="{StaticResource import_icon}"
+                    Content="{DynamicResource import_icon}"
                     IsSelected="True"/>
                 <ListBoxItem
                     x:Name="Settings"
-                    Content="{StaticResource settings_icon}"
+                    Content="{DynamicResource settings_icon}"
                     IsSelected="True"/>
             </ListBox>
 
@@ -267,7 +268,7 @@
 
         <!--#region Record View-->
         <Grid
-            Background="{StaticResource Canvas}"
+            Background="{DynamicResource Canvas}"
             Grid.Column="2"
             Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -279,8 +280,8 @@
                 <RowDefinition Height="1*"/>
                 <!-- Important for .Net Core -->
             </Grid.RowDefinitions>
-            <ListBox d:ItemsSource="{d:SampleData ItemCount=5}"/>
-            <ListView Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="2" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0"/>
+            <ListView Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,2,2,2" Background="{DynamicResource Tertiary}" Foreground="{DynamicResource Text}" BorderThickness="0">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn/>
