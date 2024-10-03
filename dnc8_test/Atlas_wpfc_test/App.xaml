@@ -75,6 +75,35 @@
                 </Style.Triggers>
             </Style>
 
+            <Style x:Key="DefaultTextStyle" TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="{DynamicResource Border}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Selected}"/>
+                <Setter Property="Margin" Value="8,0,8,0"/>
+                <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                <Setter Property="Height" Value="20" />
+                <Style.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="4"/>
+                    </Style>
+                </Style.Resources>
+            </Style>
+
+            <Style x:Key="DefaultLabelStyle" TargetType="{x:Type Label}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+            </Style>
+
+            <Style x:Key="DefaultCheckBoxStyle" TargetType="{x:Type CheckBox}">
+                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="DefaultListViewStyle" TargetType="ListView">
+                <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+
             <DropShadowBitmapEffect
                 x:Key="BottomShadowEffect"
                 ShadowDepth="3"
