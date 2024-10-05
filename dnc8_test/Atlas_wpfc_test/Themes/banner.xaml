@@ -2,6 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:Double x:Key="bannerX">537</sys:Double>
-    <sys:Int32 x:Key="bannerY">251</sys:Int32>
-
+    <sys:Double x:Key="bannerY">251</sys:Double>
+    <!-- Overlay Top and Bottom-->
+    <sys:Double x:Key="overlayTopH">26</sys:Double>
+    <sys:Double x:Key="overlayBottomH">26</sys:Double>
+    <sys:Boolean x:Key="overlayTopEnable">true</sys:Boolean>
+    <sys:Boolean x:Key="overlayBottomEnable">true</sys:Boolean>
+    <SolidColorBrush x:Key="overlayTopColor">#000000</SolidColorBrush>
+    <SolidColorBrush x:Key="overlayBottomColor">#000000</SolidColorBrush>
+    <sys:Double x:Key="overlayOpacity">.8</sys:Double>
 </ResourceDictionary>

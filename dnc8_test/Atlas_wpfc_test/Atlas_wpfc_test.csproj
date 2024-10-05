@@ -10,9 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UI\config_image.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.0.0" />
     <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     <PackageReference Include="SQLite" Version="3.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="UI\config_image.webp" />
   </ItemGroup>
 
 </Project>
