@@ -8,6 +8,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/assets/Images/icons.xaml"/>
+                <ResourceDictionary Source="/Themes/banner.xaml"/>
             </ResourceDictionary.MergedDictionaries>
      
         <!-- Brushes Canvas Color Scheme-->

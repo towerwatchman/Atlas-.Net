@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Atlas.UI.GameBanner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Atlas.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="{DynamicResource bannerY}" d:DesignWidth="{DynamicResource bannerX}">
+    <Grid>
+        <!-- Layout is backwards. Topmost item is at the back-->
+        <Image Source="/UI/config_image.webp" Stretch="Fill">
+            <Image.Effect>
+                <BlurEffect KernelType="Gaussian" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Radius="30"/>
+            </Image.Effect>
+        </Image>
+        <Image Source="/UI/config_image.webp" Stretch="Uniform" VerticalAlignment="Top"/>
+        <Grid VerticalAlignment="Top" x:Name="OverlayTop" Height="{DynamicResource overlayTopH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
+        <Grid VerticalAlignment="Bottom" x:Name="OverlayBottom" Height="{DynamicResource overlayBottomH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
+        
+        <!-- Text for Layout-->
+        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="Galaxy Crossing: First Conquest" Foreground="White" Margin="3,3,3,3" Padding="2" Background="Transparent" FontSize="14">
+            <TextBlock.Effect>
+                <DropShadowEffect
+                  ShadowDepth="1"
+                  Direction="330"
+                  Color="Black"
+                  Opacity=".8"
+                  BlurRadius="1"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Text="Unity" Foreground="White" Margin="3,3,3,3" Padding="2" Background="#EA5201" FontSize="12" BorderThickness="0">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </TextBox.Resources>           
+        </TextBox>
+        <TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Text="Atlas Games" Foreground="White" Margin="3,3,3,3" Padding="2" Background="Transparent" FontSize="12" BorderThickness="0"/>
+        <TextBox VerticalAlignment="Top" HorizontalAlignment="Right" Text="Chapter: 1" Foreground="White" Margin="3,3,3,3" Padding="2" Background="Transparent" FontSize="12" BorderThickness="0"/>
+        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="Complete" Foreground="White" Margin="3,3,3,3" Padding="2" Background="Transparent" FontSize="12" BorderThickness="0"/>
+        
+       
+    </Grid>
+</UserControl>
