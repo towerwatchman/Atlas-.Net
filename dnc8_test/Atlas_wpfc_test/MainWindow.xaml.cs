@@ -76,5 +76,16 @@ namespace Atlas
                 return null;
             }
         }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double bannerX = (double)Application.Current.Resources["bannerX"];
+            double bannerViewWidth = BannerView.ActualWidth;
+            double rows = bannerViewWidth / bannerX;
+            Console.WriteLine($"{bannerX} {bannerViewWidth} {rows}");
+
+            Application.Current.Resources["Rows"] = (int)rows;
+            Console.WriteLine(Application.Current.Resources["Rows"]);
+        }
     }
 }

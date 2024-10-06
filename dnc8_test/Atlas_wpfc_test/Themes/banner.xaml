@@ -11,4 +11,7 @@
     <SolidColorBrush x:Key="overlayTopColor">#000000</SolidColorBrush>
     <SolidColorBrush x:Key="overlayBottomColor">#000000</SolidColorBrush>
     <sys:Double x:Key="overlayOpacity">.8</sys:Double>
+    <!-- Grid Resources. DO NOT EDIT-->
+    <sys:Int32 x:Key="Rows">0</sys:Int32>
+    <sys:Int32 x:Key="Columns">0</sys:Int32>
 </ResourceDictionary>

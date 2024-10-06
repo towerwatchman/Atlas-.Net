@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:custom="clr-namespace:Atlas.UI"
+        xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1370"
         ResizeMode="CanResizeWithGrip"
@@ -11,7 +12,8 @@
         WindowStyle="None"
         FontSize="13"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        SizeChanged="Window_SizeChanged">
     <Grid Background="{DynamicResource Canvas}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
@@ -284,22 +286,19 @@
 
             <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,2,0" Background="{DynamicResource Tertiary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                        HorizontalAlignment="Stretch" 
-                       ScrollViewer.CanContentScroll="True" 
-                       VirtualizingPanel.IsContainerVirtualizable="True" 
-                       VirtualizingPanel.VirtualizationMode="Standard"
-                       VirtualizingPanel.CacheLength="30"
-                       VirtualizingPanel.CacheLengthUnit="Item"
-                       VirtualizingPanel.ScrollUnit="Item">
+                       ScrollViewer.CanContentScroll="True"                       
+                       VirtualizingPanel.CacheLengthUnit="Item"   
+                        VirtualizingPanel.ScrollUnit="Pixel"   
+                        VirtualizingPanel.VirtualizationMode="Recycling"  
+                        VirtualizingPanel.IsVirtualizingWhenGrouping="True">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <VirtualizingStackPanel Orientation="Horizontal"/>
+                        <vwp:VirtualizingWrapPanel/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
                             <custom:GameBanner></custom:GameBanner>
-                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemContainerStyle>
