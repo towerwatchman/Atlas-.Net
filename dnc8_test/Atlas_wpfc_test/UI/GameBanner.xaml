@@ -18,7 +18,7 @@
                 <BlurEffect KernelType="Gaussian" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Radius="30"/>
             </Image.Effect>
         </Image>-->
-        <Image Source="{Binding ImageData}" Stretch="Uniform" VerticalAlignment="Top"/>
+        <Image Source="{Binding ImageData}" Stretch="Uniform" VerticalAlignment="Top" RenderOptions.BitmapScalingMode="HighQuality"/>
         <Grid VerticalAlignment="Top" x:Name="OverlayTop" Height="{DynamicResource overlayTopH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
         <Grid VerticalAlignment="Bottom" x:Name="OverlayBottom" Height="{DynamicResource overlayBottomH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
         
