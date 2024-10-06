@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atlas_wpfc_test", "Atlas_wpfc_test\Atlas_wpfc_test.csproj", "{0F1C75AC-B972-48F5-8FD1-BED8D395DF8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportTester", "ImportTester\ImportTester.csproj", "{E2964C2B-D7ED-4481-8E6D-77D4F56164AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImportTester", "ImportTester\ImportTester.csproj", "{E2964C2B-D7ED-4481-8E6D-77D4F56164AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

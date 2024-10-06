@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Atlas"
+        xmlns:custom="clr-namespace:Atlas.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280"
+        Title="MainWindow" Height="720" Width="1370"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -280,13 +280,38 @@
                 <RowDefinition Height="1*"/>
                 <!-- Important for .Net Core -->
             </Grid.RowDefinitions>
-            <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="2" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0"/>
-            <ListView Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,2,2,2" Background="{DynamicResource Tertiary}" Foreground="{DynamicResource Text}" BorderThickness="0">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn/>
-                    </GridView>
-                </ListView.View>
+            <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,2,2,0" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0"/>
+
+            <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,2,0" Background="{DynamicResource Tertiary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                       HorizontalAlignment="Stretch" 
+                       ScrollViewer.CanContentScroll="True" 
+                       VirtualizingPanel.IsContainerVirtualizable="True" 
+                       VirtualizingPanel.VirtualizationMode="Standard"
+                       VirtualizingPanel.CacheLength="30"
+                       VirtualizingPanel.CacheLengthUnit="Item"
+                       VirtualizingPanel.ScrollUnit="Item">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <custom:GameBanner></custom:GameBanner>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Height" Value="{DynamicResource bannerY}" />
+                        <Setter Property="Width" Value="{DynamicResource bannerX}" />
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Margin" Value="0"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
             </ListView>
         </Grid>
         <!--#endregion-->

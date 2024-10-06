@@ -9,6 +9,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Atlas.UI.Importer;
+using Atlas.Core;
+using System.IO;
 
 namespace Atlas
 {
@@ -21,6 +23,14 @@ namespace Atlas
         {
             InitializeComponent();
             EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
+
+            var gs = new List<Game>();
+            for (int i = 0; i < 1000; i++)
+            {
+                gs.Add(new Game { Creator = "Arcane Studios", Title = "Dishonored", Version = "1.0", Engine = "Unreal", Status = "Complete", ImageData = LoadImage("C:\\Users\\tower\\Downloads\\1699376987311.png") });
+            }
+
+            this.BannerView.ItemsSource = gs;
         }
 
         private void minimizeButton_Click(object sender, RoutedEventArgs e)
@@ -52,7 +62,19 @@ namespace Atlas
                 batchImporter.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 batchImporter.Show();
             }
-
+        }
+        private BitmapImage? LoadImage(string path)
+        {
+            try
+            {
+                var uri = new Uri(path);
+                return new BitmapImage(uri);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 }
