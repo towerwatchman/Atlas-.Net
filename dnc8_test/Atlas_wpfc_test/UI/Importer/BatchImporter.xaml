@@ -21,6 +21,7 @@
                     <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
                         <Button x:Name="btn_next" Content="Next" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_next_Click"/>
                         <Button x:Name="btn_cancel" Content="Cancel" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_cancel_Click"/>
+                        <Button x:Name="btn_import" Content="Import" Margin="4" Style="{StaticResource DefaultButtonStyle}" Visibility="Hidden" Width="0"/>
                     </DockPanel>
                 </Grid>
 
@@ -55,7 +56,7 @@
                                 </StackPanel>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Import list" x:Name="tc_import" Height="20" VerticalAlignment="Top" >
+                        <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" >
                             <Grid Background="{DynamicResource Tertiary}">
                                 <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False">
                                     <DataGrid.Columns>
@@ -67,7 +68,7 @@
                                         <DataGridTemplateColumn Header="Executable">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <ComboBox ItemsSource="{Binding Executable}" SelectedItem="0"  MinWidth="50" IsReadOnly="False"/>
+                                                    <ComboBox ItemsSource="{Binding Executable}" SelectedItem="0"  MinWidth="50" IsReadOnly="False" SelectedIndex="0"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>

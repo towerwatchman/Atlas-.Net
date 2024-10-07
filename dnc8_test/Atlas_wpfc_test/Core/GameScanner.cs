@@ -12,17 +12,8 @@ namespace Atlas.Core
 {
     public static class GameScanner
     {
-        private static List<GameDetails> GamesList = new List<GameDetails>();
-
-        public struct GameDetails
-        {
-            public string Title { set; get; }
-            public string Creator { set; get; }
-            public string Engine { set; get; }
-            public string Version { set; get; }
-            public List<string> Executable { set; get; }
-            public string Folder { set; get; }
-        }
+        public static List<GameDetails> GamesList = new List<GameDetails>();
+              
 
         public static void Start(string path)
         {
@@ -82,7 +73,7 @@ namespace Atlas.Core
                             Console.WriteLine(output);
                             outputFile.WriteLine(output);
 
-                            var gd = new GameDetails { Title = title, Version = version, Creator = creator, Engine = game_engine, Executable = potential_executables.ToList(), Folder = t  };
+                            var gd = new GameDetails { Title = title, Version = version, Creator = creator, Engine = game_engine, Executable = potential_executables.ToList(), Folder = t };
 
                             GamesList.Add(gd);
                             UpdateBannerView();

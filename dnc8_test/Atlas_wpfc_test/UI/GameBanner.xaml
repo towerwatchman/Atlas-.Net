@@ -11,7 +11,7 @@
              MaxWidth="{DynamicResource bannerX}"
              BorderThickness="1"
              BorderBrush="Black">
-    <Grid>
+    <Grid >
         <!-- Layout is backwards. Topmost item is at the back
         <Image Source="/UI/config_image.webp" Stretch="Fill">
             <Image.Effect>

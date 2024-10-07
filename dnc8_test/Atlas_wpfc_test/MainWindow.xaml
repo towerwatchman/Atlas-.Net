@@ -32,7 +32,7 @@
             Panel.ZIndex="2"
             Background="{DynamicResource Accent}"
             BitmapEffect="{DynamicResource RightShadowEffect}">
-            
+
             <Image
                 Height="50"
                 Width="50"
@@ -172,7 +172,7 @@
                     <!--"{DynamicResource TopNavigationStyle}"-->
                 </StackPanel>
                 <!--#endregion-->
-                
+
                 <!--#region Search Box -->
                 <Grid Background="{DynamicResource Secondary}"
                       HorizontalAlignment="Stretch"
@@ -189,7 +189,7 @@
                         Stretch="Uniform"
                         Height="15"
                         Width="15"/>
-                    
+
                     <!-- Search Text-->
                     <TextBox
                         Grid.Column="1"
@@ -202,10 +202,10 @@
                 <!--#endregion-->
             </Grid>
 
-            
+
         </Grid>
         <!--#endregion-->
-        
+
         <!--#region Left Nav-->
         <Grid
             Panel.ZIndex="1"
@@ -283,7 +283,52 @@
                 <RowDefinition Height="1*"/>
                 <!-- Important for .Net Core -->
             </Grid.RowDefinitions>
-            <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,2,2,0" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0"/>
+            <ListBox x:Name="GameListBox" Margin="0,2,2,0" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Title}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <!-- Scroll Bar -->
+                <ListBox.Resources>
+                    <Style TargetType="{x:Type ScrollBar}">
+                        <Setter Property="Background" Value="{StaticResource Primary}"/>
+                        <Setter Property="BorderBrush" Value="{StaticResource Primary}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                    <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                                            <RowDefinition Height="0.00001*"/>
+                                            <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                                        </Grid.RowDefinitions>
+                                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Row="1" CornerRadius="5"/>
+                                        <!--<RepeatButton x:Name="PART_LineUpButton" Command="{x:Static ScrollBar.LineUpCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Margin="0,0,0,-20">    
+                 <Path x:Name="ArrowTop" Data="M 0,4 C0,4 0,6 0,6 0,6 3.5,2.5 3.5,2.5 3.5,2.5 7,6 7,6 7,6 7,4 7,4 7,4 3.5,0.5 3.5,0.5 3.5,0.5 0,4 0,4 z" Fill="{StaticResource ScrollBar.Static.Glyph}" Margin="3,4,3,3" Stretch="Uniform"/>    
+             </RepeatButton>-->
+                                        <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="1">
+                                            <Track.DecreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource RepeatButtonTransparent}" HorizontalAlignment="Left" Width="17"/>
+                                            </Track.DecreaseRepeatButton>
+                                            <Track.IncreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
+                                            </Track.IncreaseRepeatButton>
+                                            <Track.Thumb>
+                                                <Thumb Style="{StaticResource ScrollBarThumbVertical}" />
+                                            </Track.Thumb>
+                                        </Track>
+                                        <!--<RepeatButton x:Name="PART_LineDownButton" Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="2" Style="{StaticResource ScrollBarButton}"  Margin="0,-20,0,0">    
+                 <Path x:Name="ArrowBottom" Data="M 0,2.5 C0,2.5 0,0.5 0,0.5 0,0.5 3.5,4 3.5,4 3.5,4 7,0.5 7,0.5 7,0.5 7,2.5 7,2.5 7,2.5 3.5,6 3.5,6 3.5,6 0,2.5 0,2.5 z" Fill="{StaticResource ScrollBar.Static.Glyph}" Margin="3,4,3,3" Stretch="Uniform"/>    
+             </RepeatButton>-->
+                                    </Grid>
+
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.Resources>
+            </ListBox>
 
             <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,2,0" Background="{DynamicResource Primary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                        HorizontalAlignment="Stretch" 
@@ -299,7 +344,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                            <custom:GameBanner></custom:GameBanner>
+                        <custom:GameBanner Margin="0,2,0,2"></custom:GameBanner>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemContainerStyle>

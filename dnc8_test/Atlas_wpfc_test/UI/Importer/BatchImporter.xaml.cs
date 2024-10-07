@@ -33,7 +33,7 @@ namespace Atlas.UI.Importer
             var result = dialog.ShowDialog();
 
             var folder = dialog.FolderName;
-            if(folder != null)
+            if (folder != null)
             {
                 tb_FolderDialog.Text = folder;
             }
@@ -46,15 +46,27 @@ namespace Atlas.UI.Importer
 
         private void btn_next_Click(object sender, RoutedEventArgs e)
         {
-           var item = (TabItem)tbc_Import.SelectedItem;
+            var item = (TabItem)tbc_Import.SelectedItem;
 
-           if(item.Header.ToString() == "Start")
-           {
+            if (item.Header.ToString() == "Start")
+            {
                 tbc_Import.SelectedIndex = 1;
                 WpfHelper.Datagrid = GameList;
                 GameScanner.Start(tb_FolderDialog.Text);
+                //Hide Next Button
+                btn_next.Width = 0;
+                btn_next.Visibility = Visibility.Hidden;
 
-           }
+                //Show Import Button
+                btn_import.Visibility = Visibility.Visible;
+                btn_import.Width = 70;
+
+                
+            }
+            if (item.Header.ToString() == "Import")
+            {
+                this.Close();
+            }
         }
     }
 }

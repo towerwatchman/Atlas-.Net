@@ -16,4 +16,14 @@ namespace Atlas.Core
         public string Status { get; set; }
         public BitmapImage ImageData { get; set; }
     }
+
+    public class GameDetails
+    {
+        public string Title { set; get; }
+        public string Creator { set; get; }
+        public string Engine { set; get; }
+        public string Version { set; get; }
+        public List<string> Executable { set; get; }
+        public string Folder { set; get; }
+    }
 }

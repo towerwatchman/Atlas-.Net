@@ -43,11 +43,11 @@ public static class Executable
     static string[] osx_exe = [".dmg"];
     static string[] oth_exe = [".swf", ".flv", ".f4v", ".rag", ".cmd", ".bat", ".jar", ".html"];
 
-    public static List<string> DetectExecutable(string[] files) 
+    public static List<string> DetectExecutable(string[] files)
     {
         string[] extensions = GetExtensions();
         List<string> potential_executables = []; // This has to reset every time we change folders   
-        foreach(var file in files)
+        foreach (var file in files)
         {
             if (File.Exists(file))
             {
@@ -72,12 +72,12 @@ public static class Executable
         //!!!NOTE Now that we have all executables, check if there is an exe. If there is, remove everything else !!!
         // NEEDS TO BE TESTED
         if (potential_executables.Count > 0)
-        {                
-            if(potential_executables.Any(s => s.EndsWith(".exe")))
+        {
+            if (potential_executables.Any(s => s.EndsWith(".exe")))
             {
                 potential_executables.RemoveAll(x => !x.Contains(".exe"));
             }
-            return potential_executables;   
+            return potential_executables;
         }
         else
         {
@@ -107,7 +107,7 @@ public static class Engine
 }
 
 public static class Details
-{   
+{
     public static string[] ParseDetails(string s)
     {
         string[] data = [];
@@ -117,11 +117,11 @@ public static class Details
         {
             data = ParseSingleFileName(text[0]);
         }
-        if(text.Length == 2)
+        if (text.Length == 2)
         {
             int distance = CheckForSimilarStrings(text[0], text[1]);
 
-            if (distance <20)
+            if (distance < 20)
             {
                 data = ParseSingleFileName(text[1]);
             }
@@ -143,20 +143,20 @@ public static class Details
     private static string[] ParseSingleFileName(string v)
     {
         string[] file_data = [];
-        
-        if(v.Contains('-'))
+
+        if (v.Contains('-'))
         {
             file_data = ParseStringByDelimeter(v, '-');
         }
         else
         {
-            if(v.Contains('_'))
+            if (v.Contains('_'))
             {
                 file_data = ParseStringByDelimeter(v, '_');
             }
             else
             {
-                if(v.Contains(' '))
+                if (v.Contains(' '))
                 {
                     file_data = ParseStringByDelimeter(v, ' ');
                 }
@@ -167,7 +167,7 @@ public static class Details
             }
         }
 
-        return file_data; 
+        return file_data;
     }
 
     private static string[] ParseStringByDelimeter(string v, char c)
@@ -178,8 +178,8 @@ public static class Details
         bool is_version = false;
         for (int i = 0; i < slist.Length; i++)
         {
-            var item = slist[i];   
-            if(item.Contains(' '))
+            var item = slist[i];
+            if (item.Contains(' '))
             {
                 var temp = ParseSingleFileName(item);
                 title = temp[0];
@@ -191,7 +191,7 @@ public static class Details
             {
                 if (!CheckOSNames(item) && !CheckLanguages(item))
                 {
-                    if(!(i > 0  && IsDigit(item)) && is_version == false)
+                    if (!(i > 0 && IsDigit(item)) && is_version == false)
                     {
                         var version_result = FindVersionType(item);
                         title += version_result[0];
@@ -202,11 +202,11 @@ public static class Details
                     {
                         is_version = true;
                         version += item;
-                    } 
+                    }
                 }
             }
         }
-        return [AddSpaces(title.Replace("_","")), version];
+        return [AddSpaces(title.Replace("_", "")), version];
     }
 
 
@@ -223,7 +223,7 @@ public static class Details
     private static bool CheckLanguages(string v)
     {
         string[] languages = { "japanses", "english" };
-        if(languages.Any(x=> v.Contains(x))) 
+        if (languages.Any(x => v.Contains(x)))
         {
             return true;
         }
@@ -231,10 +231,10 @@ public static class Details
     }
     private static bool IsDigit(string v)
     {
-        foreach( char c in v )
+        foreach (char c in v)
         {
-            if(char.IsDigit(c)) return true;
-        } 
+            if (char.IsDigit(c)) return true;
+        }
         return false;
     }
     private static string AddSpaces(string v)
@@ -248,7 +248,7 @@ public static class Details
         string version = string.Empty;
         string[] delimiters = { "final", "episode", "chapter", "version", "season", "v." };
 
-        if(delimiters.Any(x=> v.Contains(x)))
+        if (delimiters.Any(x => v.Contains(x)))
         {
             return ["", v];
         }

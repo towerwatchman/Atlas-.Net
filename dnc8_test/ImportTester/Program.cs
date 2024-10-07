@@ -28,11 +28,11 @@ internal class Program
         //We need to go through each item and find if it is a folder or file
         foreach (string dir in directories)
         {
-           int cur_level = 0;
-           int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
-            
-           foreach (string t in Directory.GetDirectories(dir,"*", SearchOption.AllDirectories)) 
-           {
+            int cur_level = 0;
+            int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
+
+            foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
+            {
                 cur_level = t.Split('\\').Length;
                 string[] s = t.Split('\\');
                 if (cur_level <= stop_level)
@@ -45,30 +45,30 @@ internal class Program
                         game_path = t;
                         string[] file_list = Walk(t);//This is the list we will use to determine the engine
                         string game_engine = Engine.FindEngine(file_list);
-                        string[] game_data = Details.ParseDetails(t.Replace($"{path}\\",""));
-                        if(game_data.Length > 0)
+                        string[] game_data = Details.ParseDetails(t.Replace($"{path}\\", ""));
+                        if (game_data.Length > 0)
                         {
                             title = game_data[0];
                             version = game_data[1];
                         }
-                        if(game_data.Length > 2)
+                        if (game_data.Length > 2)
                         {
                             creator = game_data[2];
                         }
 
-                        string output = $"Title: {title}\nCreator: {creator}\nEngine: {game_engine}\nVersion: {version}\n" ;
-                        foreach(var exe in potential_executables)
+                        string output = $"Title: {title}\nCreator: {creator}\nEngine: {game_engine}\nVersion: {version}\n";
+                        foreach (var exe in potential_executables)
                         {
                             output += $" + Potential Executable: {Path.GetFileName(exe)}\n";
                         }
-                       output += ($"Folder: {t}\nFolder Size: {folder_size}\n");
-                       output += ("*-----------------------------------------------------*");
-                       Console.WriteLine(output);
+                        output += ($"Folder: {t}\nFolder Size: {folder_size}\n");
+                        output += ("*-----------------------------------------------------*");
+                        Console.WriteLine(output);
                         outputFile.WriteLine(output);
                     }
                 }
 
-           }
+            }
         }
         outputFile.Close();
 
