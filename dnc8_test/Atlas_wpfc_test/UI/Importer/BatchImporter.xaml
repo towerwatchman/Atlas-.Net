@@ -59,12 +59,12 @@
                             <Grid Background="{DynamicResource Tertiary}">
                                 <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" MinWidth="50"/>
-                                        <DataGridTextColumn Header="Creator" Binding="{Binding Path=Creator}" MinWidth="50"/>
-                                        <DataGridTextColumn Header="Engine" Binding="{Binding Path=Engine}" MinWidth="50"/>
-                                        <DataGridTextColumn Header="Version" Binding="{Binding Path=Version}" MinWidth="50"/>
-                                        <DataGridComboBoxColumn Header="Executable" SelectedItemBinding ="{Binding Executable}"  MinWidth="50" ItemsSource="{Binding Source=Executable}"/>
-                                        <DataGridTextColumn Header="Folder" Binding="{Binding Path=Folder}" MinWidth="50"/>
+                                        <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" MinWidth="50" IsReadOnly="False"/>
+                                        <DataGridTextColumn Header="Creator" Binding="{Binding Path=Creator}" MinWidth="50" IsReadOnly="False"/>
+                                        <DataGridTextColumn Header="Engine" Binding="{Binding Path=Engine}" MinWidth="50" IsReadOnly="False"/>
+                                        <DataGridTextColumn Header="Version" Binding="{Binding Path=Version}" MinWidth="50" IsReadOnly="False"/>
+                                        <DataGridComboBoxColumn Header="Executable" SelectedItemBinding ="{Binding Executable}"  MinWidth="50" ItemsSource="{Binding Source=Executable}" IsReadOnly="False"/>
+                                        <DataGridTextColumn Header="Folder" Binding="{Binding Path=Folder}" MinWidth="50" IsReadOnly="False"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>

@@ -25,7 +25,7 @@ namespace Atlas.UI.Importer
         public BatchImporter()
         {
             InitializeComponent();
-            GameList.BeginningEdit += (s, ss) => ss.Cancel = true;
+            //GameList.BeginningEdit += (s, ss) => ss.Cancel = true;
         }
 
         private void btn_OpenFolder_Click(object sender, RoutedEventArgs e)

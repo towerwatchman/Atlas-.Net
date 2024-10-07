@@ -12,6 +12,8 @@ namespace Atlas.Core
 {
     public static class GameScanner
     {
+        private static List<GameDetails> GamesList = new List<GameDetails>();
+
         public struct GameDetails
         {
             public string Title { set; get; }
@@ -82,13 +84,23 @@ namespace Atlas.Core
 
                             var gd = new GameDetails { Title = title, Version = version, Creator = creator, Engine = game_engine, Executable = potential_executables.ToList(), Folder = t  };
 
-                            WpfHelper.Datagrid.Items.Add(gd);
+                            GamesList.Add(gd);
+                            UpdateBannerView();
                         }
                     }
                 }
             }
             outputFile.Close();
         }
+
+        private static void UpdateBannerView()
+        {
+            if (WpfHelper.Datagrid.Items.Count <= 0)
+            {
+                WpfHelper.Datagrid.ItemsSource = GamesList;
+            }
+        }
+
         public static string[] Walk(string path)
         {
             string[] directories = Directory.GetDirectories(path);
