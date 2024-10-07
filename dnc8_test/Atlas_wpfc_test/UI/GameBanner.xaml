@@ -33,7 +33,7 @@
                   BlurRadius="1"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Text="{Binding Engine}" Foreground="White" Margin="3,3,3,3" Padding="2" Background="#EA5201" FontSize="12" BorderThickness="0">
+        <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Text="{Binding Engine}" Foreground="White" Margin="3,3,3,3" Padding="2" Background="Transparent" FontSize="12" BorderThickness="0">
             <TextBox.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="3"/>

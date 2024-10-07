@@ -87,5 +87,11 @@ namespace Atlas
             Application.Current.Resources["Rows"] = (int)rows;
             Console.WriteLine(Application.Current.Resources["Rows"]);
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
     }
 }
