@@ -259,11 +259,11 @@
                 <ListBoxItem
                     x:Name="Import"
                     Content="{DynamicResource import_icon}"
-                    IsSelected="True"/>
+                    IsSelected="False"/>
                 <ListBoxItem
                     x:Name="Settings"
                     Content="{DynamicResource settings_icon}"
-                    IsSelected="True"/>
+                    IsSelected="False"/>
             </ListBox>
 
         </Grid>
@@ -285,7 +285,7 @@
             </Grid.RowDefinitions>
             <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,2,2,0" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0"/>
 
-            <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,2,0" Background="{DynamicResource Tertiary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+            <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,2,0" Background="{DynamicResource Primary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                        HorizontalAlignment="Stretch" 
                        ScrollViewer.CanContentScroll="True"                       
                        VirtualizingPanel.CacheLengthUnit="Item"   
@@ -294,7 +294,7 @@
                         VirtualizingPanel.IsVirtualizingWhenGrouping="True">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <vwp:VirtualizingWrapPanel/>
+                        <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}"/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
@@ -315,8 +315,8 @@
                 <!-- Scroll Bar -->
                 <ListView.Resources>
                     <Style TargetType="{x:Type ScrollBar}">
-                        <Setter Property="Background" Value="#505050"/>
-                        <Setter Property="BorderBrush" Value="#505050"/>
+                        <Setter Property="Background" Value="{StaticResource Primary}"/>
+                        <Setter Property="BorderBrush" Value="{StaticResource Primary}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ScrollBar}">
@@ -326,7 +326,7 @@
                                             <RowDefinition Height="0.00001*"/>
                                             <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
                                         </Grid.RowDefinitions>
-                                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Row="1" CornerRadius="10"/>
+                                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Row="1" CornerRadius="5"/>
                                         <!--<RepeatButton x:Name="PART_LineUpButton" Command="{x:Static ScrollBar.LineUpCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Margin="0,0,0,-20">    
                                 <Path x:Name="ArrowTop" Data="M 0,4 C0,4 0,6 0,6 0,6 3.5,2.5 3.5,2.5 3.5,2.5 7,6 7,6 7,6 7,4 7,4 7,4 3.5,0.5 3.5,0.5 3.5,0.5 0,4 0,4 z" Fill="{StaticResource ScrollBar.Static.Glyph}" Margin="3,4,3,3" Stretch="Uniform"/>    
                             </RepeatButton>-->
@@ -338,7 +338,7 @@
                                                 <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
                                             </Track.IncreaseRepeatButton>
                                             <Track.Thumb>
-                                                <Thumb Style="{StaticResource ScrollBarThumbVertical}" Margin="2"/>
+                                                <Thumb Style="{StaticResource ScrollBarThumbVertical}" />
                                             </Track.Thumb>
                                         </Track>
                                         <!--<RepeatButton x:Name="PART_LineDownButton" Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="2" Style="{StaticResource ScrollBarButton}"  Margin="0,-20,0,0">    

@@ -25,7 +25,7 @@ namespace Atlas
             EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
 
             var gs = new List<Game>();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 gs.Add(new Game { Creator = "Arcane Studios", Title = "Dishonored", Version = "1.0", Engine = "Unreal", Status = "Complete", ImageData = LoadImage("C:\\Users\\tower\\Downloads\\1699376987311.png") });
             }
