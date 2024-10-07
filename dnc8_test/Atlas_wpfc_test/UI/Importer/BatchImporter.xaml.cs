@@ -25,7 +25,6 @@ namespace Atlas.UI.Importer
         public BatchImporter()
         {
             InitializeComponent();
-            //GameList.BeginningEdit += (s, ss) => ss.Cancel = true;
         }
 
         private void btn_OpenFolder_Click(object sender, RoutedEventArgs e)
@@ -47,7 +46,8 @@ namespace Atlas.UI.Importer
 
         private void btn_next_Click(object sender, RoutedEventArgs e)
         {
-            var item = (TabItem)tbc_Import.SelectedItem;
+           var item = (TabItem)tbc_Import.SelectedItem;
+
            if(item.Header.ToString() == "Start")
            {
                 tbc_Import.SelectedIndex = 1;

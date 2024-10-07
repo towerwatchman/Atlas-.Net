@@ -62,7 +62,7 @@ public static class Executable
                             //check if we skip 32bit version of files
                             if (skip_x86 && filename.Contains("-32")) break;
 
-                            potential_executables.Add(file);
+                            potential_executables.Add(Path.GetFileName(file));
                             break;
                         }
                     }
