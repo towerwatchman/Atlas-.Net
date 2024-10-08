@@ -9,15 +9,13 @@
 [![C#](https://custom-icon-badges.demolab.com/badge/C%23-%23239120.svg?logo=cshrp&logoColor=white)](#)
 [![SQLite](https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&logoColor=white)](#)
 <!--![Static Badge](https://img.shields.io/badge/-docs-green.svg?logo=Wikipedia)-->
-<br>
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/towerwatchman/Atlas)
 
-<!--![![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/towerwatchman/Atlas/.github%2Fworkflows%2Frelease.yml?event=push&label=release)]
-[GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/towerwatchman/Atlas/.github%2Fworkflows%2Fpr-test-build.yml?event=push&label=pr)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/towerwatchman/Atlas/.github%2Fworkflows%2Frelease.yml?event=push&label=release)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/towerwatchman/Atlas/.github%2Fworkflows%2Fnightly.yml?event=push&label=nightly)
 ![GitHub issues](https://img.shields.io/github/issues/towerwatchman/Atlas)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/towerwatchman/Atlas?label=pull%20request)
-![GitHub all releases](https://img.shields.io/github/downloads/towerwatchman/Atlas/total)-->
+![GitHub all releases](https://img.shields.io/github/downloads/towerwatchman/Atlas/total)
+<!--![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/towerwatchman/Atlas/.github%2Fworkflows%2Fpr-test-build.yml?event=push&label=pr)-->
 </div>
 
 #
