@@ -28,18 +28,19 @@ namespace Atlas.Core
             string[] directories = Directory.GetDirectories(path);
 
             int total_dirs = directories.Length;
-            string root_path = "";
-            string game_path = "";
-            string title = "";
-            string version = "";
-            string creator = "";
-            int folder_size = 0;
+            
 
             Console.WriteLine($"There are a total of {total_dirs} folders\n");
             StreamWriter outputFile = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "Atlas_Output.txt"));
             //We need to go through each item and find if it is a folder or file
             foreach (string dir in directories)
             {
+                string root_path = "";
+                string game_path = "";
+                string title = "";
+                string version = "";
+                string creator = "";
+                int folder_size = 0;
                 int cur_level = 0;
                 int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
 

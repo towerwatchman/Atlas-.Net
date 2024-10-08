@@ -344,7 +344,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <custom:GameBanner Margin="0,2,0,2"></custom:GameBanner>
+                        <custom:GameBanner Margin="0,2,0,2"></custom:GameBanner>                        
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemContainerStyle>
@@ -396,6 +396,21 @@
                         </Setter>
                     </Style>
                 </ListView.Resources>
+                <ListView.ContextMenu>
+                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="Play">
+                            <MenuItem Header="Versions"/>
+                        </MenuItem>
+                        <MenuItem Header="Add to favorites"/>
+                        <MenuItem Header="Manage">
+                            <MenuItem Header="Add desktop icon"/>
+                            <MenuItem Header="Browse local files"/>
+                            <MenuItem Header="Set custom artwork"/>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Properties"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
             </ListView>
         </Grid>
         <!--#endregion-->

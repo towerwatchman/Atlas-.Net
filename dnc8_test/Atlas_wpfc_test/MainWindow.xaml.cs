@@ -27,7 +27,21 @@ namespace Atlas
 
             this.BannerView.ItemsSource = GameList;
             this.GameListBox.ItemsSource = GameList;
+
+            //BannerView.MouseUp += BannerView_MouseUp;
         }
+
+        /*private void BannerView_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (this.BannerView.ItemsSource != null)
+            {
+                Game? game = BannerView.SelectedItem as Game;
+                if (game != null)
+                {
+                    MessageBox.Show(game.Title);
+                }
+            }
+        }*/
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
