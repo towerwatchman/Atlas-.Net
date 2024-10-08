@@ -40,11 +40,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
       with:
         tag_name: ${{ github.run_number }}
-        release_name: v-${{ github.run_number }}
+        release_name: Release ${{ github.ref }}
         body: Release build of v-${{ github.run_number }}
         draft: false
         prerelease: false
-        fail_on_unmatched_files: true
         generate_release_notes: true
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
