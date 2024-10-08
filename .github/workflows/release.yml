@@ -40,10 +40,10 @@ jobs:
         version: bump-build
     
     - run: |
-      git config user.name "towerwatchman"
-      git add .
-      git commit -m "Bump project version to ${{ steps.package_version.outputs.newVersion }}"
-      git push
+        git config user.name "towerwatchman"
+        git add .
+        git commit -m "Bump project version to ${{ steps.package_version.outputs.newVersion }}"
+        git push
     
     - name: Create Release
       id: create_release
