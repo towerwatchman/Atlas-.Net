@@ -1,0 +1,7 @@
+.XNA
+.XNA
+XNA
+xnafx31_redist.msi
+Microsoft.Xna.Framework.XmlSerializers.dll
+_CommonRedist
+xnafx31_redist.msi

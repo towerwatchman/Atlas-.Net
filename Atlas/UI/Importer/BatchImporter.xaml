@@ -1,0 +1,93 @@
+﻿<Window x:Class="Atlas.UI.Importer.BatchImporter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Atlas.UI.Importer"
+        mc:Ignorable="d"
+        Title="BatchImporter" Height="720" Width="1280">
+    <Grid Background="{DynamicResource Canvas}">
+        <DockPanel VerticalAlignment="Stretch" Height="Auto">
+            <DockPanel
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Height="Auto">
+
+                <Grid 
+                    DockPanel.Dock="Bottom" 
+                    Height="60"
+                    Background="{DynamicResource Primary}" 
+                    VerticalAlignment="Stretch">
+                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
+                        <Button x:Name="btn_next" Content="Next" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_next_Click"/>
+                        <Button x:Name="btn_cancel" Content="Cancel" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_cancel_Click"/>
+                        <Button x:Name="btn_import" Content="Import" Margin="4" Style="{StaticResource DefaultButtonStyle}" Visibility="Hidden" Width="0" Click="Btn_Import_Click"/>
+                    </DockPanel>
+                </Grid>
+
+                <DockPanel 
+                    DockPanel.Dock="Top" 
+                    Width="Auto" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="{DynamicResource Tertiary}">
+                    <TabControl x:Name="tbc_Import" VerticalAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0">
+                        <TabItem Header="Start" x:Name="tc_start">
+                            <Grid Background="{DynamicResource Tertiary}">
+                                <StackPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
+                                        <Label DockPanel.Dock="Left" Content="Root Path:" HorizontalAlignment="Left" Style="{DynamicResource DefaultLabelStyle}"/>
+                                        <Button x:Name="btn_OpenFolder" DockPanel.Dock="Right" Content="Set Folder" Style="{StaticResource DefaultButtonStyle}" Click="btn_OpenFolder_Click"/>
+                                        <TextBox x:Name="tb_FolderDialog" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" Style="{StaticResource DefaultTextStyle}" />
+                                    </DockPanel>
+                                    <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
+                                        <Label DockPanel.Dock="Left" Content="Folder Structure:" HorizontalAlignment="Left" Style="{DynamicResource DefaultLabelStyle}"/>
+                                        <CheckBox x:Name="cb_format" DockPanel.Dock="Right" Content="Unstructured Format" Style="{StaticResource DefaultCheckBoxStyle}"/>
+                                        <TextBox x:Name="tb_format" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" Style="{StaticResource DefaultTextStyle}" />
+                                    </DockPanel>
+                                    <DockPanel Height="200" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
+                                        <Label Margin="10,10,0,0"  DockPanel.Dock="Left" Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xD;&#xA;- Each of the options need to be surrounded by braces {}.&#xD;&#xA;- Use the examples below for reference. &#xD;&#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xD;&#xA;&#xD;&#xA;Examples&#xD;&#xA;{engine}{creator}{title}{version}&#xD;&#xA;{creator}{title}{version&#xD;&#xA;{title}{version}" HorizontalAlignment="Left" Style="{DynamicResource DefaultLabelStyle}"/>
+                                    </DockPanel>
+                                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="Auto" Width="Auto">
+                                        <CheckBox Content="Download Images if match found in Atlas database" Style="{StaticResource DefaultCheckBoxStyle}" Margin="10,10,0,0" Visibility="Hidden"/>
+                                        <CheckBox Content="Move to Atlas game folder" Style="{StaticResource DefaultCheckBoxStyle}" Margin="10,10,0,0" Visibility="Hidden"/>
+                                        <CheckBox Content="Scan folder size duing import" Style="{StaticResource DefaultCheckBoxStyle}" Margin="10,10,0,0" Visibility="Hidden"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" >
+                            <Grid Background="{DynamicResource Tertiary}">
+                                <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Atlas ID" Binding="{Binding Path=ID}" MinWidth="50" IsReadOnly="True"/>
+                                        <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" MinWidth="50" IsReadOnly="False"/>
+                                        <DataGridTextColumn Header="Creator" Binding="{Binding Path=Creator}" MinWidth="50" IsReadOnly="False"/>
+                                        <DataGridTextColumn Header="Engine" Binding="{Binding Path=Engine}" MinWidth="50" IsReadOnly="False"/>
+                                        <DataGridTextColumn Header="Version" Binding="{Binding Path=Version}" MinWidth="50" IsReadOnly="False"/>
+                                        <DataGridTemplateColumn Header="Executable">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <ComboBox
+                                                        ItemsSource="{Binding Executable}" 
+                                                        SelectedValue="{Binding SelectedValue}" 
+                                                        SelectedValuePath="Key" 
+                                                        Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"  
+                                                        MinWidth="50" 
+                                                        IsReadOnly="False"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="Folder" Binding="{Binding Path=Folder}" MinWidth="50" IsReadOnly="False"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+
+                </DockPanel>
+            </DockPanel>
+        </DockPanel>
+
+    </Grid>
+</Window>
