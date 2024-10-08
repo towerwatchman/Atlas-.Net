@@ -30,7 +30,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Zip the Build
-      run: zip -r ${{secrets.ReleaseZipName}} ./Atlas/bin/Release/net8.0-windows
+      run: Compress-Archive ./Atlas/bin/Release/net8.0-windows ${{secrets.ReleaseZipName}}
       
     - name: Create Release
       id: create_release
