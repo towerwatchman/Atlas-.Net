@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Atlas.Core;
+using System.Collections.ObjectModel;
 
 namespace Atlas.UI.Importer
 {
@@ -51,8 +52,18 @@ namespace Atlas.UI.Importer
             if (item.Header.ToString() == "Start")
             {
                 tbc_Import.SelectedIndex = 1;
-                WpfHelper.Datagrid = GameList;
-                GameScanner.Start(tb_FolderDialog.Text);
+                //GameScanner gameScanner = new GameScanner();
+                GameList.ItemsSource = GameScanner.GameDetailList;
+                InterfaceHelper.Datagrid = GameList;
+
+                string folder = tb_FolderDialog.Text;
+
+                Task.Run(() =>
+                {
+                    GameScanner.Start(folder);
+                });
+
+                //GameList.Items.Refresh();
                 //Hide Next Button
                 btn_next.Width = 0;
                 btn_next.Visibility = Visibility.Hidden;
@@ -60,13 +71,12 @@ namespace Atlas.UI.Importer
                 //Show Import Button
                 btn_import.Visibility = Visibility.Visible;
                 btn_import.Width = 70;
+            }
+        }
 
-                
-            }
-            if (item.Header.ToString() == "Import")
-            {
-                this.Close();
-            }
+        private void Btn_Import_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

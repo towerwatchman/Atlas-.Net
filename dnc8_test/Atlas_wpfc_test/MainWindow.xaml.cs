@@ -25,12 +25,6 @@ namespace Atlas
             InitializeComponent();
             EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
 
-            /*var gs = new List<Game>();
-            for (int i = 0; i < 100; i++)
-            {
-                gs.Add(new Game { Creator = "Arcane Studios", Title = "Dishonored", Version = "1.0", Engine = "Unreal", Status = "Complete", ImageData = LoadImage("C:\\Users\\tower\\Downloads\\1699376987311.png") });
-            }*/
-
             this.BannerView.ItemsSource = GameList;
             this.GameListBox.ItemsSource = GameList;
         }
@@ -48,7 +42,6 @@ namespace Atlas
             }
 
         }
-
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -62,17 +55,17 @@ namespace Atlas
             {
                 BatchImporter batchImporter = new BatchImporter();
                 //Set event handler to start parsing games once 
-                batchImporter.btn_import.Click += Btn_import_Click;
+                batchImporter.btn_import.Click += Btn_Import_Click;
                 batchImporter.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 batchImporter.Show();
             }
         }
 
-        private void Btn_import_Click(object sender, RoutedEventArgs e)
+        private void Btn_Import_Click(object sender, RoutedEventArgs e)
         {
             //This will take each game detail that was imported and change it into an actual game.
             //Store data in db, then show in the BannerView
-            foreach(var GameDetail in GameScanner.GamesList)
+            foreach(var GameDetail in GameScanner.GameDetailList)
             {
                 GameList.Add(new Game { Creator = GameDetail.Creator, Title = GameDetail.Title, Version = GameDetail.Version, Engine = GameDetail.Engine, Status = "" , ImageData = LoadImage("") });
                 BannerView.Items.Refresh();

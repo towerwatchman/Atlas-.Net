@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Atlas.UI;
 
 namespace Atlas.Core
 {
     public static class GameScanner
     {
-        public static List<GameDetails> GamesList = new List<GameDetails>();
-              
+        public static ObservableCollection<GameDetails> _GameDetailList = new ObservableCollection<GameDetails>();
+        public static IEnumerable<GameDetails> GameDetailList { get { return _GameDetailList; } }
 
         public static void Start(string path)
         {
-
+            //Set the item list before we do anything else
+            
             List<string> root_paths = new List<string>();
 
             string[] directories = Directory.GetDirectories(path);
@@ -75,8 +80,15 @@ namespace Atlas.Core
 
                             var gd = new GameDetails { Title = title, Version = version, Creator = creator, Engine = game_engine, Executable = potential_executables.ToList(), Folder = t };
 
-                            GamesList.Add(gd);
-                            UpdateBannerView();
+                            if (title != "")
+                            {
+                                Application.Current.Dispatcher.BeginInvoke(() =>
+                                {
+                                    _GameDetailList.Add(gd);
+                                    //dg.Items.Refresh();
+                                });
+                                UpdateBannerView();
+                            }
                         }
                     }
                 }
@@ -86,10 +98,10 @@ namespace Atlas.Core
 
         private static void UpdateBannerView()
         {
-            if (WpfHelper.Datagrid.Items.Count <= 0)
+            Application.Current.Dispatcher.BeginInvoke(() =>
             {
-                WpfHelper.Datagrid.ItemsSource = GamesList;
-            }
+                InterfaceHelper.Datagrid.Items.Refresh();
+            });
         }
 
         public static string[] Walk(string path)

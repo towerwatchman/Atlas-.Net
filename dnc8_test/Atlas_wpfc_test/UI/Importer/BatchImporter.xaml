@@ -21,7 +21,7 @@
                     <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
                         <Button x:Name="btn_next" Content="Next" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_next_Click"/>
                         <Button x:Name="btn_cancel" Content="Cancel" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_cancel_Click"/>
-                        <Button x:Name="btn_import" Content="Import" Margin="4" Style="{StaticResource DefaultButtonStyle}" Visibility="Hidden" Width="0"/>
+                        <Button x:Name="btn_import" Content="Import" Margin="4" Style="{StaticResource DefaultButtonStyle}" Visibility="Hidden" Width="0" Click="Btn_Import_Click"/>
                     </DockPanel>
                 </Grid>
 
