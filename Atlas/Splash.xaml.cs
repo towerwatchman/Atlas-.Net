@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,8 +23,20 @@ namespace Atlas
     {
         public Splash()
         {
+            var TaskList = new List<Task>();
             InitializeComponent();
-            Updater.CheckForUpdates();
+            var t =  new Task(() =>
+            {
+                Updater.CheckForUpdates();
+            });
+
+            t.Start();
+            TaskList.Add(t);
+            Task.WaitAll(TaskList.ToArray());
+
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

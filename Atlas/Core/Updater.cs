@@ -11,21 +11,97 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
+using System.Windows;
+using System.IO;
+using System.IO.Compression;
+using System.Diagnostics;
 
 namespace Atlas.Core
 {
     public static class Updater
     {
+        private static string AppVersion = string.Empty;
+        private static string UpdateDir = string.Empty;
+        private static string AtlasDir = string.Empty;
+        private static string AtlasExe = string.Empty;
+
         public static void CheckForUpdates()
         {
-            //Check GH releases for updates and download if found
-            string url = "https://api.github.com/repos/KJNeko/Atlas/releases";
+            //Set folders
+            UpdateDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Atlas");
+            AtlasDir = Directory.GetCurrentDirectory();
+            AtlasExe = Path.Combine(Directory.GetCurrentDirectory(), "Atlas.exe");
 
-            RequestJSON(url);
+            //Before we do anything, make sure the temp folder is created
+            if (!Directory.Exists(UpdateDir))
+            {
+                Directory.CreateDirectory(UpdateDir);
+            }
+            else //clear all folders in dir
+            {
+                DirectoryInfo di = new DirectoryInfo(UpdateDir);
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    file.Delete();
+                }
+                foreach (DirectoryInfo dir in di.GetDirectories())
+                {
+                    dir.Delete(true);
+                }
+            }
+            //Check GH releases for updates and download if found
+            string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
+            AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", "");
+
+            //Check if AppVersion has more numebrs
+            if(AppVersion.Length == 4)
+            {
+                AppVersion = AppVersion.Remove(AppVersion.Length - 1); 
+            }
+
+            //Request data from Github
+            string[] data = RequestJSON(url);
+            if (data != null)
+            {
+                try
+                {
+                    if (Convert.ToInt32(AppVersion) < Convert.ToInt32(data[0].Replace(".","")))
+                    {
+                        string message = "Update available. Would you like to run the update now?";
+                        string caption = $"Atlas Update Version {data[2]}";
+                        MessageBoxButton buttons = MessageBoxButton.YesNo;
+
+                        // Displays the MessageBox.
+                        var result = MessageBox.Show(message, caption, buttons);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            using (var client = new WebClient())
+                            {
+                                client.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
+                            }
+
+                            //Check if file downloaded correctly
+                            if(File.Exists(Path.Combine(UpdateDir, $"{data[2]}.zip")))
+                            {
+                                ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), Path.Combine(UpdateDir, $"{data[2]}"));
+                                //Check if file directory exist and run powershell
+                                if(Directory.Exists(Path.Combine(UpdateDir, $"{data[2]}")))
+                                {
+                                    string FullUpdateDir = Path.Combine(UpdateDir, "net8.0-windows/win-x64");
+                                    CopyUpdateFiles(FullUpdateDir, AtlasDir, AtlasExe);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch
+                { //Dont do anything };
+                }
+            }
         }
-        public static DataTable RequestJSON(string url)
+        public static string[] RequestJSON(string url)
         {
-            DataTable dataTable = new DataTable();
             string response = string.Empty;
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
@@ -43,14 +119,35 @@ namespace Atlas.Core
 
                     //stock
                     JArray jsonArray = JArray.Parse(response);
-                    string version = jsonArray[0]["tag_name"].ToString();
+                    string fullVersion = jsonArray[0]["name"].ToString();
+                    string version = jsonArray[0]["name"].ToString().Replace("v", "").Split('-')[0];
+                    string download_url = jsonArray[0]["assets"][0]["browser_download_url"].ToString();
+
+                    return new[] { version, download_url, fullVersion }; 
                 }
             }
             catch (Exception ex)
             {
-
+                return [];
             }
-            return dataTable;
+            return [];
+        }
+
+        //Run powershell and moce files to current folder
+        public static void CopyUpdateFiles(string UpdateDir, string AtlasDir, string AtlasExe)
+        {
+            var startInfo = new ProcessStartInfo()
+            {
+                FileName = "powershell.exe",
+                Arguments = $"-noexit Copy-item \"{UpdateDir}\" -Destination \"{ AtlasDir }\" -Recurse -force ; start {AtlasExe}",
+                UseShellExecute = false,
+                CreateNoWindow = false,                
+            };
+            Process.Start(startInfo);
+            Application.Current.Shutdown();
         }
     }
 }
+
+
+    
