@@ -29,20 +29,26 @@ namespace Atlas
             this.GameListBox.ItemsSource = GameList;
         }
 
-        private void minimizeButton_Click(object sender, RoutedEventArgs e)
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
 
-        private void maximizeButton_Click(object sender, RoutedEventArgs e)
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Normal)
             {
                 WindowState = WindowState.Maximized;
+                this.BorderThickness = new System.Windows.Thickness(7);
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+                this.BorderThickness = new System.Windows.Thickness(0);
             }
 
         }
-        private void closeButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }
@@ -99,13 +105,14 @@ namespace Atlas
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            /*
             double bannerX = (double)Application.Current.Resources["bannerX"];
             double bannerViewWidth = BannerView.ActualWidth;
             double rows = bannerViewWidth / bannerX;
             Console.WriteLine($"{bannerX} {bannerViewWidth} {rows}");
 
             Application.Current.Resources["Rows"] = (int)rows;
-            Console.WriteLine(Application.Current.Resources["Rows"]);
+            Console.WriteLine(Application.Current.Resources["Rows"]);*/
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

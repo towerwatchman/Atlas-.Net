@@ -106,7 +106,7 @@
                     x:Name="minimizeButton"
                     Width="25"
                     Height="25"
-                    Click="minimizeButton_Click" 
+                    Click="MinimizeButton_Click" 
                     Background="Transparent"
                     BorderThickness="0"
                     BorderBrush="Transparent">
@@ -120,7 +120,7 @@
                     x:Name="maximizeButton"
                     Width="25"
                     Height="25"
-                    Click="maximizeButton_Click"
+                    Click="MaximizeButton_Click"
                     Background="Transparent"
                     BorderThickness="0">
                     <Image
@@ -133,7 +133,7 @@
                     x:Name="closeButton"
                     Width="25"
                     Height="25"
-                    Click="closeButton_Click"
+                    Click="CloseButton_Click"
                     Background="Transparent"
                     BorderThickness="0">
                     <Image
