@@ -47,10 +47,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
       with:
-        ${{env.RELEASE_NUMBER == result.data[0].name}}
         tag_name: ${{ github.run_number }}
         release_name: v${{$RELEASE_NUMBER}}-${{ github.run_number }}
-        body: Release build of ${{$RELEASE_NUMBER}}-${{ github.run_number }}
+        body: Release build of result.data[0].name -${{ github.run_number }}
         draft: false
         prerelease: false
         fail_on_unmatched_files: true
