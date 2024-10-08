@@ -68,7 +68,13 @@
                                         <DataGridTemplateColumn Header="Executable">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <ComboBox ItemsSource="{Binding Executable}" SelectedItem="0"  MinWidth="50" IsReadOnly="False" SelectedIndex="0"/>
+                                                    <ComboBox
+                                                        ItemsSource="{Binding Executable}" 
+                                                        SelectedValue="{Binding SelectedValue}" 
+                                                        SelectedValuePath="Key" 
+                                                        Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"  
+                                                        MinWidth="50" 
+                                                        IsReadOnly="False"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>

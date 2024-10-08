@@ -64,7 +64,8 @@ namespace Atlas
         private void Btn_Import_Click(object sender, RoutedEventArgs e)
         {
             //This will take each game detail that was imported and change it into an actual game.
-            //Store data in db, then show in the BannerView
+            //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
+            //after adding to database we can import to the BannerView
             foreach(var GameDetail in GameScanner.GameDetailList)
             {
                 GameList.Add(new Game { Creator = GameDetail.Creator, Title = GameDetail.Title, Version = GameDetail.Version, Engine = GameDetail.Engine, Status = "" , ImageData = LoadImage("") });
