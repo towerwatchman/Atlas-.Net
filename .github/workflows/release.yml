@@ -38,7 +38,13 @@ jobs:
       with:
         file: "Atlas/Atlas.csproj"
         version: bump-build
-                  
+    
+    - run: |
+      git config user.name "towerwatchman"
+      git add .
+      git commit -m "Bump project version to ${{ steps.package_version.outputs.newVersion }}"
+      git push
+    
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -46,8 +52,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
       with:
         tag_name: ${{ github.run_number }}
-        release_name: v${{ steps.package_version.output.version }}-${{ github.run_number }}
-        body: Release build of v${{ steps.package_version.output.version }}-${{ github.run_number }}
+        release_name: v${{ steps.package_version.outputs.newVersion }}-${{ github.run_number }}
+        body: Release build of v${{ steps.package_version.outputs.newVersion }}-${{ github.run_number }}
         draft: false
         prerelease: true
         fail_on_unmatched_files: true
