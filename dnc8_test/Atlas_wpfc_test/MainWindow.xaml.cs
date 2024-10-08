@@ -83,13 +83,13 @@ namespace Atlas
 
         private BitmapImage? LoadImage(string path)
         {
+            var image = new BitmapImage(new Uri("pack://application:,,,/assets/Images/default.jpg"));
             if (path == "")
             {
-                return new BitmapImage( new Uri("pack://application:,,,/assets/Images/default.jpg"));
+                return image;
             }
             else
             {
-
                 try
                 {
                     var uri = new Uri(path);
@@ -98,7 +98,7 @@ namespace Atlas
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return null;
+                    return image;
                 }
             }
         }
