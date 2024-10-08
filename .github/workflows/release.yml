@@ -37,7 +37,7 @@ jobs:
       with:
         version_files: "Atlas/Atlas.csproj"
         version_mask: 0.0.1
-        version_overwrite: "*.*.*.*"
+        version_overwrite: "*.*.*"
         github_token: ${{ secrets.GITHUB_TOKEN }}  
                   
     - name: Get version
@@ -53,8 +53,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
       with:
         tag_name: ${{ github.run_number }}
-        release_name: v${{ steps.test.package_version.version }}-${{ github.run_number }}
-        body: Release build of v${{ steps.test.package_version.version }}-${{ github.run_number }}
+        release_name: v${{ steps.package_version.version }}-${{ github.run_number }}
+        body: Release build of v${{ steps.package_version.version }}-${{ github.run_number }}
         draft: false
         prerelease: true
         fail_on_unmatched_files: true
