@@ -22,20 +22,13 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    
-    - name: Extract Version Metadata
-        id: meta
-        run: |
-          echo "version=${GITHUB_REF##*/}" >> $GITHUB_ENV
-          echo "version_short=${GITHUB_REF##*/v}" >> $GITHUB_ENV
-          echo ${{github.workspace}}
-        
+              
     - name: Restore dependencies
       run: dotnet restore
       
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    
+      
     - name: Zip the Build
       run: Compress-Archive -Path ./Atlas/bin/Release/net8.0-windows -DestinationPath ${{github.workspace}}/windows.zip
       
