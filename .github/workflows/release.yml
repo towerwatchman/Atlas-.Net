@@ -32,19 +32,12 @@ jobs:
     - name: Zip the Build
       run: Compress-Archive -Path ./Atlas/bin/Release/net8.0-windows -DestinationPath ${{github.workspace}}/windows.zip
       
-    - name: Bump version
-      uses: SiqiLu/dotnet-bump-version@2.0.0
-      with:
-        version_files: "Atlas/Atlas.csproj"
-        version_mask: 0.0.1
-        version_overwrite: "*.*.*"
-        github_token: ${{ secrets.GITHUB_TOKEN }}  
-                  
-    - name: Get version
+    - name: Bump build version
       id: package_version
-      uses: KageKirin/get-csproj-version@v0
+      uses: vers-one/dotnet-project-version-updater@v1.6
       with:
-        file: Atlas/Atlas.csproj
+        file: "Atlas/Atlas.csproj"
+        version: bump-build
                   
     - name: Create Release
       id: create_release
@@ -53,8 +46,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
       with:
         tag_name: ${{ github.run_number }}
-        release_name: v${{ steps.package_version.version }}-${{ github.run_number }}
-        body: Release build of v${{ steps.package_version.version }}-${{ github.run_number }}
+        release_name: v${{ steps.package_version.output.version }}-${{ github.run_number }}
+        body: Release build of v${{ steps.package_version.output.version }}-${{ github.run_number }}
         draft: false
         prerelease: true
         fail_on_unmatched_files: true
