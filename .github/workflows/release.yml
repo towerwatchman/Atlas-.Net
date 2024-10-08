@@ -41,6 +41,7 @@ jobs:
     
     - run: |
         git config user.name "towerwatchman"
+        git config user.email "towerwatchman@users.noreply.github.com"
         git add .
         git commit -m "Bump project version to ${{ steps.package_version.outputs.newVersion }}"
         git push
