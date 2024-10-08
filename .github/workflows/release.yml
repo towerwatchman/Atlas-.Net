@@ -22,6 +22,13 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+    
+    - name: Extract Version Metadata
+        id: meta
+        run: |
+          echo "version=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          echo "version_short=${GITHUB_REF##*/v}" >> $GITHUB_ENV
+          echo ${{github.workspace}}
         
     - name: Restore dependencies
       run: dotnet restore
@@ -30,7 +37,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Zip the Build
-      run: Compress-Archive -Path ./Atlas/bin/Release/net8.0-windows -DestinationPath ${{secrets.ReleaseZipName}}
+      run: Compress-Archive -Path ./Atlas/bin/Release/net8.0-windows -DestinationPath ${{github.workspace}}/windows.zip
       
     - name: Create Release
       id: create_release
@@ -49,6 +56,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./${{ secrets.ReleaseZipName }}.zip
-        asset_name: ${{ secrets.ReleaseZipName }}.zip
+        asset_path: ./${{github.workspace}}/windows.zip
+        asset_name: ${{github.workspace}}/windows.zip
         asset_content_type: application/zip
