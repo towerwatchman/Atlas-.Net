@@ -28,9 +28,6 @@ jobs:
       
     - name: Build
       run: dotnet build --configuration Release --no-restore    
-          
-    - name: Zip the Build
-      run: Compress-Archive -Path ./Atlas/bin/Release/net8.0-windows -DestinationPath ${{github.workspace}}/windows.zip
       
     - name: Bump build version
       id: package_version
@@ -45,7 +42,10 @@ jobs:
         git add .
         git commit -m "Bump project version to ${{ steps.package_version.outputs.newVersion }}"
         git push
-    
+        
+    - name: Zip the Build
+      run: Compress-Archive -Path ./Atlas/bin/Release/net8.0-windows -DestinationPath ${{github.workspace}}/Atlas_${{steps.package_version.outputs.newVersion}}-${{ github.run_number }}windows.zip
+      
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -66,5 +66,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: ${{github.workspace}}/windows.zip
-        asset_name: windows.zip
+        asset_name: Atlas_${{steps.package_version.outputs.newVersion}}-${{ github.run_number }}windows.zip
         asset_content_type: application/zip
