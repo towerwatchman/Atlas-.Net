@@ -33,7 +33,7 @@ jobs:
       run: Compress-Archive -Path ./Atlas/bin/Release/net8.0-windows -DestinationPath ${{github.workspace}}/windows.zip
       
     - name: Bump version
-      uses: SiqiLu/dotnet-bump-version@2.1.0
+      uses: SiqiLu/dotnet-bump-version@2.0.0
       with:
         version_files: "Atlas/Atlas.csproj"
         version_mask: 0.0.1
