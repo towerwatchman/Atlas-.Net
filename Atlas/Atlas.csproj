@@ -12,6 +12,8 @@
     <SelfContained>false</SelfContained>
     <StartupObject>Atlas.App</StartupObject>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <ApplicationIcon>assets\Icons\appicon.ico</ApplicationIcon>
+    <Title>Atlas Game Manager</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,6 +29,10 @@
   <ItemGroup>
     <None Remove="assets\Images\default.jpg" />
     <None Remove="UI\config_image.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\Icons\appicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
