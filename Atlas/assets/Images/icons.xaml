@@ -83,70 +83,70 @@
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V900 H900 V0 H0 Z">
                 <DrawingGroup Opacity="1">
-                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M900,900z M0,0z M443.546,469L443.546,604.168 488.546,604.168 488.546,469 640.13,469 640.13,424 269.962,424 269.962,469 443.546,469z">
+                    <GeometryDrawing Brush="{DynamicResource AtlasLogo}" Geometry="F0 M900,900z M0,0z M443.546,469L443.546,604.168 488.546,604.168 488.546,469 640.13,469 640.13,424 269.962,424 269.962,469 443.546,469z">
                         <GeometryDrawing.Pen>
-                            <Pen Brush="#FFFFFFFF" Thickness="8.33" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+                            <Pen Brush="{DynamicResource AtlasLogo}" Thickness="8.33" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
                         </GeometryDrawing.Pen>
                     </GeometryDrawing>
                 </DrawingGroup>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup Opacity="1" Transform="0.847722,0,-0.467779,0.954214,442.704,36.2622">
-                        <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing Brush="{DynamicResource AtlasLogo}">
                             <GeometryDrawing.Geometry>
                                 <RectangleGeometry RadiusX="0" RadiusY="0" Rect="52.523,725.729,421.759,66.271" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup>
                     <DrawingGroup Opacity="1" Transform="0.432793,0,-0.467779,0.954214,700.234,-88.3337">
-                        <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing Brush="{DynamicResource AtlasLogo}">
                             <GeometryDrawing.Geometry>
                                 <RectangleGeometry RadiusX="0" RadiusY="0" Rect="52.523,725.729,421.759,66.271" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup>
                     <DrawingGroup Opacity="1" Transform="-0.79469,1.62936,-0.857642,-0.4183,1119.52,322.031">
-                        <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing Brush="{DynamicResource AtlasLogo}">
                             <GeometryDrawing.Geometry>
                                 <RectangleGeometry RadiusX="0" RadiusY="0" Rect="52.523,725.729,421.759,66.271" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup>
                     <DrawingGroup Opacity="1" Transform="-0.79469,1.62936,-0.857642,-0.4183,1119.52,322.031">
-                        <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing Brush="{DynamicResource AtlasLogo}">
                             <GeometryDrawing.Geometry>
                                 <RectangleGeometry RadiusX="0" RadiusY="0" Rect="52.523,725.729,421.759,66.271" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup>
                     <DrawingGroup Opacity="1" Transform="-0.826747,1.69508,-1.06166,3.27693E-15,1282.79,-12.7147">
-                        <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing Brush="{DynamicResource AtlasLogo}">
                             <GeometryDrawing.Geometry>
                                 <RectangleGeometry RadiusX="0" RadiusY="0" Rect="52.523,725.729,421.759,66.271" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup>
                     <DrawingGroup Opacity="1" Transform="-0.826747,1.69508,-1.06166,3.27693E-15,1282.79,-12.7147">
-                        <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing Brush="{DynamicResource AtlasLogo}">
                             <GeometryDrawing.Geometry>
                                 <RectangleGeometry RadiusX="0" RadiusY="0" Rect="52.523,725.729,421.759,66.271" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup>
                     <DrawingGroup Opacity="1" Transform="-0.828055,-1.69776,-1.0623,0.00549533,1673.48,877.184">
-                        <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing Brush="{DynamicResource AtlasLogo}">
                             <GeometryDrawing.Geometry>
                                 <RectangleGeometry RadiusX="0" RadiusY="0" Rect="52.523,725.729,421.759,66.271" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup>
                     <DrawingGroup Opacity="1" Transform="-0.185156,0.379627,-1.06166,-3.4972E-15,1346.22,584.229">
-                        <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing Brush="{DynamicResource AtlasLogo}">
                             <GeometryDrawing.Geometry>
                                 <RectangleGeometry RadiusX="0" RadiusY="0" Rect="52.523,725.729,421.759,66.271" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup>
-                    <GeometryDrawing Brush="#FFFFFFFF">
+                    <GeometryDrawing Brush="{DynamicResource AtlasLogo}">
                         <GeometryDrawing.Geometry>
                             <RectangleGeometry RadiusX="0" RadiusY="0" Rect="414,98,91.283,54" />
                         </GeometryDrawing.Geometry>
@@ -155,6 +155,7 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
+              
     <DrawingImage x:Key="close_iconDrawingImage">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V45 H45 V0 H0 Z">
