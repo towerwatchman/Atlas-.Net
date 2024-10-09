@@ -19,14 +19,18 @@ using Atlas.Core;
 namespace Atlas
 {
     /// <summary>
-    /// Interaction logic for Splash.xaml
+    /// Check for updates
+    /// Set Folders
+    /// Add Settings
+    /// Run db migrations
     /// </summary>
     public partial class Splash : Window
     {
         public Splash()
         {
             InitializeComponent();
-            Init();
+            //Discard await warning
+            _= Init();
         }
 
         public async Task Init()

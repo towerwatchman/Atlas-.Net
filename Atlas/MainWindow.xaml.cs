@@ -97,7 +97,7 @@ namespace Atlas
 
         private BitmapImage? LoadImage(string path)
         {
-            var image = new BitmapImage(new Uri("pack://application:,,,/assets/Images/default.jpg"));
+            var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
             if (path == "")
             {
                 return image;

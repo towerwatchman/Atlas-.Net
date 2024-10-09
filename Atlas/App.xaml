@@ -7,8 +7,8 @@
         <!-- Icons -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/assets/Images/icons.xaml"/>
-                <ResourceDictionary Source="/Themes/banner.xaml"/>
+                <ResourceDictionary Source="/Assets/Images/icons.xaml"/>
+                <ResourceDictionary Source="/UI/Layouts/banner.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Default Colors -->
@@ -69,7 +69,6 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-
             <Style x:Key="DefaultTextStyle" TargetType="{x:Type TextBox}">
                 <Setter Property="Background" Value="{DynamicResource Border}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource Selected}"/>
@@ -153,6 +152,32 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+
+            <!-- Progress Bar -->
+            <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
+                <Setter Property="Background" Value="{StaticResource Secondary}"/>
+                <Setter Property="Foreground" Value="{StaticResource Accent}"/>
+                <Setter Property="Template">
+                    <Setter.Value>                        
+                        <ControlTemplate TargetType="{x:Type ProgressBar}">
+                            <Border CornerRadius="6" BorderThickness="1" BorderBrush="Transparent" Background="{StaticResource Secondary}">
+                            <Grid MinHeight="14" MinWidth="200" Background="Transparent">                               
+                                <Border x:Name="PART_Track" CornerRadius="6" BorderThickness="1" BorderBrush="Transparent"/>
+                                <Border x:Name="PART_Indicator"
+                                  CornerRadius="6"
+                                  BorderThickness="1"
+                                  HorizontalAlignment="Left"
+                                  Background="{TemplateBinding Foreground}"
+                                  Margin="0,0,0,0">
+                                </Border>
+                            </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
 
     </Application.Resources>
