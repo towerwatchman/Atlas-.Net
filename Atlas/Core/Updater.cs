@@ -92,7 +92,7 @@ namespace Atlas.Core
                                 //Check if file directory exist and run powershell
                                 if(Directory.Exists(Path.Combine(UpdateDir, $"{data[2]}")))
                                 {
-                                    string FullUpdateDir = Path.Combine(UpdateDir, data[2], "net8.0-windows\\win-x64");
+                                    string FullUpdateDir = Path.Combine(UpdateDir, data[2]);
                                     CopyUpdateFiles(FullUpdateDir, AtlasDir, AtlasExe);
                                 }
                             }
