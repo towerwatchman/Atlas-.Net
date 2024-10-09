@@ -81,10 +81,41 @@ namespace Atlas
             //after adding to database we can import to the BannerView
             foreach (var GameDetail in GameScanner.GameDetailList)
             {
-                GameList.Add(new Game { Creator = GameDetail.Creator, Title = GameDetail.Title, Version = GameDetail.Version, Engine = GameDetail.Engine, Status = "", ImageData = LoadImage("") });
+                //We need to insert in to database first then get the id of the new item
+                int recordID = 0;
+                bool GameExist = GameList.Any(x=> GameDetail.Creator == x.Creator && GameDetail.Title == x.Title);
+                if (GameExist)
+                {
+
+                }
+                else
+                {
+                    List<GameVersion> gameVersions = new List<GameVersion>();
+                    gameVersions.Add(new GameVersion
+                    {
+                        Version = GameDetail.Version,
+                        DateAdded = DateTime.Now,
+                        ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
+                        GamePath = GameDetail.Folder,
+                        RecordId = recordID
+                    });
+
+                    GameList.Add(new Game { 
+                        Creator = GameDetail.Creator, 
+                        Title = GameDetail.Title, 
+                        Versions = gameVersions, 
+                        Engine = GameDetail.Engine, 
+                        Status = "", 
+                        ImageData = LoadImage("") 
+                    });
+                }
+                
                 BannerView.Items.Refresh();
                 GameListBox.Items.Refresh();
             }
+
+            //sort items in lists
+            GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title",System.ComponentModel.ListSortDirection.Ascending));
 
         }
 

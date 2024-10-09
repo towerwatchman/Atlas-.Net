@@ -69,7 +69,13 @@ namespace Atlas.Core
                             Console.WriteLine(output);
                             outputFile.WriteLine(output);
 
-                            var gd = new GameDetails { Title = title, Version = version, Creator = creator, Engine = game_engine, Executable = potential_executables.ToList(), Folder = t };
+                            var gd = new GameDetails { 
+                                Title = title.Trim(), 
+                                Version = version.Trim(), 
+                                Creator = creator.Trim(), 
+                                Engine = game_engine.Trim(), 
+                                Executable = potential_executables.ToList(), 
+                                Folder = t };
 
                             if (title != "")
                             {

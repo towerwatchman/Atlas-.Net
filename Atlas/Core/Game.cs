@@ -5,9 +5,9 @@ namespace Atlas.Core
     public class Game
     {
         public required string Title { get; set; }
-        public required string Version { get; set; }
-        public required string Engine { get; set; }
         public required string Creator { get; set; }
+        public required string Engine { get; set; }
+        public required List<GameVersion> Versions  { get; set; }
         public required string Status { get; set; }
         public required BitmapImage ImageData { get; set; }
     }
