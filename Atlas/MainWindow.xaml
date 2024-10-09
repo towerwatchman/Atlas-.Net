@@ -37,7 +37,8 @@
                 Height="50"
                 Width="50"
                 Stretch="Uniform"
-                Source="{DynamicResource atlas_logo_s}"/>
+                Source="{DynamicResource atlas_logo_s}"
+                RenderOptions.BitmapScalingMode="HighQuality"/>
         </Grid>
         <!--#endregion-->
 

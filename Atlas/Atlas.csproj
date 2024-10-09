@@ -48,6 +48,8 @@
   <ItemGroup>
     <PackageReference Include="Config.Net" Version="5.2.0" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.0.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.10" />
     <PackageReference Include="Microsoft.Win32.SystemEvents" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.3.4" />
@@ -59,6 +61,12 @@
   <ItemGroup>
     <Resource Include="Assets\Images\default.jpg" />
     <Resource Include="UI\config_image.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Core\Database\Migrations.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

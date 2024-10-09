@@ -67,11 +67,12 @@ namespace Atlas.Core
                         var result = MessageBox.Show(message, caption, buttons);
                         if (result == MessageBoxResult.Yes)
                         {
-                            HttpClient httpClient = new HttpClient();
-                            
-                            WebClient webClient = new WebClient();
-                            
-                            webClient.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
+
+                            using (WebClient webClient = new WebClient())
+                            {
+
+                                webClient.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
+                            }
 
 
                             //Check if file downloaded correctly

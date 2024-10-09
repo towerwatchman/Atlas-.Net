@@ -1,4 +1,5 @@
 ﻿using Atlas.Core;
+using Atlas.Core.Database;
 using Config.Net;
 using System.IO;
 using System.Windows;
@@ -65,6 +66,7 @@ namespace Atlas
                 Logging.Logger.Error(ex);
             }
 
+            Database.Init();
             //Launch Main Window            
             LaunchMainWindow();
         }

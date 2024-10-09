@@ -10,7 +10,7 @@
                 <ResourceDictionary Source="/Assets/Images/icons.xaml"/>
                 <ResourceDictionary Source="/UI/Layouts/banner.xaml"/>                
                 <!-- Default theme -->
-                <ResourceDictionary x:Name="rdTheme" Source="/Themes/Dark.xaml"/>
+                <ResourceDictionary x:Name="rdTheme" Source="/Themes/dark.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <!-- TOP NAV -->
             <Style x:Key="TopNavigationStyle" 
