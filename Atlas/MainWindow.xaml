@@ -330,7 +330,7 @@
                 </ListBox.Resources>
             </ListBox>
 
-            <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,2,0" Background="{DynamicResource Primary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+            <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,0,0" Background="{DynamicResource Primary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                        HorizontalAlignment="Stretch" 
                        ScrollViewer.CanContentScroll="True"                       
                        VirtualizingPanel.CacheLengthUnit="Item"   

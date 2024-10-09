@@ -143,9 +143,9 @@ namespace Atlas.Core
             var startInfo = new ProcessStartInfo()
             {
                 FileName = "powershell.exe",
-                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{ AtlasDir }\" -Recurse -force; PAUSE ; start {AtlasExe} ",
+                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{ AtlasDir }\" -Recurse -force ; start {AtlasExe} ",
                 UseShellExecute = false,
-                CreateNoWindow = false,                
+                CreateNoWindow = true,                
             };
             Process.Start(startInfo);
             Environment.Exit(0);
