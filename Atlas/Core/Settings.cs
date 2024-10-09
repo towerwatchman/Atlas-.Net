@@ -4,7 +4,7 @@ namespace Atlas.Core
 {
     public static class Settings
     {
-        public static SettingInterface? Config;
+        public static SettingInterface Config;
     }
     public interface SettingInterface
     {

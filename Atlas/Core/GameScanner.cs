@@ -26,7 +26,6 @@ namespace Atlas.Core
             //We need to go through each item and find if it is a folder or file
             foreach (string dir in directories)
             {
-                string root_path = "";
                 string game_path = "";
                 string title = "";
                 string version = "";

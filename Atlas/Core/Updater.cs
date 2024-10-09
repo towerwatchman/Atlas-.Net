@@ -67,6 +67,8 @@ namespace Atlas.Core
                         var result = MessageBox.Show(message, caption, buttons);
                         if (result == MessageBoxResult.Yes)
                         {
+                            HttpClient httpClient = new HttpClient();
+                            
                             WebClient webClient = new WebClient();
                             
                             webClient.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
@@ -115,8 +117,6 @@ namespace Atlas.Core
 
                 if (response != string.Empty)
                 {
-                    JArray? json = null;
-
                     //stock
                     JArray jsonArray = JArray.Parse(response);
                     string fullVersion = jsonArray[0]["name"]!.ToString();
@@ -128,6 +128,7 @@ namespace Atlas.Core
             }
             catch (Exception ex)
             {
+                Logging.Logger.Error(ex);
                 return [];
             }
             return [];
