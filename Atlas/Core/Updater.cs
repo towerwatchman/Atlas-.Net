@@ -84,7 +84,11 @@ namespace Atlas.Core
                             //Check if file downloaded correctly
                             if(File.Exists(Path.Combine(UpdateDir, $"{data[2]}.zip")))
                             {
-                                ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), Path.Combine(UpdateDir, $"{data[2]}"));
+                                try
+                                {
+                                    ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), Path.Combine(UpdateDir, $"{data[2]}"));
+                                }
+                                catch { }
                                 //Check if file directory exist and run powershell
                                 if(Directory.Exists(Path.Combine(UpdateDir, $"{data[2]}")))
                                 {
