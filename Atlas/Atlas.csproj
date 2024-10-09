@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <AssemblyName>Atlas</AssemblyName>
@@ -17,13 +17,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
-    <WarningLevel>1</WarningLevel>
+    <DebugType>embedded</DebugType>
+    <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>full</DebugType>
-    <WarningLevel>1</WarningLevel>
+    <DebugType>embedded</DebugType>
+    <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>

@@ -43,7 +43,7 @@ namespace Atlas.Core
             }
             //Check GH releases for updates and download if found
             string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
-            AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            AppVersion = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
             //Check if AppVersion has more numebrs
             if (AppVersion.Length > 5)
@@ -119,9 +119,9 @@ namespace Atlas.Core
 
                     //stock
                     JArray jsonArray = JArray.Parse(response);
-                    string fullVersion = jsonArray[0]["name"].ToString();
-                    string version = jsonArray[0]["name"].ToString().Replace("v", "").Split('-')[0];
-                    string download_url = jsonArray[0]["assets"][0]["browser_download_url"].ToString();
+                    string fullVersion = jsonArray[0]["name"]!.ToString();
+                    string version = jsonArray[0]["name"]!.ToString().Replace("v", "").Split('-')[0];
+                    string download_url = jsonArray[0]["assets"][0]["browser_download_url"]!.ToString();
 
                     return new[] { version, download_url, fullVersion };
                 }
