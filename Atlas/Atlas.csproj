@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -32,7 +32,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Themes\test.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Assets\Icons\appicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Themes\test.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -52,9 +62,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="config.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="mkdir &quot;$(TargetDir)\themes&quot;&#xD;&#xA;copy /Y &quot;$(SolutionDir)$(ProjectName)\Themes&quot; &quot;$(TargetDir)themes&quot;" />
+  </Target>
 
 </Project>

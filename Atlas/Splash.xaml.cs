@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Atlas.Core;
+using Config.Net;
+using NLog;
 
 namespace Atlas
 {
@@ -39,9 +41,10 @@ namespace Atlas
             //Check for updates
             var t = Task.Run(() =>
             {
-                Updater.CheckForUpdates(pbSplash);
+                Updater.CheckForUpdates();
             });          
             await Task.WhenAll(t);
+            //.Value += 10;
 
             //Set folders
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data"));
@@ -49,8 +52,29 @@ namespace Atlas
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "images"));
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "logs"));
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "updates"));
-            pbSplash.Value += 10;
-            //Launch Main Window
+            //pbSplash.Value += 10;
+
+            //Add Settings
+            Settings.Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(),"config.ini")).Build();
+
+            //Set the default theme file
+            string theme = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes", Settings.Config.Theme);
+            var themeUri = new Uri(theme, UriKind.RelativeOrAbsolute);
+            try
+            {
+                if (File.Exists(theme))
+                {
+                    Application.Current.Resources.MergedDictionaries.RemoveAt(2);
+                    Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = themeUri });
+                }
+            }
+            catch (Exception ex)
+            {
+                //Default to regular theme
+                Logging.Logger.Error(ex);
+            }
+
+            //Launch Main Window            
             LaunchMainWindow();
         }
 

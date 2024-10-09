@@ -30,7 +30,7 @@ namespace Atlas.Core
         private static string AtlasDir = string.Empty;
         private static string AtlasExe = string.Empty;
 
-        public static void CheckForUpdates(ProgressBar pb)
+        public static void CheckForUpdates()
         {
             //Set folders
             UpdateDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Atlas");
@@ -90,7 +90,7 @@ namespace Atlas.Core
                                     double total = double.Parse(e.TotalBytesToReceive.ToString());
                                     double percentage = receive / total * 100;
 
-                                    pb.Value = percentage;
+                                    //pb.Value = percentage;
                                 });
                                
                             };

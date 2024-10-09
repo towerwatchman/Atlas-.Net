@@ -14,8 +14,8 @@
         Title="Splash" Height="200" Width="300">
     <Grid>
         <DockPanel>
-            <ProgressBar x:Name="pbSplash" DockPanel.Dock="Bottom" Margin="40,0,40,0" Height="16" Width="Auto" Minimum="0" Maximum="100"/>
-            <!--<TextBlock DockPanel.Dock="Bottom" Height="20" Width="Auto"/>-->
+            <!--<ProgressBar x:Name="pbSplash" DockPanel.Dock="Bottom" Margin="40,0,40,0" Height="16" Width="Auto" Minimum="0" Maximum="100"/>
+            <TextBlock DockPanel.Dock="Bottom" Height="20" Width="Auto"/>-->
             <Image DockPanel.Dock="Top" Width="Auto" Source="{DynamicResource atlas_logo_full}" RenderOptions.BitmapScalingMode="HighQuality" Height="160"/>            
         </DockPanel>
     </Grid>

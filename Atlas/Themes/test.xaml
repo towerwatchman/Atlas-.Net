@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<!--
+    This theme file will change all colors in the app.
+    Canvas: This is the background color of the app. In mose cases this is the shadows or pop between areas
+    Primary: Header, Footer, Nav Bar
+    Secondary: Buttons, ListBox
+    Tertiary: All Grids, Panels, ListViews
+    Accent:Nav Buttons Hover, Top Left logo backgrond, All hover effects
+    AccentBar: Bar at top of program. This is the only thing it will change
+    AtlasLogo: Logo Color
+    Border: Any border used in the program
+    Selected: button selected
+    Text: All text in program. Does not include banners.
+    Highlight: Text Hover Effect color
+    -->
+	<SolidColorBrush x:Key="Canvas" Color="red"/>
+	<SolidColorBrush x:Key="Primary" Color="green"/>
+	<SolidColorBrush x:Key="Secondary" Color="blue"/>
+	<SolidColorBrush x:Key="Tertiary" Color="orange"/>
+	<SolidColorBrush x:Key="Accent" Color="purple"/>
+	<SolidColorBrush x:Key="AccentBar" Color="pink"/>
+	<SolidColorBrush x:Key="AtlasLogo" Color="orange"/>
+	<SolidColorBrush x:Key="Border" Color="magenta"/>
+	<SolidColorBrush x:Key="Selected" Color="lightgreen"/>
+	<SolidColorBrush x:Key="Text" Color="yellow"/>
+	<SolidColorBrush x:Key="Highlight" Color="cyan"/>
+</ResourceDictionary>
