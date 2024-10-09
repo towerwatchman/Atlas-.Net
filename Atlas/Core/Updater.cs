@@ -16,6 +16,10 @@ using System.Windows;
 using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Threading;
+using NLog;
+
 
 namespace Atlas.Core
 {
@@ -26,7 +30,7 @@ namespace Atlas.Core
         private static string AtlasDir = string.Empty;
         private static string AtlasExe = string.Empty;
 
-        public static void CheckForUpdates()
+        public static void CheckForUpdates(ProgressBar pb)
         {
             //Set folders
             UpdateDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Atlas");
@@ -76,10 +80,22 @@ namespace Atlas.Core
                         var result = MessageBox.Show(message, caption, buttons);
                         if (result == MessageBoxResult.Yes)
                         {
-                            using (var client = new WebClient())
+                            WebClient webClient = new WebClient();
+                            webClient.DownloadProgressChanged += (s, e) =>
                             {
-                                client.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
-                            }
+                                Application.Current.Dispatcher.BeginInvoke(() =>
+                                {
+                                    var Progress = e.ProgressPercentage;
+                                    double receive = double.Parse(e.BytesReceived.ToString());
+                                    double total = double.Parse(e.TotalBytesToReceive.ToString());
+                                    double percentage = receive / total * 100;
+
+                                    pb.Value = percentage;
+                                });
+                               
+                            };
+                            webClient.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
+                            
 
                             //Check if file downloaded correctly
                             if(File.Exists(Path.Combine(UpdateDir, $"{data[2]}.zip")))
@@ -99,8 +115,10 @@ namespace Atlas.Core
                         }
                     }
                 }
-                catch
-                { //Dont do anything };
+                catch(Exception ex)
+                {
+                    MessageBox.Show("There was an error retieveing the update");
+                    Logging.Logger.Error(ex);
                 }
             }
         }
