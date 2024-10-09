@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
     <!--
     This theme file will change all colors in the app.
     Canvas: This is the background color of the app. In mose cases this is the shadows or pop between areas
