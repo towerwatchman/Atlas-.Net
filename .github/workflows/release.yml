@@ -49,12 +49,12 @@ jobs:
       
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
       with:
         tag_name: ${{ github.run_number }}
-        release_name: v${{ steps.package_version.outputs.newVersion }}
+        name: v${{ steps.package_version.outputs.newVersion }}
         body: Release build of v${{ steps.package_version.outputs.newVersion }}
         draft: false
         prerelease: true
