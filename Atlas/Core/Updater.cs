@@ -34,7 +34,7 @@ namespace Atlas.Core
             AtlasExe = Path.Combine(Directory.GetCurrentDirectory(), "Atlas.exe");
 
             //Before we do anything, make sure the temp folder is created
-            if (!Directory.Exists(UpdateDir))
+            /*if (!Directory.Exists(UpdateDir))
             {
                 Directory.CreateDirectory(UpdateDir);
             }
@@ -49,7 +49,7 @@ namespace Atlas.Core
                 {
                     dir.Delete(true);
                 }
-            }
+            }*/
             //Check GH releases for updates and download if found
             string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
             AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -139,7 +139,7 @@ namespace Atlas.Core
             var startInfo = new ProcessStartInfo()
             {
                 FileName = "powershell.exe",
-                Arguments = $"-noexit Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{ AtlasDir }\" -Recurse -force ; start {AtlasExe} ; PAUSE",
+                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{ AtlasDir }\" -Recurse -force ; start {AtlasExe} ; PAUSE",
                 UseShellExecute = false,
                 CreateNoWindow = false,                
             };
