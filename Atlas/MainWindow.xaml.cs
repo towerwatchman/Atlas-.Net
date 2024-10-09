@@ -1,16 +1,9 @@
-﻿using System.Text;
+﻿using Atlas.Core;
+using Atlas.UI.Importer;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Atlas.UI.Importer;
-using Atlas.Core;
-using System.IO;
 
 namespace Atlas
 {
@@ -86,9 +79,9 @@ namespace Atlas
             //This will take each game detail that was imported and change it into an actual game.
             //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
             //after adding to database we can import to the BannerView
-            foreach(var GameDetail in GameScanner.GameDetailList)
+            foreach (var GameDetail in GameScanner.GameDetailList)
             {
-                GameList.Add(new Game { Creator = GameDetail.Creator, Title = GameDetail.Title, Version = GameDetail.Version, Engine = GameDetail.Engine, Status = "" , ImageData = LoadImage("") });
+                GameList.Add(new Game { Creator = GameDetail.Creator, Title = GameDetail.Title, Version = GameDetail.Version, Engine = GameDetail.Engine, Status = "", ImageData = LoadImage("") });
                 BannerView.Items.Refresh();
                 GameListBox.Items.Refresh();
             }

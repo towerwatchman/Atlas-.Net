@@ -1,23 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Automation.Peers;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Atlas.Core;
+﻿using Atlas.Core;
 using Config.Net;
-using NLog;
+using System.IO;
+using System.Windows;
 
 namespace Atlas
 {
@@ -33,7 +17,7 @@ namespace Atlas
         {
             InitializeComponent();
             //Discard await warning
-            _= Init();
+            _ = Init();
         }
 
         public async Task Init()
@@ -41,8 +25,15 @@ namespace Atlas
             //Check for updates
             var t = Task.Run(() =>
             {
-                Updater.CheckForUpdates();
-            });          
+                try
+                {
+                    Updater.CheckForUpdates();
+                }
+                catch (Exception ex)
+                {
+                    Logging.Logger.Error(ex);
+                }
+            });
             await Task.WhenAll(t);
             //.Value += 10;
 
@@ -55,7 +46,7 @@ namespace Atlas
             //pbSplash.Value += 10;
 
             //Add Settings
-            Settings.Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(),"config.ini")).Build();
+            Settings.Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "config.ini")).Build();
 
             //Set the default theme file
             string theme = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes", Settings.Config.Theme);

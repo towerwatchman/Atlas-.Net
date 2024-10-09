@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 
 namespace Atlas.Core
 {
@@ -30,9 +25,9 @@ namespace Atlas.Core
         private string _Text;
         public string Text
         {
-            get 
+            get
             {
-                if(Executable.Count > 0)
+                if (Executable.Count > 0)
                 {
                     _Text = Executable[0];
                 }

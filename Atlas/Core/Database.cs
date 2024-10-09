@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace Atlas.Core
 {
@@ -12,7 +7,7 @@ namespace Atlas.Core
         static public void Initialize()
         {
             //check if database already exist
-            if(!Path.Exists(""))
+            if (!Path.Exists(""))
             {
 
             }

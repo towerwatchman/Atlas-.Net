@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Atlas.UI;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Peers;
-using System.Windows.Controls;
-using System.Windows.Threading;
-using Atlas.UI;
 
 namespace Atlas.Core
 {
@@ -22,13 +13,13 @@ namespace Atlas.Core
         public static void Start(string path)
         {
             //Set the item list before we do anything else
-            
+
             List<string> root_paths = new List<string>();
 
             string[] directories = Directory.GetDirectories(path);
 
             int total_dirs = directories.Length;
-            
+
 
             Console.WriteLine($"There are a total of {total_dirs} folders\n");
             StreamWriter outputFile = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "Atlas_Output.txt"));
