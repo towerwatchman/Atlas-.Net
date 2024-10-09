@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -23,17 +25,24 @@ namespace Atlas
     {
         public Splash()
         {
-            var TaskList = new List<Task>();
             InitializeComponent();
-            var t =  new Task(() =>
+            Init();
+        }
+
+        public async Task Init()
+        {
+            var t = Task.Run(() =>
             {
                 Updater.CheckForUpdates();
             });
 
-            t.Start();
-            TaskList.Add(t);
-            Task.WaitAll(TaskList.ToArray());
+            await Task.WhenAll(t);
+            //Launch Main Window
+            LaunchMainWindow();
+        }
 
+        public void LaunchMainWindow()
+        {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
