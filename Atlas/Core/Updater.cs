@@ -143,7 +143,7 @@ namespace Atlas.Core
             var startInfo = new ProcessStartInfo()
             {
                 FileName = "powershell.exe",
-                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{ AtlasDir }\" -Recurse -force ; start {AtlasExe} ; PAUSE",
+                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{ AtlasDir }\" -Recurse -force; PAUSE ; start {AtlasExe} ",
                 UseShellExecute = false,
                 CreateNoWindow = false,                
             };

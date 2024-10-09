@@ -25,9 +25,7 @@ jobs:
               
     - name: Restore dependencies
       run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --configuration Release
+
       
     - name: Bump build version
       id: package_version
@@ -35,7 +33,10 @@ jobs:
       with:
         file: "Atlas/Atlas.csproj"
         version: "*.*.^"
-    
+      
+    - name: Build
+      run: dotnet build --configuration Release
+      
     - run: |
         git config user.name "towerwatchman"
         git config user.email "towerwatchman@users.noreply.github.com"
