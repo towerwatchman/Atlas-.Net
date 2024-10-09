@@ -32,7 +32,7 @@
                     VerticalAlignment="Stretch"
                     Background="{DynamicResource Tertiary}">
                     <TabControl x:Name="tbc_Import" VerticalAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0">
-                        <TabItem Header="Start" x:Name="tc_start">
+                        <TabItem Header="Start" x:Name="tc_start" Visibility="Collapsed">
                             <Grid Background="{DynamicResource Tertiary}">
                                 <StackPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
@@ -56,7 +56,7 @@
                                 </StackPanel>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" >
+                        <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" Visibility="Collapsed">
                             <Grid Background="{DynamicResource Tertiary}">
                                 <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False">
                                     <DataGrid.Columns>
