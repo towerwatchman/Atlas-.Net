@@ -25,7 +25,7 @@ namespace Atlas.Core
             AtlasExe = Path.Combine(Directory.GetCurrentDirectory(), "Atlas.exe");
 
             //Before we do anything, make sure the temp folder is created
-            /*if (!Directory.Exists(UpdateDir))
+            if (!Directory.Exists(UpdateDir))
             {
                 Directory.CreateDirectory(UpdateDir);
             }
@@ -40,7 +40,7 @@ namespace Atlas.Core
                 {
                     dir.Delete(true);
                 }
-            }*/
+            }
             //Check GH releases for updates and download if found
             string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
             AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -68,19 +68,7 @@ namespace Atlas.Core
                         if (result == MessageBoxResult.Yes)
                         {
                             WebClient webClient = new WebClient();
-                            webClient.DownloadProgressChanged += (s, e) =>
-                            {
-                                Application.Current.Dispatcher.BeginInvoke(() =>
-                                {
-                                    var Progress = e.ProgressPercentage;
-                                    double receive = double.Parse(e.BytesReceived.ToString());
-                                    double total = double.Parse(e.TotalBytesToReceive.ToString());
-                                    double percentage = receive / total * 100;
-
-                                    //pb.Value = percentage;
-                                });
-
-                            };
+                            
                             webClient.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
 
 
