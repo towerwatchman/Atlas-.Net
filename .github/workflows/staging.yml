@@ -1,13 +1,13 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: Altas Stable
+name: Altas Nightly
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "staging" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "staging" ]
 
 jobs:
   build:
