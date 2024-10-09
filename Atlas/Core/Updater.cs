@@ -52,12 +52,12 @@ namespace Atlas.Core
             }
             //Check GH releases for updates and download if found
             string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
-            AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", "");
+            AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             //Check if AppVersion has more numebrs
-            if(AppVersion.Length == 4)
+            if(AppVersion.Length > 5)
             {
-                AppVersion = AppVersion.Remove(AppVersion.Length - 1); 
+                AppVersion = AppVersion.Remove(AppVersion.Length - 2); 
             }
 
             //Request data from Github
@@ -66,10 +66,10 @@ namespace Atlas.Core
             {
                 try
                 {
-                    if (Convert.ToInt32(AppVersion) < Convert.ToInt32(data[0].Replace(".","")))
+                    if (Convert.ToInt32(AppVersion.Replace(".", "")) < Convert.ToInt32(data[0].Replace(".","")))
                     {
-                        string message = "Update available. Would you like to run the update now?";
-                        string caption = $"Atlas Update Version {data[2]}";
+                        string message = $"Update available. Would you like to run the update now?\nUpgrade from v{AppVersion} -> {data[2].Split('-')[0]}";
+                        string caption = $"Atlas Update";
                         MessageBoxButton buttons = MessageBoxButton.YesNo;
 
                         // Displays the MessageBox.
@@ -88,7 +88,7 @@ namespace Atlas.Core
                                 //Check if file directory exist and run powershell
                                 if(Directory.Exists(Path.Combine(UpdateDir, $"{data[2]}")))
                                 {
-                                    string FullUpdateDir = Path.Combine(UpdateDir, "net8.0-windows/win-x64");
+                                    string FullUpdateDir = Path.Combine(UpdateDir, data[2], "net8.0-windows\\win-x64");
                                     CopyUpdateFiles(FullUpdateDir, AtlasDir, AtlasExe);
                                 }
                             }
@@ -139,12 +139,12 @@ namespace Atlas.Core
             var startInfo = new ProcessStartInfo()
             {
                 FileName = "powershell.exe",
-                Arguments = $"-noexit Copy-item \"{UpdateDir}\" -Destination \"{ AtlasDir }\" -Recurse -force ; start {AtlasExe}",
+                Arguments = $"-noexit Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{ AtlasDir }\" -Recurse -force ; start {AtlasExe} ; PAUSE",
                 UseShellExecute = false,
                 CreateNoWindow = false,                
             };
             Process.Start(startInfo);
-            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
     }
 }
