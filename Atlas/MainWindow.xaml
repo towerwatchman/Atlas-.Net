@@ -279,7 +279,7 @@
         <!--#endregion-->
 
         <!--#region Record View-->
-        <Grid
+        <Grid x:Name="RecordView"
             Background="{DynamicResource Canvas}"
             Grid.Column="2"
             Grid.Row="2">

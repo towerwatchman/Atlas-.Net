@@ -1,6 +1,7 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
 using Atlas.UI.Importer;
+using Castle.Core.Resource;
 using NLog;
 using SharpVectors.Dom.Css;
 using System;
@@ -22,6 +23,8 @@ namespace Atlas
         public MainWindow()
         {
             InitializeComponent();
+
+            //Custom Event manager for pressing one of the Navigation buttons on the left side
             EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
 
             this.BannerView.ItemsSource = GameList;
@@ -35,9 +38,9 @@ namespace Atlas
         #region Banner Left Click
         private void BannerView_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (this.BannerView.ItemsSource != null && this.BannerView.Items.Count >0)
+            if (this.BannerView.ItemsSource != null && this.BannerView.Items.Count > 0)
             {
-                
+
                 Game game = BannerView.SelectedItem as Game;
                 if (game != null)
                 {
@@ -46,7 +49,7 @@ namespace Atlas
                     miPlay.Items.Clear();
 
                     List<MenuItem> menuitems = new List<MenuItem>();
-                    foreach(GameVersion version in game.Versions)
+                    foreach (GameVersion version in game.Versions)
                     {
                         MenuItem menuItem = new MenuItem();
                         menuItem.Tag = version.ExePath;
@@ -141,13 +144,48 @@ namespace Atlas
             {
                 BatchImporter batchImporter = new BatchImporter();
                 //Set event handler to start parsing games once 
-                batchImporter.btn_import.Click += Btn_Import_Click;
+                batchImporter.StartImport += BatchImporter_StartImport; ;
+
                 batchImporter.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 batchImporter.Show();
             }
+            if (Item.Name.ToString() == "ShowList")
+            {
+                if (GameListBox.Visibility == Visibility.Visible)
+                {
+                    //Hide the list view
+                    GameListBox.Visibility = Visibility.Hidden;
+                    //Change the icon to a grid
+                    ShowList.Content = FindResource("grid_icon");
+                    //Clear the current column definitions
+                    RecordView.ColumnDefinitions.Clear();
+                    //Reset the Column Definitions
+                    var c1 = new ColumnDefinition();
+                    c1.Width = new GridLength(1, GridUnitType.Star);
+                    RecordView.ColumnDefinitions.Add(c1);
+                }
+                else
+                {
+                    //Show the list view
+                    GameListBox.Visibility = Visibility.Visible;
+                    //Change icon to list
+                    ShowList.Content = FindResource("list_icon");
+                    //Clear the current column definitions
+                    RecordView.ColumnDefinitions.Clear();
+                    //Reset the Column Definitions
+                    var c1 = new ColumnDefinition();
+                    var c2 = new ColumnDefinition();
+                    c1.Width = new GridLength(200, GridUnitType.Pixel);
+                    c2.Width = new GridLength (1, GridUnitType.Star);
+                    RecordView.ColumnDefinitions.Add(c1);
+                    RecordView.ColumnDefinitions.Add(c2);
+                }
+
+
+            }
         }
 
-        private void Btn_Import_Click(object sender, RoutedEventArgs e)
+        private void BatchImporter_StartImport(object sender, EventArgs e)
         {
             //This will take each game detail that was imported and change it into an actual game.
             //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
@@ -201,13 +239,13 @@ namespace Atlas
                 {
                     Logging.Logger.Info(GameDetail.Title);
                 }
-                
+
                 BannerView.Items.Refresh();
                 GameListBox.Items.Refresh();
             }
 
             //sort items in lists
-            GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title",System.ComponentModel.ListSortDirection.Ascending));
+            GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
 
         }
 
