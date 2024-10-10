@@ -8,6 +8,7 @@ namespace Atlas.Core
     }
     public interface SettingInterface
     {
+        #region PATHS
         [Option(Alias = "paths.EnginesPath")]
         string EnginesPath { get; set; }
         [Option(Alias = "paths.RootPath")]
@@ -20,9 +21,19 @@ namespace Atlas.Core
         string GamesPath { get; set; }
         [Option(Alias = "paths.ThemesPath")]
         string ThemesPath { get; set; }
+        #endregion
 
+        #region APP
         [Option(Alias = "app.Theme")]
         string Theme { get; set; }
+        [Option(Alias = "app.ShowListView")]
+        bool ShowListView { get; set; }
+        #endregion
+
+        #region IMPORTER
+        [Option(Alias = "Importer.FolderStructure")]
+        string FolderStructure { get; set; }
+        #endregion
 
     }
 }

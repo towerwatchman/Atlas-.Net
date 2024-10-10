@@ -28,6 +28,12 @@ namespace Atlas
             //Custom Event manager for pressing one of the Navigation buttons on the left side
             EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
 
+            //Check if we need to show the listview
+            if (Atlas.Core.Settings.Config.ShowListView == false)
+            {
+                HideListView();
+            }
+
             this.BannerView.ItemsSource = GameList;
             this.GameListBox.ItemsSource = GameList;
 
@@ -157,37 +163,48 @@ namespace Atlas
             {
                 if (GameListBox.Visibility == Visibility.Visible)
                 {
-                    //Hide the list view
-                    GameListBox.Visibility = Visibility.Hidden;
-                    //Change the icon to a grid
-                    ShowList.Content = FindResource("grid_icon");
-                    //Clear the current column definitions
-                    RecordView.ColumnDefinitions.Clear();
-                    //Reset the Column Definitions
-                    var c1 = new ColumnDefinition();
-                    c1.Width = new GridLength(1, GridUnitType.Star);
-                    RecordView.ColumnDefinitions.Add(c1);
+                    HideListView();
+                    Atlas.Core.Settings.Config.ShowListView = false;
                 }
                 else
                 {
-                    //Show the list view
-                    GameListBox.Visibility = Visibility.Visible;
-                    //Change icon to list
-                    ShowList.Content = FindResource("list_icon");
-                    //Clear the current column definitions
-                    RecordView.ColumnDefinitions.Clear();
-                    //Reset the Column Definitions
-                    var c1 = new ColumnDefinition();
-                    var c2 = new ColumnDefinition();
-                    c1.Width = new GridLength(200, GridUnitType.Pixel);
-                    c2.Width = new GridLength (1, GridUnitType.Star);
-                    RecordView.ColumnDefinitions.Add(c1);
-                    RecordView.ColumnDefinitions.Add(c2);
+                   ShowListView();
+                    Atlas.Core.Settings.Config.ShowListView = true;
                 }
-
-
             }
         }
+
+        #region Game ListView Visibility
+        private void ShowListView()
+        {
+            //Show the list view
+            GameListBox.Visibility = Visibility.Visible;
+            //Change icon to list
+            ShowList.Content = FindResource("list_icon");
+            //Clear the current column definitions
+            RecordView.ColumnDefinitions.Clear();
+            //Reset the Column Definitions
+            var c1 = new ColumnDefinition();
+            var c2 = new ColumnDefinition();
+            c1.Width = new GridLength(200, GridUnitType.Pixel);
+            c2.Width = new GridLength(1, GridUnitType.Star);
+            RecordView.ColumnDefinitions.Add(c1);
+            RecordView.ColumnDefinitions.Add(c2);
+        }
+        private void HideListView()
+        {
+            //Hide the list view
+            GameListBox.Visibility = Visibility.Hidden;
+            //Change the icon to a grid
+            ShowList.Content = FindResource("grid_icon");
+            //Clear the current column definitions
+            RecordView.ColumnDefinitions.Clear();
+            //Reset the Column Definitions
+            var c1 = new ColumnDefinition();
+            c1.Width = new GridLength(1, GridUnitType.Star);
+            RecordView.ColumnDefinitions.Add(c1);
+        }
+        #endregion
 
         private void BatchImporter_Closed(object sender, EventArgs e)
         {
