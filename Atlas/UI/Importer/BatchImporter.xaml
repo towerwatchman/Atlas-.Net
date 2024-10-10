@@ -40,7 +40,7 @@
                                     <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
                                         <Label DockPanel.Dock="Left" Content="Root Path:" HorizontalAlignment="Left" Style="{DynamicResource DefaultLabelStyle}"/>
                                         <Button x:Name="btn_OpenFolder" DockPanel.Dock="Right" Content="Set Folder" Style="{StaticResource DefaultButtonStyle}" Click="btn_OpenFolder_Click"/>
-                                        <TextBox x:Name="tb_FolderDialog" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" Style="{StaticResource DefaultTextStyle}" />
+                                        <TextBox x:Name="tb_FolderDialog" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" Style="{StaticResource DefaultTextStyle}" TextChanged="tb_FolderDialog_TextChanged"/>
                                     </DockPanel>
                                     <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
                                         <Label DockPanel.Dock="Left" Content="Folder Structure:" HorizontalAlignment="Left" Style="{DynamicResource DefaultLabelStyle}"/>

@@ -1,8 +1,10 @@
 ﻿using Atlas.Core;
 using Microsoft.Win32;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Atlas.UI.Importer
 {
@@ -29,9 +31,15 @@ namespace Atlas.UI.Importer
         public BatchImporter()
         {
             InitializeComponent();
-            //assign progress bar so game scanner can use it
+            //Assign UI elements to InterfaceHelper
             InterfaceHelper.GameScannerProgressBar = pbGameScanner;
             InterfaceHelper.PotentialGamesTextBox = tbPotentialGames;
+
+            //Disable Import,Next Button & progressbar
+            btn_next.IsEnabled = false;
+            btn_import.IsEnabled = false;
+            pbGameScanner.Visibility = Visibility.Hidden;
+
 
             tb_format.Text = Settings.Config.FolderStructure;
         }
@@ -95,6 +103,12 @@ namespace Atlas.UI.Importer
         private void cb_format_Click(object sender, RoutedEventArgs e)
         {
             tb_format.IsEnabled = !(bool)cb_format.IsChecked;
+        }
+
+        private void tb_FolderDialog_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //Check if the current text in the Root Path is a valid folder
+            btn_next.IsEnabled = Directory.Exists(tb_FolderDialog.Text);
         }
     }
 }
