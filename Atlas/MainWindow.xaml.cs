@@ -27,16 +27,21 @@ namespace Atlas
             this.BannerView.ItemsSource = GameList;
             this.GameListBox.ItemsSource = GameList;
 
+            //Hide context menu
+            cmGame.Visibility = Visibility.Hidden;
             BannerView.MouseUp += BannerView_MouseUp;
         }
 
+        #region Banner Left Click
         private void BannerView_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (this.BannerView.ItemsSource != null)
+            if (this.BannerView.ItemsSource != null && this.BannerView.Items.Count >0)
             {
+                
                 Game game = BannerView.SelectedItem as Game;
                 if (game != null)
                 {
+                    cmGame.Visibility = Visibility.Visible;
                     miPlay.ItemsSource = null;
                     miPlay.Items.Clear();
 
@@ -53,10 +58,16 @@ namespace Atlas
                 }
             }
         }
+        #endregion
 
+        #region Banner Play Version Click
+        //The launcher needs to move to a seperate class. 
+        //We need to track time spent in game and game status
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MenuItem obMenuItem = e.OriginalSource as MenuItem;
+
+            //
             LaunchExeProcess(obMenuItem.Tag.ToString());
         }
 
@@ -77,7 +88,9 @@ namespace Atlas
                 proc.Start();
             });
         }
+        #endregion
 
+        #region Windwow Buttons
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
@@ -101,6 +114,24 @@ namespace Atlas
         {
             System.Windows.Application.Current.Shutdown();
         }
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            /*
+            double bannerX = (double)Application.Current.Resources["bannerX"];
+            double bannerViewWidth = BannerView.ActualWidth;
+            double rows = bannerViewWidth / bannerX;
+            Console.WriteLine($"{bannerX} {bannerViewWidth} {rows}");
+
+            Application.Current.Resources["Rows"] = (int)rows;
+            Console.WriteLine(Application.Current.Resources["Rows"]);*/
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+        #endregion
 
         private void OnListBoxNavButtonUp(object sender, RoutedEventArgs e)
         {
@@ -180,6 +211,8 @@ namespace Atlas
 
         }
 
+
+        //This needs to move to its own class. We need an image handler class
         private BitmapImage LoadImage(string path)
         {
             var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
@@ -200,24 +233,6 @@ namespace Atlas
                     return image;
                 }
             }
-        }
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            /*
-            double bannerX = (double)Application.Current.Resources["bannerX"];
-            double bannerViewWidth = BannerView.ActualWidth;
-            double rows = bannerViewWidth / bannerX;
-            Console.WriteLine($"{bannerX} {bannerViewWidth} {rows}");
-
-            Application.Current.Resources["Rows"] = (int)rows;
-            Console.WriteLine(Application.Current.Resources["Rows"]);*/
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
         }
     }
 }

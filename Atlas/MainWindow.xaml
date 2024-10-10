@@ -259,13 +259,21 @@
                     IsSelected="True"/>
                 <ListBoxItem
                     x:Name="Import"
-                    Content="{DynamicResource import_icon}"
+                    Content="{DynamicResource add_icon}"
                     IsSelected="False"/>
                 <ListBoxItem
+                    x:Name="ShowList"
+                    Content="{DynamicResource list_icon}"
+                    IsSelected="False"/>
+                <ListBoxItem
+                    x:Name="Refresh"
+                    Content="{DynamicResource refresh_icon}"
+                    IsSelected="False"/>           
+            <ListBoxItem
                     x:Name="Settings"
                     Content="{DynamicResource settings_icon}"
                     IsSelected="False"/>
-            </ListBox>
+             </ListBox>
 
         </Grid>
         <!--#endregion-->
