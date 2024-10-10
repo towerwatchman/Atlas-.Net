@@ -17,6 +17,9 @@ namespace Atlas
         public Splash()
         {
             InitializeComponent();
+
+            //Check if program is already open
+            if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
             //Discard await warning
             _ = Init();
         }
