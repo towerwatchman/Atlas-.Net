@@ -50,7 +50,7 @@ namespace Atlas.UI.Importer
                     GameScanner.Start(folder);
                 });
 
-                //GameList.Items.Refresh();
+
                 //Hide Next Button
                 btn_next.Width = 0;
                 btn_next.Visibility = Visibility.Hidden;

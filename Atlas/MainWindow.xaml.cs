@@ -1,5 +1,8 @@
 ﻿using Atlas.Core;
+using Atlas.Core.Database;
 using Atlas.UI.Importer;
+using NLog;
+using SharpVectors.Dom.Css;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -121,42 +124,51 @@ namespace Atlas
             foreach (var GameDetail in GameScanner.GameDetailList)
             {
                 //We need to insert in to database first then get the id of the new item
-                int recordID = 0;
-                bool GameExist = GameList.Any(x=> GameDetail.Creator == x.Creator && GameDetail.Title == x.Title);
-                if (GameExist)
+                string recordID = Database.AddGame(GameDetail);
+                if (recordID != string.Empty)
                 {
-                    GameList.First(
-                        item => item.Title == GameDetail.Title && item.Creator == GameDetail.Creator
-                        ).Versions.Add(new GameVersion
+                    Database.AddVersion(GameDetail, Convert.ToInt32(recordID));
+                    bool GameExist = GameList.Any(x => GameDetail.Creator == x.Creator && GameDetail.Title == x.Title);
+                    if (GameExist)
                     {
-                        Version = GameDetail.Version,
-                        DateAdded = DateTime.Now,
-                        ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
-                        GamePath = GameDetail.Folder,
-                        RecordId = recordID
-                    });
-                        
+                        GameList.First(
+                            item => item.Title == GameDetail.Title && item.Creator == GameDetail.Creator
+                            ).Versions.Add(new GameVersion
+                            {
+                                Version = GameDetail.Version,
+                                DateAdded = DateTime.Now,
+                                ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
+                                GamePath = GameDetail.Folder,
+                                RecordId = Convert.ToInt32(recordID)
+                            });
+
+                    }
+                    else
+                    {
+                        List<GameVersion> gameVersions = new List<GameVersion>();
+                        gameVersions.Add(new GameVersion
+                        {
+                            Version = GameDetail.Version,
+                            DateAdded = DateTime.Now,
+                            ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
+                            GamePath = GameDetail.Folder,
+                            RecordId = Convert.ToInt32(recordID)
+                        });
+
+                        GameList.Add(new Game
+                        {
+                            Creator = GameDetail.Creator,
+                            Title = GameDetail.Title,
+                            Versions = gameVersions,
+                            Engine = GameDetail.Engine,
+                            Status = "",
+                            ImageData = LoadImage("")
+                        });
+                    }
                 }
                 else
                 {
-                    List<GameVersion> gameVersions = new List<GameVersion>();
-                    gameVersions.Add(new GameVersion
-                    {
-                        Version = GameDetail.Version,
-                        DateAdded = DateTime.Now,
-                        ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
-                        GamePath = GameDetail.Folder,
-                        RecordId = recordID
-                    });
-
-                    GameList.Add(new Game { 
-                        Creator = GameDetail.Creator, 
-                        Title = GameDetail.Title, 
-                        Versions = gameVersions, 
-                        Engine = GameDetail.Engine, 
-                        Status = "", 
-                        ImageData = LoadImage("") 
-                    });
+                    Logging.Logger.Info(GameDetail.Title);
                 }
                 
                 BannerView.Items.Refresh();
