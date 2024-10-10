@@ -398,9 +398,9 @@
                     </Style>
                 </ListView.Resources>
                 <ListView.ContextMenu>
-                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                        <MenuItem Header="Play">
-                            <MenuItem Header="Versions"/>
+                    <ContextMenu x:Name="cmGame" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                        <MenuItem x:Name="miPlay" Header="Play">
+                            <MenuItem x:Name="miVersions" Header="Versions"/>
                         </MenuItem>
                         <MenuItem Header="Add to favorites"/>
                         <MenuItem Header="Manage">

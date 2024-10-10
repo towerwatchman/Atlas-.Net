@@ -1,5 +1,6 @@
 ﻿using Atlas.Core;
 using Atlas.UI.Importer;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,20 +22,54 @@ namespace Atlas
             this.BannerView.ItemsSource = GameList;
             this.GameListBox.ItemsSource = GameList;
 
-            //BannerView.MouseUp += BannerView_MouseUp;
+            BannerView.MouseUp += BannerView_MouseUp;
         }
 
-        /*private void BannerView_MouseUp(object sender, MouseButtonEventArgs e)
+        private void BannerView_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (this.BannerView.ItemsSource != null)
             {
-                Game? game = BannerView.SelectedItem as Game;
+                Game game = BannerView.SelectedItem as Game;
                 if (game != null)
                 {
-                    MessageBox.Show(game.Title);
+                    miPlay.Items.Clear();
+
+                    foreach(GameVersion version in game.Versions)
+                    {
+                        MenuItem menuItem = new MenuItem();
+                        menuItem.Tag = version.ExePath;
+                        menuItem.Header = version.Version;
+                        menuItem.Click += MenuItem_Click;
+                        miPlay.Items.Add(menuItem);
+                    }
+                    //MessageBox.Show(game.Title);
                 }
             }
-        }*/
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem obMenuItem = e.OriginalSource as MenuItem;
+            LaunchExeProcess(obMenuItem.Tag.ToString());
+        }
+
+        //Move to another class
+        private async void LaunchExeProcess(string executable)
+        {
+            await Task.Run(() =>
+            {
+                Process proc = new Process();
+                proc.EnableRaisingEvents = true;
+                proc.StartInfo.UseShellExecute = true;
+
+                //proc.Exited += EclipseInstanceClosed;
+                //proc.Disposed += EclipseInstanceDisposed;
+
+                proc.StartInfo.FileName = executable;
+
+                proc.Start();
+            });
+        }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
