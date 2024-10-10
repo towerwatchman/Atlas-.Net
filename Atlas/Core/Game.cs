@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 
 namespace Atlas.Core
 {
     public class Game
     {
         public required string Title { get; set; }
-        public required string Version { get; set; }
-        public required string Engine { get; set; }
         public required string Creator { get; set; }
+        public required string Engine { get; set; }
+        public required List<GameVersion> Versions  { get; set; }
         public required string Status { get; set; }
         public required BitmapImage ImageData { get; set; }
     }
@@ -30,9 +25,9 @@ namespace Atlas.Core
         private string _Text;
         public string Text
         {
-            get 
+            get
             {
-                if(Executable.Count > 0)
+                if (Executable.Count > 0)
                 {
                     _Text = Executable[0];
                 }

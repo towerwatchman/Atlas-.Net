@@ -37,7 +37,8 @@
                 Height="50"
                 Width="50"
                 Stretch="Uniform"
-                Source="{DynamicResource atlas_logo_s}"/>
+                Source="{DynamicResource atlas_logo_s}"
+                RenderOptions.BitmapScalingMode="HighQuality"/>
         </Grid>
         <!--#endregion-->
 
@@ -56,7 +57,7 @@
             <!--#region Header-->
             <!-- Left Corner-->
             <Polygon
-                Fill="{DynamicResource Accent}"
+                Fill="{DynamicResource AccentBar}"
                 HorizontalAlignment="Left"
                 Margin="40,0,100,0"
                 Stretch="Uniform"
@@ -72,14 +73,14 @@
 
             <!-- Center -->
             <Rectangle
-                Fill="{DynamicResource Accent}"
+                Fill="{DynamicResource AccentBar}"
                 Margin="50,0,110,0"/>
 
             <!-- Right Corner-->
             <Polygon
 
                 
-    Fill="{DynamicResource Accent}"
+    Fill="{DynamicResource AccentBar}"
     HorizontalAlignment="Right"
     Margin="40,0,100,0"
     Stretch="Uniform"
@@ -258,19 +259,27 @@
                     IsSelected="True"/>
                 <ListBoxItem
                     x:Name="Import"
-                    Content="{DynamicResource import_icon}"
+                    Content="{DynamicResource add_icon}"
                     IsSelected="False"/>
                 <ListBoxItem
+                    x:Name="ShowList"
+                    Content="{DynamicResource list_icon}"
+                    IsSelected="False"/>
+                <ListBoxItem
+                    x:Name="Refresh"
+                    Content="{DynamicResource refresh_icon}"
+                    IsSelected="False"/>           
+            <ListBoxItem
                     x:Name="Settings"
                     Content="{DynamicResource settings_icon}"
                     IsSelected="False"/>
-            </ListBox>
+             </ListBox>
 
         </Grid>
         <!--#endregion-->
 
         <!--#region Record View-->
-        <Grid
+        <Grid x:Name="RecordView"
             Background="{DynamicResource Canvas}"
             Grid.Column="2"
             Grid.Row="2">
@@ -397,9 +406,9 @@
                     </Style>
                 </ListView.Resources>
                 <ListView.ContextMenu>
-                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                        <MenuItem Header="Play">
-                            <MenuItem Header="Versions"/>
+                    <ContextMenu x:Name="cmGame" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                        <MenuItem x:Name="miPlay" Header="Play">
+                            <MenuItem x:Name="miVersions" Header="Versions"/>
                         </MenuItem>
                         <MenuItem Header="Add to favorites"/>
                         <MenuItem Header="Manage">

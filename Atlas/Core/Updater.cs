@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json.Nodes;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Data;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Reflection;
-using System.Windows;
+﻿using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Diagnostics;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
+using System.Windows;
+
 
 namespace Atlas.Core
 {
@@ -34,7 +25,7 @@ namespace Atlas.Core
             AtlasExe = Path.Combine(Directory.GetCurrentDirectory(), "Atlas.exe");
 
             //Before we do anything, make sure the temp folder is created
-            /*if (!Directory.Exists(UpdateDir))
+            if (!Directory.Exists(UpdateDir))
             {
                 Directory.CreateDirectory(UpdateDir);
             }
@@ -49,15 +40,15 @@ namespace Atlas.Core
                 {
                     dir.Delete(true);
                 }
-            }*/
+            }
             //Check GH releases for updates and download if found
             string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
-            AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            AppVersion = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
             //Check if AppVersion has more numebrs
-            if(AppVersion.Length > 5)
+            if (AppVersion.Length > 5)
             {
-                AppVersion = AppVersion.Remove(AppVersion.Length - 2); 
+                AppVersion = AppVersion.Remove(AppVersion.Length - 2);
             }
 
             //Request data from Github
@@ -66,7 +57,7 @@ namespace Atlas.Core
             {
                 try
                 {
-                    if (Convert.ToInt32(AppVersion.Replace(".", "")) < Convert.ToInt32(data[0].Replace(".","")))
+                    if (Convert.ToInt32(AppVersion.Replace(".", "")) < Convert.ToInt32(data[0].Replace(".", "")))
                     {
                         string message = $"Update available. Would you like to run the update now?\nUpgrade from v{AppVersion} -> {data[2].Split('-')[0]}";
                         string caption = $"Atlas Update";
@@ -76,21 +67,27 @@ namespace Atlas.Core
                         var result = MessageBox.Show(message, caption, buttons);
                         if (result == MessageBoxResult.Yes)
                         {
-                            using (var client = new WebClient())
+
+                            using (WebClient webClient = new WebClient())
                             {
-                                client.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
+
+                                webClient.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
                             }
 
+
                             //Check if file downloaded correctly
-                            if(File.Exists(Path.Combine(UpdateDir, $"{data[2]}.zip")))
+                            if (File.Exists(Path.Combine(UpdateDir, $"{data[2]}.zip")))
                             {
                                 try
                                 {
                                     ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), Path.Combine(UpdateDir, $"{data[2]}"));
                                 }
-                                catch { }
+                                catch (Exception ex)
+                                {
+                                    Logging.Logger.Error(ex);
+                                }
                                 //Check if file directory exist and run powershell
-                                if(Directory.Exists(Path.Combine(UpdateDir, $"{data[2]}")))
+                                if (Directory.Exists(Path.Combine(UpdateDir, $"{data[2]}")))
                                 {
                                     string FullUpdateDir = Path.Combine(UpdateDir, data[2]);
                                     CopyUpdateFiles(FullUpdateDir, AtlasDir, AtlasExe);
@@ -99,8 +96,10 @@ namespace Atlas.Core
                         }
                     }
                 }
-                catch
-                { //Dont do anything };
+                catch (Exception ex)
+                {
+                    MessageBox.Show("There was an error retieveing the update");
+                    Logging.Logger.Error(ex);
                 }
             }
         }
@@ -109,7 +108,7 @@ namespace Atlas.Core
             string response = string.Empty;
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
-            client.DefaultRequestHeaders.Add("Accept" , "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
+            client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
             try
             {
                 HttpResponseMessage rspmsg = client.GetAsync(url).Result;
@@ -119,19 +118,18 @@ namespace Atlas.Core
 
                 if (response != string.Empty)
                 {
-                    JArray? json = null;
-
                     //stock
                     JArray jsonArray = JArray.Parse(response);
-                    string fullVersion = jsonArray[0]["name"].ToString();
-                    string version = jsonArray[0]["name"].ToString().Replace("v", "").Split('-')[0];
-                    string download_url = jsonArray[0]["assets"][0]["browser_download_url"].ToString();
+                    string fullVersion = jsonArray[0]["name"]!.ToString();
+                    string version = jsonArray[0]["name"]!.ToString().Replace("v", "").Split('-')[0];
+                    string download_url = jsonArray[0]["assets"][0]["browser_download_url"]!.ToString();
 
-                    return new[] { version, download_url, fullVersion }; 
+                    return new[] { version, download_url, fullVersion };
                 }
             }
             catch (Exception ex)
             {
+                Logging.Logger.Error(ex);
                 return [];
             }
             return [];
@@ -143,9 +141,9 @@ namespace Atlas.Core
             var startInfo = new ProcessStartInfo()
             {
                 FileName = "powershell.exe",
-                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{ AtlasDir }\" -Recurse -force ; start {AtlasExe} ",
+                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force ; start {AtlasExe} ",
                 UseShellExecute = false,
-                CreateNoWindow = true,                
+                CreateNoWindow = true,
             };
             Process.Start(startInfo);
             Environment.Exit(0);
@@ -154,4 +152,4 @@ namespace Atlas.Core
 }
 
 
-    
+

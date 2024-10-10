@@ -15,13 +15,13 @@
     Highlight: Text Hover Effect color
     -->
     <SolidColorBrush x:Key="Canvas" Color="#000000"/>
-    <SolidColorBrush x:Key="Primary" Color="#19191c"/>
-    <SolidColorBrush x:Key="Secondary" Color="#242629"/>
-    <SolidColorBrush x:Key="Tertiary" Color="#313338"/>
-    <SolidColorBrush x:Key="Accent" Color="#FF2C8EA9"/>
-    <SolidColorBrush x:Key="AccentBar" Color="#242629"/>
+    <SolidColorBrush x:Key="Primary" Color="#181a1b"/>
+    <SolidColorBrush x:Key="Secondary" Color="#2d2f31"/>
+    <SolidColorBrush x:Key="Tertiary" Color="#181a1b"/>
+    <SolidColorBrush x:Key="Accent" Color="#00649d"/>
+    <SolidColorBrush x:Key="AccentBar" Color="#00649d"/>
     <SolidColorBrush x:Key="AtlasLogo" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="Border" Color="#51535A"/>
+    <SolidColorBrush x:Key="Border" Color="#00649d"/>
     <SolidColorBrush x:Key="Selected" Color="#404249"/>
     <SolidColorBrush x:Key="Text" Color="#d2d2d2"/>
     <SolidColorBrush x:Key="Highlight" Color="#FFFFFF"/>

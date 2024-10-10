@@ -1,28 +1,31 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Atlas.Core;
+using Microsoft.Win32;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Atlas.Core;
-using System.Collections.ObjectModel;
 
 namespace Atlas.UI.Importer
 {
     /// <summary>
     /// Interaction logic for BatchImporter.xaml
     /// </summary>
+
+    public delegate void StartImportEventHandler(object sender, EventArgs e);
+
     public partial class BatchImporter : Window
     {
+        #region Event Handler for Sending Import Command to MainWindow
+        public event StartImportEventHandler StartImport;
+
+        public void EmitImportSignal()
+        {
+            if(StartImport != null)
+            {
+                StartImport(this, EventArgs.Empty);
+            }
+        }
+        #endregion
+
         public BatchImporter()
         {
             InitializeComponent();
@@ -63,7 +66,7 @@ namespace Atlas.UI.Importer
                     GameScanner.Start(folder);
                 });
 
-                //GameList.Items.Refresh();
+
                 //Hide Next Button
                 btn_next.Width = 0;
                 btn_next.Visibility = Visibility.Hidden;
@@ -76,6 +79,9 @@ namespace Atlas.UI.Importer
 
         private void Btn_Import_Click(object sender, RoutedEventArgs e)
         {
+            //Before we can start the import we need to verify a few details
+            //Check that the Creator column is valid
+            EmitImportSignal();
             this.Close();
         }
     }
