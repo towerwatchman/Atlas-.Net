@@ -6,5 +6,8 @@ namespace Atlas.UI
     {
         public static ListBox Listbox { get; set; }
         public static DataGrid Datagrid { get; set; }
+        public static ProgressBar GameScannerProgressBar { get; set; }
+
+        public static TextBox PotentialGamesTextBox { get; set; }
     }
 }

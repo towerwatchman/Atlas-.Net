@@ -18,10 +18,12 @@
                     Height="60"
                     Background="{DynamicResource Primary}" 
                     VerticalAlignment="Stretch">
+                    <ProgressBar x:Name="pbGameScanner" HorizontalAlignment="Left" Width="400" Height="20" Margin="50,0,0,0" Visibility="Visible"/>
+                    <TextBox x:Name="tbPotentialGames" HorizontalAlignment="Center" Text="" VerticalAlignment="Center" Style="{StaticResource DefaultTextStyle}" BorderBrush="Transparent" Background="Transparent"/>
                     <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
-                        <Button x:Name="btn_next" Content="Next" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_next_Click"/>
-                        <Button x:Name="btn_cancel" Content="Cancel" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_cancel_Click"/>
                         <Button x:Name="btn_import" Content="Import" Margin="4" Style="{StaticResource DefaultButtonStyle}" Visibility="Hidden" Width="0" Click="Btn_Import_Click"/>
+                        <Button x:Name="btn_next" Content="Next" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_next_Click"/>
+                        <Button x:Name="btn_cancel" Content="Cancel" Margin="4" Style="{StaticResource DefaultButtonStyle}" Click="btn_cancel_Click"/>                        
                     </DockPanel>
                 </Grid>
 
@@ -32,7 +34,7 @@
                     VerticalAlignment="Stretch"
                     Background="{DynamicResource Tertiary}">
                     <TabControl x:Name="tbc_Import" VerticalAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0">
-                        <TabItem Header="Start" x:Name="tc_start" Visibility="Collapsed">
+                        <TabItem Header="Start" x:Name="tc_start" Visibility="Visible">
                             <Grid Background="{DynamicResource Tertiary}">
                                 <StackPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
@@ -42,7 +44,7 @@
                                     </DockPanel>
                                     <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
                                         <Label DockPanel.Dock="Left" Content="Folder Structure:" HorizontalAlignment="Left" Style="{DynamicResource DefaultLabelStyle}"/>
-                                        <CheckBox x:Name="cb_format" DockPanel.Dock="Right" Content="Unstructured Format" Style="{StaticResource DefaultCheckBoxStyle}"/>
+                                        <CheckBox x:Name="cb_format" DockPanel.Dock="Right" Content="Unstructured Format" Style="{StaticResource DefaultCheckBoxStyle}" Click="cb_format_Click"/>
                                         <TextBox x:Name="tb_format" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" Style="{StaticResource DefaultTextStyle}" />
                                     </DockPanel>
                                     <DockPanel Height="200" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
@@ -56,7 +58,7 @@
                                 </StackPanel>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" Visibility="Collapsed">
+                        <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" Visibility="Visible">
                             <Grid Background="{DynamicResource Tertiary}">
                                 <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False">
                                     <DataGrid.Columns>

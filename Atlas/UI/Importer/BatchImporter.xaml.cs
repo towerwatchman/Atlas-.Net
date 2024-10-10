@@ -29,6 +29,11 @@ namespace Atlas.UI.Importer
         public BatchImporter()
         {
             InitializeComponent();
+            //assign progress bar so game scanner can use it
+            InterfaceHelper.GameScannerProgressBar = pbGameScanner;
+            InterfaceHelper.PotentialGamesTextBox = tbPotentialGames;
+
+            tb_format.Text = Settings.Config.FolderStructure;
         }
 
         private void btn_OpenFolder_Click(object sender, RoutedEventArgs e)
@@ -61,9 +66,11 @@ namespace Atlas.UI.Importer
 
                 string folder = tb_FolderDialog.Text;
 
-                Task.Run(() =>
+                string format = (bool)cb_format.IsChecked == true ? "" : tb_format.Text;
+
+                Task.Factory.StartNew(() =>
                 {
-                    GameScanner.Start(folder);
+                    GameScanner.Start(folder, format);
                 });
 
 
@@ -83,6 +90,11 @@ namespace Atlas.UI.Importer
             //Check that the Creator column is valid
             EmitImportSignal();
             this.Close();
+        }
+
+        private void cb_format_Click(object sender, RoutedEventArgs e)
+        {
+            tb_format.IsEnabled = !(bool)cb_format.IsChecked;
         }
     }
 }
