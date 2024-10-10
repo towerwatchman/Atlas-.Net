@@ -19,6 +19,7 @@ namespace Atlas
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool isBatchImporterOpen = false;
         private List<Game> GameList = new List<Game>();
         public MainWindow()
         {
@@ -140,15 +141,18 @@ namespace Atlas
         {
             var Item = (ListBoxItem)sender;
             Console.WriteLine(Item.Name);
-            if (Item.Name.ToString() == "Import")
+            if (Item.Name.ToString() == "Import" && isBatchImporterOpen == false)
             {
+                isBatchImporterOpen = true;
                 BatchImporter batchImporter = new BatchImporter();
                 //Set event handler to start parsing games once 
                 batchImporter.StartImport += BatchImporter_StartImport; ;
+                batchImporter.Closed += BatchImporter_Closed;
 
                 batchImporter.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 batchImporter.Show();
             }
+
             if (Item.Name.ToString() == "ShowList")
             {
                 if (GameListBox.Visibility == Visibility.Visible)
@@ -185,8 +189,14 @@ namespace Atlas
             }
         }
 
+        private void BatchImporter_Closed(object sender, EventArgs e)
+        {
+            isBatchImporterOpen = false;
+        }
+
         private void BatchImporter_StartImport(object sender, EventArgs e)
         {
+            isBatchImporterOpen = false;
             //This will take each game detail that was imported and change it into an actual game.
             //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
             //after adding to database we can import to the BannerView
