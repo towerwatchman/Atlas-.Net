@@ -1,5 +1,7 @@
 ﻿using Atlas.Core;
 using Atlas.UI.Importer;
+using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,17 +34,19 @@ namespace Atlas
                 Game game = BannerView.SelectedItem as Game;
                 if (game != null)
                 {
+                    miPlay.ItemsSource = null;
                     miPlay.Items.Clear();
 
+                    List<MenuItem> menuitems = new List<MenuItem>();
                     foreach(GameVersion version in game.Versions)
                     {
                         MenuItem menuItem = new MenuItem();
                         menuItem.Tag = version.ExePath;
                         menuItem.Header = version.Version;
                         menuItem.Click += MenuItem_Click;
-                        miPlay.Items.Add(menuItem);
+                        menuitems.Add(menuItem);
                     }
-                    //MessageBox.Show(game.Title);
+                    miPlay.ItemsSource = menuitems;
                 }
             }
         }
@@ -121,7 +125,17 @@ namespace Atlas
                 bool GameExist = GameList.Any(x=> GameDetail.Creator == x.Creator && GameDetail.Title == x.Title);
                 if (GameExist)
                 {
-
+                    GameList.First(
+                        item => item.Title == GameDetail.Title && item.Creator == GameDetail.Creator
+                        ).Versions.Add(new GameVersion
+                    {
+                        Version = GameDetail.Version,
+                        DateAdded = DateTime.Now,
+                        ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
+                        GamePath = GameDetail.Folder,
+                        RecordId = recordID
+                    });
+                        
                 }
                 else
                 {
