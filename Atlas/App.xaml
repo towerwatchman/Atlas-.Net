@@ -278,7 +278,7 @@
 
             <!-- ComboBox -->
             <Style TargetType="{x:Type ComboBox}">
-                <Setter Property="Height" Value="20"/>
+                <Setter Property="Height" Value="25"/>
                 <Setter Property="Foreground" Value="{DynamicResource Text}"/>
                 <Setter Property="Template">
                     <Setter.Value>

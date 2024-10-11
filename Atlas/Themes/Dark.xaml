@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--
     This theme file will change all colors in the app.
-    Canvas: This is the background color of the app. In mose cases this is the shadows or pop between areas
+    Canvas: This is the background color of the app. 
+    Shadow: This is the shadow for any object that has one
     Primary: Header, Footer, Nav Bar
     Secondary: Buttons, ListBox
     Tertiary: All Grids, Panels, ListViews
@@ -15,6 +16,8 @@
     Highlight: Text Hover Effect color
     -->
     <SolidColorBrush x:Key="Canvas" Color="#000000"/>
+    <SolidColorBrush x:Key="Shadow" Color="#000000"/>
+    
     <SolidColorBrush x:Key="Primary" Color="#19191c"/>
     <SolidColorBrush x:Key="Secondary" Color="#242629"/>
     <SolidColorBrush x:Key="Tertiary" Color="#313338"/>

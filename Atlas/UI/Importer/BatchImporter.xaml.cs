@@ -42,8 +42,8 @@ namespace Atlas.UI.Importer
             pbGameScanner.Visibility = Visibility.Hidden;
 
             //Add Scanners to list
-            cbScanner.Items.Add("F95");
-            cbScanner.Items.Add("Steam");
+            cbScanner.Items.Add("Atlas Scraper");
+            //cbScanner.Items.Add("Steam");
 
 
             tb_format.Text = Settings.Config.FolderStructure;

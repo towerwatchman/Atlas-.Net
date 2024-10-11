@@ -109,7 +109,7 @@ Margin="10,3,3,0">
                                             <TextBox x:Name="tb_format" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch"/>
                                         </DockPanel>
                                         <DockPanel Height="30" Margin="0,20,0,10" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
-                                            <Label DockPanel.Dock="Left" Content="Game Scanner:" Margin="0,0,15,0"/>
+                                            <Label DockPanel.Dock="Left" Content="MetaData Scraper:" Margin="0,0,15,0"/>
                                             <ComboBox DockPanel.Dock="Left" x:Name="cbScanner" Width="200" SelectedIndex="0"/>
                                         </DockPanel>
                                         <DockPanel Height="200" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">

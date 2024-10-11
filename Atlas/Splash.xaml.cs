@@ -1,8 +1,12 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
+using Atlas.Core.Network;
+using Atlas.UI;
 using Config.Net;
+using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Windows;
+using static System.Net.WebRequestMethods;
 
 namespace Atlas
 {
@@ -18,16 +22,37 @@ namespace Atlas
         {
             InitializeComponent();
 
+            //assign progressbar to helper
+            InterfaceHelper.SplashWindow = this;
+            InterfaceHelper.SplashProgressBar = pbSplash;
+            InterfaceHelper.SplashTextBox = tbSplash;
+
             //Check if program is already open
             if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
             //Discard await warning
-            _ = Init();
+            Task.Run(async () => {
+                try
+                {
+                    await Init();
+                    //Launch Main Window
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        LaunchMainWindow();
+                    }));
+                }
+                catch(Exception ex)
+                {
+                    Logging.Logger.Error(ex);
+                }
+            });
+
         }
 
         public async Task Init()
         {
+            UpdateSplashText( "Check For Updates");
             //Check for updates
-            var t = Task.Run(() =>
+            await Task.Run(() =>
             {
                 try
                 {
@@ -38,17 +63,18 @@ namespace Atlas
                     Logging.Logger.Error(ex);
                 }
             });
-            await Task.WhenAll(t);
-            //.Value += 10;
+            UpdateSplashProgressBar(10);
 
+            UpdateSplashText("Updating Folders");
             //Set folders
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data"));
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "games"));
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "images"));
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "logs"));
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "updates"));
-            //pbSplash.Value += 10;
+            UpdateSplashProgressBar(20);
 
+            UpdateSplashText("Updating xaml Dependencies");
             //Add Settings
             Settings.Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "config.ini")).Build();
 
@@ -57,7 +83,7 @@ namespace Atlas
             var themeUri = new Uri(theme, UriKind.RelativeOrAbsolute);
             try
             {
-                if (File.Exists(theme))
+                if (System.IO.File.Exists(theme))
                 {
                     Application.Current.Resources.MergedDictionaries.RemoveAt(2);
                     Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = themeUri });
@@ -68,10 +94,45 @@ namespace Atlas
                 //Default to regular theme
                 Logging.Logger.Error(ex);
             }
+            UpdateSplashProgressBar(30);
 
+            UpdateSplashText("Running DB Migrations");
             Database.Init();
-            //Launch Main Window            
-            LaunchMainWindow();
+            UpdateSplashProgressBar(40);
+
+            UpdateSplashText("Checking for DB Updates");
+            //Check for database update
+            await Task.Run(async () =>
+            {
+                await CheckForDatabaseUpdateAsync();
+            });
+
+        }
+
+        private async Task CheckForDatabaseUpdateAsync()
+        {
+            //https://atlas-gamesdb.com/updates/1715651134.update
+
+            string url = "https://atlas-gamesdb.com/api/updates";
+            JArray jsonArray = NetworkInterface.RequestJSON(url);
+            if (jsonArray != null)
+            {
+                //Get data for latest update
+                string date = jsonArray[0]["date"].ToString();
+                string name = jsonArray[0]["name"].ToString();
+                //Download latest update
+                try 
+                {
+                    string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
+                    string OutputPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "updates",name);
+                    NetworkInterface networkInterface = new NetworkInterface();
+                    await networkInterface.DownloadFile(DownloadUrl, OutputPath);
+                }
+                catch(Exception ex)
+                {
+                    Logging.Logger.Error(ex);
+                }
+            }
         }
 
         public void LaunchMainWindow()
@@ -79,6 +140,21 @@ namespace Atlas
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
+        }
+
+        public void UpdateSplashText(string text)
+        {
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, () =>
+            {
+                tbSplash.Text = text;
+            });
+        }
+        public void UpdateSplashProgressBar(int value)
+        {
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, () =>
+            {
+               pbSplash.Value = value;
+            });
         }
     }
 }

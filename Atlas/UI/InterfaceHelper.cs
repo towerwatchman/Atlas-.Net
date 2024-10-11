@@ -9,5 +9,8 @@ namespace Atlas.UI
         public static ProgressBar GameScannerProgressBar { get; set; }
 
         public static TextBox PotentialGamesTextBox { get; set; }
+        public static ProgressBar SplashProgressBar { get; internal set; }
+        public static TextBox SplashTextBox { get; internal set; }
+        public static Splash SplashWindow { get; internal set; }
     }
 }
