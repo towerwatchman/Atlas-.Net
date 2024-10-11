@@ -38,17 +38,21 @@
                             <Grid Background="{DynamicResource Tertiary}">
                                 <StackPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
-                                        <Label DockPanel.Dock="Left" Content="Root Path:" HorizontalAlignment="Left" Style="{DynamicResource DefaultLabelStyle}"/>
+                                        <Label DockPanel.Dock="Left" Content="Root Path:" HorizontalAlignment="Left"/>
                                         <Button x:Name="btn_OpenFolder" DockPanel.Dock="Right" Content="Set Folder" Style="{StaticResource DefaultButtonStyle}" Click="btn_OpenFolder_Click"/>
                                         <TextBox x:Name="tb_FolderDialog" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" Style="{StaticResource DefaultTextStyle}" TextChanged="tb_FolderDialog_TextChanged"/>
                                     </DockPanel>
                                     <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
-                                        <Label DockPanel.Dock="Left" Content="Folder Structure:" HorizontalAlignment="Left" Style="{DynamicResource DefaultLabelStyle}"/>
+                                        <Label DockPanel.Dock="Left" Content="Folder Structure:" HorizontalAlignment="Left"/>
                                         <CheckBox x:Name="cb_format" DockPanel.Dock="Right" Content="Unstructured Format" Style="{StaticResource DefaultCheckBoxStyle}" Click="cb_format_Click"/>
                                         <TextBox x:Name="tb_format" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" Style="{StaticResource DefaultTextStyle}" />
                                     </DockPanel>
-                                    <DockPanel Height="200" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
-                                        <Label Margin="10,10,0,0"  DockPanel.Dock="Left" Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xD;&#xA;- Each of the options need to be surrounded by braces {}.&#xD;&#xA;- Use the examples below for reference. &#xD;&#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xD;&#xA;&#xD;&#xA;Examples&#xD;&#xA;{engine}{creator}{title}{version}&#xD;&#xA;{creator}{title}{version&#xD;&#xA;{title}{version}" HorizontalAlignment="Left" Style="{DynamicResource DefaultLabelStyle}"/>
+                                    <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
+                                        <Label DockPanel.Dock="Left" Content="Game Scanner:" Margin="0,0,20,0"/>
+                                        <ComboBox DockPanel.Dock="Left" x:Name="cbScanner" Width="200"/>
+                                    </DockPanel>
+                                    <DockPanel Height="200" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
+                                        <Label Margin="10,10,0,0"  DockPanel.Dock="Left" Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xD;&#xA;- Each of the options need to be surrounded by braces {}.&#xD;&#xA;- Use the examples below for reference. &#xD;&#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xD;&#xA;&#xD;&#xA;Examples&#xD;&#xA;{engine}{creator}{title}{version}&#xD;&#xA;{creator}{title}{version&#xD;&#xA;{title}{version}" HorizontalAlignment="Left" />
                                     </DockPanel>
                                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="Auto" Width="Auto">
                                         <CheckBox Content="Download Images if match found in Atlas database" Style="{StaticResource DefaultCheckBoxStyle}" Margin="10,10,0,0" Visibility="Hidden"/>

@@ -69,7 +69,7 @@ namespace Atlas.UI.Importer
             {
                 tbc_Import.SelectedIndex = 1;
                 //GameScanner gameScanner = new GameScanner();
-                GameList.ItemsSource = GameScanner.GameDetailList;
+                GameList.ItemsSource = F95Scanner.GameDetailList;
                 InterfaceHelper.Datagrid = GameList;
 
                 string folder = tb_FolderDialog.Text;
@@ -78,7 +78,7 @@ namespace Atlas.UI.Importer
 
                 Task.Factory.StartNew(() =>
                 {
-                    GameScanner.Start(folder, format);
+                    F95Scanner.Start(folder, format);
                 });
 
 
@@ -96,8 +96,17 @@ namespace Atlas.UI.Importer
         {
             //Before we can start the import we need to verify a few details
             //Check that the Creator column is valid
-            EmitImportSignal();
-            this.Close();
+            if(F95Scanner._GameDetailList.Count > 0)
+            {
+                if(F95Scanner._GameDetailList.Any(x=>x.Creator != string.Empty) &&
+                    F95Scanner._GameDetailList.Any(x => x.Title != string.Empty)
+                )
+                {
+                    EmitImportSignal();
+                    this.Close();
+                }
+            }
+
         }
 
         private void cb_format_Click(object sender, RoutedEventArgs e)

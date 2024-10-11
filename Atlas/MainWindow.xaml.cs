@@ -217,7 +217,7 @@ namespace Atlas
             //This will take each game detail that was imported and change it into an actual game.
             //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
             //after adding to database we can import to the BannerView
-            foreach (var GameDetail in GameScanner.GameDetailList)
+            foreach (var GameDetail in F95Scanner.GameDetailList)
             {
                 //We need to insert in to database first then get the id of the new item
                 string recordID = Database.AddGame(GameDetail);

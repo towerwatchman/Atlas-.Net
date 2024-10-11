@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace Atlas.Core
 {
-    public static class GameScanner
+    public static class F95Scanner
     {
         public static ObservableCollection<GameDetails> _GameDetailList = new ObservableCollection<GameDetails>();
         public static IEnumerable<GameDetails> GameDetailList { get { return _GameDetailList; } }
