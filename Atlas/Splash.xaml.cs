@@ -1,6 +1,7 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
 using Atlas.Core.Network;
+using Atlas.Core.Utilities;
 using Atlas.UI;
 using Config.Net;
 using Newtonsoft.Json.Linq;
@@ -120,6 +121,10 @@ namespace Atlas
                 //Get data for latest update
                 string date = jsonArray[0]["date"].ToString();
                 string name = jsonArray[0]["name"].ToString();
+                string md5 = jsonArray[0]["md5"].ToString();
+
+                //Run db check to see if latest update is in database
+
                 //Download latest update
                 try 
                 {
@@ -127,6 +132,10 @@ namespace Atlas
                     string OutputPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "updates",name);
                     NetworkInterface networkInterface = new NetworkInterface();
                     await networkInterface.DownloadFile(DownloadUrl, OutputPath);
+
+                    Compression.DecodeLZ4Stream(OutputPath);
+                    //update database with data
+                    //Database.ProcessUpdate(OutputPath);
                 }
                 catch(Exception ex)
                 {

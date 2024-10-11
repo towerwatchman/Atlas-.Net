@@ -51,7 +51,7 @@ namespace Atlas.Core
                 AppVersion = AppVersion.Remove(AppVersion.Length - 2);
             }
 
-            //Request data from Github
+            //Request data from Github move to network interface
             string[] data = RequestJSON(url);
             if (data != null)
             {
