@@ -105,12 +105,8 @@
 
                 <Button
                     x:Name="minimizeButton"
-                    Width="25"
-                    Height="25"
                     Click="MinimizeButton_Click" 
-                    Background="Transparent"
-                    BorderThickness="0"
-                    BorderBrush="Transparent">
+                    Style="{DynamicResource MinMaxStyle}">
                     <Image
                     Height="10"
                     Width="10"
@@ -119,11 +115,8 @@
                 </Button>
                 <Button
                     x:Name="maximizeButton"
-                    Width="25"
-                    Height="25"
                     Click="MaximizeButton_Click"
-                    Background="Transparent"
-                    BorderThickness="0">
+                    Style="{DynamicResource MinMaxStyle}">
                     <Image
                     Height="10"
                     Width="10"
@@ -131,18 +124,17 @@
                     Source="{DynamicResource maximize_icon}"/>
                 </Button>
                 <Button
-                    x:Name="closeButton"
-                    Width="25"
-                    Height="25"
+                    x:Name="closeButton"                    
                     Click="CloseButton_Click"
-                    Background="Transparent"
-                    BorderThickness="0">
+                    Style="{DynamicResource ExitStyle}">
                     <Image
                     Height="10"
                     Width="10"
                     Stretch="Uniform"
-                    Source="{DynamicResource close_iconDrawingImage}"/>
+                    Source="{DynamicResource close_iconDrawingImage}"
+                    />
                 </Button>
+
             </StackPanel>
             <!--#endregion-->
 
@@ -160,15 +152,15 @@
                        Style="{DynamicResource TopNavigationStyle}"/>
                     <RadioButton
                        Content="Comics"
-                       IsChecked="True"
+                       IsChecked="False"  
                        Style="{DynamicResource TopNavigationStyle}"/>
                     <RadioButton
                        Content="Artwork"
-                       IsChecked="True"
+                       IsChecked="False"
                        Style="{DynamicResource TopNavigationStyle}"/>
                     <RadioButton
                        Content="Assets"
-                       IsChecked="True"
+                       IsChecked="False"
                        Style="{DynamicResource TopNavigationStyle}"/>
                     <!--"{DynamicResource TopNavigationStyle}"-->
                 </StackPanel>

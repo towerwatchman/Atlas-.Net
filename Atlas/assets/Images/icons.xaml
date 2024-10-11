@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:svg="clr-namespace:SharpVectors.Runtime;assembly=SharpVectors.Runtime.Wpf">
-
     <PathGeometry
         x:Key="home_icon"
         Figures="M12 2 A 1 1 0 0 0 11.289062 2.296875L1.203125 11.097656 A 0.5 0.5 0 0 0 1 11.5 A 0.5 0.5 0 0 0 1.5 12L4 12L4 20C4 20.552 4.448 21 5 21L9 21C9.552 21 10 20.552 10 20L10 14L14 14L14 20C14 20.552 14.448 21 15 21L19 21C19.552 21 20 20.552 20 20L20 12L22.5 12 A 0.5 0.5 0 0 0 23 11.5 A 0.5 0.5 0 0 0 22.796875 11.097656L12.716797 2.3027344 A 1 1 0 0 0 12.710938 2.296875 A 1 1 0 0 0 12 2 z"/>
@@ -76,7 +75,6 @@
          Figures="M11 8C11 7.44772 11.4477 7 12 7C12.5523 7 13 7.44771 13 8V11H16C16.5523 11 17 11.4477 17 12C17 12.5523 16.5523 13 16 13H13V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V13H8C7.44772 13 7 12.5523 7 12C7 11.4477 7.44771 11 8 11H11V8Z
          M23 4C23 2.34315 21.6569 1 20 1H4C2.34315 1 1 2.34315 1 4V20C1 21.6569 2.34315 23 4 23H20C21.6569 23 23 21.6569 23 20V4ZM21 4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21H20C20.5523 21 21 20.5523 21 20V4Z
          "/>
-
 
     <DrawingImage x:Key="atlas_logo_full" >
         <DrawingImage.Drawing>
@@ -189,6 +187,7 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
+                            
     <DrawingImage x:Key="maximize_icon">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V45 H45 V0 H0 Z">
