@@ -222,7 +222,6 @@
                         <Setter Property="Width" Value="60"/>
                         <Setter Property="Margin" Value="-1"/>
                         <Setter Property="Template">
-
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                     <Grid Background="{TemplateBinding Background}">
@@ -240,12 +239,14 @@
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="indicator"
-                                                    Property="Fill"
-                                                    Value="{DynamicResource Accent}"/>
                                             <Setter TargetName="icon"
                                                     Property="Fill"
                                                     Value="{DynamicResource Accent}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="indicator"
+                                                     Property="Fill"
+                                                     Value="{DynamicResource Accent}"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -268,12 +269,12 @@
                 <ListBoxItem
                     x:Name="Refresh"
                     Content="{DynamicResource refresh_icon}"
-                    IsSelected="False"/>           
-            <ListBoxItem
+                    IsSelected="False"/>
+                <ListBoxItem
                     x:Name="Settings"
                     Content="{DynamicResource settings_icon}"
                     IsSelected="False"/>
-             </ListBox>
+            </ListBox>
 
         </Grid>
         <!--#endregion-->
@@ -353,7 +354,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <custom:GameBanner Margin="0,2,0,2"></custom:GameBanner>                        
+                        <custom:GameBanner Margin="0,2,0,2"></custom:GameBanner>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemContainerStyle>
@@ -368,7 +369,7 @@
                 </ListView.ItemContainerStyle>
                 <!-- Scroll Bar -->
                 <ListView.Resources>
-                   
+
                 </ListView.Resources>
                 <ListView.ContextMenu>
                     <ContextMenu x:Name="cmGame" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">

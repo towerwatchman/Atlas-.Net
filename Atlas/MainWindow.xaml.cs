@@ -190,6 +190,7 @@ namespace Atlas
             c2.Width = new GridLength(1, GridUnitType.Star);
             RecordView.ColumnDefinitions.Add(c1);
             RecordView.ColumnDefinitions.Add(c2);
+            Home.IsSelected = true;
         }
         private void HideListView()
         {
@@ -203,12 +204,14 @@ namespace Atlas
             var c1 = new ColumnDefinition();
             c1.Width = new GridLength(1, GridUnitType.Star);
             RecordView.ColumnDefinitions.Add(c1);
+            Home.IsSelected = true;
         }
         #endregion
 
         private void BatchImporter_Closed(object sender, EventArgs e)
         {
             isBatchImporterOpen = false;
+            Home.IsSelected = true;
         }
 
         private void BatchImporter_StartImport(object sender, EventArgs e)

@@ -40,6 +40,10 @@ namespace Atlas.UI.Importer
             btn_import.IsEnabled = false;
             pbGameScanner.Visibility = Visibility.Hidden;
 
+            //Add Scanners to list
+            cbScanner.Items.Add("F95");
+            cbScanner.Items.Add("Steam");
+
 
             tb_format.Text = Settings.Config.FolderStructure;
         }
