@@ -16,6 +16,7 @@
         SizeChanged="Window_SizeChanged"
         MouseDown="Window_MouseDown">
     <Grid Background="{DynamicResource Canvas}">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="1*"/>
@@ -26,7 +27,10 @@
             <RowDefinition Height="1*"/>
             <!-- Important for .Net Core -->
         </Grid.RowDefinitions>
-
+        <Grid.OpacityMask>
+            <VisualBrush Visual="{Binding ElementName=Border1}" />
+        </Grid.OpacityMask>
+        <Border x:Name="Border1" CornerRadius="2" Background="Black" BorderThickness="3" />
         <!--#region  Logo-->
         <Grid
             Panel.ZIndex="2"

@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Atlas.UI.Importer
@@ -46,6 +47,36 @@ namespace Atlas.UI.Importer
 
 
             tb_format.Text = Settings.Config.FolderStructure;
+        }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Normal)
+            {
+                WindowState = WindowState.Maximized;
+                this.BorderThickness = new System.Windows.Thickness(4);
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+                this.BorderThickness = new System.Windows.Thickness(0);
+            }
+
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void btn_OpenFolder_Click(object sender, RoutedEventArgs e)

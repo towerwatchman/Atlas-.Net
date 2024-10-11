@@ -5,9 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Atlas.UI.Importer"
         mc:Ignorable="d"
+        Background="Transparent"
+        AllowsTransparency="True"
+        ResizeMode="CanResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterOwner"    
+        MouseDown="Window_MouseDown"
         Title="BatchImporter" Height="720" Width="1280">
+    <Border BorderBrush="{DynamicResource Border}" BorderThickness="1" CornerRadius="6" RenderOptions.BitmapScalingMode="HighQuality">
     <Grid>
-        <DockPanel VerticalAlignment="Stretch" Height="Auto">
+        <Grid.OpacityMask>
+            <VisualBrush Visual="{Binding ElementName=Border1}" />
+        </Grid.OpacityMask>
+        <Border x:Name="Border1" CornerRadius="6" Background="Black" BorderThickness="0" />
+            <!-- #region Minimize, Maximize, Close -->
+            <StackPanel Grid.RowSpan="2"
+Panel.ZIndex="1"
+Orientation="Horizontal"
+HorizontalAlignment="Left"
+VerticalAlignment="Top"
+Margin="20,3,3,0">
+                <Label Content="Import Game" HorizontalAlignment="Left" Width="Auto"/>
+            </StackPanel>
+            <StackPanel
+    Grid.RowSpan="2"
+    Panel.ZIndex="1"
+    Orientation="Horizontal"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Top"
+    Margin="0,3,3,0">
+                
+                <Button
+        x:Name="minimizeButton"
+        Click="MinimizeButton_Click" 
+        Style="{DynamicResource MinMaxStyle}">
+                    <Image
+        Height="10"
+        Width="10"
+        Stretch="Uniform"
+        Source="{DynamicResource minimize_icon}"/>
+                </Button>
+                <Button
+        x:Name="maximizeButton"
+        Click="MaximizeButton_Click"
+        Style="{DynamicResource MinMaxStyle}">
+                    <Image
+        Height="10"
+        Width="10"
+        Stretch="Uniform"
+        Source="{DynamicResource maximize_icon}"/>
+                </Button>
+                <Button
+        x:Name="closeButton"                    
+        Click="CloseButton_Click"
+        Style="{DynamicResource ExitStyle}">
+                    <Image
+        Height="10"
+        Width="10"
+        Stretch="Uniform"
+        Source="{DynamicResource close_iconDrawingImage}"
+        />
+                </Button>
+
+            </StackPanel>
+            <!--#endregion-->
+            <DockPanel VerticalAlignment="Stretch" Height="Auto">
             <DockPanel
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch" 
@@ -31,9 +93,9 @@
                     Width="Auto" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    Background="{DynamicResource Tertiary}">
-                    <TabControl x:Name="tbc_Import" VerticalAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0">
-                        <TabItem Header="Start" x:Name="tc_start" Visibility="Visible">
+                    Background="{DynamicResource Primary}">
+                    <TabControl x:Name="tbc_Import" VerticalAlignment="Stretch" BorderThickness="0" Margin="0,10,0,0" Padding="0">
+                        <TabItem Header="Start" x:Name="tc_start" Visibility="Hidden">
                             <Grid Background="{DynamicResource Secondary}">
                                 <StackPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
@@ -61,7 +123,7 @@
                                 </StackPanel>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" Visibility="Visible">
+                        <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" Visibility="Hidden">
                             <Grid Background="{DynamicResource Tertiary}">
                                 <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False">
                                     <DataGrid.Columns>
@@ -95,4 +157,5 @@
         </DockPanel>
 
     </Grid>
+    </Border>
 </Window>

@@ -13,7 +13,7 @@
                 <ResourceDictionary x:Name="rdTheme" Source="/Themes/dark.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            
+           
             <!-- Radio Button -->
             <Style x:Key="TopNavigationStyle" 
                    TargetType="{x:Type RadioButton}">
