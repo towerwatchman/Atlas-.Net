@@ -8,12 +8,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Assets/Images/icons.xaml"/>
-                <ResourceDictionary Source="/UI/Layouts/banner.xaml"/>                
+                <ResourceDictionary Source="/UI/Layouts/banner.xaml"/>
                 <!-- Default theme -->
                 <ResourceDictionary x:Name="rdTheme" Source="/Themes/dark.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-           
+
             <!-- Radio Button -->
             <Style x:Key="TopNavigationStyle" 
                    TargetType="{x:Type RadioButton}">
@@ -30,6 +30,7 @@
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Foreground" Value="{DynamicResource Highlight}"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
                                 </Trigger>
                                 <Trigger Property="IsChecked" Value="True">
                                     <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
@@ -40,8 +41,8 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
-        
+
+
 
             <!-- Buttons -->
             <Style TargetType="{x:Type Button}">
@@ -124,7 +125,7 @@
                     </Style>
                 </Style.Resources>
             </Style>
-            
+
             <!-- Label -->
             <Style TargetType="{x:Type Label}">
                 <Setter Property="Background" Value="Transparent"/>
@@ -135,7 +136,6 @@
             <Style TargetType="{x:Type CheckBox}">
                 <Setter Property="Background" Value="{DynamicResource Text}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
-                <!--                           your color here -->
                 <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="Template">
@@ -150,7 +150,7 @@
                                 </Border>
                                 <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="White" Text="{TemplateBinding Content}"></TextBlock>
                             </StackPanel>
-                            <ControlTemplate.Triggers>                               
+                            <ControlTemplate.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
                                     <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
                                 </Trigger>
@@ -163,7 +163,7 @@
                 </Setter>
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
-            
+
             <!-- ListView -->
             <Style x:Key="DefaultListViewStyle" TargetType="ListView">
                 <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
@@ -275,10 +275,10 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
             <!-- ComboBox -->
             <Style TargetType="{x:Type ComboBox}">
-                <Setter Property="Height" Value="25"/>
+                <Setter Property="Height" Value="20"/>
                 <Setter Property="Foreground" Value="{DynamicResource Text}"/>
                 <Setter Property="Template">
                     <Setter.Value>
@@ -292,26 +292,26 @@
                                                     <ColumnDefinition Width="5*" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="{DynamicResource Tertiary}" BorderBrush="{DynamicResource Border}" BorderThickness="1" />
-                                                <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="{DynamicResource Tertiary}"  BorderBrush="{DynamicResource Border}" BorderThickness="0,0,1,0" />
+                                                <Border x:Name="Border" Grid.ColumnSpan="2" Background="{DynamicResource Tertiary}" BorderBrush="{DynamicResource Border}" BorderThickness="1" />
+                                                <Border Grid.Column="0" Margin="1"  Background="{DynamicResource Tertiary}"  BorderBrush="{DynamicResource Border}" BorderThickness="0,0,1,0" />
                                                 <Path x:Name="Arrow" Grid.Column="1"  Fill="{DynamicResource Highlight}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                                                    <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
+                                                    <Setter Property="Background" Value="{DynamicResource Selected}"/>
                                                 </Trigger>
                                                 <Trigger Property="ToggleButton.IsChecked" Value="true">
-                                                    <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
+                                                    <Setter Property="Background" Value="{DynamicResource Selected}"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </ToggleButton.Template>
                                 </ToggleButton>
                                 <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
-                                <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                                <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}" Margin="3,0,0,0"/>
                                 <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
                                     <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                        <Border x:Name="DropDownBorder" Background="Blue" />
+                                        <Border x:Name="DropDownBorder" Background="{DynamicResource Tertiary}" />
                                         <ScrollViewer SnapsToDevicePixels="True">
                                             <StackPanel IsItemsHost="True" />
                                         </ScrollViewer>
@@ -323,6 +323,75 @@
                 </Setter>
                 <Style.Triggers>
                 </Style.Triggers>
+            </Style>
+
+            <!-- ComboBoxItem -->
+            <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+                <Setter Property="SnapsToDevicePixels" Value="true"/>
+                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                            <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Margin="{TemplateBinding Margin}"
+                                Padding="{TemplateBinding Padding}">
+                                <ContentPresenter Margin="{TemplateBinding Margin}"
+                                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" 
+                            Value="{DynamicResource Selected}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            
+            <!-- DataGrid -->
+
+            <Style TargetType="{x:Type DataGrid}">
+                <Setter Property="Background" Value="{DynamicResource Primary}"/>
+                <Setter Property="BorderThickness" Value="0,1,0,0"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
+            </Style>
+
+            <Style TargetType="{x:Type DataGridCell}">
+                <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+            </Style>
+
+            <Style TargetType="{x:Type DataGridRow}">
+                <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
+            </Style>
+
+            <Style TargetType="{x:Type DataGridRowHeader}">
+                <Setter Property="Background" Value="{DynamicResource Primary}"/>
+            </Style>
+            
+            <Style TargetType="{x:Type DataGridColumnHeader}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                            <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Primary}" Background="{DynamicResource Primary}">
+                                <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Padding="5,5,5,0" Width="{TemplateBinding Width}" TextAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="Foreground" Value="{DynamicResource Text}" />
+                <Setter Property="Background" Value="{DynamicResource Primary}"/>
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="12" />
             </Style>
 
         </ResourceDictionary>
