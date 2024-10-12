@@ -45,7 +45,7 @@ jobs:
         git push
         
     - name: Zip the Build
-      run: Compress-Archive -Path ./Atlas/bin/Release/net8.0-windows/win-x64/* -DestinationPath ${{github.workspace}}/Atlas_${{steps.package_version.outputs.newVersion}}-${{ github.run_number }}_windows.zip
+      run: Compress-Archive -Path ./Atlas/bin/Release/net8.0-windows/win-x64/* -DestinationPath ${{github.workspace}}/Atlas_${{steps.package_version.outputs.newVersion}}_windows.zip
       
     - name: Create Release
       id: create_release
