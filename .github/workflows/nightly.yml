@@ -54,8 +54,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
       with:
         tag_name: ${{ github.run_number }}
-        name: v${{ steps.package_version.outputs.newVersion }}-${{ github.run_number }}
-        body: Nightly build of v${{ steps.package_version.outputs.newVersion }}-${{ github.run_number }}
+        name: v${{ steps.package_version.outputs.newVersion }}
+        body: Nightly build of v${{ steps.package_version.outputs.newVersion }}
         draft: false
         prerelease: true
         fail_on_unmatched_files: true
@@ -67,6 +67,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ${{github.workspace}}/Atlas_${{steps.package_version.outputs.newVersion}}-${{ github.run_number }}_windows.zip
-        asset_name: Atlas_${{steps.package_version.outputs.newVersion}}-${{ github.run_number }}_windows.zip
+        asset_path: ${{github.workspace}}/Atlas_${{steps.package_version.outputs.newVersion}}_windows.zip
+        asset_name: Atlas_${{steps.package_version.outputs.newVersion}}_windows.zip
         asset_content_type: application/zip
