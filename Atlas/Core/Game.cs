@@ -1,4 +1,5 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Atlas.Core
 {
@@ -14,13 +15,17 @@ namespace Atlas.Core
 
     public class GameDetails
     {
+        public string Id { get; set; }  
         public required string Title { set; get; }
         public required string Creator { set; get; }
         public required string Engine { set; get; }
         public required string Version { set; get; }
         public required string Folder { set; get; }
+        public required Visibility SingleEngineVisible { set; get; }
+        public required Visibility ResultVisibilityState { set; get; }
 
-        //For displaying combo box correctly
+        //For displaying Executable combo box correctly
+        public required string SingleExecutable { set; get; }
         public required List<string> Executable { set; get; }
         private string _Text;
         public string Text
@@ -42,5 +47,28 @@ namespace Atlas.Core
             set { _SelectedValue = value; }
         }
         public int SelectedIndex = 0;
+
+        //For displaying Results combo box correctly
+        public required List<string> Results { set; get; }
+        private string _ResultText;
+        public string ResultText
+        {
+            get
+            {
+                if (Results.Count > 0)
+                {
+                    _ResultText = Results[0];
+                }
+                return _ResultText;
+            }
+            set { _ResultText = value; }
+        }
+        private int _ResultSelectedValue = 0;
+        public int ResultSelectedValue
+        {
+            get { return _ResultSelectedValue; }
+            set { _ResultSelectedValue = value; }
+        }
+        public int ResultSelectedIndex = 0;
     }
 }

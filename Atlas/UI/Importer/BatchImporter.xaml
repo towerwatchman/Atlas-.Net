@@ -127,7 +127,7 @@ Margin="10,3,3,0">
                                 <Grid Background="{DynamicResource Tertiary}">
                                     <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Atlas ID" Binding="{Binding Path=ID}" MinWidth="50" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Atlas ID" Binding="{Binding Path=Id}" MinWidth="50" IsReadOnly="True"/>
                                             <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" MinWidth="50" IsReadOnly="False"/>
                                             <DataGridTextColumn Header="Creator" Binding="{Binding Path=Creator}" MinWidth="50" IsReadOnly="False"/>
                                             <DataGridTextColumn Header="Engine" Binding="{Binding Path=Engine}" MinWidth="50" IsReadOnly="False"/>
@@ -135,17 +135,37 @@ Margin="10,3,3,0">
                                             <DataGridTemplateColumn Header="Executable">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <ComboBox
-                                                        ItemsSource="{Binding Executable}" 
-                                                        SelectedValue="{Binding SelectedValue}" 
-                                                        SelectedValuePath="Key" 
-                                                        Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"  
-                                                        MinWidth="50" 
-                                                        IsReadOnly="False"/>
+                                                        <DockPanel HorizontalAlignment="Left" LastChildFill="True">
+                                                            <TextBlock DockPanel.Dock="Left" Text="{Binding SingleExecutable}" Foreground="{DynamicResource Text}" HorizontalAlignment="Left" Visibility="{Binding !SingleEngineVisible}"/>
+                                                            <ComboBox DockPanel.Dock="Right"
+                                                            ItemsSource="{Binding Executable}" 
+                                                            SelectedValue="{Binding SelectedValue}" 
+                                                            SelectedValuePath="Key" 
+                                                            Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"  
+                                                            MinWidth="300" 
+                                                            IsReadOnly="False"
+                                                            Visibility="{Binding SingleEngineVisible}"
+                                                            />
+
+                                                        </DockPanel>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
                                             <DataGridTextColumn Header="Folder" Binding="{Binding Path=Folder}" MinWidth="50" IsReadOnly="False"/>
+                                            <DataGridTemplateColumn Header="Possible Database Matches">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <ComboBox
+                                                            ItemsSource="{Binding Results}" 
+                                                            SelectedValue="{Binding ResultSelectedValue}" 
+                                                            SelectedValuePath="Key" 
+                                                            Text="{Binding ResultText, UpdateSourceTrigger=PropertyChanged}"  
+                                                            MinWidth="50" 
+                                                            IsReadOnly="False"
+                                                            Visibility="{Binding ResultVisibilityState}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>

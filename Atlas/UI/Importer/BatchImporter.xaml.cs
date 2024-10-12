@@ -115,7 +115,8 @@ namespace Atlas.UI.Importer
                 {
                     F95Scanner.Start(folder, format);
                 });
-
+                this.WindowState = WindowState.Maximized;
+                this.BorderThickness = new System.Windows.Thickness(4);
 
                 //Hide Next Button
                 btn_next.Width = 0;

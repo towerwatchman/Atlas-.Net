@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using Atlas.UI;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
 using NLog;
+using NLog.LayoutRenderers;
 
 namespace Atlas.Core.Database
 {
@@ -256,5 +258,41 @@ namespace Atlas.Core.Database
             InsertOrUpdate(query, 1);
         }
 
+        public static List<string[]> GetAtlasId(string title, string creator)
+        {
+            var short_name = Regex.Replace(title, "[\\W_]+", "").ToUpper();
+
+            string query = $"Select " +
+                $"atlas_id, " +
+                $"title, " +
+                $"creator, " +
+                $"LENGTH(short_name) - LENGTH('{short_name}') as difference " +
+                $"from atlas_data WHERE short_name like '%{short_name}%' Order By LENGTH(short_name) - LENGTH('{short_name}')";
+
+            List<string[]> data = new List<string[]>();
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        data.Add(new string[] { 
+                            reader["atlas_id"].ToString(),
+                            reader["title"].ToString(),
+                            reader["creator"].ToString(),
+                            reader["difference"].ToString()
+                        });
+                    }
+                }
+                reader.Close();
+            }
+
+            return data;
+        }
     }
 }

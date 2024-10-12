@@ -1,4 +1,5 @@
 ﻿using Atlas.UI;
+using Atlas.Core.Database;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -85,14 +86,53 @@ namespace Atlas.Core
                                 Console.WriteLine(output);
                                 outputFile.WriteLine(output);
 
+                                //Check the database to see if we have a match
+                                List<string[]> data = SQLiteInterface.GetAtlasId(title, creator);
+                                List<string> results = new List<string>();
+                                string SingleExecutable = string.Empty;
+                                Visibility ResultVisibilityState = Visibility.Visible;
+                                Visibility SingleEngineVisible = Visibility.Visible;
+
+                                if(potential_executables.Count == 1)
+                                {
+                                    SingleEngineVisible = Visibility.Collapsed;
+                                    SingleExecutable = potential_executables[0].Trim();
+                                }
+
+                                string Id = "";
+                                if(data.Count == 0)
+                                {
+                                    ResultVisibilityState = Visibility.Hidden;
+                                }
+                                else if(data.Count == 1) 
+                                {
+                                    Id = data[0][0];
+                                    ResultVisibilityState = Visibility.Hidden;
+                                }
+                                else
+                                {
+                                    if (data.Count > 1)
+                                    {
+                                        foreach (var item in data)
+                                        {
+                                            results.Add($"{item[0]} | {item[1]} | {item[2]}");
+                                        }
+                                    }
+                                }
+
                                 var gd = new GameDetails
                                 {
+                                    Id = Id,
                                     Title = title.Trim(),
                                     Version = version.Trim(),
                                     Creator = creator.Trim(),
                                     Engine = game_engine.Trim(),
+                                    SingleEngineVisible = SingleEngineVisible,
                                     Executable = potential_executables.ToList(),
-                                    Folder = t
+                                    SingleExecutable = SingleExecutable,
+                                    Folder = t,
+                                    Results = results,
+                                    ResultVisibilityState = ResultVisibilityState
                                 };
 
                                 if (title != "")
