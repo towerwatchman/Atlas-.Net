@@ -4,15 +4,16 @@
              xmlns:local="clr-namespace:Atlas"
              StartupUri="Splash.xaml">
     <Application.Resources>
-        <!-- Icons -->
+        
         <ResourceDictionary>
+            <!-- #region External Dictionaries [Loaded at Runtime]-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Assets/Images/icons.xaml"/>
                 <ResourceDictionary Source="/UI/Layouts/banner.xaml"/>
                 <!-- Default theme -->
                 <ResourceDictionary x:Name="rdTheme" Source="/Themes/dark.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
+            <!--#endregion-->
 
             <!-- Radio Button -->
             <Style x:Key="TopNavigationStyle" 
@@ -355,7 +356,7 @@
                 </Style.Triggers>
             </Style>
 
-            
+
             <!-- DataGrid -->
 
             <Style TargetType="{x:Type DataGrid}">
@@ -376,7 +377,7 @@
             <Style TargetType="{x:Type DataGridRowHeader}">
                 <Setter Property="Background" Value="{DynamicResource Primary}"/>
             </Style>
-            
+
             <Style TargetType="{x:Type DataGridColumnHeader}">
                 <Setter Property="Template">
                     <Setter.Value>

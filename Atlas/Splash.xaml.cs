@@ -133,7 +133,9 @@ namespace Atlas
                     NetworkInterface networkInterface = new NetworkInterface();
                     await networkInterface.DownloadFile(DownloadUrl, OutputPath);
 
-                    Compression.DecodeLZ4Stream(OutputPath);
+                    string data = Compression.DecodeLZ4Stream(OutputPath);
+                    UpdateInterface.ParseUpdate(data);
+
                     //update database with data
                     //Database.ProcessUpdate(OutputPath);
                 }
