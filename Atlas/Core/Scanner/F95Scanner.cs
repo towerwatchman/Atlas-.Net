@@ -75,7 +75,7 @@ namespace Atlas.Core
                                 {
                                     creator = game_data[2];
                                 }
-
+                                /*
                                 string output = $"Title: {title}\nCreator: {creator}\nEngine: {game_engine}\nVersion: {version}\n";
                                 foreach (var exe in potential_executables)
                                 {
@@ -84,7 +84,7 @@ namespace Atlas.Core
                                 output += ($"Folder: {t}\nFolder Size: {folder_size}\n");
                                 output += ("*-----------------------------------------------------*");
                                 Console.WriteLine(output);
-                                outputFile.WriteLine(output);
+                                outputFile.WriteLine(output);*/
 
                                 //Check the database to see if we have a match
                                 List<string[]> data = SQLiteInterface.GetAtlasId(title, creator);
