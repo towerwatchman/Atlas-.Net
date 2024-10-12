@@ -24,8 +24,8 @@ namespace Atlas.Core.Utilities
                 using var target = new MemoryStream();
                 decoder.CopyTo(target);
                 var decoded = target.ToArray();
-                var str = System.Text.Encoding.Default.GetString(decoded);
-                File.WriteAllText(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "test.txt"), str);
+                data = System.Text.Encoding.Default.GetString(decoded);
+                //File.WriteAllText(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "test.txt"), data);
             }
             catch(Exception ex) { Logging.Logger.Error(ex); }
 

@@ -223,10 +223,10 @@ namespace Atlas
             foreach (var GameDetail in F95Scanner.GameDetailList)
             {
                 //We need to insert in to database first then get the id of the new item
-                string recordID = Database.AddGame(GameDetail);
+                string recordID = SQLiteInterface.AddGame(GameDetail);
                 if (recordID != string.Empty)
                 {
-                    Database.AddVersion(GameDetail, Convert.ToInt32(recordID));
+                    SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
                     bool GameExist = GameList.Any(x => GameDetail.Creator == x.Creator && GameDetail.Title == x.Title);
                     if (GameExist)
                     {

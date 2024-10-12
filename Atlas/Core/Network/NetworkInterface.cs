@@ -18,15 +18,14 @@ namespace Atlas.Core.Network
 {
     public class NetworkInterface
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
-
-       
+        private static readonly HttpClient _httpClient = new HttpClient();       
 
         private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
             {
-                InterfaceHelper.SplashProgressBar.Value += e.ProgressPercentage/2;
+                InterfaceHelper.SplashProgressBar.Value = InterfaceHelper.ProgressBarStartValue + e.ProgressPercentage/2;
+                Logging.Logger.Info(InterfaceHelper.SplashProgressBar.Value);
             }));
         }
 

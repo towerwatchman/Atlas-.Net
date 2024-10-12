@@ -15,9 +15,8 @@
             </ResourceDictionary.MergedDictionaries>
             <!--#endregion-->
 
-            <!-- Radio Button -->
-            <Style x:Key="TopNavigationStyle" 
-                   TargetType="{x:Type RadioButton}">
+            <!-- #region Radio Button -->
+            <Style TargetType="{x:Type RadioButton}">
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Width" Value="80"/>
@@ -42,10 +41,9 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <!--#endregion-->
 
-
-
-            <!-- Buttons -->
+            <!--#region Buttons -->
             <Style TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="{DynamicResource Secondary}"/>
                 <Setter Property="Foreground" Value="{DynamicResource Text}"/>
@@ -69,7 +67,9 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+            <!--#endregion-->
 
+            <!-- #region Min Max and Exit Buttons -->
             <Style x:Key="MinMaxStyle" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Width" Value="25"/>
@@ -90,6 +90,8 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+            
+           
 
             <Style x:Key="ExitStyle" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="Transparent"/>
@@ -112,7 +114,8 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-
+            <!--#endregion-->
+            
             <!-- Textbox -->
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="Background" Value="{DynamicResource Tertiary}"/>

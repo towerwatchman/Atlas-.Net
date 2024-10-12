@@ -153,21 +153,16 @@
                    Margin="40,0">
                             <RadioButton
                        Content="Games"
-                       IsChecked="True"
-                       Style="{DynamicResource TopNavigationStyle}"/>
+                       IsChecked="True"/>
                             <RadioButton
                        Content="Comics"
-                       IsChecked="False"  
-                       Style="{DynamicResource TopNavigationStyle}"/>
+                       IsChecked="False"/>
                             <RadioButton
                        Content="Artwork"
-                       IsChecked="False"
-                       Style="{DynamicResource TopNavigationStyle}"/>
+                       IsChecked="False"/>
                             <RadioButton
                        Content="Assets"
-                       IsChecked="False"
-                       Style="{DynamicResource TopNavigationStyle}"/>
-                            <!--"{DynamicResource TopNavigationStyle}"-->
+                       IsChecked="False"/>
                         </StackPanel>
                         <!--#endregion-->
 
@@ -251,10 +246,10 @@
                                 </Setter>
                             </Style>
                         </ListBox.Resources>
-                        <ListBoxItem
+                    <ListBoxItem
                     x:Name="Home"
                     Content="{DynamicResource home_icon}"
-                    IsSelected="True"/>
+                    IsSelected="True"></ListBoxItem>
                         <ListBoxItem
                     x:Name="Import"
                     Content="{DynamicResource add_icon}"

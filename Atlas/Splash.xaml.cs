@@ -64,7 +64,7 @@ namespace Atlas
                     Logging.Logger.Error(ex);
                 }
             });
-            UpdateSplashProgressBar(10);
+            UpdateSplashProgressBar(5);
 
             UpdateSplashText("Updating Folders");
             //Set folders
@@ -73,7 +73,7 @@ namespace Atlas
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "images"));
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "logs"));
             Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "updates"));
-            UpdateSplashProgressBar(20);
+            UpdateSplashProgressBar(10);
 
             UpdateSplashText("Updating xaml Dependencies");
             //Add Settings
@@ -95,11 +95,14 @@ namespace Atlas
                 //Default to regular theme
                 Logging.Logger.Error(ex);
             }
-            UpdateSplashProgressBar(30);
+            UpdateSplashProgressBar(20);
 
             UpdateSplashText("Running DB Migrations");
-            Database.Init();
-            UpdateSplashProgressBar(40);
+            SQLiteInterface.Init();
+            UpdateSplashProgressBar(30);
+
+            //Set progress before calling for update
+            InterfaceHelper.ProgressBarStartValue = 40;
 
             UpdateSplashText("Checking for DB Updates");
             //Check for database update
@@ -108,6 +111,9 @@ namespace Atlas
                 await CheckForDatabaseUpdateAsync();
             });
 
+            //If we are here then we should be at 100%
+            UpdateSplashProgressBar(100);
+            System.Threading.Thread.Sleep(1000);
         }
 
         private async Task CheckForDatabaseUpdateAsync()
@@ -123,18 +129,28 @@ namespace Atlas
                 string name = jsonArray[0]["name"].ToString();
                 string md5 = jsonArray[0]["md5"].ToString();
 
+                int lastDbUpdateVersion = SQLiteInterface.GetLastUpdateVersion();
                 //Run db check to see if latest update is in database
+                if (Convert.ToInt32(date) <= lastDbUpdateVersion && lastDbUpdateVersion != 0)
+                    return;
 
                 //Download latest update
                 try 
                 {
+                    UpdateSplashText("Downloading Update");
                     string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
                     string OutputPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "updates",name);
                     NetworkInterface networkInterface = new NetworkInterface();
                     await networkInterface.DownloadFile(DownloadUrl, OutputPath);
 
                     string data = Compression.DecodeLZ4Stream(OutputPath);
-                    UpdateInterface.ParseUpdate(data);
+                    UpdateSplashText("Processing Update");
+                    await UpdateInterface.ParseUpdate(data);
+
+                    if (UpdateInterface.UpdateCompleted)
+                    {
+                        SQLiteInterface.InsertUpdateVersion(date, md5);
+                    }
 
                     //update database with data
                     //Database.ProcessUpdate(OutputPath);
