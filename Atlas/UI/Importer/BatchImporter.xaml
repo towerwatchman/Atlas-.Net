@@ -125,10 +125,10 @@ Margin="10,3,3,0">
                             </TabItem>
                             <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" Visibility="Hidden">
                                 <Grid Background="{DynamicResource Tertiary}" VirtualizingPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True">
-                                    <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanUserResizeColumns="True" CanUserReorderColumns="True" VirtualizingPanel.IsContainerVirtualizable="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.VirtualizationMode="Recycling">
+                                    <DataGrid AutoGenerateColumns="False" x:Name="GameList" CanUserAddRows="False" IsReadOnly="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanUserResizeColumns="True" VirtualizingPanel.IsContainerVirtualizable="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.VirtualizationMode="Recycling">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Atlas ID" Binding="{Binding Path=Id}" Width="50" IsReadOnly="True"/>
-                                            <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" Width="100" IsReadOnly="False"/>
+                                            <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" MinWidth="200" IsReadOnly="False" />
                                             <DataGridTextColumn Header="Creator" Binding="{Binding Path=Creator}" Width="100" IsReadOnly="False"/>
                                             <DataGridTextColumn Header="Engine" Binding="{Binding Path=Engine}" Width="100" IsReadOnly="False"/>
                                             <DataGridTextColumn Header="Version" Binding="{Binding Path=Version}" Width="100" IsReadOnly="False"/>
@@ -150,8 +150,7 @@ Margin="10,3,3,0">
                                                         </DockPanel>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTextColumn Header="Folder" Binding="{Binding Path=Folder}" MinWidth="50" IsReadOnly="False"/>
+                                            </DataGridTemplateColumn>                                            
                                             <DataGridTemplateColumn Header="Possible Database Matches">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -166,6 +165,7 @@ Margin="10,3,3,0">
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
+                                            <DataGridTextColumn Header="Folder" Binding="{Binding Path=Folder}" MinWidth="50" IsReadOnly="False"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>

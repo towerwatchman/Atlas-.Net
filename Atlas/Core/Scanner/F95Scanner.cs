@@ -42,6 +42,7 @@ namespace Atlas.Core
                 string title = "";
                 string version = "";
                 string creator = "";
+                string game_engine = "";
                 int folder_size = 0;
                 int cur_level = 0;
                 int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
@@ -67,7 +68,7 @@ namespace Atlas.Core
                                 //Now that we have a list of executables, we need to try and parse the engine, version, name etc..,
                                 game_path = t;
                                 string[] file_list = Walk(t);//This is the list we will use to determine the engine
-                                string game_engine = Engine.FindEngine(file_list);
+                                game_engine = Engine.FindEngine(file_list);
                                 string[] game_data = Details.ParseDetails(t.Replace($"{path}\\", ""));
                                 if (format == "")
                                 {
@@ -111,6 +112,9 @@ namespace Atlas.Core
                                 else if(data.Count == 1) 
                                 {
                                     Id = data[0][0];
+                                    title = data[0][1];
+                                    creator = data[0][2];
+                                    game_engine = data[0][3];
                                     ResultVisibilityState = Visibility.Hidden;
                                 }
                                 else

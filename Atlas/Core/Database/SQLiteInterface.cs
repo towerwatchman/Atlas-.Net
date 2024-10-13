@@ -266,6 +266,7 @@ namespace Atlas.Core.Database
                 $"atlas_id, " +
                 $"title, " +
                 $"creator, " +
+                $"engine, " +
                 $"LENGTH(short_name) - LENGTH('{short_name}') as difference " +
                 $"from atlas_data WHERE short_name like '%{short_name}%' Order By LENGTH(short_name) - LENGTH('{short_name}')";
 
@@ -285,6 +286,7 @@ namespace Atlas.Core.Database
                             reader["atlas_id"].ToString(),
                             reader["title"].ToString(),
                             reader["creator"].ToString(),
+                            reader["engine"].ToString(),
                             reader["difference"].ToString()
                         });
                     }
