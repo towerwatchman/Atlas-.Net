@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Atlas"
              StartupUri="Splash.xaml">
     <Application.Resources>
-        
+
         <ResourceDictionary>
             <!-- #region External Dictionaries [Loaded at Runtime]-->
             <ResourceDictionary.MergedDictionaries>
@@ -90,8 +90,8 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            
-           
+
+
 
             <Style x:Key="ExitStyle" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="Transparent"/>
@@ -115,7 +115,7 @@
                 </Style.Triggers>
             </Style>
             <!--#endregion-->
-            
+
             <!-- Textbox -->
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
@@ -224,12 +224,36 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <Style x:Key="ScrollBarThumbHorizontal" TargetType="{x:Type Thumb}">
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <!--<Setter Property="Margin" Value="3"/>-->
+                <Setter Property="Background" Value="{StaticResource Tertiary}"/>
+                <Setter Property="IsTabStop" Value="false"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <Border x:Name="rectangle" Background="{StaticResource Tertiary}" Width="{TemplateBinding Width}" SnapsToDevicePixels="True" Height="10" CornerRadius="4"/>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" TargetName="rectangle" Value="{StaticResource Tertiary}"/>
+                                </Trigger>
+                                <Trigger Property="IsDragging" Value="true">
+                                    <Setter Property="Background" TargetName="rectangle" Value="{StaticResource Tertiary}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
             <!-- This has to be set after RepeatButtonTransparent-->
             <Style TargetType="{x:Type ScrollBar}">
                 <Style.Triggers>
                     <Trigger Property="Orientation" Value="Vertical">
                         <Setter Property="Background" Value="{StaticResource Primary}"/>
                         <Setter Property="BorderBrush" Value="{StaticResource Primary}"/>
+                        <Setter Property="Width" Value="10"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ScrollBar}">
@@ -256,10 +280,40 @@
                             </Setter.Value>
                         </Setter>
                     </Trigger>
+                    <Trigger Property="Orientation" Value="Horizontal">
+                        <Setter Property="Background" Value="{StaticResource Primary}"/>
+                        <Setter Property="BorderBrush" Value="{StaticResource Primary}"/>
+                        <Setter Property="Height" Value="10"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                    <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                            <ColumnDefinition Width="0.00001*"/>
+                                            <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Row="1" CornerRadius="5"/>
+                                        <Track x:Name="PART_Track" IsDirectionReversed="False" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Column="1">
+                                            <Track.DecreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource RepeatButtonTransparent}" HorizontalAlignment="Left" />
+                                            </Track.DecreaseRepeatButton>
+                                            <Track.IncreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
+                                            </Track.IncreaseRepeatButton>
+                                            <Track.Thumb>
+                                                <Thumb Style="{StaticResource ScrollBarThumbHorizontal}" />
+                                            </Track.Thumb>
+                                        </Track>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
                 </Style.Triggers>
             </Style>
 
-           
+
             <!--#endregion-->
 
             <!-- Progress Bar -->
