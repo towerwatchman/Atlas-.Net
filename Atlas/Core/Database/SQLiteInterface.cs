@@ -41,7 +41,7 @@ namespace Atlas.Core.Database
 
             try
             {
-                RedordID = InsertOrUpdate($"INSERT OR REPLACE INTO games(title, creator, engine, last_played_r, total_playtime) VALUES('{gameDetail.Title.Replace("\'", "\'\'")}', '{gameDetail.Creator.Replace("\'", "\'\'")}','{gameDetail.Engine.Replace("\'", "\'\'")}',0, 0) RETURNING record_id", 0);
+                RedordID = InsertOrUpdate($"INSERT INTO games(title, creator, engine, last_played_r, total_playtime) VALUES('{gameDetail.Title.Replace("\'", "\'\'")}', '{gameDetail.Creator.Replace("\'", "\'\'")}','{gameDetail.Engine.Replace("\'", "\'\'")}',0, 0) RETURNING record_id", 0);
             }
             catch (Exception ex)
             {
@@ -53,7 +53,7 @@ namespace Atlas.Core.Database
 
         public static void AddVersion(GameDetails gameDetail, int RecordID)
         {
-            string cmd = @$"INSERT OR REPLACE INTO versions (
+            string cmd = @$"INSERT INTO versions (
                             record_id, 
                             version, 
                             game_path, 
@@ -65,7 +65,7 @@ namespace Atlas.Core.Database
                             folder_size) 
                             VALUES (
                                 {RecordID}, 
-                                '{gameDetail.Version}',
+                                '{gameDetail.Version.Replace("\'", "\'\'")}',
                                 '{gameDetail.Folder.Replace("\'", "\'\'")}', 
                                 '{System.IO.Path.Combine(gameDetail.Folder, gameDetail.Executable[0]).Replace("\'", "\'\'")}',
                                 '',
@@ -202,7 +202,6 @@ namespace Atlas.Core.Database
             return data;
         }
 
-
         public static Task InsertJsonData(JToken data, string table)
         {
             string sql = string.Empty;          
@@ -287,6 +286,31 @@ namespace Atlas.Core.Database
                 }
             }
                 return record;
+        }
+
+        public static bool CheckIfVersionExist(string record_id, string version)
+        {
+            int record = -1;
+
+            string query = $"SELECT record_id from versions where record_id = '{record_id}' AND version ='{version.Replace("\'", "\'\'")}'";
+
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        record = Convert.ToInt32(reader["record_id"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            return record > -1 ? true: false;
         }
 
         public static List<string[]> GetAtlasId(string title, string creator)

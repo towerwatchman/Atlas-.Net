@@ -229,14 +229,17 @@ namespace Atlas
                 //We need to insert in to database first then get the id of the new item
                 string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
 
-                if( recordID != "-1")
+                if( recordID == "-1")
                 {
                     recordID = SQLiteInterface.AddGame(GameDetail);
                 }
 
                 if (recordID != string.Empty)
                 {
-                    SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
+                    if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
+                    {
+                        SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
+                    }
                     bool GameExist = GameList.Any(x => GameDetail.Creator == x.Creator && GameDetail.Title == x.Title);
                     if (GameExist)
                     {
