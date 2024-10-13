@@ -104,7 +104,7 @@ namespace Atlas.UI.Importer
             {
                 tbc_Import.SelectedIndex = 1;
                 //GameScanner gameScanner = new GameScanner();
-                GameList.ItemsSource = F95Scanner.GameDetailList;
+                //GameList.ItemsSource = F95Scanner.GameDetailList;
                 InterfaceHelper.Datagrid = GameList;
 
                 string folder = tb_FolderDialog.Text;

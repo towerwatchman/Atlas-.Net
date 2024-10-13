@@ -132,7 +132,7 @@ namespace Atlas.Core
                                     Creator = creator.Trim(),
                                     Engine = game_engine.Trim(),
                                     SingleEngineVisible = SingleEngineVisible,
-                                    Executable = potential_executables.ToList(),
+                                    Executable = [.. potential_executables],
                                     SingleExecutable = SingleExecutable,
                                     MultipleEngineVisible = MultipleEngineVisible,
                                     Folder = t,
@@ -151,7 +151,8 @@ namespace Atlas.Core
                                     });
                                     Task.Run(() =>
                                     {
-                                        UpdateBannerView();
+                                        AddGameDetailtoDataGrid(gd);
+                                        //UpdateBannerView();
                                     });
                                 }
                             }
@@ -163,13 +164,25 @@ namespace Atlas.Core
                     Logging.Logger.Warn(ex);
                 }
             }
+            //Try to bind item source 
+            UpdateBannerView();
             //outputFile.Close();
+        }
+
+        private static void AddGameDetailtoDataGrid(GameDetails gd)
+        {
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                InterfaceHelper.Datagrid.Items.Add(gd);
+            }));
         }
 
         private static void UpdateBannerView()
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {
+                InterfaceHelper.Datagrid.Items.Clear();
+                InterfaceHelper.Datagrid.ItemsSource = _GameDetailList;
                 InterfaceHelper.Datagrid.Items.Refresh();
             }));
         }
