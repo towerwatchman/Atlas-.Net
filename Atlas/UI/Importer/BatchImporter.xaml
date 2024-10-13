@@ -124,8 +124,8 @@ Margin="10,3,3,0">
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" Visibility="Hidden">
-                                <Grid Background="{DynamicResource Tertiary}" VirtualizingPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True">
-                                    <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanUserResizeColumns="True" CanUserReorderColumns="True">
+                                <Grid Background="{DynamicResource Tertiary}" VirtualizingPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+                                    <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanUserResizeColumns="True" CanUserReorderColumns="True" VirtualizingPanel.IsContainerVirtualizable="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.VirtualizationMode="Recycling">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Atlas ID" Binding="{Binding Path=Id}" Width="50" IsReadOnly="True"/>
                                             <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" Width="100" IsReadOnly="False"/>
@@ -135,8 +135,8 @@ Margin="10,3,3,0">
                                             <DataGridTemplateColumn Header="Executable">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <DockPanel HorizontalAlignment="Left" LastChildFill="True">
-                                                            <TextBlock DockPanel.Dock="Left" Text="{Binding SingleExecutable}" Foreground="{DynamicResource Text}" HorizontalAlignment="Left" Visibility="{Binding !SingleEngineVisible}"/>
+                                                        <DockPanel HorizontalAlignment="Left" LastChildFill="True" MinWidth="300">
+                                                            <TextBlock DockPanel.Dock="Left" Text="{Binding SingleExecutable}" Foreground="{DynamicResource Text}" HorizontalAlignment="Left" Visibility="{Binding SingleEngineVisible}"/>
                                                             <ComboBox DockPanel.Dock="Right"
                                                             ItemsSource="{Binding Executable}" 
                                                             SelectedValue="{Binding SelectedValue}" 
@@ -144,7 +144,7 @@ Margin="10,3,3,0">
                                                             Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"  
                                                             MinWidth="300" 
                                                             IsReadOnly="False"
-                                                            Visibility="{Binding SingleEngineVisible}"
+                                                            Visibility="{Binding MultipleEngineVisible}"
                                                             />
 
                                                         </DockPanel>
@@ -160,7 +160,7 @@ Margin="10,3,3,0">
                                                             SelectedValue="{Binding ResultSelectedValue}" 
                                                             SelectedValuePath="Key" 
                                                             Text="{Binding ResultText, UpdateSourceTrigger=PropertyChanged}"  
-                                                            MinWidth="50" 
+                                                            MinWidth="300" 
                                                             IsReadOnly="False"
                                                             Visibility="{Binding ResultVisibilityState}"/>
                                                     </DataTemplate>

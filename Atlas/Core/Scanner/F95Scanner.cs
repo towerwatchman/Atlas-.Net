@@ -94,10 +94,12 @@ namespace Atlas.Core
                                 string SingleExecutable = string.Empty;
                                 Visibility ResultVisibilityState = Visibility.Visible;
                                 Visibility SingleEngineVisible = Visibility.Visible;
+                                Visibility MultipleEngineVisible = Visibility.Visible;
 
-                                if(potential_executables.Count == 1)
+                                if (potential_executables.Count == 1)
                                 {
-                                    SingleEngineVisible = Visibility.Collapsed;
+                                    SingleEngineVisible = Visibility.Visible;
+                                    MultipleEngineVisible = Visibility.Collapsed;
                                     SingleExecutable = potential_executables[0].Trim();
                                 }
 
@@ -132,6 +134,7 @@ namespace Atlas.Core
                                     SingleEngineVisible = SingleEngineVisible,
                                     Executable = potential_executables.ToList(),
                                     SingleExecutable = SingleExecutable,
+                                    MultipleEngineVisible = MultipleEngineVisible,
                                     Folder = t,
                                     Results = results,
                                     ResultVisibilityState = ResultVisibilityState

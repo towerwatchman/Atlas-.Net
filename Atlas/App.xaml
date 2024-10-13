@@ -189,7 +189,7 @@
                 Direction="-59"
                 Color="#0c0d12"/>
 
-            <!-- Scroll Bar -->
+            <!--#region Scroll Bar -->
             <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>
                 <Setter Property="Background" Value="{StaticResource Primary}"/>
@@ -255,6 +255,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <!--#endregion-->
 
             <!-- Progress Bar -->
             <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
