@@ -8,6 +8,7 @@ using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
 using NLog;
 using NLog.LayoutRenderers;
+using static NLog.LayoutRenderers.Wrappers.ReplaceLayoutRendererWrapper;
 
 namespace Atlas.Core.Database
 {
@@ -40,7 +41,7 @@ namespace Atlas.Core.Database
 
             try
             {
-                RedordID = InsertOrUpdate($"INSERT OR REPLACE INTO games(title, creator, engine, last_played_r, total_playtime) VALUES('{gameDetail.Title.Replace("\'", "\'\'")}', '{gameDetail.Creator}','{gameDetail.Engine}',0, 0) RETURNING record_id", 0);
+                RedordID = InsertOrUpdate($"INSERT OR REPLACE INTO games(title, creator, engine, last_played_r, total_playtime) VALUES('{gameDetail.Title.Replace("\'", "\'\'")}', '{gameDetail.Creator.Replace("\'", "\'\'")}','{gameDetail.Engine.Replace("\'", "\'\'")}',0, 0) RETURNING record_id", 0);
             }
             catch (Exception ex)
             {
@@ -258,6 +259,36 @@ namespace Atlas.Core.Database
             InsertOrUpdate(query, 1);
         }
 
+        public static void SetAtlasMapping(string recordID, string atlasID)
+        {
+            string query = $"INSERT OR REPLACE INTO atlas_mappings (record_id, atlas_id) VALUES({recordID},{atlasID})";
+            InsertOrUpdate(query, 1);
+        }
+        public static int FindRecordID(string title, string creator) 
+        {
+            int record = -1;
+
+            string query = $"SELECT record_id from games where title = '{title.Replace("\'", "\'\'")}' AND creator ='{creator.Replace("\'", "\'\'")}'";
+
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {                        
+                        record = Convert.ToInt32(reader["record_id"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+                return record;
+        }
+
         public static List<string[]> GetAtlasId(string title, string creator)
         {
             var full_name = $"{Regex.Replace(title, "[\\W_]+", "").ToUpper()}{Regex.Replace(creator, "[\\W_]+", "").ToUpper()}";
@@ -298,15 +329,13 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
             {
                 connection.Open();
                 var command = connection.CreateCommand();
-                command.CommandText = query;
+                command.CommandText = query_title;
                 using var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
                     while (reader.Read())
-                    {
-                        if (Convert.ToInt32(reader["difference"].ToString()) <= 7)
-                        {
+                    {                       
 
                             data.Add(new string[] {
                             reader["atlas_id"].ToString(),
@@ -315,20 +344,23 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                             reader["engine"].ToString(),
                             reader["difference"].ToString()
                             });
-                        }
+                        
                     }
                     reader.Close();
                 }
-                else //try with just the title
+                if(data.Count > 1) //try with just the title
                 {
                     reader.Close ();
-                    command.CommandText = query_title;
+                    command.CommandText = query;
                     using var reader_title = command.ExecuteReader();
 
                     if (reader_title.HasRows)
                     {
+                        data.Clear();
                         while (reader_title.Read())
                         {
+                            if (Convert.ToInt32(reader_title["difference"].ToString()) <= 7)
+                            {
                                 data.Add(new string[] {
                             reader_title["atlas_id"].ToString(),
                             reader_title["title"].ToString(),
@@ -336,6 +368,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                             reader_title["engine"].ToString(),
                             reader_title["difference"].ToString()
                             });
+                            }
                         }
                         reader_title.Close();
                     }

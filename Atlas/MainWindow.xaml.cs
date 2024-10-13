@@ -227,7 +227,13 @@ namespace Atlas
             foreach (var GameDetail in F95Scanner.GameDetailList)
             {
                 //We need to insert in to database first then get the id of the new item
-                string recordID = SQLiteInterface.AddGame(GameDetail);
+                string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
+
+                if( recordID != "-1")
+                {
+                    recordID = SQLiteInterface.AddGame(GameDetail);
+                }
+
                 if (recordID != string.Empty)
                 {
                     SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
