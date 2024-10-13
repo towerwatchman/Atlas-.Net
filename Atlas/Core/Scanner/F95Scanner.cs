@@ -31,7 +31,7 @@ namespace Atlas.Core
 
 
             Console.WriteLine($"There are a total of {total_dirs} folders\n");
-            StreamWriter outputFile = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "Atlas_Output.txt"));
+            //StreamWriter outputFile = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "Atlas_Output.txt"));
             //We need to go through each item and find if it is a folder or file
 
             int ittr = 0;
@@ -57,34 +57,36 @@ namespace Atlas.Core
                         string[] s = t.Split('\\');
                         if (cur_level <= stop_level)
                         {
+                            
                             List<string> potential_executables = Executable.DetectExecutable(Directory.GetFiles(t));
                             if (potential_executables.Count > 0)
                             {
-                                stop_level = t.Split('\\').Length;
+                                //check to see how to parse data
+                               
+                                    stop_level = t.Split('\\').Length;
                                 //Now that we have a list of executables, we need to try and parse the engine, version, name etc..,
                                 game_path = t;
                                 string[] file_list = Walk(t);//This is the list we will use to determine the engine
                                 string game_engine = Engine.FindEngine(file_list);
                                 string[] game_data = Details.ParseDetails(t.Replace($"{path}\\", ""));
-                                if (game_data.Length > 0)
+                                if (format == "")
                                 {
-                                    title = game_data[0];
-                                    version = game_data[1];
+                                    
+                                    if (game_data.Length > 0)
+                                    {
+                                        title = game_data[0];
+                                        version = game_data[1];
+                                    }
+                                    if (game_data.Length > 2)
+                                    {
+                                        creator = game_data[2];
+                                    }
                                 }
-                                if (game_data.Length > 2)
+                                else
                                 {
-                                    creator = game_data[2];
+
                                 }
-                                /*
-                                string output = $"Title: {title}\nCreator: {creator}\nEngine: {game_engine}\nVersion: {version}\n";
-                                foreach (var exe in potential_executables)
-                                {
-                                    output += $" + Potential Executable: {Path.GetFileName(exe)}\n";
-                                }
-                                output += ($"Folder: {t}\nFolder Size: {folder_size}\n");
-                                output += ("*-----------------------------------------------------*");
-                                Console.WriteLine(output);
-                                outputFile.WriteLine(output);*/
+                                
 
                                 //Check the database to see if we have a match
                                 List<string[]> data = SQLiteInterface.GetAtlasId(title, creator);
@@ -158,7 +160,7 @@ namespace Atlas.Core
                     Logging.Logger.Warn(ex);
                 }
             }
-            outputFile.Close();
+            //outputFile.Close();
         }
 
         private static void UpdateBannerView()

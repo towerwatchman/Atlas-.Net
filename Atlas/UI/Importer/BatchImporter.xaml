@@ -124,14 +124,14 @@ Margin="10,3,3,0">
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" Visibility="Hidden">
-                                <Grid Background="{DynamicResource Tertiary}">
-                                    <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False">
+                                <Grid Background="{DynamicResource Tertiary}" VirtualizingPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True">
+                                    <DataGrid AutoGenerateColumns="False" x:Name="GameList" IsReadOnly="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanUserResizeColumns="True" CanUserReorderColumns="True">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Atlas ID" Binding="{Binding Path=Id}" MinWidth="50" IsReadOnly="True"/>
-                                            <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" MinWidth="50" IsReadOnly="False"/>
-                                            <DataGridTextColumn Header="Creator" Binding="{Binding Path=Creator}" MinWidth="50" IsReadOnly="False"/>
-                                            <DataGridTextColumn Header="Engine" Binding="{Binding Path=Engine}" MinWidth="50" IsReadOnly="False"/>
-                                            <DataGridTextColumn Header="Version" Binding="{Binding Path=Version}" MinWidth="50" IsReadOnly="False"/>
+                                            <DataGridTextColumn Header="Atlas ID" Binding="{Binding Path=Id}" Width="50" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" Width="100" IsReadOnly="False"/>
+                                            <DataGridTextColumn Header="Creator" Binding="{Binding Path=Creator}" Width="100" IsReadOnly="False"/>
+                                            <DataGridTextColumn Header="Engine" Binding="{Binding Path=Engine}" Width="100" IsReadOnly="False"/>
+                                            <DataGridTextColumn Header="Version" Binding="{Binding Path=Version}" Width="100" IsReadOnly="False"/>
                                             <DataGridTemplateColumn Header="Executable">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
