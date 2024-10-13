@@ -85,7 +85,31 @@ namespace Atlas.Core
                                 }
                                 else
                                 {
+                                    //try to parse based on pattern matching
+                                    string[] parseFormat = format.ToUpper().Replace("{", "").Replace("}","").Split("\\");
+                                    string[] strArr = t.Replace($"{path}\\", "").Split("\\");
 
+                                    var title_index = Array.FindIndex(parseFormat, row => row == "TITLE");
+                                    var creator_index = Array.FindIndex(parseFormat, row => row == "CREATOR");
+                                    var engine_index = Array.FindIndex(parseFormat, row => row == "ENGINE");
+                                    var version_index = Array.FindIndex(parseFormat, row => row == "VERSION");
+
+                                    if(title_index > -1)
+                                    {
+                                        title = strArr[title_index];
+                                    }
+                                    if (creator_index > -1)
+                                    {
+                                        creator = strArr[creator_index];
+                                    }
+                                    if (engine_index > -1)
+                                    {
+                                        game_engine = strArr[engine_index];
+                                    }
+                                    if (version_index > -1)
+                                    {
+                                        version = strArr[version_index];
+                                    }
                                 }
                                 
 

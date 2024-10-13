@@ -260,15 +260,38 @@ namespace Atlas.Core.Database
 
         public static List<string[]> GetAtlasId(string title, string creator)
         {
+            var full_name = $"{Regex.Replace(title, "[\\W_]+", "").ToUpper()}{Regex.Replace(creator, "[\\W_]+", "").ToUpper()}";
             var short_name = Regex.Replace(title, "[\\W_]+", "").ToUpper();
 
-            string query = $"Select " +
+            //Old Method. Only based on title
+
+            string query_title = $"Select " +
                 $"atlas_id, " +
                 $"title, " +
                 $"creator, " +
                 $"engine, " +
                 $"LENGTH(short_name) - LENGTH('{short_name}') as difference " +
                 $"from atlas_data WHERE short_name like '%{short_name}%' Order By LENGTH(short_name) - LENGTH('{short_name}')";
+            
+
+            string query = @$"
+WITH data_0 AS(
+SELECT 
+atlas_id, 
+title, 
+creator, 
+engine, 
+UPPER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title || "" "" || creator, '-', ''),'_',''),'/',''),'\',''),':',''),';',''),'''',''),' ',''),'.','')) as ""full_name""
+from atlas_data )
+
+SELECT 
+atlas_id, 
+title, 
+creator, 
+engine,
+LENGTH(full_name) - LENGTH('{full_name}') as ""difference""
+FROM data_0
+WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_name}')";
 
             List<string[]> data = new List<string[]>();
             using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
@@ -282,18 +305,42 @@ namespace Atlas.Core.Database
                 {
                     while (reader.Read())
                     {
-                        data.Add(new string[] { 
+                        if (Convert.ToInt32(reader["difference"].ToString()) <= 7)
+                        {
+
+                            data.Add(new string[] {
                             reader["atlas_id"].ToString(),
                             reader["title"].ToString(),
                             reader["creator"].ToString(),
                             reader["engine"].ToString(),
                             reader["difference"].ToString()
-                        });
+                            });
+                        }
+                    }
+                    reader.Close();
+                }
+                else //try with just the title
+                {
+                    reader.Close ();
+                    command.CommandText = query_title;
+                    using var reader_title = command.ExecuteReader();
+
+                    if (reader_title.HasRows)
+                    {
+                        while (reader_title.Read())
+                        {
+                                data.Add(new string[] {
+                            reader_title["atlas_id"].ToString(),
+                            reader_title["title"].ToString(),
+                            reader_title["creator"].ToString(),
+                            reader_title["engine"].ToString(),
+                            reader_title["difference"].ToString()
+                            });
+                        }
+                        reader_title.Close();
                     }
                 }
-                reader.Close();
             }
-
             return data;
         }
     }
