@@ -193,7 +193,8 @@
                         VerticalAlignment="Center"/>
                         </Grid>
                         <!--#endregion-->
-                    </Grid>
+                    <TextBox HorizontalAlignment="Right" x:Name="tbVersion" MinHeight="20" MinWidth="40" BorderThickness="0" Background="Transparent" Margin="0,10,20,0"/>
+                </Grid>
 
 
                 </Grid>

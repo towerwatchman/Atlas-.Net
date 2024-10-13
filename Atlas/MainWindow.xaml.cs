@@ -7,6 +7,7 @@ using SharpVectors.Dom.Css;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -40,6 +41,9 @@ namespace Atlas
             //Hide context menu
             cmGame.Visibility = Visibility.Hidden;
             BannerView.MouseUp += BannerView_MouseUp;
+
+            //Assign version
+            tbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
         }
 
         #region Banner Left Click
