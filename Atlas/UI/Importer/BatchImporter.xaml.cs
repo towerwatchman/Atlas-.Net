@@ -38,7 +38,7 @@ namespace Atlas.UI.Importer
 
             //Disable Import,Next Button & progressbar
             btn_next.IsEnabled = false;
-            btn_import.IsEnabled = false;
+            btn_import.IsEnabled = true;
             pbGameScanner.Visibility = Visibility.Hidden;
 
             //Add Scanners to list
@@ -132,13 +132,14 @@ namespace Atlas.UI.Importer
             //Check that the Creator column is valid
             if(F95Scanner._GameDetailList.Count > 0)
             {
-                if(F95Scanner._GameDetailList.Any(x=>x.Creator != string.Empty) &&
+                EmitImportSignal();
+                this.Close();
+
+               /* if (F95Scanner._GameDetailList.Any(x=>x.Creator != string.Empty) &&
                     F95Scanner._GameDetailList.Any(x => x.Title != string.Empty)
                 )
-                {
-                    EmitImportSignal();
-                    this.Close();
-                }
+                {                   
+                }*/
             }
 
         }
