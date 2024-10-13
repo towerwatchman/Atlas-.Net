@@ -1,12 +1,14 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
 using Atlas.UI.Importer;
+using Atlas.Core.Network;
 using Castle.Core.Resource;
 using NLog;
 using SharpVectors.Dom.Css;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,8 +37,7 @@ namespace Atlas
                 HideListView();
             }
 
-            this.BannerView.ItemsSource = GameList;
-            this.GameListBox.ItemsSource = GameList;
+
 
             //Hide context menu
             cmGame.Visibility = Visibility.Hidden;
@@ -44,6 +45,17 @@ namespace Atlas
 
             //Assign version
             tbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
+            Task.Run(async () =>
+            {
+                await SQLiteInterface.BuildGameList(GameList);
+                
+            });
+
+            this.BannerView.ItemsSource = GameList;
+            this.GameListBox.ItemsSource = GameList;
+
+            //sort items in lists
+            //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
         }
 
         #region Banner Left Click
@@ -282,6 +294,11 @@ namespace Atlas
                 {
                     Logging.Logger.Info(GameDetail.Title);
                 }
+
+
+                //Download images
+
+                //Atlas.Core.Network.NetworkInterface.DownloadFileToMemory("", "");
 
                 BannerView.Items.Refresh();
                 GameListBox.Items.Refresh();

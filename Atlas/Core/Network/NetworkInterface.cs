@@ -16,11 +16,11 @@ using System.Windows.Threading;
 
 namespace Atlas.Core.Network
 {
-    public class NetworkInterface
+    public static class NetworkInterface
     {
         private static readonly HttpClient _httpClient = new HttpClient();       
 
-        private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        private static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
             {
@@ -65,7 +65,44 @@ namespace Atlas.Core.Network
 
 
 
-        internal Task DownloadFile(string downloadUrl, string outputPath)
+        public static Task DownloadFileToMemory(string downloadUrl, string outputPath)
+        {
+            Task task = null;
+            /*Uri uriResult;
+
+            if (!Uri.TryCreate(uri, UriKind.Absolute, out uriResult))
+                throw new InvalidOperationException("URI is invalid.");*/
+            //The percentage needs to be split in half
+            WebClient webClient = new WebClient();
+
+            webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+            webClient.DownloadFileCompleted += (s, e) =>
+            {
+                webClient.Dispose();
+                task = Task.CompletedTask;
+                // any other code to process the file
+            };
+
+            byte[] fileBytes = null;
+
+            webClient.DownloadDataAsync(new Uri(downloadUrl), fileBytes);
+            //webClient.DownloadFileAsync(new Uri(downloadUrl), outputPath);
+
+            //webClient.Dispose();
+
+            while (task == null)
+            {
+
+            }
+
+            return task;
+            //await _httpClient.
+            //byte[] fileBytes = await _httpClient.GetByteArrayAsync(uri);
+            //File.WriteAllBytes(outputPath, fileBytes);
+
+        }
+
+        public static Task DownloadFile(string downloadUrl, string outputPath)
         {
             Task task = null;
             /*Uri uriResult;
@@ -87,11 +124,12 @@ namespace Atlas.Core.Network
 
             //webClient.Dispose();
 
-            while(task == null)
+            while (task == null)
             {
 
             }
 
+            
             return task;
             //await _httpClient.
             //byte[] fileBytes = await _httpClient.GetByteArrayAsync(uri);

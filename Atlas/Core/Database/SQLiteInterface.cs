@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using System.Windows.Media.Imaging;
 using Atlas.UI;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
@@ -399,6 +401,109 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                 }
             }
             return data;
+        }
+
+      
+
+        private static List<GameVersion> GetVersions(string record_id)
+        {
+            List<GameVersion> gameVersions = new List<GameVersion>();
+            string query = $"SELECT * FROM versions where record_id = '{record_id}'";
+
+
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            GameVersion gameVersion = new GameVersion
+                            {
+                                RecordId = Convert.ToInt32(record_id),
+                                Version = reader["version"].ToString(),
+                                GamePath = reader["game_path"].ToString(),
+                                ExePath = reader["exec_path"].ToString(),
+                                DateAdded = DateTime.Parse(reader["date_added"].ToString())
+                            };
+                            gameVersions.Add(gameVersion);
+                        }
+                        catch(Exception ex)
+                        {
+                            Logging.Logger.Error($"{ex.Message}");
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+            return gameVersions;
+        }
+
+        public static Task BuildGameList(List<Game> GameList)
+        {
+            //List<Game> data = new List<Game>();
+            string query = "SELECT * FROM games";
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            Game game = new Game
+                            {
+                                AtlasID = reader["record_id"].ToString(),
+                                Title = reader["title"].ToString(),
+                                Creator = reader["creator"].ToString(),
+                                Engine = reader["engine"].ToString(),
+                                Versions = GetVersions(reader["record_id"].ToString()),
+                                ImageData = null
+                            };
+                            GameList.Add(game);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logging.Logger.Error(ex);
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+            return Task.CompletedTask;
+        }
+
+        private static BitmapImage LoadImage(string path)
+        {
+            var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
+            if (path == "")
+            {
+                return image;
+            }
+            else
+            {
+                try
+                {
+                    var uri = new Uri(path);
+                    return new BitmapImage(uri);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return image;
+                }
+            }
         }
     }
 }

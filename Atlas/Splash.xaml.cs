@@ -140,8 +140,8 @@ namespace Atlas
                     UpdateSplashText("Downloading Update");
                     string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
                     string OutputPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "updates",name);
-                    NetworkInterface networkInterface = new NetworkInterface();
-                    await networkInterface.DownloadFile(DownloadUrl, OutputPath);
+
+                    await NetworkInterface.DownloadFile(DownloadUrl, OutputPath);
 
                     string data = Compression.DecodeLZ4Stream(OutputPath);
                     UpdateSplashText("Processing Update");
