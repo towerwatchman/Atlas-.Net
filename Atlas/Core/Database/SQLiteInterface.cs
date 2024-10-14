@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -290,6 +291,30 @@ namespace Atlas.Core.Database
                 return record;
         }
 
+        public static int FindF95ID(int record_id)
+        {
+            int record = -1;
+            string query = $"SELECT f95_id from f95_zone_data where atlas_id = '{record}";
+
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        record = Convert.ToInt32(reader["record_id"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            return record;
+        }
+
         public static bool CheckIfVersionExist(string record_id, string version)
         {
             int record = -1;
@@ -464,7 +489,8 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                         {
                             Game game = new Game
                             {
-                                AtlasID = reader["record_id"].ToString(),
+                                AtlasID = GetAtlasIdMapping(Convert.ToInt32(reader["record_id"].ToString())),
+                                RecordID = Convert.ToInt32(reader["record_id"].ToString()),
                                 Title = reader["title"].ToString(),
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
@@ -482,6 +508,30 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                 }
             }
             return Task.CompletedTask;
+        }
+
+        private static string GetAtlasIdMapping(int record_id)
+        {
+            string atlasId = string.Empty;
+            string query = $"SELECT atlas_id from atlas_mappings where record_id = '{record_id}'";
+
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        atlasId =reader["atlas_id"].ToString();
+                    }
+                    reader.Close();
+                }
+            }
+            return atlasId;
         }
 
         private static BitmapImage LoadImage(string path)
@@ -504,6 +554,30 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                     return image;
                 }
             }
+        }
+
+        public static string GetBannerUrl(string AtlasId)
+        {
+            string banner = string.Empty;
+            string query = $"SELECT banner_url from f95_zone_data where atlas_id = '{AtlasId}'";
+
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        banner = (reader["banner_url"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            return banner;
         }
     }
 }

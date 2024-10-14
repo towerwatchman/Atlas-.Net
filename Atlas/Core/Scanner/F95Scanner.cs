@@ -45,7 +45,7 @@ namespace Atlas.Core
                 string game_engine = "";
                 int folder_size = 0;
                 int cur_level = 0;
-                int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
+                int stop_level = 6; //Set to max of 15 levels. There should not be more than 15 at most
 
                 //Update Progressbar
                 ittr++;
@@ -115,6 +115,7 @@ namespace Atlas.Core
 
                                 //Check the database to see if we have a match
                                 List<string[]> data = SQLiteInterface.GetAtlasId(title, creator);
+                                
                                 List<string> results = new List<string>();
                                 string SingleExecutable = string.Empty;
                                 Visibility ResultVisibilityState = Visibility.Visible;

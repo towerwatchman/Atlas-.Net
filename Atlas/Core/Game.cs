@@ -5,6 +5,7 @@ namespace Atlas.Core
 {
     public class Game
     {
+        public required int RecordID { get; set; }
         public string AtlasID { get; set; }
         public string F95ID { get; set; }
         public required string Title { get; set; }

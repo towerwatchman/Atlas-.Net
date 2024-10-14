@@ -3,6 +3,7 @@
     public class GameVersion
     {
         public required int RecordId { get; set; }
+        public int f95Id { get; set; }
         public required string Version { get; set; }
         public required string GamePath { get; set; }
         public required string ExePath { get; set; }

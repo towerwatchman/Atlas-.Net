@@ -120,13 +120,19 @@ namespace Atlas.Core.Network
                 // any other code to process the file
             };
 
-            webClient.DownloadFileAsync(new Uri(downloadUrl), outputPath);
+            try
+            {
+                webClient.DownloadFileAsync(new Uri(downloadUrl), outputPath);
+            }
+            catch (Exception ex)
+            {
+                Logging.Logger.Error(ex);
+            }
 
             //webClient.Dispose();
 
             while (task == null)
             {
-
             }
 
             

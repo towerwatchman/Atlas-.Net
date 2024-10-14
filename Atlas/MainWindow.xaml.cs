@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace Atlas
 {
@@ -37,8 +38,6 @@ namespace Atlas
                 HideListView();
             }
 
-
-
             //Hide context menu
             cmGame.Visibility = Visibility.Hidden;
             BannerView.MouseUp += BannerView_MouseUp;
@@ -51,9 +50,14 @@ namespace Atlas
                 
             });
 
+
+
             this.BannerView.ItemsSource = GameList;
             this.GameListBox.ItemsSource = GameList;
+            //sort items in lists
+            //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
 
+            //this.GameListBox.Items.Refresh();
             //sort items in lists
             //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
         }
@@ -188,6 +192,17 @@ namespace Atlas
                     Atlas.Core.Settings.Config.ShowListView = true;
                 }
             }
+
+            if(Item.Name.ToString() == "Refresh")
+            {
+                foreach(Game game in GameList)
+                {
+                    //game.F95ID =  SQLiteInterface.FindF95ID(Convert.ToInt32(game.AtlasID)).ToString();
+                    string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
+                    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
+                    Atlas.Core.Network.NetworkInterface.DownloadFile(bannerUrl, Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl)));
+                }
+            }
         }
 
         #region Game ListView Visibility
@@ -248,6 +263,8 @@ namespace Atlas
 
                 if (recordID != string.Empty)
                 {
+                    SQLiteInterface.SetAtlasMapping(recordID, GameDetail.Id);
+
                     if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
                     {
                         SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
@@ -286,7 +303,8 @@ namespace Atlas
                             Versions = gameVersions,
                             Engine = GameDetail.Engine,
                             Status = "",
-                            ImageData = LoadImage("")
+                            ImageData = LoadImage(""),
+                            RecordID = Convert.ToInt32(recordID)
                         });
                     }
                 }
