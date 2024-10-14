@@ -113,6 +113,7 @@ namespace Atlas
 
             //If we are here then we should be at 100%
             UpdateSplashProgressBar(100);
+            UpdateSplashText("Launching Atlas");
             System.Threading.Thread.Sleep(1000);
         }
 

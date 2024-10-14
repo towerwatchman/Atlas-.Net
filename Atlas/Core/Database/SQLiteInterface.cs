@@ -495,7 +495,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
                                 Versions = GetVersions(reader["record_id"].ToString()),
-                                ImageData = null
+                                ImageData = LoadImage(GetBannerPath(reader["record_id"].ToString()))
                             };
                             GameList.Add(game);
                         }
@@ -578,6 +578,36 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                 }
             }
             return banner;
+        }
+
+        public static string GetBannerPath(string record_id)
+        {
+            string banner_path = string.Empty;
+            string query = $"SELECT path from banners where record_id = '{record_id}'";
+
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        banner_path = (reader["path"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            return banner_path;
+        }
+
+        internal static void UpdateBanners(int recordID, string banner_path, string type)
+        {
+            string query = $"INSERT OR REPLACE INTO banners (record_id, path, type) VALUES('{recordID}','{banner_path}','{type}')";
+            InsertOrUpdate(query, 1);
         }
     }
 }

@@ -15,6 +15,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.IO;
+using Atlas.UI;
+using System.Windows.Threading;
+using System.Net.Cache;
 
 namespace Atlas
 {
@@ -44,16 +47,24 @@ namespace Atlas
 
             //Assign version
             tbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
-            Task.Run(async () =>
+
+
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                await SQLiteInterface.BuildGameList(GameList);
-                
+                // the code that's accessing UI properties
+
+                SQLiteInterface.BuildGameList(GameList);
+
+                /*foreach (Game game in GameList)
+                {
+                    this.BannerView.Items.Add(game);
+                    this.GameListBox.Items.Add(game);
+                }*/
+                this.BannerView.ItemsSource = GameList;
+                this.GameListBox.ItemsSource = GameList;
             });
+            
 
-
-
-            this.BannerView.ItemsSource = GameList;
-            this.GameListBox.ItemsSource = GameList;
             //sort items in lists
             //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
 
@@ -163,7 +174,7 @@ namespace Atlas
         }
         #endregion
 
-        private void OnListBoxNavButtonUp(object sender, RoutedEventArgs e)
+        private async void OnListBoxNavButtonUp(object sender, RoutedEventArgs e)
         {
             var Item = (ListBoxItem)sender;
             Console.WriteLine(Item.Name);
@@ -188,20 +199,50 @@ namespace Atlas
                 }
                 else
                 {
-                   ShowListView();
+                    ShowListView();
                     Atlas.Core.Settings.Config.ShowListView = true;
                 }
             }
 
-            if(Item.Name.ToString() == "Refresh")
+            if (Item.Name.ToString() == "Refresh")
             {
-                foreach(Game game in GameList)
-                {
-                    //game.F95ID =  SQLiteInterface.FindF95ID(Convert.ToInt32(game.AtlasID)).ToString();
-                    string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
-                    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
-                    Atlas.Core.Network.NetworkInterface.DownloadFile(bannerUrl, Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl)));
-                }
+                List<Game> tempList = GameList;
+                //download images
+                await Task.Run(async () =>
+                    {
+                        
+                        foreach (Game game in tempList)
+                        {
+                            //game.F95ID =  SQLiteInterface.FindF95ID(Convert.ToInt32(game.AtlasID)).ToString();
+                            string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
+
+                            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
+                            string banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                            await Atlas.Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path);
+                            //update banner table
+                            if (bannerUrl != "")
+                            {
+                                SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
+                            }
+                            //game.ImageData = LoadImage(banner_path);
+
+                            Logging.Logger.Info(game.Title.ToString());
+                            GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData = LoadImage(bannerUrl == ""? "" : banner_path);
+
+                            //replace game item with new data
+
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                this.BannerView.Items.Refresh();
+                            });
+
+
+                            // We know the thread have a dispatcher that we can use.
+
+
+                        }
+                        
+                    });
             }
         }
 
@@ -256,7 +297,7 @@ namespace Atlas
                 //We need to insert in to database first then get the id of the new item
                 string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
 
-                if( recordID == "-1")
+                if (recordID == "-1")
                 {
                     recordID = SQLiteInterface.AddGame(GameDetail);
                 }
@@ -334,14 +375,18 @@ namespace Atlas
             var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
             if (path == "")
             {
-                return image;
+                return null;
             }
             else
             {
                 try
                 {
+
+                    //fix so image is smaller.
                     var uri = new Uri(path);
-                    return new BitmapImage(uri);
+                    var bi = new BitmapImage(uri);
+                    bi.Freeze();
+                    return bi;
                 }
                 catch (Exception ex)
                 {
@@ -349,6 +394,11 @@ namespace Atlas
                     return image;
                 }
             }
+        }
+
+        private void BannerView_CleanUpVirtualizedItem(object sender, CleanUpVirtualizedItemEventArgs e)
+        {
+
         }
     }
 }

@@ -142,5 +142,36 @@ namespace Atlas.Core.Network
             //File.WriteAllBytes(outputPath, fileBytes);
 
         }
+
+        public static async Task<Task> DownloadFileAsync(string url, string filename)
+        {
+            if (url != "")
+            {
+                using (var client = new HttpClient())
+                {
+                    try
+                    {
+                        var response = await client.GetAsync(url);
+                        response.EnsureSuccessStatusCode();
+
+                        using (var stream = await response.Content.ReadAsStreamAsync())
+                        using (var fileStream = new FileStream(filename, FileMode.Create))
+                        {
+                            await stream.CopyToAsync(fileStream);
+                        }
+
+                        Console.WriteLine("Image downloaded successfully: " + filename);
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        Console.WriteLine("Failed to download image: " + ex.Message);
+                    }
+                }
+            }
+
+            //We do not want to spam f95
+            System.Threading.Thread.Sleep(500);
+            return Task.CompletedTask;
+        }
     }
 }
