@@ -346,7 +346,8 @@
                                       HorizontalScrollBarVisibility="Auto"
                                       VerticalScrollBarVisibility="Auto"
                                       HorizontalAlignment="Stretch"
-                                      VerticalAlignment="Stretch">
+                                      VerticalAlignment="Stretch"
+                                          Background="{DynamicResource Primary}">
                                 <ItemsPresenter/>
                             </ScrollViewer>
                         </ControlTemplate>

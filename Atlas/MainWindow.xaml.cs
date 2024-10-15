@@ -308,7 +308,10 @@ namespace Atlas
 
                 if (recordID != string.Empty)
                 {
-                    SQLiteInterface.SetAtlasMapping(recordID, GameDetail.Id);
+                    if (GameDetail.Id != "")
+                    {
+                        SQLiteInterface.SetAtlasMapping(recordID, GameDetail.Id);
+                    }
 
                     if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
                     {
