@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace Atlas.Core.Utilities
 {
@@ -23,8 +24,17 @@ namespace Atlas.Core.Utilities
             {
                 try
                 {
-                    //fix so image is smaller.
+                    var uri = new Uri(path);
 
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.UriSource = uri;
+                    bitmapImage.DecodePixelWidth = (int)width;
+                    bitmapImage.EndInit();
+                    //var bi = new BitmapImage(uri);
+
+                    //fix so image is smaller.
+                    /*
                     Bitmap original = (Bitmap)System.Drawing.Image.FromFile(path);
                     Bitmap resized;
                     if (original.Width >= original.Height)
@@ -44,9 +54,10 @@ namespace Atlas.Core.Utilities
                     //var uri = new Uri(path);
                     var bi = ToBitmapImage(resized);
                     original.Dispose();
-                    resized.Dispose();
-                    bi.Freeze();
-                    return bi;//bi;
+                    resized.Dispose();*/
+                    bitmapImage.Freeze();
+                    return bitmapImage;//bi;
+                    
                 }
                 catch (Exception ex)
                 {
