@@ -80,7 +80,7 @@ Margin="10,3,3,0">
                     Background="{DynamicResource Primary}" 
                     VerticalAlignment="Stretch">
                         <ProgressBar x:Name="pbGameScanner" HorizontalAlignment="Left" Width="400" Height="20" Margin="50,0,0,0" Visibility="Visible"/>
-                        <TextBox x:Name="tbPotentialGames" HorizontalAlignment="Center" Text="" VerticalAlignment="Center" BorderBrush="Transparent" Background="Transparent"/>
+                        <TextBox x:Name="tbPotentialGames" HorizontalAlignment="Center" Text="" VerticalAlignment="Center" BorderBrush="Transparent" Background="Transparent" IsEnabled="False"/>
                         <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
                             <Button x:Name="btn_import" Content="Import" Margin="4" Visibility="Hidden" Width="0" Click="Btn_Import_Click"/>
                             <Button x:Name="btn_next" Content="Next" Margin="4" Click="btn_next_Click"/>
