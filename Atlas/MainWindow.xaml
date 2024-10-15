@@ -50,7 +50,7 @@
             <!--#region  Top Navigation-->
             <Grid 
             Panel.ZIndex="1"
-            
+            BitmapEffect="{DynamicResource BottomShadowEffect}"
             Background="{DynamicResource Primary}"
             Grid.Column="1">
 
@@ -204,7 +204,7 @@
             <Grid
             Panel.ZIndex="1"
             Background="{DynamicResource Primary}"
-            
+            BitmapEffect="{DynamicResource RightShadowEffect}"            
             Grid.Row="1">
                 <ListBox
                 Background="Transparent"
