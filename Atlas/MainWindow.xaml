@@ -335,12 +335,22 @@
 
                 <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,0,0" Background="{DynamicResource Primary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                        HorizontalAlignment="Stretch" 
-                       ScrollViewer.CanContentScroll="True"     
-                           
-                        VirtualizingPanel.ScrollUnit="Pixel"   
-                        VirtualizingPanel.VirtualizationMode="Recycling"  
-                          VirtualizingStackPanel.CleanUpVirtualizedItem="BannerView_CleanUpVirtualizedItem" 
-                           >
+                       ScrollViewer.CanContentScroll="True"                                
+                       VirtualizingPanel.ScrollUnit="Pixel"   
+                       VirtualizingPanel.VirtualizationMode="Recycling"  
+                       VirtualizingStackPanel.CleanUpVirtualizedItem="BannerView_CleanUpVirtualizedItem">
+                    <ListBox.Template>
+                        <ControlTemplate>
+                            <ScrollViewer CanContentScroll="True"
+                                      Focusable="False"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ListBox.Template>
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}"/>
