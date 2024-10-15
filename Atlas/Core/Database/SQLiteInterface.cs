@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
+using Atlas.Core.Utilities;
 using Atlas.UI;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
@@ -495,7 +496,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
                                 Versions = GetVersions(reader["record_id"].ToString()),
-                                ImageData = LoadImage(GetBannerPath(reader["record_id"].ToString()))
+                                ImageData = ImageInterface.LoadImage(GetBannerPath(reader["record_id"].ToString()),537,251)
                             };
                             GameList.Add(game);
                         }
@@ -532,28 +533,6 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                 }
             }
             return atlasId;
-        }
-
-        private static BitmapImage LoadImage(string path)
-        {
-            var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
-            if (path == "")
-            {
-                return image;
-            }
-            else
-            {
-                try
-                {
-                    var uri = new Uri(path);
-                    return new BitmapImage(uri);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return image;
-                }
-            }
         }
 
         public static string GetBannerUrl(string AtlasId)

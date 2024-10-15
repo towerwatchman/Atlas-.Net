@@ -15,10 +15,9 @@
     <Grid >
         <DockPanel>
             <Grid DockPanel.Dock="Bottom">
-                <ProgressBar x:Name="pbSplash" DockPanel.Dock="Bottom" Margin="40,0,40,10" Height="20" Width="250" Minimum="0" Maximum="100"/>
-                <TextBox x:Name="tbSplash" DockPanel.Dock="Bottom" FontSize="12" Margin="0,0,0,10" Height="20" Width="Auto" Text="Running Updates" BorderThickness="0" Background="Transparent" HorizontalAlignment="Center" Foreground="{DynamicResource Text}"/>
-            </Grid>
-          
+                <ProgressBar x:Name="SplashProgressBar" DockPanel.Dock="Bottom" Margin="40,0,40,10" Height="20" Width="250" Minimum="0" Maximum="100"/>
+                <TextBox x:Name="SplashTextBox" DockPanel.Dock="Bottom" FontSize="12" Margin="0,0,0,10" Height="20" Width="Auto" Text="Running Updates" BorderThickness="0" Background="Transparent" HorizontalAlignment="Center" Foreground="{DynamicResource Text}"/>
+            </Grid>          
             <Image DockPanel.Dock="Top" Width="Auto" Source="{DynamicResource atlas_logo_full}" RenderOptions.BitmapScalingMode="HighQuality" Height="160"/>            
         </DockPanel>
     </Grid>

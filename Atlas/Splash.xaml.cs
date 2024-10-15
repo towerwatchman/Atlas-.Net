@@ -11,26 +11,21 @@ using static System.Net.WebRequestMethods;
 
 namespace Atlas
 {
-    /// <summary>
-    /// Check for updates
-    /// Set Folders
-    /// Add Settings
-    /// Run db migrations
-    /// </summary>
     public partial class Splash : Window
     {
         public Splash()
         {
             InitializeComponent();
 
-            //assign progressbar to helper
+            //Assign progressbar to helper
             InterfaceHelper.SplashWindow = this;
-            InterfaceHelper.SplashProgressBar = pbSplash;
-            InterfaceHelper.SplashTextBox = tbSplash;
+            InterfaceHelper.SplashProgressBar = SplashProgressBar;
+            InterfaceHelper.SplashTextBox = SplashTextBox;
 
             //Check if program is already open
             if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
-            //Discard await warning
+
+
             Task.Run(async () => {
                 try
                 {
@@ -174,14 +169,14 @@ namespace Atlas
         {
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, () =>
             {
-                tbSplash.Text = text;
+                SplashTextBox.Text = text;
             });
         }
         public void UpdateSplashProgressBar(int value)
         {
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, () =>
             {
-               pbSplash.Value = value;
+                SplashProgressBar.Value = value;
             });
         }
     }

@@ -18,6 +18,10 @@ using System.IO;
 using Atlas.UI;
 using System.Windows.Threading;
 using System.Net.Cache;
+using System.Drawing;
+using System.Windows.Interop;
+using System.Drawing.Imaging;
+using Atlas.Core.Utilities;
 
 namespace Atlas
 {
@@ -227,7 +231,7 @@ namespace Atlas
                             //game.ImageData = LoadImage(banner_path);
 
                             Logging.Logger.Info(game.Title.ToString());
-                            GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData = LoadImage(bannerUrl == ""? "" : banner_path);
+                            GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData = ImageInterface.LoadImage(bannerUrl == ""? "" : banner_path, (double)Application.Current.Resources["bannerX"], (double)Application.Current.Resources["bannerY"]);
 
                             //replace game item with new data
 
@@ -344,7 +348,7 @@ namespace Atlas
                             Versions = gameVersions,
                             Engine = GameDetail.Engine,
                             Status = "",
-                            ImageData = LoadImage(""),
+                            ImageData = ImageInterface.LoadImage("", (double)Application.Current.Resources["bannerX"], (double)Application.Current.Resources["bannerY"]),
                             RecordID = Convert.ToInt32(recordID)
                         });
                     }
@@ -366,34 +370,6 @@ namespace Atlas
             //sort items in lists
             GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
 
-        }
-
-
-        //This needs to move to its own class. We need an image handler class
-        private BitmapImage LoadImage(string path)
-        {
-            var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
-            if (path == "")
-            {
-                return null;
-            }
-            else
-            {
-                try
-                {
-
-                    //fix so image is smaller.
-                    var uri = new Uri(path);
-                    var bi = new BitmapImage(uri);
-                    bi.Freeze();
-                    return bi;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return image;
-                }
-            }
         }
 
         private void BannerView_CleanUpVirtualizedItem(object sender, CleanUpVirtualizedItemEventArgs e)

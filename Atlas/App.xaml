@@ -6,7 +6,7 @@
     <Application.Resources>
 
         <ResourceDictionary>
-            <!-- #region External Dictionaries [Loaded at Runtime]-->
+            <!-- #region ResourceDictionary.MergedDictionaries [Loaded at Runtime]-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Assets/Images/icons.xaml"/>
                 <ResourceDictionary Source="/UI/Layouts/banner.xaml"/>
@@ -15,7 +15,7 @@
             </ResourceDictionary.MergedDictionaries>
             <!--#endregion-->
 
-            <!-- #region Radio Button -->
+            <!-- #region x:Type Radio Button -->
             <Style TargetType="{x:Type RadioButton}">
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Background" Value="Transparent"/>
@@ -43,7 +43,7 @@
             </Style>
             <!--#endregion-->
 
-            <!--#region Buttons -->
+            <!--#region x:Type Button -->
             <Style TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="{DynamicResource Secondary}"/>
                 <Setter Property="Foreground" Value="{DynamicResource Text}"/>
@@ -116,7 +116,7 @@
             </Style>
             <!--#endregion-->
 
-            <!-- Textbox -->
+            <!--#region x:Type Textbox -->
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
@@ -129,6 +129,7 @@
                     </Style>
                 </Style.Resources>
             </Style>
+            <!--#endregion-->
 
             <!-- Label -->
             <Style TargetType="{x:Type Label}">
