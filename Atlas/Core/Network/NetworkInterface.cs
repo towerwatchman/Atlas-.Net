@@ -16,7 +16,7 @@ using System.Windows.Threading;
 
 namespace Atlas.Core.Network
 {
-    public static class NetworkInterface
+    public class NetworkInterface
     {
         private static readonly HttpClient _httpClient = new HttpClient();       
 
@@ -143,7 +143,7 @@ namespace Atlas.Core.Network
 
         }
 
-        public static async Task<Task> DownloadFileAsync(string url, string filename)
+        public async Task<Task> DownloadFileAsync(string url, string filename)
         {
             if (url != "")
             {

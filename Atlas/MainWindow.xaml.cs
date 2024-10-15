@@ -217,28 +217,36 @@ namespace Atlas
                         
                         foreach (Game game in tempList)
                         {
-                            //game.F95ID =  SQLiteInterface.FindF95ID(Convert.ToInt32(game.AtlasID)).ToString();
-                            string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
-
-                            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
-                            string banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                            await Atlas.Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path);
-                            //update banner table
-                            if (bannerUrl != "")
+                            try
                             {
-                                SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
+                                //game.F95ID =  SQLiteInterface.FindF95ID(Convert.ToInt32(game.AtlasID)).ToString();
+                                string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
+
+                                Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
+                                string banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
+                                await networkInterface.DownloadFileAsync(bannerUrl, banner_path);
+                                //update banner table
+                                if (bannerUrl != "")
+                                {
+                                    SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
+                                }
+                                //game.ImageData = LoadImage(banner_path);
+
+                                Logging.Logger.Info(game.Title.ToString());
+                                GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData = ImageInterface.LoadImage(bannerUrl == "" ? "" : banner_path, (double)Application.Current.Resources["bannerX"], (double)Application.Current.Resources["bannerY"]);
+
+                                //replace game item with new data
+
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    this.BannerView.Items.Refresh();
+                                });
                             }
-                            //game.ImageData = LoadImage(banner_path);
-
-                            Logging.Logger.Info(game.Title.ToString());
-                            GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData = ImageInterface.LoadImage(bannerUrl == ""? "" : banner_path, (double)Application.Current.Resources["bannerX"], (double)Application.Current.Resources["bannerY"]);
-
-                            //replace game item with new data
-
-                            Application.Current.Dispatcher.Invoke(() =>
+                            catch(Exception ex)
                             {
-                                this.BannerView.Items.Refresh();
-                            });
+                                Logging.Logger.Error(ex.ToString());    
+                            }
 
 
                             // We know the thread have a dispatcher that we can use.
