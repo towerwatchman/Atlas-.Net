@@ -18,7 +18,7 @@ namespace Atlas.Core.Utilities
             var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
             if (path == "")
             {
-                return null;
+                return image;
             }
             else
             {
@@ -31,30 +31,6 @@ namespace Atlas.Core.Utilities
                     bitmapImage.UriSource = uri;
                     bitmapImage.DecodePixelWidth = (int)width;
                     bitmapImage.EndInit();
-                    //var bi = new BitmapImage(uri);
-
-                    //fix so image is smaller.
-                    /*
-                    Bitmap original = (Bitmap)System.Drawing.Image.FromFile(path);
-                    Bitmap resized;
-                    if (original.Width >= original.Height)
-                    {
-                        //double width = (double)Application.Current.Resources["bannerX"];
-                        double width_scaled = (width / original.Width) * original.Height;
-                        resized = new Bitmap(original, (int)width, (int)width_scaled);
-                    }
-                    else
-                    {
-                        //double height = (double)Application.Current.Resources["bannerY"];
-                        double height_scaled = (height / original.Height) * original.Width;
-                        resized = new Bitmap(original, (int)height, (int)height_scaled);
-                    }
-
-
-                    //var uri = new Uri(path);
-                    var bi = ToBitmapImage(resized);
-                    original.Dispose();
-                    resized.Dispose();*/
                     bitmapImage.Freeze();
                     return bitmapImage;//bi;
                     
