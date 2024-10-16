@@ -44,7 +44,7 @@ namespace Atlas.Core
                 string version = "";
                 string creator = "";
                 string game_engine = "";
-                int folder_size = 0;
+                //int folder_size = 0;
                 int cur_level = 0;
                 int stop_level = 6; //Set to max of 15 levels. There should not be more than 15 at most
 

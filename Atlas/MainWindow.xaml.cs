@@ -52,11 +52,11 @@ namespace Atlas
             this.GameListBox.ItemsSource = GameList;
 
             SQLiteInterface.BuildGameList(GameList);
-                // the code that's accessing UI properties
-                
-                
-            
-            
+            // the code that's accessing UI properties
+
+
+
+
 
             //sort items in lists
             //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
@@ -203,7 +203,7 @@ namespace Atlas
                 //download images
                 await Task.Run(async () =>
                     {
-                        
+
                         foreach (Game game in tempList)
                         {
                             try
@@ -216,7 +216,7 @@ namespace Atlas
                                     Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
                                     string banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
                                     Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
-                                    await networkInterface.DownloadFileAsync(bannerUrl, banner_path);
+                                    await networkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
                                     //update banner table
                                     if (bannerUrl != "")
                                     {
@@ -225,7 +225,13 @@ namespace Atlas
                                     //game.ImageData = LoadImage(banner_path);
 
                                     Logging.Logger.Info(game.Title.ToString());
-                                    GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData = ImageInterface.LoadImage(bannerUrl == "" ? "" : banner_path, (double)Application.Current.Resources["bannerX"], (double)Application.Current.Resources["bannerY"]);
+
+                                    //Find Game in gamelist and set the banner to it
+                                    GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData =
+                                        ImageInterface.LoadImage(
+                                                bannerUrl == "" ? "" : banner_path,
+                                                Atlas.Core.Settings.Config.ImageRenderWidth,
+                                                Atlas.Core.Settings.Config.ImageRenderHeight);
 
                                     //replace game item with new data
 
@@ -238,9 +244,9 @@ namespace Atlas
                                     GC.WaitForPendingFinalizers();
                                 }
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
-                                Logging.Logger.Error(ex.ToString());    
+                                Logging.Logger.Error(ex.ToString());
                             }
 
 
@@ -248,7 +254,7 @@ namespace Atlas
 
 
                         }
-                        
+
                     });
             }
         }
@@ -354,7 +360,7 @@ namespace Atlas
                             Versions = gameVersions,
                             Engine = GameDetail.Engine,
                             Status = "",
-                            ImageData = ImageInterface.LoadImage("", (double)Application.Current.Resources["bannerX"], (double)Application.Current.Resources["bannerY"]),
+                            ImageData = ImageInterface.LoadImage("", Atlas.Core.Settings.Config.ImageRenderWidth, Atlas.Core.Settings.Config.ImageRenderHeight),
                             RecordID = Convert.ToInt32(recordID)
                         });
                     }

@@ -47,7 +47,7 @@ namespace Atlas
         public async Task Init()
         {
             UpdateSplashText( "Check For Updates");
-            //Check for updates
+            //Check for Program updates
             await Task.Run(() =>
             {
                 try
@@ -72,7 +72,7 @@ namespace Atlas
 
             UpdateSplashText("Updating xaml Dependencies");
             //Add Settings
-            Settings.Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "config.ini")).Build();
+            Settings.Init();
 
             //Set the default theme file
             string theme = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes", Settings.Config.Theme);

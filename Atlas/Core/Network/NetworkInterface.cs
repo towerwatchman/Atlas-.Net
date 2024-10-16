@@ -143,7 +143,7 @@ namespace Atlas.Core.Network
 
         }
 
-        public async Task<Task> DownloadFileAsync(string url, string filename)
+        public async Task<Task> DownloadFileAsync(string url, string filename, int delay = 0)
         {
             if (url != "")
             {
@@ -170,7 +170,7 @@ namespace Atlas.Core.Network
             }
 
             //We do not want to spam f95
-            System.Threading.Thread.Sleep(500);
+            System.Threading.Thread.Sleep(delay);
             return Task.CompletedTask;
         }
     }

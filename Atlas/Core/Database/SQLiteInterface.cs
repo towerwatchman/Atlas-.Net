@@ -496,7 +496,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
                                 Versions = GetVersions(reader["record_id"].ToString()),
-                                ImageData = ImageInterface.LoadImage(GetBannerPath(reader["record_id"].ToString()),537,251)
+                                ImageData = ImageInterface.LoadImage(GetBannerPath(reader["record_id"].ToString()),Settings.Config.ImageRenderWidth,Settings.Config.ImageRenderHeight)
                             };
                             GameList.Add(game);
                         }
