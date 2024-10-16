@@ -3,11 +3,13 @@ using Atlas.Core.Database;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using NLog;
 
 namespace Atlas.Core
 {
     public static class F95Scanner
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static ObservableCollection<GameDetails> _GameDetailList = new ObservableCollection<GameDetails>();
         public static IEnumerable<GameDetails> GameDetailList { get { return _GameDetailList; } }
 
@@ -191,7 +193,7 @@ namespace Atlas.Core
                 }
                 catch (Exception ex)
                 {
-                    Logging.Logger.Warn(ex);
+                    Logger.Warn(ex);
                 }
             }
             //Try to bind item source 

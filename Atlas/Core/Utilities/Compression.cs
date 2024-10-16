@@ -14,6 +14,7 @@ namespace Atlas.Core.Utilities
 {
     public static class Compression
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static string DecodeLZ4Stream(String filename)
         {
             string data = string.Empty;
@@ -27,7 +28,7 @@ namespace Atlas.Core.Utilities
                 data = System.Text.Encoding.Default.GetString(decoded);
                 //File.WriteAllText(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "test.txt"), data);
             }
-            catch(Exception ex) { Logging.Logger.Error(ex); }
+            catch(Exception ex) { Logger.Error(ex); }
 
             return data;
         }

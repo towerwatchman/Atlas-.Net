@@ -18,6 +18,7 @@ namespace Atlas.Core.Database
 {
     public static class SQLiteInterface
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static void Init()
         {
             string DatabasePath = Path.Combine(Directory.GetCurrentDirectory(), Settings.Config.DatabasePath);
@@ -35,7 +36,7 @@ namespace Atlas.Core.Database
                 }
                 catch (Exception ex)
                 {
-                    Logging.Logger.Error(ex);
+                    Logger.Error(ex);
                 }
             }
         }
@@ -49,7 +50,7 @@ namespace Atlas.Core.Database
             }
             catch (Exception ex)
             {
-                Logging.Logger.Error(ex);
+                Logger.Error(ex);
             }
 
             return RedordID;
@@ -150,7 +151,7 @@ namespace Atlas.Core.Database
             }
             catch (Exception ex)
             {
-                Logging.Logger.Error($"{ex.Message}");
+                Logger.Error($"{ex.Message}");
             }
             return data;
         }
@@ -183,7 +184,7 @@ namespace Atlas.Core.Database
                                     InterfaceHelper.SplashProgressBar.Value = (currentQuery/ totalQueries)*100;
                                 }));
 
-                                //Logging.Logger.Info($"Percent complete {currentQuery} / {totalQueries}");
+                                //Logger.Info($"Percent complete {currentQuery} / {totalQueries}");
                                 updateCommand.CommandText = query;
                                 updateCommand.ExecuteNonQuery();
                                 currentQuery++;
@@ -201,7 +202,7 @@ namespace Atlas.Core.Database
             }
             catch (Exception ex)
             {
-                Logging.Logger.Error($"{ex.Message}");
+                Logger.Error($"{ex.Message}");
             }
             return data;
         }
@@ -462,7 +463,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                         }
                         catch(Exception ex)
                         {
-                            Logging.Logger.Error($"{ex.Message}");
+                            Logger.Error($"{ex.Message}");
                         }
                     }
                     reader.Close();
@@ -502,7 +503,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                         }
                         catch (Exception ex)
                         {
-                            Logging.Logger.Error(ex);
+                            Logger.Error(ex);
                         }
                     }
                     reader.Close();

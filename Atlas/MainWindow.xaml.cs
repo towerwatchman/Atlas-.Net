@@ -28,6 +28,7 @@ namespace Atlas
 {
     public partial class MainWindow : Window
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private bool isBatchImporterOpen = false;
         private bool isRefreshRunning = false;
         private List<Game> GameList = new List<Game>();
@@ -235,7 +236,7 @@ namespace Atlas
                                         }
                                         //game.ImageData = LoadImage(banner_path);
 
-                                        Logging.Logger.Info(game.Title.ToString());
+                                        Logger.Info(game.Title.ToString());
 
                                         //Find Game in gamelist and set the banner to it
                                         GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData =
@@ -257,7 +258,7 @@ namespace Atlas
                                 }
                                 catch (Exception ex)
                                 {
-                                    Logging.Logger.Error(ex.ToString());
+                                    Logger.Error(ex.ToString());
                                 }
 
 
@@ -380,7 +381,7 @@ namespace Atlas
                 }
                 else
                 {
-                    Logging.Logger.Info(GameDetail.Title);
+                    Logger.Info(GameDetail.Title);
                 }
 
 
@@ -436,7 +437,7 @@ namespace Atlas
                 }
                 catch(Exception ex)
                 {
-                    Logging.Logger.Error(ex);
+                    Logger.Error(ex);
                 }
             }
         }

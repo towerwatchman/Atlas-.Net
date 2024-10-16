@@ -1,5 +1,6 @@
 ﻿using Atlas.UI;
 using Newtonsoft.Json.Linq;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,7 @@ namespace Atlas.Core.Network
 {
     public class NetworkInterface
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly HttpClient _httpClient = new HttpClient();       
 
         private static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -25,7 +27,7 @@ namespace Atlas.Core.Network
             InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
             {
                 InterfaceHelper.SplashProgressBar.Value = InterfaceHelper.ProgressBarStartValue + e.ProgressPercentage/2;
-                Logging.Logger.Info(InterfaceHelper.SplashProgressBar.Value);
+                Logger.Info(InterfaceHelper.SplashProgressBar.Value);
             }));
         }
 
@@ -57,7 +59,7 @@ namespace Atlas.Core.Network
             }
             catch (Exception ex)
             {
-                Logging.Logger.Error(ex);
+                Logger.Error(ex);
                 return jsonArray;
             }
             return jsonArray;
@@ -126,7 +128,7 @@ namespace Atlas.Core.Network
             }
             catch (Exception ex)
             {
-                Logging.Logger.Error(ex);
+                Logger.Error(ex);
             }
 
             //webClient.Dispose();

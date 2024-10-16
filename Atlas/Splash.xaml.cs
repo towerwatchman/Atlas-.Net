@@ -5,6 +5,7 @@ using Atlas.Core.Utilities;
 using Atlas.UI;
 using Config.Net;
 using Newtonsoft.Json.Linq;
+using NLog;
 using System.IO;
 using System.Windows;
 using static System.Net.WebRequestMethods;
@@ -13,6 +14,7 @@ namespace Atlas
 {
     public partial class Splash : Window
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public Splash()
         {
             InitializeComponent();
@@ -38,7 +40,7 @@ namespace Atlas
                 }
                 catch(Exception ex)
                 {
-                    Logging.Logger.Error(ex);
+                    Logger.Error(ex);
                 }
             });
 
@@ -56,7 +58,7 @@ namespace Atlas
                 }
                 catch (Exception ex)
                 {
-                    Logging.Logger.Error(ex);
+                    Logger.Error(ex);
                 }
             });
             UpdateSplashProgressBar(5);
@@ -88,7 +90,7 @@ namespace Atlas
             catch (Exception ex)
             {
                 //Default to regular theme
-                Logging.Logger.Error(ex);
+                Logger.Error(ex);
             }
             UpdateSplashProgressBar(20);
 
@@ -153,7 +155,7 @@ namespace Atlas
                 }
                 catch(Exception ex)
                 {
-                    Logging.Logger.Error(ex);
+                    Logger.Error(ex);
                 }
             }
         }

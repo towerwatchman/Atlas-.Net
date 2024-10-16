@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using NLog;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -12,6 +13,8 @@ namespace Atlas.Core
 {
     public static class Updater
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private static string AppVersion = string.Empty;
         private static string UpdateDir = string.Empty;
         private static string AtlasDir = string.Empty;
@@ -84,7 +87,7 @@ namespace Atlas.Core
                                 }
                                 catch (Exception ex)
                                 {
-                                    Logging.Logger.Error(ex);
+                                    Logger.Error(ex);
                                 }
                                 //Check if file directory exist and run powershell
                                 if (Directory.Exists(Path.Combine(UpdateDir, $"{data[2]}")))
@@ -99,7 +102,7 @@ namespace Atlas.Core
                 catch (Exception ex)
                 {
                     MessageBox.Show("There was an error retieveing the update");
-                    Logging.Logger.Error(ex);
+                    Logger.Error(ex);
                 }
             }
         }
@@ -129,7 +132,7 @@ namespace Atlas.Core
             }
             catch (Exception ex)
             {
-                Logging.Logger.Error(ex);
+                Logger.Error(ex);
                 return [];
             }
             return [];
