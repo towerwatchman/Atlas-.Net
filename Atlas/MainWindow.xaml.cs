@@ -52,8 +52,10 @@ namespace Atlas
             //Assign version
             tbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
+            //initalize the BannerView
             InitListView();
-
+            LoadGames();
+            
         }
 
         private void InitListView()
@@ -65,17 +67,27 @@ namespace Atlas
             this.BannerView.ItemsSource = GameList;
             this.GameListBox.ItemsSource = GameList;
 
-            SQLiteInterface.BuildGameList(GameList);
-
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
-            view.Filter = UserFilter;
-            // the code that's accessing UI properties
-            //sort items in lists
-            GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
-
             //this.GameListBox.Items.Refresh();
             //sort items in lists
             //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+        }
+
+        private async void LoadGames()
+        {
+            await Task.Run(async () =>
+            {
+                await Dispatcher.BeginInvoke(async () =>
+                {
+                    //Build Default View from
+                    await SQLiteInterface.BuildGameList(GameList);
+
+                    CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
+                    view.Filter = UserFilter;
+                    // the code that's accessing UI properties
+                    //sort items in lists
+                    GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+                });
+            });
         }
 
         #region Banner Left Click
