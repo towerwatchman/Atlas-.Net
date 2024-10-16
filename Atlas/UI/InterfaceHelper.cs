@@ -13,5 +13,6 @@ namespace Atlas.UI
         public static double ProgressBarStartValue { get; set; } 
         public static TextBox SplashTextBox { get; internal set; }
         public static Splash SplashWindow { get; internal set; }
+        public static TextBlock ImporterScanTextBox { get; set; }
     }
 }

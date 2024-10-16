@@ -51,6 +51,17 @@ namespace Atlas
 
             //Assign version
             tbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
+
+            InitListView();
+
+        }
+
+        private void InitListView()
+        {
+            //Reset the list
+            this.GameListBox.ItemsSource = null;
+            this.GameList.Clear();
+            this.GameList = new List<Game>();
             this.BannerView.ItemsSource = GameList;
             this.GameListBox.ItemsSource = GameList;
 
@@ -59,11 +70,6 @@ namespace Atlas
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
             view.Filter = UserFilter;
             // the code that's accessing UI properties
-
-
-
-
-
             //sort items in lists
             GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
 
@@ -215,7 +221,6 @@ namespace Atlas
                     //download images
                     await Task.Run(async () =>
                         {
-
                             foreach (Game game in tempList)
                             {
                                 try
@@ -260,13 +265,7 @@ namespace Atlas
                                 {
                                     Logger.Error(ex.ToString());
                                 }
-
-
-                                // We know the thread have a dispatcher that we can use.
-
-
                             }
-
                         });
                     isRefreshRunning = false;
                 }
@@ -319,7 +318,7 @@ namespace Atlas
             //This will take each game detail that was imported and change it into an actual game.
             //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
             //after adding to database we can import to the BannerView
-            
+
 
             foreach (var GameDetail in F95Scanner.GameDetailList)
             {
@@ -354,7 +353,7 @@ namespace Atlas
                                 DateAdded = DateTime.Now,
                                 ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
                                 GamePath = GameDetail.Folder,
-                                RecordId = Convert.ToInt32(recordID)      
+                                RecordId = Convert.ToInt32(recordID)
                             });
 
                     }
@@ -379,7 +378,7 @@ namespace Atlas
                             Status = "",
                             ImageData = ImageInterface.LoadImage("", Atlas.Core.Settings.Config.ImageRenderWidth, Atlas.Core.Settings.Config.ImageRenderHeight),
                             RecordID = Convert.ToInt32(recordID),
-                            
+
                         });
                     }
                 }
@@ -391,10 +390,11 @@ namespace Atlas
 
                 //Download images
 
-                //Atlas.Core.Network.NetworkInterface.DownloadFileToMemory("", "");
 
-                BannerView.Items.Refresh();
-                GameListBox.Items.Refresh();
+                //Once we are complete, do a full refresh
+                InitListView();
+
+
             }
 
             //sort items in lists
@@ -409,7 +409,7 @@ namespace Atlas
 
         private void AtlasSearchBox_MouseEnter(object sender, MouseEventArgs e)
         {
-            if(AtlasSearchBox.Text == "Search Atlas")
+            if (AtlasSearchBox.Text == "Search Atlas")
             {
                 AtlasSearchBox.Text = string.Empty;
             }
@@ -439,7 +439,7 @@ namespace Atlas
                 {
                     CollectionViewSource.GetDefaultView(BannerView.ItemsSource).Refresh();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logger.Error(ex);
                 }

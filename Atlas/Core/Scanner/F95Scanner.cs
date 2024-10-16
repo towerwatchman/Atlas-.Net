@@ -30,6 +30,7 @@ namespace Atlas.Core
                 InterfaceHelper.GameScannerProgressBar.Visibility = Visibility.Visible;
                 InterfaceHelper.GameScannerProgressBar.Minimum = 0;
                 InterfaceHelper.GameScannerProgressBar.Maximum = total_dirs;
+                InterfaceHelper.ImporterScanTextBox.Text = $"0/{total_dirs} Folders Scanned";
             }));
 
 
@@ -52,7 +53,7 @@ namespace Atlas.Core
 
                 //Update Progressbar
                 ittr++;
-                UpdateProgressBar(ittr);
+                UpdateProgressBar(ittr, total_dirs);
                 try
                 {
                     foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
@@ -174,16 +175,32 @@ namespace Atlas.Core
 
                                 if (title != "")
                                 {
-                                    Application.Current.Dispatcher.BeginInvoke(() =>
+                                    try
                                     {
-                                        _GameDetailList.Add(gd);
-                                        potentialGames++;
-                                        UpdatePotentialGames(potentialGames);
-                                        //dg.Items.Refresh();
-                                    });
+                                        Application.Current.Dispatcher.BeginInvoke(() =>
+                                        {
+
+                                            _GameDetailList.Add(gd);
+                                            potentialGames++;
+                                            UpdatePotentialGames(potentialGames);
+                                            //dg.Items.Refresh();
+
+                                        });
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Warn(ex);
+                                    }
                                     Task.Run(() =>
                                     {
-                                        AddGameToBannerView(gd);
+                                        try
+                                        {
+                                            AddGameToBannerView(gd);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Logger.Error(ex);
+                                        }
                                         //UpdateBannerView();
                                     });
                                 }
@@ -205,6 +222,7 @@ namespace Atlas.Core
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {
                 InterfaceHelper.Datagrid.Items.Add(gd);
+                InterfaceHelper.Datagrid.IsReadOnly = true;
                 InterfaceHelper.Datagrid.IsEnabled = false;
             }));
         }
@@ -215,7 +233,7 @@ namespace Atlas.Core
                 InterfaceHelper.Datagrid.Items.Clear();
                 InterfaceHelper.Datagrid.ItemsSource = _GameDetailList;
                 InterfaceHelper.Datagrid.Items.Refresh();
-                InterfaceHelper.Datagrid.IsEnabled = true;
+                InterfaceHelper.Datagrid.IsReadOnly = false;
             }));
         }
         public static string[] Walk(string path)
@@ -226,11 +244,12 @@ namespace Atlas.Core
 
             return list;
         }
-        private static void UpdateProgressBar(int value)
+        private static void UpdateProgressBar(int value, int total_dirs)
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {                
+            {
                 InterfaceHelper.GameScannerProgressBar.Value = value;
+                InterfaceHelper.ImporterScanTextBox.Text = $"{value}/{total_dirs} Folders Scanned";
             }));
         }
         private static void UpdatePotentialGames(int value)

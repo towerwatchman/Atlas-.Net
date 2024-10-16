@@ -35,6 +35,7 @@ namespace Atlas.UI.Importer
             //Assign UI elements to InterfaceHelper
             InterfaceHelper.GameScannerProgressBar = pbGameScanner;
             InterfaceHelper.PotentialGamesTextBox = tbPotentialGames;
+            InterfaceHelper.ImporterScanTextBox = ImporterScanTextBox;
 
             //Disable Import,Next Button & progressbar
             btn_next.IsEnabled = false;
