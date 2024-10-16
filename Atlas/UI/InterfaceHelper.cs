@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Atlas.UI
 {
@@ -17,5 +18,6 @@ namespace Atlas.UI
         public static TextBlock ImporterScanTextBox { get; set; }
         public static ListView BannerView { get; set; }
         public static Window MainWindow { get; set; }
+        public static Dispatcher Dispatcher { get; internal set; }
     }
 }

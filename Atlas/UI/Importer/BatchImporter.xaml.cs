@@ -97,7 +97,7 @@ namespace Atlas.UI.Importer
             this.Close();
         }
 
-        private void btn_next_Click(object sender, RoutedEventArgs e)
+        private async void btn_next_Click(object sender, RoutedEventArgs e)
         {
             var item = (TabItem)tbc_Import.SelectedItem;
 
@@ -112,19 +112,22 @@ namespace Atlas.UI.Importer
 
                 string format = (bool)cb_format.IsChecked == true ? "" : tb_format.Text;
 
-                Task.Factory.StartNew(() =>
-                {
-                    F95Scanner.Start(folder, format);
-                });
-
                 //Hide Next Button
                 btn_next.Width = 0;
                 btn_next.Visibility = Visibility.Hidden;
-
                 //Show Import Button
                 btn_import.Visibility = Visibility.Visible;
+                btn_import.IsEnabled = false;
                 btn_import.Width = 70;
+
+                await Task.Run(async () =>
+                {
+                    await F95Scanner.Start(folder, format);
+                });
+
+                btn_import.IsEnabled = true;
             }
+
         }
 
         private void Btn_Import_Click(object sender, RoutedEventArgs e)

@@ -36,6 +36,7 @@ namespace Atlas
         {
             InitializeComponent();
 
+            
             //Custom Event manager for pressing one of the Navigation buttons on the left side
             EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
 
@@ -53,7 +54,6 @@ namespace Atlas
             tbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
             InterfaceHelper.BannerView = BannerView;
-            InterfaceHelper.MainWindow = this;
 
             //initalize the BannerView
             //InitListView();

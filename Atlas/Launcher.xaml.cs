@@ -24,6 +24,10 @@ namespace Atlas
             InterfaceHelper.LauncherProgressBar = LauncherProgressBar;
             InterfaceHelper.LauncherTextBox = LauncherTextBox;
 
+            //This will be the default dispatcher for all UI elements that need to be updated from another thread
+            //This does not include the Launcher. It uses its own thread.
+            InterfaceHelper.Dispatcher = Application.Current.Dispatcher;
+
             //Check if program is already open
             if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
 
@@ -133,7 +137,10 @@ namespace Atlas
             {
                 try
                 {
-                    await CheckForDatabaseUpdateAsync();
+                    //Load the entire GameList before binding it to the view
+                    ModelLoader loader = new ModelLoader();
+                    //Pass the default pageview
+                    await loader.CreateGamesList(Settings.Config.DefaultPage);
                 }
                 catch (Exception ex)
                 {

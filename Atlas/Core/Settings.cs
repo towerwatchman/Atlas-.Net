@@ -14,6 +14,10 @@ namespace Atlas.Core
             //Set all inital values here. 
             Config.ImageRenderHeight = Config.ImageRenderHeight == 0 ? 251 : Config.ImageRenderHeight;
             Config.ImageRenderWidth = Config.ImageRenderWidth == 0 ? 537 : Config.ImageRenderWidth;
+
+            //This is for Visual Novels & H games
+            //Down the line this can change
+            Config.DefaultPage = Config.DefaultPage == "" ? "VNHGames" : Config.DefaultPage;
         }
 
     }
@@ -51,6 +55,8 @@ namespace Atlas.Core
         double ImageRenderHeight { get; set; }
         [Option(Alias = "ui.ImageRenderWidth")]
         double ImageRenderWidth { get; set; }
+        [Option(Alias = "ui.DefaultPage")]
+        string DefaultPage { get; set; }
 
         #endregion
     }

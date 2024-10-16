@@ -14,7 +14,7 @@ namespace Atlas.Core
         public static IEnumerable<GameDetails> GameDetailList { get { return _GameDetailList; } }
 
         public static bool isRunning = false;
-        public static void Start(string path, string format)
+        public static Task Start(string path, string format)
         {
             //Set the item list before we do anything else
 
@@ -216,6 +216,8 @@ namespace Atlas.Core
             //Try to bind item source 
             UpdateBannerView();
             //outputFile.Close();
+
+            return Task.CompletedTask;
         }
         private static void AddGameToBannerView(GameDetails gd)
         {
@@ -223,7 +225,6 @@ namespace Atlas.Core
             {
                 InterfaceHelper.Datagrid.Items.Add(gd);
                 InterfaceHelper.Datagrid.IsReadOnly = true;
-                InterfaceHelper.Datagrid.IsEnabled = false;
             }));
         }
         private static void UpdateBannerView()

@@ -81,7 +81,7 @@ Margin="10,3,3,0">
                     VerticalAlignment="Stretch">
                         <Grid HorizontalAlignment="Left">
                             <ProgressBar x:Name="pbGameScanner"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="400" Height="20" Margin="50,0,50,0" Visibility="Visible"/>
-                            <TextBlock x:Name="ImporterScanTextBox" Text="0/0 Folders Scanned"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Text}"/>
+                            <TextBlock x:Name="ImporterScanTextBox" Text=""  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Text}"/>
                         </Grid>
                         <TextBox x:Name="tbPotentialGames" HorizontalAlignment="Center" Text="" VerticalAlignment="Center" BorderBrush="Transparent" Background="Transparent" IsEnabled="False"/>
                         <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
