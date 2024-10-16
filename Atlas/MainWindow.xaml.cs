@@ -237,7 +237,7 @@ namespace Atlas
                     //Disable List box
 
                     isRefreshRunning = true;
-                    List<Game> tempList = GameList.OrderBy(o=> o.Title).ToList() ;
+                    List<Game> tempList = ModelData.Games.OrderBy(o=> o.Title).ToList() ;
                     //download images
                     await Task.Run(async () =>
                         {
@@ -266,7 +266,7 @@ namespace Atlas
                                         //Find Game in gamelist and set the banner to it
                                         Application.Current.Dispatcher.Invoke(() =>
                                         {
-                                            GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData =
+                                            ModelData.Games[ModelData.Games.FindIndex(x => x.RecordID == game.RecordID)].ImageData =
                                             ImageInterface.LoadImage(
                                                     bannerUrl == "" ? "" : banner_path,
                                                     Atlas.Core.Settings.Config.ImageRenderWidth,
