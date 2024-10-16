@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Atlas.Core.Network;
+using Newtonsoft.Json.Linq;
 using NLog;
 using System.Diagnostics;
 using System.IO;
@@ -20,7 +21,7 @@ namespace Atlas.Core
         private static string AtlasDir = string.Empty;
         private static string AtlasExe = string.Empty;
 
-        public static void CheckForUpdates()
+        public static async Task CheckForUpdatesAsync()
         {
             //Set folders
             UpdateDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Atlas");
@@ -60,6 +61,7 @@ namespace Atlas.Core
             {
                 try
                 {
+                    //App versions has 4 values, we only need 3
                     if (Convert.ToInt32(AppVersion.Replace(".", "")) < Convert.ToInt32(data[0].Replace(".", "")))
                     {
                         string message = $"Update available. Would you like to run the update now?\nUpgrade from v{AppVersion} -> {data[2].Split('-')[0]}";
@@ -70,6 +72,7 @@ namespace Atlas.Core
                         var result = MessageBox.Show(message, caption, buttons);
                         if (result == MessageBoxResult.Yes)
                         {
+                            await NetworkInterface.DownloadFileAsync(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"), 0);
 
                             using (WebClient webClient = new WebClient())
                             {

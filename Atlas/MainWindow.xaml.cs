@@ -56,8 +56,8 @@ namespace Atlas
             InterfaceHelper.MainWindow = this;
 
             //initalize the BannerView
-            InitListView();
-            LoadGames();
+            //InitListView();
+            //LoadGames();
             
         }
 
@@ -253,7 +253,7 @@ namespace Atlas
                                         Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
                                         string banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
                                         Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
-                                        await networkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+                                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
                                         //update banner table
                                         if (bannerUrl != "")
                                         {

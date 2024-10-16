@@ -31,6 +31,7 @@ namespace Atlas
             Task.Run(async () => {
                 try
                 {
+                    //Run all tasks prior to opening
                     await Init();
                     //Launch Main Window
                     this.Dispatcher.Invoke(new Action(() =>
@@ -54,7 +55,7 @@ namespace Atlas
             {
                 try
                 {
-                    Updater.CheckForUpdates();
+                    Updater.CheckForUpdatesAsync();
                 }
                 catch (Exception ex)
                 {

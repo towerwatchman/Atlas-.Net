@@ -152,7 +152,7 @@ namespace Atlas.Core.Network
 
         }
 
-        public async Task<Task> DownloadFileAsync(string url, string filename, int delay = 0)
+        public static async Task<Task> DownloadFileAsync(string url, string filename, int delay = 0)
         {
             if (url != "")
             {
@@ -169,16 +169,16 @@ namespace Atlas.Core.Network
                             await stream.CopyToAsync(fileStream);
                         }
 
-                        Console.WriteLine("Image downloaded successfully: " + filename);
+                        Console.WriteLine("File downloaded successfully: " + filename);
                     }
                     catch (HttpRequestException ex)
                     {
-                        Console.WriteLine("Failed to download image: " + ex.Message);
+                        Console.WriteLine("Failed to download File: " + ex.Message);
                     }
                 }
             }
 
-            //We do not want to spam f95
+            //If we need to give the downloader a delay, this will help. 
             System.Threading.Thread.Sleep(delay);
             return Task.CompletedTask;
         }
