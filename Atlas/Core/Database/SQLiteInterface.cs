@@ -180,9 +180,9 @@ namespace Atlas.Core.Database
                             double currentQuery = 0;
                             foreach (var query in queries)
                             {
-                                InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
+                                InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                                 {
-                                    InterfaceHelper.SplashProgressBar.Value = (currentQuery / totalQueries) * 100;
+                                    InterfaceHelper.LauncherProgressBar.Value = (currentQuery / totalQueries) * 100;
                                 }));
 
                                 //Logger.Info($"Percent complete {currentQuery} / {totalQueries}");

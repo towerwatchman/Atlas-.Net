@@ -26,10 +26,10 @@ namespace Atlas.Core.Network
         {
             try
             {
-                InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
+                InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                 {
-                    InterfaceHelper.SplashProgressBar.Value = InterfaceHelper.ProgressBarStartValue + e.ProgressPercentage / 2;
-                    Logger.Info(InterfaceHelper.SplashProgressBar.Value);
+                    InterfaceHelper.LauncherProgressBar.Value = InterfaceHelper.ProgressBarStartValue + e.ProgressPercentage / 2;
+                    Logger.Info(InterfaceHelper.LauncherProgressBar.Value);
                 }));
             }
             catch(Exception ex)

@@ -1,4 +1,4 @@
-﻿<Window x:Class="Atlas.Splash"
+﻿<Window x:Class="Atlas.Launcher"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,12 +11,12 @@
         FontSize="13"
         Background="Transparent"
         AllowsTransparency="True"
-        Title="Splash" Height="200" Width="400">
+        Title="Launcher" Height="200" Width="400">
     <Grid >
         <DockPanel>
             <Grid DockPanel.Dock="Bottom">
-                <ProgressBar x:Name="SplashProgressBar" DockPanel.Dock="Bottom" Margin="40,0,40,10" Height="20" Width="250" Minimum="0" Maximum="100"/>
-                <TextBox x:Name="SplashTextBox" DockPanel.Dock="Bottom" FontSize="12" Margin="0,0,0,10" Height="20" Width="Auto" Text="Running Updates" BorderThickness="0" Background="Transparent" HorizontalAlignment="Center" Foreground="{DynamicResource Text}"/>
+                <ProgressBar x:Name="LauncherProgressBar" DockPanel.Dock="Bottom" Margin="40,0,40,10" Height="20" Width="250" Minimum="0" Maximum="100"/>
+                <TextBox x:Name="LauncherTextBox" DockPanel.Dock="Bottom" FontSize="12" Margin="0,0,0,10" Height="20" Width="Auto" Text="Running Updates" BorderThickness="0" Background="Transparent" HorizontalAlignment="Center" Foreground="{DynamicResource Text}"/>
             </Grid>          
             <Image DockPanel.Dock="Top" Width="Auto" Source="{DynamicResource atlas_logo_full}" RenderOptions.BitmapScalingMode="HighQuality" Height="160"/>            
         </DockPanel>

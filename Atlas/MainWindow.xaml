@@ -154,7 +154,7 @@
                         <RadioButton
                        Content="Games"
                        IsChecked="True"/>
-                        <RadioButton
+                       <!-- <RadioButton
                        Content="Comics"
                        IsChecked="False"/>
                         <RadioButton
@@ -163,6 +163,7 @@
                         <RadioButton
                        Content="Assets"
                        IsChecked="False"/>
+                        -->
                     </StackPanel>
                     <!--#endregion-->
 

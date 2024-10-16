@@ -19,28 +19,28 @@ namespace Atlas.Core.Utilities
         public static async Task<Task> ParseUpdate(string data)
         {            
             JObject dataObj = JObject.Parse(data);
-            InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
+            InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
             {
-                InterfaceHelper.SplashProgressBar.Value = 100;
+                InterfaceHelper.LauncherProgressBar.Value = 100;
             }));
             //This to to make sure the update was processed
             System.Threading.Thread.Sleep(1000);
 
             //We have to import atlas data before we import f95 data 
 
-            InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
+            InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
             {
-                InterfaceHelper.SplashProgressBar.Value = 0;
-                InterfaceHelper.SplashTextBox.Text = "Updating Atlas Metadata";
+                InterfaceHelper.LauncherProgressBar.Value = 0;
+                InterfaceHelper.LauncherTextBox.Text = "Updating Atlas Metadata";
             }));
 
             var atlas_data = dataObj["atlas"];
             await Database.SQLiteInterface.InsertJsonData(atlas_data, "atlas_data");
 
-            InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
+            InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
             {
-                InterfaceHelper.SplashProgressBar.Value = 0;
-                InterfaceHelper.SplashTextBox.Text = "Updating F95 Metadata";
+                InterfaceHelper.LauncherProgressBar.Value = 0;
+                InterfaceHelper.LauncherTextBox.Text = "Updating F95 Metadata";
             }));
 
             var f95_data = dataObj["f95_zone"];
