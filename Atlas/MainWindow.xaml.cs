@@ -319,6 +319,8 @@ namespace Atlas
             //This will take each game detail that was imported and change it into an actual game.
             //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
             //after adding to database we can import to the BannerView
+            
+
             foreach (var GameDetail in F95Scanner.GameDetailList)
             {
                 //We need to insert in to database first then get the id of the new item
@@ -341,6 +343,7 @@ namespace Atlas
                         SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
                     }
                     bool GameExist = GameList.Any(x => GameDetail.Creator == x.Creator && GameDetail.Title == x.Title);
+                    //Check if there is already a version of the game in the database
                     if (GameExist)
                     {
                         GameList.First(
@@ -351,7 +354,7 @@ namespace Atlas
                                 DateAdded = DateTime.Now,
                                 ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
                                 GamePath = GameDetail.Folder,
-                                RecordId = Convert.ToInt32(recordID)
+                                RecordId = Convert.ToInt32(recordID)      
                             });
 
                     }
@@ -375,7 +378,8 @@ namespace Atlas
                             Engine = GameDetail.Engine,
                             Status = "",
                             ImageData = ImageInterface.LoadImage("", Atlas.Core.Settings.Config.ImageRenderWidth, Atlas.Core.Settings.Config.ImageRenderHeight),
-                            RecordID = Convert.ToInt32(recordID)
+                            RecordID = Convert.ToInt32(recordID),
+                            
                         });
                     }
                 }

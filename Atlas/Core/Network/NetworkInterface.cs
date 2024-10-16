@@ -24,11 +24,18 @@ namespace Atlas.Core.Network
 
         private static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
+            try
             {
-                InterfaceHelper.SplashProgressBar.Value = InterfaceHelper.ProgressBarStartValue + e.ProgressPercentage/2;
-                Logger.Info(InterfaceHelper.SplashProgressBar.Value);
-            }));
+                InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
+                {
+                    InterfaceHelper.SplashProgressBar.Value = InterfaceHelper.ProgressBarStartValue + e.ProgressPercentage / 2;
+                    Logger.Info(InterfaceHelper.SplashProgressBar.Value);
+                }));
+            }
+            catch(Exception ex)
+            {
+                Logger.Warn(ex);
+            }
         }
 
         public static JArray RequestJSON(string url)
