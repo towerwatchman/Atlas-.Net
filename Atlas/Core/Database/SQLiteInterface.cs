@@ -2,6 +2,7 @@
 using System.Data;
 using System.IO;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Text.RegularExpressions;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
@@ -96,7 +97,7 @@ namespace Atlas.Core.Database
                 {
                     while (reader.Read())
                     {
-                       data.Add(reader["update_time"].ToString());
+                        data.Add(reader["update_time"].ToString());
                     }
                 }
             }
@@ -181,7 +182,7 @@ namespace Atlas.Core.Database
                             {
                                 InterfaceHelper.SplashWindow.Dispatcher.Invoke((Action)(() =>
                                 {
-                                    InterfaceHelper.SplashProgressBar.Value = (currentQuery/ totalQueries)*100;
+                                    InterfaceHelper.SplashProgressBar.Value = (currentQuery / totalQueries) * 100;
                                 }));
 
                                 //Logger.Info($"Percent complete {currentQuery} / {totalQueries}");
@@ -189,7 +190,7 @@ namespace Atlas.Core.Database
                                 updateCommand.ExecuteNonQuery();
                                 currentQuery++;
                             }
-                            
+
                             // Update succeeded. Commit savepoint and continue with the transaction
                             transaction.Release("Insert Data");
                             updated = true;
@@ -209,7 +210,7 @@ namespace Atlas.Core.Database
 
         public static Task InsertJsonData(JToken data, string table)
         {
-            string sql = string.Empty;          
+            string sql = string.Empty;
             List<string> queries = new List<string>();
 
             foreach (JToken entry in data)
@@ -229,7 +230,7 @@ namespace Atlas.Core.Database
                         {
                             sqlItems += ",";
                             sqlValues += ",";
-                        }                        
+                        }
                     }
                     itemCount++;
                 }
@@ -268,7 +269,7 @@ namespace Atlas.Core.Database
             string query = $"INSERT OR REPLACE INTO atlas_mappings (record_id, atlas_id) VALUES({recordID},{atlasID})";
             InsertOrUpdate(query, 1);
         }
-        public static int FindRecordID(string title, string creator) 
+        public static int FindRecordID(string title, string creator)
         {
             int record = -1;
 
@@ -284,13 +285,13 @@ namespace Atlas.Core.Database
                 if (reader.HasRows)
                 {
                     while (reader.Read())
-                    {                        
+                    {
                         record = Convert.ToInt32(reader["record_id"].ToString());
                     }
                     reader.Close();
                 }
             }
-                return record;
+            return record;
         }
 
         public static int FindF95ID(int record_id)
@@ -339,7 +340,7 @@ namespace Atlas.Core.Database
                     reader.Close();
                 }
             }
-            return record > -1 ? true: false;
+            return record > -1 ? true : false;
         }
 
         public static List<string[]> GetAtlasId(string title, string creator)
@@ -356,7 +357,7 @@ namespace Atlas.Core.Database
                 $"engine, " +
                 $"LENGTH(short_name) - LENGTH('{short_name}') as difference " +
                 $"from atlas_data WHERE short_name like '%{short_name}%' Order By LENGTH(short_name) - LENGTH('{short_name}')";
-            
+
 
             string query = @$"
 WITH data_0 AS(
@@ -388,22 +389,22 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                 if (reader.HasRows)
                 {
                     while (reader.Read())
-                    {                       
+                    {
 
-                            data.Add(new string[] {
+                        data.Add(new string[] {
                             reader["atlas_id"].ToString(),
                             reader["title"].ToString(),
                             reader["creator"].ToString(),
                             reader["engine"].ToString(),
                             reader["difference"].ToString()
                             });
-                        
+
                     }
                     reader.Close();
                 }
-                if(data.Count > 1) //try with just the title
+                if (data.Count > 1) //try with just the title
                 {
-                    reader.Close ();
+                    reader.Close();
                     command.CommandText = query;
                     using var reader_title = command.ExecuteReader();
 
@@ -430,7 +431,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
             return data;
         }
 
-      
+
 
         private static List<GameVersion> GetVersions(string record_id)
         {
@@ -461,7 +462,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                             };
                             gameVersions.Add(gameVersion);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             Logger.Error($"{ex.Message}");
                         }
@@ -472,9 +473,9 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
             return gameVersions;
         }
 
-        public static Task BuildGameList(List<Game> GameList)
+        public static async Task BuildGameListAsync(List<Game> GameList)
         {
-            //List<Game> data = new List<Game>();
+            List<Game> data = new List<Game>();
             string query = "SELECT * FROM games";
             using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
             {
@@ -491,25 +492,43 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                         {
                             Game game = new Game
                             {
-                                AtlasID = GetAtlasIdMapping(Convert.ToInt32(reader["record_id"].ToString())),
+                                //AtlasID = GetAtlasIdMapping(Convert.ToInt32(reader["record_id"].ToString())),
                                 RecordID = Convert.ToInt32(reader["record_id"].ToString()),
                                 Title = reader["title"].ToString(),
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
-                                Versions = GetVersions(reader["record_id"].ToString()),
-                                ImageData = ImageInterface.LoadImage(GetBannerPath(reader["record_id"].ToString()),Settings.Config.ImageRenderWidth,Settings.Config.ImageRenderHeight)
-                            };
-                            GameList.Add(game);
+                                Versions = null,
+                                //Versions = GetVersions(reader["record_id"].ToString()),
+                                ImageData = ImageInterface.LoadImage("", Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight) // ImageInterface.LoadImage(GetBannerPath(reader["record_id"].ToString()), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)
+                            };       
+                            data.Add(game);
                         }
                         catch (Exception ex)
                         {
                             Logger.Error(ex);
                         }
                     }
+                    Logger.Warn("Loaded");
                     reader.Close();
                 }
             }
-            return Task.CompletedTask;
+            await Task.Run(() =>
+            {
+                foreach (var game in data.OrderBy(o=>o.Title).ToList()) 
+                {
+                    InterfaceHelper.MainWindow.Dispatcher.Invoke(() =>
+                    {
+                        game.Versions = GetVersions(game.RecordID.ToString());
+                        game.ImageData = ImageInterface.LoadImage(GetBannerPath(game.RecordID.ToString()), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight);
+
+                        GameList.Add(game);
+                        InterfaceHelper.BannerView.Items.Refresh();
+
+                    });
+                }
+            });
+
+            Logger.Warn("Second List Loaded");
         }
 
         private static string GetAtlasIdMapping(int record_id)
@@ -528,7 +547,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                 {
                     while (reader.Read())
                     {
-                        atlasId =reader["atlas_id"].ToString();
+                        atlasId = reader["atlas_id"].ToString();
                     }
                     reader.Close();
                 }

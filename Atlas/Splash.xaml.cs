@@ -105,7 +105,14 @@ namespace Atlas
             //Check for database update
             await Task.Run(async () =>
             {
-                await CheckForDatabaseUpdateAsync();
+                try
+                {
+                    await CheckForDatabaseUpdateAsync();
+                }
+                catch(Exception ex)
+                {
+                    Logger.Warn(ex);
+                }
             });
 
             //If we are here then we should be at 100%

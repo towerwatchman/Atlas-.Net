@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace Atlas.UI
 {
@@ -14,5 +15,7 @@ namespace Atlas.UI
         public static TextBox SplashTextBox { get; internal set; }
         public static Splash SplashWindow { get; internal set; }
         public static TextBlock ImporterScanTextBox { get; set; }
+        public static ListView BannerView { get; set; }
+        public static Window MainWindow { get; set; }
     }
 }

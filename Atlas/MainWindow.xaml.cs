@@ -52,6 +52,9 @@ namespace Atlas
             //Assign version
             tbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
+            InterfaceHelper.BannerView = BannerView;
+            InterfaceHelper.MainWindow = this;
+
             //initalize the BannerView
             InitListView();
             LoadGames();
@@ -72,20 +75,22 @@ namespace Atlas
             //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
         }
 
-        private async void LoadGames()
+        private void LoadGames()
         {
-            await Task.Run(async () =>
+            Task.Run(() =>
             {
-                await Dispatcher.BeginInvoke(async () =>
+                Dispatcher.BeginInvoke(async () =>
                 {
-                    //Build Default View from
-                    await SQLiteInterface.BuildGameList(GameList);
+                    //Build Default Games List
+                    await SQLiteInterface.BuildGameListAsync(GameList);
 
-                    CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
-                    view.Filter = UserFilter;
+                    //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
+                    //view.Filter = UserFilter;
                     // the code that's accessing UI properties
                     //sort items in lists
-                    GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+                    //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+
+                    //update list to show images and data
                 });
             });
         }
@@ -104,13 +109,16 @@ namespace Atlas
                     miPlay.Items.Clear();
 
                     List<MenuItem> menuitems = new List<MenuItem>();
-                    foreach (GameVersion version in game.Versions)
+                    if (game.Versions != null)
                     {
-                        MenuItem menuItem = new MenuItem();
-                        menuItem.Tag = version.ExePath;
-                        menuItem.Header = version.Version;
-                        menuItem.Click += MenuItem_Click;
-                        menuitems.Add(menuItem);
+                        foreach (GameVersion version in game.Versions)
+                        {
+                            MenuItem menuItem = new MenuItem();
+                            menuItem.Tag = version.ExePath;
+                            menuItem.Header = version.Version;
+                            menuItem.Click += MenuItem_Click;
+                            menuitems.Add(menuItem);
+                        }
                     }
                     miPlay.ItemsSource = menuitems;
                 }
@@ -256,7 +264,9 @@ namespace Atlas
                                         Logger.Info(game.Title.ToString());
 
                                         //Find Game in gamelist and set the banner to it
-                                        GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData =
+                                        Application.Current.Dispatcher.Invoke(() =>
+                                        {
+                                            GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData =
                                             ImageInterface.LoadImage(
                                                     bannerUrl == "" ? "" : banner_path,
                                                     Atlas.Core.Settings.Config.ImageRenderWidth,
@@ -264,8 +274,7 @@ namespace Atlas
 
                                         //replace game item with new data
 
-                                        Application.Current.Dispatcher.Invoke(() =>
-                                        {
+                                        
                                             this.BannerView.Items.Refresh();
                                         });
                                         //Hack to free up memory
