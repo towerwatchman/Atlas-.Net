@@ -203,6 +203,9 @@ namespace Atlas
                 //Keep user from pressing refresh more than once
                 if (isRefreshRunning == false)
                 {
+                    //Disable List box
+
+                    isRefreshRunning = true;
                     List<Game> tempList = GameList;
                     //download images
                     await Task.Run(async () =>
@@ -260,6 +263,7 @@ namespace Atlas
                             }
 
                         });
+                    isRefreshRunning = false;
                 }
             }
         }
