@@ -229,7 +229,7 @@ namespace Atlas
                     //Disable List box
 
                     isRefreshRunning = true;
-                    List<Game> tempList = GameList;
+                    List<Game> tempList = GameList.OrderBy(o=> o.Title).ToList() ;
                     //download images
                     await Task.Run(async () =>
                         {
