@@ -64,7 +64,7 @@ namespace Atlas
 
 
             //sort items in lists
-            //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+            GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
 
             //this.GameListBox.Items.Refresh();
             //sort items in lists
