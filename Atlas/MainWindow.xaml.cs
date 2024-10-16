@@ -25,9 +25,6 @@ using Atlas.Core.Utilities;
 
 namespace Atlas
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private bool isBatchImporterOpen = false;
@@ -51,22 +48,14 @@ namespace Atlas
 
             //Assign version
             tbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
+            this.BannerView.ItemsSource = GameList;
+            this.GameListBox.ItemsSource = GameList;
 
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
+            SQLiteInterface.BuildGameList(GameList);
                 // the code that's accessing UI properties
-
-                SQLiteInterface.BuildGameList(GameList);
-
-                /*foreach (Game game in GameList)
-                {
-                    this.BannerView.Items.Add(game);
-                    this.GameListBox.Items.Add(game);
-                }*/
-                this.BannerView.ItemsSource = GameList;
-                this.GameListBox.ItemsSource = GameList;
-            });
+                
+                
+            
             
 
             //sort items in lists
