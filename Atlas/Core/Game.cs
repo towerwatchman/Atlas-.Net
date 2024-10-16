@@ -14,6 +14,7 @@ namespace Atlas.Core
         public required List<GameVersion> Versions  { get; set; }
         public string Status { get; set; }
         public required BitmapImage ImageData { get; set; }
+        public string Tags { get; set; }
     }
 
     public class GameDetails

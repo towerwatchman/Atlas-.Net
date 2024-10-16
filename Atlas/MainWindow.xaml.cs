@@ -56,7 +56,7 @@ namespace Atlas
             InterfaceHelper.BannerView = BannerView;
 
             //initalize the BannerView
-            //InitListView();
+            InitListView();
             //LoadGames();
             
         }
@@ -65,14 +65,14 @@ namespace Atlas
         {
             //Reset the list
             this.GameListBox.ItemsSource = null;
-            this.GameList.Clear();
-            this.GameList = new List<Game>();
-            this.BannerView.ItemsSource = GameList;
-            this.GameListBox.ItemsSource = GameList;
+            this.BannerView.ItemsSource = ModelData.Games;
+            this.GameListBox.ItemsSource = ModelData.Games;
 
-            //this.GameListBox.Items.Refresh();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
+            view.Filter = UserFilter;
+            // the code that's accessing UI properties
             //sort items in lists
-            //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+            GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
         }
 
         private void LoadGames()
@@ -82,7 +82,7 @@ namespace Atlas
                 Dispatcher.BeginInvoke(async () =>
                 {
                     //Build Default Games List
-                    await SQLiteInterface.BuildGameListAsync(GameList);
+                    //await SQLiteInterface.BuildGameListAsync(GameList);
 
                     //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
                     //view.Filter = UserFilter;

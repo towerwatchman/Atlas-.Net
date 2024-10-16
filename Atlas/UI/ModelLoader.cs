@@ -1,4 +1,5 @@
 ﻿using Atlas.Core;
+using Atlas.Core.Database;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
@@ -10,13 +11,10 @@ namespace Atlas.UI
 {
     public class ModelLoader
     {
-        public Task CreateGamesList(string defaultPage)
+        public async Task<Task> CreateGamesList(string defaultPage)
         {
-            if( defaultPage == "VNHGames")
-            {
+            await SQLiteInterface.BuildGameListDetails();
 
-            }
-            
             return Task.CompletedTask;
         }
 

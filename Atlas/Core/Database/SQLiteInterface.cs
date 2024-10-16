@@ -473,6 +473,69 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
             return gameVersions;
         }
 
+        public static async Task<Task> BuildGameListDetails()
+        {
+            List<Game> Games = new List<Game>();
+
+            //this will need to be modified for more data in the future
+            string query = @"SELECT 
+games.record_id as record_id,
+atlas_mappings.atlas_id as atlas_id,	
+games.title as title,
+games.creator as creator,
+games.engine as engine,
+banners.path as image_path,
+f95_zone_data.tags as tags
+
+FROM
+atlas_mappings
+LEFT JOIN games on atlas_mappings.record_id = games.record_id
+LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
+LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
+
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            Game game = new Game
+                            {
+                                AtlasID = reader["atlas_id"].ToString(),
+                                RecordID = Convert.ToInt32(reader["record_id"].ToString()),
+                                Title = reader["title"].ToString(),
+                                Creator = reader["creator"].ToString(),
+                                Engine = reader["engine"].ToString(),
+                                Tags = reader["tags"].ToString(),
+                                //Versions = null,
+                                Versions = GetVersions(reader["record_id"].ToString()),
+                                ImageData = ImageInterface.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight) // ImageInterface.LoadImage(GetBannerPath(reader["record_id"].ToString()), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)
+                            };
+                            Games.Add(game);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+                    }
+                    Logger.Warn("Loaded");
+                    reader.Close();
+                }
+            }
+
+            ModelData.Games = Games;
+
+            return Task.CompletedTask;
+        }
+
+
         public static async Task BuildGameListAsync(List<Game> GameList)
         {
             List<Game> data = new List<Game>();

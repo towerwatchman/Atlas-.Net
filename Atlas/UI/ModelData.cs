@@ -11,6 +11,6 @@ namespace Atlas.UI
 {
     public static class ModelData
     {
-        public static List<Game> VNHGames { get; set; }
+        public static List<Game> Games { get; set; }
     }
 }

@@ -39,10 +39,10 @@ namespace Atlas
                     //Run all tasks prior to opening
                     await Init();
                     //Launch Main Window
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
+                    Application.Current.Dispatcher.Invoke((Action)delegate {
                         LaunchMainWindow();
-                    }));
+                    });
+
                 }
                 catch (Exception ex)
                 {
@@ -137,10 +137,15 @@ namespace Atlas
             {
                 try
                 {
+                    await Application.Current.Dispatcher.Invoke(async() => {
+                        // your code
+                        ModelLoader loader = new ModelLoader();
+                        await loader.CreateGamesList(Settings.Config.DefaultPage);
+                    });
                     //Load the entire GameList before binding it to the view
-                    ModelLoader loader = new ModelLoader();
+
                     //Pass the default pageview
-                    await loader.CreateGamesList(Settings.Config.DefaultPage);
+                    
                 }
                 catch (Exception ex)
                 {
