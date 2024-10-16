@@ -89,7 +89,7 @@ namespace Atlas
             {
                 if (System.IO.File.Exists(theme))
                 {
-                    //This is not the best way to do this. We will need to change this down the road. 
+                    //This is not the best way to do this. We will need to change this
                     Application.Current.Resources.MergedDictionaries.RemoveAt(2);
                     Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = themeUri });
                 }
@@ -124,6 +124,10 @@ namespace Atlas
 
             //If we are here then we should be at 100%
             UpdateSplashProgressBar(100);
+
+            //Reset and load UI assets
+            UpdateSplashText("Loading Assets");
+
             UpdateSplashText("Launching Atlas");
             //System.Threading.Thread.Sleep(1000);
         }
