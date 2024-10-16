@@ -74,13 +74,6 @@ namespace Atlas.Core
                         {
                             await NetworkInterface.DownloadFileAsync(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"), 0);
 
-                            using (WebClient webClient = new WebClient())
-                            {
-
-                                webClient.DownloadFile(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"));
-                            }
-
-
                             //Check if file downloaded correctly
                             if (File.Exists(Path.Combine(UpdateDir, $"{data[2]}.zip")))
                             {

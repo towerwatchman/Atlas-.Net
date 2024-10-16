@@ -456,13 +456,16 @@ namespace Atlas
         {
             if (BannerView != null)
             {
-                try
+                if (BannerView.ItemsSource != null)
                 {
-                    CollectionViewSource.GetDefaultView(BannerView.ItemsSource).Refresh();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex);
+                    try
+                    {
+                        CollectionViewSource.GetDefaultView(BannerView.ItemsSource).Refresh();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex);
+                    }
                 }
             }
         }

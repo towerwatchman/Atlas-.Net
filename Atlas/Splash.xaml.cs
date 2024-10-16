@@ -28,7 +28,8 @@ namespace Atlas
             if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
 
 
-            Task.Run(async () => {
+            Task.Run(async () =>
+            {
                 try
                 {
                     //Run all tasks prior to opening
@@ -39,7 +40,7 @@ namespace Atlas
                         LaunchMainWindow();
                     }));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logger.Error(ex);
                 }
@@ -49,13 +50,13 @@ namespace Atlas
 
         public async Task Init()
         {
-            UpdateSplashText( "Check For Updates");
+            UpdateSplashText("Check For Updates");
             //Check for Program updates
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
-                    Updater.CheckForUpdatesAsync();
+                    await Updater.CheckForUpdatesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -66,11 +67,15 @@ namespace Atlas
 
             UpdateSplashText("Updating Folders");
             //Set folders
-            Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data"));
-            Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "games"));
-            Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "images"));
-            Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "logs"));
-            Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "updates"));
+            try
+            {
+                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data"));
+                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "games"));
+                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "images"));
+                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "logs"));
+                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "updates"));
+            }
+            catch (Exception ex) { Logger.Error(ex); }
             UpdateSplashProgressBar(10);
 
             UpdateSplashText("Updating xaml Dependencies");
@@ -84,6 +89,7 @@ namespace Atlas
             {
                 if (System.IO.File.Exists(theme))
                 {
+                    //This is not the best way to do this. We will need to change this down the road. 
                     Application.Current.Resources.MergedDictionaries.RemoveAt(2);
                     Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = themeUri });
                 }
@@ -110,7 +116,7 @@ namespace Atlas
                 {
                     await CheckForDatabaseUpdateAsync();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logger.Warn(ex);
                 }
@@ -119,7 +125,7 @@ namespace Atlas
             //If we are here then we should be at 100%
             UpdateSplashProgressBar(100);
             UpdateSplashText("Launching Atlas");
-            System.Threading.Thread.Sleep(1000);
+            //System.Threading.Thread.Sleep(1000);
         }
 
         private async Task CheckForDatabaseUpdateAsync()
@@ -141,11 +147,11 @@ namespace Atlas
                     return;
 
                 //Download latest update
-                try 
+                try
                 {
                     UpdateSplashText("Downloading Update");
                     string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
-                    string OutputPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "updates",name);
+                    string OutputPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "updates", name);
 
                     await NetworkInterface.DownloadFile(DownloadUrl, OutputPath);
 
@@ -161,7 +167,7 @@ namespace Atlas
                     //update database with data
                     //Database.ProcessUpdate(OutputPath);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logger.Error(ex);
                 }
