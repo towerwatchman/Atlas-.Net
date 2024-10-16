@@ -28,6 +28,7 @@ namespace Atlas
     public partial class MainWindow : Window
     {
         private bool isBatchImporterOpen = false;
+        private bool isRefreshRunning = false;
         private List<Game> GameList = new List<Game>();
         public MainWindow()
         {
@@ -199,63 +200,67 @@ namespace Atlas
 
             if (Item.Name.ToString() == "Refresh")
             {
-                List<Game> tempList = GameList;
-                //download images
-                await Task.Run(async () =>
-                    {
-
-                        foreach (Game game in tempList)
+                //Keep user from pressing refresh more than once
+                if (isRefreshRunning == false)
+                {
+                    List<Game> tempList = GameList;
+                    //download images
+                    await Task.Run(async () =>
                         {
-                            try
+
+                            foreach (Game game in tempList)
                             {
-                                //check if banner already exist
-                                if (SQLiteInterface.GetBannerPath(game.RecordID.ToString()) == string.Empty)
+                                try
                                 {
-                                    string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
-
-                                    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
-                                    string banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                    Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
-                                    await networkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
-                                    //update banner table
-                                    if (bannerUrl != "")
+                                    //check if banner already exist
+                                    if (SQLiteInterface.GetBannerPath(game.RecordID.ToString()) == string.Empty && game.AtlasID != "")
                                     {
-                                        SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
+                                        string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
+
+                                        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
+                                        string banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                        Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
+                                        await networkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+                                        //update banner table
+                                        if (bannerUrl != "")
+                                        {
+                                            SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
+                                        }
+                                        //game.ImageData = LoadImage(banner_path);
+
+                                        Logging.Logger.Info(game.Title.ToString());
+
+                                        //Find Game in gamelist and set the banner to it
+                                        GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData =
+                                            ImageInterface.LoadImage(
+                                                    bannerUrl == "" ? "" : banner_path,
+                                                    Atlas.Core.Settings.Config.ImageRenderWidth,
+                                                    Atlas.Core.Settings.Config.ImageRenderHeight);
+
+                                        //replace game item with new data
+
+                                        Application.Current.Dispatcher.Invoke(() =>
+                                        {
+                                            this.BannerView.Items.Refresh();
+                                        });
+                                        //Hack to free up memory
+                                        GC.Collect();
+                                        GC.WaitForPendingFinalizers();
                                     }
-                                    //game.ImageData = LoadImage(banner_path);
-
-                                    Logging.Logger.Info(game.Title.ToString());
-
-                                    //Find Game in gamelist and set the banner to it
-                                    GameList[GameList.FindIndex(x => x.RecordID == game.RecordID)].ImageData =
-                                        ImageInterface.LoadImage(
-                                                bannerUrl == "" ? "" : banner_path,
-                                                Atlas.Core.Settings.Config.ImageRenderWidth,
-                                                Atlas.Core.Settings.Config.ImageRenderHeight);
-
-                                    //replace game item with new data
-
-                                    Application.Current.Dispatcher.Invoke(() =>
-                                    {
-                                        this.BannerView.Items.Refresh();
-                                    });
-                                    //Hack to free up memory
-                                    GC.Collect();
-                                    GC.WaitForPendingFinalizers();
                                 }
+                                catch (Exception ex)
+                                {
+                                    Logging.Logger.Error(ex.ToString());
+                                }
+
+
+                                // We know the thread have a dispatcher that we can use.
+
+
                             }
-                            catch (Exception ex)
-                            {
-                                Logging.Logger.Error(ex.ToString());
-                            }
 
-
-                            // We know the thread have a dispatcher that we can use.
-
-
-                        }
-
-                    });
+                        });
+                }
             }
         }
 
