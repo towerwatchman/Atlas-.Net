@@ -22,6 +22,7 @@ using System.Drawing;
 using System.Windows.Interop;
 using System.Drawing.Imaging;
 using Atlas.Core.Utilities;
+using System.Windows.Data;
 
 namespace Atlas
 {
@@ -53,6 +54,9 @@ namespace Atlas
             this.GameListBox.ItemsSource = GameList;
 
             SQLiteInterface.BuildGameList(GameList);
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
+            view.Filter = UserFilter;
             // the code that's accessing UI properties
 
 
@@ -396,6 +400,45 @@ namespace Atlas
         private void BannerView_CleanUpVirtualizedItem(object sender, CleanUpVirtualizedItemEventArgs e)
         {
 
+        }
+
+        private void AtlasSearchBox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if(AtlasSearchBox.Text == "Search Atlas")
+            {
+                AtlasSearchBox.Text = string.Empty;
+            }
+        }
+
+        private void AtlasSearchBox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (AtlasSearchBox.Text == string.Empty)
+            {
+                AtlasSearchBox.Text = "Search Atlas";
+            }
+        }
+
+        private bool UserFilter(object item)
+        {
+            if (String.IsNullOrEmpty(AtlasSearchBox.Text) || AtlasSearchBox.Text == "Search Atlas")
+                return true;
+            else
+                return ((item as Game).Title.IndexOf(AtlasSearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
+        private void AtlasSearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (BannerView != null)
+            {
+                try
+                {
+                    CollectionViewSource.GetDefaultView(BannerView.ItemsSource).Refresh();
+                }
+                catch(Exception ex)
+                {
+                    Logging.Logger.Error(ex);
+                }
+            }
         }
     }
 }

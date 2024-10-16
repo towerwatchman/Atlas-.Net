@@ -30,6 +30,7 @@ namespace Atlas.Core.Utilities
                     bitmapImage.BeginInit();
                     bitmapImage.UriSource = uri;
                     bitmapImage.DecodePixelWidth = (int)width;
+                    bitmapImage.CacheOption = BitmapCacheOption.OnDemand;
                     bitmapImage.EndInit();
                     bitmapImage.Freeze();
                     return bitmapImage;//bi;
