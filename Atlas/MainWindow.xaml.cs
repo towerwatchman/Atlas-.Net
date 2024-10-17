@@ -353,7 +353,8 @@ namespace Atlas
                 }
             });
 
-            await Application.Current.Dispatcher.Invoke(async () => {
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
                 // your code
                 ModelLoader loader = new ModelLoader();
                 await loader.CreateGamesList(Atlas.Core.Settings.Config.DefaultPage);
@@ -384,16 +385,10 @@ namespace Atlas
 
         private bool UserFilter(object item)
         {
-            bool result = true;
-            Application.Current.Dispatcher.Invoke((Action)(() =>
-            {
-                if (String.IsNullOrEmpty(AtlasSearchBox.Text) || AtlasSearchBox.Text == "Search Atlas")
-                    result = true;
-                else
-                    result = ((item as Game).Title.IndexOf(AtlasSearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-            }));
-
-            return true;
+            if (String.IsNullOrEmpty(AtlasSearchBox.Text) || AtlasSearchBox.Text == "Search Atlas")
+                return true;
+            else
+                return ((item as Game).Title.IndexOf(AtlasSearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
         private void AtlasSearchBox_TextChanged(object sender, TextChangedEventArgs e)
