@@ -2,18 +2,19 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <AssemblyName>Atlas</AssemblyName>
-	<Version>0.1.42</Version>
+	<Version>0.1.48</Version>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>false</SelfContained>
     <StartupObject>Atlas.App</StartupObject>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ApplicationIcon>Assets\Icons\appicon.ico</ApplicationIcon>
     <Title>Atlas Game Manager</Title>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -59,6 +60,7 @@
     <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="VirtualizingWrapPanel" Version="2.0.11" />
+    <PackageReference Include="XamlAnimatedGif" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>

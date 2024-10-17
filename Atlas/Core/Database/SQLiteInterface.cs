@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.PortableExecutable;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
@@ -516,7 +517,10 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                                 Tags = reader["tags"].ToString(),
                                 //Versions = null,
                                 Versions = GetVersions(reader["record_id"].ToString()),
-                                ImageData = ImageInterface.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight) // ImageInterface.LoadImage(GetBannerPath(reader["record_id"].ToString()), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)
+                                ImageUriAnimated = Path.GetExtension(reader["image_path"].ToString()) == ".gif" ? 
+                                    new Uri(reader["image_path"].ToString()) : 
+                                    null,
+                                ImageData = ImageInterface.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight) 
                             };
                             Games.Add(game);
                         }
@@ -561,8 +565,8 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
                                 Versions = null,
-                                //Versions = GetVersions(reader["record_id"].ToString()),
-                                ImageData = ImageInterface.LoadImage("", Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight) // ImageInterface.LoadImage(GetBannerPath(reader["record_id"].ToString()), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)
+                                ImageUriAnimated = null,
+                                ImageData = ImageInterface.LoadImage("", Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight),
                             };       
                             data.Add(game);
                         }
