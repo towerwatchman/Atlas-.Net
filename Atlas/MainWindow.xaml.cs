@@ -386,6 +386,7 @@ namespace Atlas
                                     ModelData.Games.First(
                                     item => item.Title == GameDetail.Title && item.Creator == GameDetail.Creator
                                     ).Versions.Add(gameVersion);
+                                    BannerView.Items.Refresh();
                                 }));
 
 
@@ -417,6 +418,7 @@ namespace Atlas
                                 Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                                 {
                                     ModelData.Games.Add(game);
+                                    BannerView.Items.Refresh();
                                 }));
                             }
                         }
