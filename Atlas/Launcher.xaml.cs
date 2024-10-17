@@ -78,6 +78,7 @@ namespace Atlas
                 Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "images"));
                 Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "logs"));
                 Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "updates"));
+                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes"));
             }
             catch (Exception ex) { Logger.Error(ex); }
             UpdateLauncherProgressBar(10);
@@ -87,10 +88,11 @@ namespace Atlas
             Settings.Init();
 
             //Set the default theme file
-            string theme = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes", Settings.Config.Theme);
-            var themeUri = new Uri(theme, UriKind.RelativeOrAbsolute);
+
             try
             {
+                string theme = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes", Settings.Config.Theme);
+                var themeUri = new Uri(theme, UriKind.RelativeOrAbsolute);
                 if (System.IO.File.Exists(theme))
                 {
                     //This is not the best way to do this. We will need to change this

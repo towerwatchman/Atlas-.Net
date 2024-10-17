@@ -12,11 +12,24 @@ namespace Atlas.Core
             //Add link to config
             Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "config.ini")).Build();
             //Set all inital values here. 
+
+            //PATHS
+            Config.EnginesPath = Config.EnginesPath == null ? "data/engines" : Config.EnginesPath;
+            Config.RootPath = Config.RootPath == null ? "" : Config.RootPath;
+            Config.DatabasePath = Config.DatabasePath == null ? "data" : Config.DatabasePath;
+            Config.ImagesPath = Config.ImagesPath == null ? "data/images" : Config.ImagesPath;
+            Config.GamesPath = Config.GamesPath == null ? "data/games" : Config.GamesPath;
+            Config.ThemesPath = Config.ThemesPath == null ? "themes" : Config.ThemesPath;
+
+            //APP
+            Config.Theme = Config.Theme == "" ? "Dark.xaml" : Config.Theme;
+
+
             Config.ImageRenderHeight = Config.ImageRenderHeight == 0 ? 251 : Config.ImageRenderHeight;
             Config.ImageRenderWidth = Config.ImageRenderWidth == 0 ? 537 : Config.ImageRenderWidth;
 
-            //This is for Visual Novels & H games
-            //Down the line this can change
+
+
             Config.DefaultPage = Config.DefaultPage == "" ? "VNHGames" : Config.DefaultPage;
         }
 
