@@ -31,12 +31,11 @@ namespace Atlas
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private bool isBatchImporterOpen = false;
         private bool isRefreshRunning = false;
-        private List<Game> GameList = new List<Game>();
         public MainWindow()
         {
             InitializeComponent();
 
-            
+
             //Custom Event manager for pressing one of the Navigation buttons on the left side
             EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
 
@@ -58,21 +57,22 @@ namespace Atlas
             //initalize the BannerView
             InitListView();
             //LoadGames();
-            
+
         }
 
         private void InitListView()
         {
             //Reset the list
             this.GameListBox.ItemsSource = null;
+            this.BannerView.ItemsSource = null;
             this.BannerView.ItemsSource = ModelData.Games;
             this.GameListBox.ItemsSource = ModelData.Games;
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
-            view.Filter = UserFilter;
+            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
+            //view.Filter = UserFilter;
             // the code that's accessing UI properties
             //sort items in lists
-            GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+            //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
         }
 
         private void LoadGames()
@@ -195,7 +195,10 @@ namespace Atlas
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+                Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+                {
+                    this.DragMove();
+                }));
         }
         #endregion
 
@@ -235,9 +238,9 @@ namespace Atlas
                 if (isRefreshRunning == false)
                 {
                     //Disable List box
-
                     isRefreshRunning = true;
-                    List<Game> tempList = ModelData.Games.OrderBy(o=> o.Title).ToList() ;
+                    //sort list by title
+                    List<Game> tempList = ModelData.Games.OrderBy(o => o.Title).ToList();
                     //download images
                     await Task.Run(async () =>
                         {
@@ -249,7 +252,6 @@ namespace Atlas
                                     if (SQLiteInterface.GetBannerPath(game.RecordID.ToString()) == string.Empty && game.AtlasID != "")
                                     {
                                         string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
-
                                         Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
                                         string banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
                                         Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
@@ -259,10 +261,7 @@ namespace Atlas
                                         {
                                             SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
                                         }
-                                        //game.ImageData = LoadImage(banner_path);
-
-                                        Logger.Info(game.Title.ToString());
-
+                                        Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
                                         //Find Game in gamelist and set the banner to it
                                         Application.Current.Dispatcher.Invoke(() =>
                                         {
@@ -271,10 +270,6 @@ namespace Atlas
                                                     bannerUrl == "" ? "" : banner_path,
                                                     Atlas.Core.Settings.Config.ImageRenderWidth,
                                                     Atlas.Core.Settings.Config.ImageRenderHeight);
-
-                                        //replace game item with new data
-
-                                        
                                             this.BannerView.Items.Refresh();
                                         });
                                         //Hack to free up memory
@@ -333,94 +328,125 @@ namespace Atlas
             Home.IsSelected = true;
         }
 
-        private void BatchImporter_StartImport(object sender, EventArgs e)
+        private async void BatchImporter_StartImport(object sender, EventArgs e)
         {
             isBatchImporterOpen = false;
             //This will take each game detail that was imported and change it into an actual game.
             //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
             //after adding to database we can import to the BannerView
 
-
-            foreach (var GameDetail in F95Scanner.GameDetailList)
+            await Task.Run(async () =>
             {
-                //We need to insert in to database first then get the id of the new item
-                string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
 
-                if (recordID == "-1")
+                foreach (var GameDetail in F95Scanner.GameDetailList)
                 {
-                    recordID = SQLiteInterface.AddGame(GameDetail);
-                }
+                    await Task.Run(() =>
+                    {
+                        //We need to insert in to database first then get the id of the new item
+                        string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
 
-                if (recordID != string.Empty)
-                {
-                    if (GameDetail.Id != "")
-                    {
-                        SQLiteInterface.SetAtlasMapping(recordID, GameDetail.Id);
-                    }
+                        if (recordID == "-1")
+                        {
+                            recordID = SQLiteInterface.AddGame(GameDetail);
+                        }
 
-                    if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
-                    {
-                        SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
-                    }
-                    bool GameExist = GameList.Any(x => GameDetail.Creator == x.Creator && GameDetail.Title == x.Title);
-                    //Check if there is already a version of the game in the database
-                    if (GameExist)
-                    {
-                        GameList.First(
-                            item => item.Title == GameDetail.Title && item.Creator == GameDetail.Creator
-                            ).Versions.Add(new GameVersion
+                        if (recordID != string.Empty)
+                        {
+
+                            if (GameDetail.Id != "")
                             {
-                                Version = GameDetail.Version,
-                                DateAdded = DateTime.Now,
-                                ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
-                                GamePath = GameDetail.Folder,
-                                RecordId = Convert.ToInt32(recordID)
-                            });
+                                SQLiteInterface.SetAtlasMapping(recordID, GameDetail.Id);
+                            }
 
-                    }
-                    else
-                    {
-                        List<GameVersion> gameVersions = new List<GameVersion>();
-                        gameVersions.Add(new GameVersion
+                            if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
+                            {
+                                SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
+                            }
+                            Logger.Info($"Adding game: {GameDetail.Title}");
+                            bool GameExist = false;
+                            Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+                            {
+                                GameExist = ModelData.Games.Any(x => GameDetail.Creator == x.Creator && GameDetail.Title == x.Title);
+                            }));
+
+                            //Check if there is already a version of the game in the database
+                            if (GameExist)
+                            {
+                                GameVersion gameVersion = new GameVersion
+                                {
+                                    Version = GameDetail.Version,
+                                    DateAdded = DateTime.Now,
+                                    ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
+                                    GamePath = GameDetail.Folder,
+                                    RecordId = Convert.ToInt32(recordID)
+                                };
+
+                                Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+                                {
+                                    ModelData.Games.First(
+                                    item => item.Title == GameDetail.Title && item.Creator == GameDetail.Creator
+                                    ).Versions.Add(gameVersion);
+                                }));
+
+
+                            }
+                            else
+                            {
+
+                                List<GameVersion> gameVersions = new List<GameVersion>();
+                                gameVersions.Add(new GameVersion
+                                {
+                                    Version = GameDetail.Version,
+                                    DateAdded = DateTime.Now,
+                                    ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
+                                    GamePath = GameDetail.Folder,
+                                    RecordId = Convert.ToInt32(recordID)
+                                });
+
+                                Game game = new Game
+                                {
+                                    Creator = GameDetail.Creator,
+                                    Title = GameDetail.Title,
+                                    Versions = gameVersions,
+                                    Engine = GameDetail.Engine,
+                                    Status = "",
+                                    ImageData = ImageInterface.LoadImage("", Atlas.Core.Settings.Config.ImageRenderWidth, Atlas.Core.Settings.Config.ImageRenderHeight),
+                                    RecordID = Convert.ToInt32(recordID)
+                                };
+
+                                Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+                                {
+                                    ModelData.Games.Add(game);
+                                }));
+                            }
+                        }
+                        else
                         {
-                            Version = GameDetail.Version,
-                            DateAdded = DateTime.Now,
-                            ExePath = System.IO.Path.Combine(GameDetail.Folder, GameDetail.Executable[0]),
-                            GamePath = GameDetail.Folder,
-                            RecordId = Convert.ToInt32(recordID)
-                        });
-
-                        GameList.Add(new Game
-                        {
-                            Creator = GameDetail.Creator,
-                            Title = GameDetail.Title,
-                            Versions = gameVersions,
-                            Engine = GameDetail.Engine,
-                            Status = "",
-                            ImageData = ImageInterface.LoadImage("", Atlas.Core.Settings.Config.ImageRenderWidth, Atlas.Core.Settings.Config.ImageRenderHeight),
-                            RecordID = Convert.ToInt32(recordID),
-
-                        });
-                    }
+                            Logger.Info(GameDetail.Title);
+                        }
+                        
+                        GC.WaitForPendingFinalizers();
+                        GC.Collect();
+                    });
                 }
-                else
-                {
-                    Logger.Info(GameDetail.Title);
-                }
+            });
 
-
-                //Download images
-
-
-                //Once we are complete, do a full refresh
-                InitListView();
-
-
-            }
+            //need to store games in temp location.
 
             //sort items in lists
-            GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+            await Application.Current.Dispatcher.InvokeAsync((Action)(() =>
+            {
+               //After adding all the items we need to rebind them
+                BannerView.ItemsSource = null;
+                BannerView.Items.Clear();
+                GameListBox.ItemsSource = null;
+                GameListBox.Items.Clear();
 
+                BannerView.ItemsSource = ModelData.Games;
+                GameListBox.ItemsSource = ModelData.Games;
+
+                //GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+            }));
         }
 
         private void BannerView_CleanUpVirtualizedItem(object sender, CleanUpVirtualizedItemEventArgs e)
@@ -446,10 +472,13 @@ namespace Atlas
 
         private bool UserFilter(object item)
         {
+            /*
             if (String.IsNullOrEmpty(AtlasSearchBox.Text) || AtlasSearchBox.Text == "Search Atlas")
                 return true;
             else
                 return ((item as Game).Title.IndexOf(AtlasSearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+            */
+            return true;
         }
 
         private void AtlasSearchBox_TextChanged(object sender, TextChangedEventArgs e)
