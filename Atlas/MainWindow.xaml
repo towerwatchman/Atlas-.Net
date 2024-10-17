@@ -15,53 +15,52 @@
         AllowsTransparency="True"
         SizeChanged="Window_SizeChanged"
         MouseDown="Window_MouseDown">
-    <!--<Border BorderBrush="{DynamicResource Border}" BorderThickness="1" CornerRadius="6" RenderOptions.BitmapScalingMode="HighQuality">-->
     <Grid>
-        <!-- <Grid.OpacityMask>
-                <VisualBrush Visual="{Binding ElementName=Border2}" />
-            </Grid.OpacityMask>
-            <Border x:Name="Border2" CornerRadius="6" Background="Black" BorderThickness="0" />-->
-        <Grid Height="Auto" Width="Auto">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60"/>
-                <ColumnDefinition Width="1*"/>
-                <!-- Important for .Net Core -->
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="1*"/>
-                <!-- Important for .Net Core -->
-            </Grid.RowDefinitions>
-            <!--#region  Logo-->
-            <Grid
+        <DockPanel LastChildFill="True">
+            <!--region Footer-->
+            <Border DockPanel.Dock="Bottom" Panel.ZIndex="4" BorderBrush="{DynamicResource Border}" BorderThickness="0,1,0,0">
+                <Grid x:Name="Footer" DockPanel.Dock="Bottom" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Background="{DynamicResource Primary}">
+
+                </Grid>
+            </Border>
+            <!--#endregion-->
+            <Grid Height="Auto" Width="Auto" DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <!--#region  Logo-->
+                <Grid
             Panel.ZIndex="2"
             Background="{DynamicResource Accent}"
             >
-
-                <Image
+                    <Image
                 Height="50"
                 Width="50"
                 Stretch="Uniform"
                 Source="{DynamicResource atlas_logo_s}"
                 RenderOptions.BitmapScalingMode="HighQuality"/>
-            </Grid>
-            <!--#endregion-->
-
-            <!--#region  Top Navigation-->
-            <Grid 
+                </Grid>
+                <!--#endregion-->
+                <!--#region  Top Navigation-->
+                <Grid 
             Panel.ZIndex="1"
             BitmapEffect="{DynamicResource BottomShadowEffect}"
             Background="{DynamicResource Primary}"
             Grid.Column="1">
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-                <!--#region Header-->
-                <!-- Left Corner-->
-                <Polygon
+                    <!--#region Header-->
+                    <!-- Left Corner-->
+                    <Polygon
                 Fill="{DynamicResource AccentBar}"
                 HorizontalAlignment="Left"
                 Margin="40,0,100,0"
@@ -69,20 +68,20 @@
                 Height="10"
                 VerticalAlignment="Top">
 
-                    <Polygon.Points>
-                        <Point X="0" Y="0"/>
-                        <Point X="4" Y="4"/>
-                        <Point X="4" Y="0"/>
-                    </Polygon.Points>
-                </Polygon>
+                        <Polygon.Points>
+                            <Point X="0" Y="0"/>
+                            <Point X="4" Y="4"/>
+                            <Point X="4" Y="0"/>
+                        </Polygon.Points>
+                    </Polygon>
 
-                <!-- Center -->
-                <Rectangle
+                    <!-- Center -->
+                    <Rectangle
                 Fill="{DynamicResource AccentBar}"
                 Margin="50,0,110,0"/>
 
-                <!-- Right Corner-->
-                <Polygon
+                    <!-- Right Corner-->
+                    <Polygon
 
                 
     Fill="{DynamicResource AccentBar}"
@@ -91,16 +90,16 @@
     Stretch="Uniform"
     Height="10"
     VerticalAlignment="Top">
-                    <Polygon.Points>
-                        <Point X="0" Y="0"/>
-                        <Point X="-4" Y="4"/>
-                        <Point X="-4" Y="0"/>
-                    </Polygon.Points>
-                </Polygon>
-                <!--#endregion-->
+                        <Polygon.Points>
+                            <Point X="0" Y="0"/>
+                            <Point X="-4" Y="4"/>
+                            <Point X="-4" Y="0"/>
+                        </Polygon.Points>
+                    </Polygon>
+                    <!--#endregion-->
 
-                <!-- #region Minimize, Maximize, Close -->
-                <StackPanel
+                    <!-- #region Minimize, Maximize, Close -->
+                    <StackPanel
                 Grid.RowSpan="2"
                 Panel.ZIndex="1"
                 Orientation="Horizontal"
@@ -108,53 +107,53 @@
                 VerticalAlignment="Top"
                 Margin="8">
 
-                    <Button
+                        <Button
                     x:Name="minimizeButton"
                     Click="MinimizeButton_Click" 
                     Style="{DynamicResource MinMaxStyle}">
-                        <Image
+                            <Image
                     Height="10"
                     Width="10"
                     Stretch="Uniform"
                     Source="{DynamicResource minimize_icon}"/>
-                    </Button>
-                    <Button
+                        </Button>
+                        <Button
                     x:Name="maximizeButton"
                     Click="MaximizeButton_Click"
                     Style="{DynamicResource MinMaxStyle}">
-                        <Image
+                            <Image
                     Height="10"
                     Width="10"
                     Stretch="Uniform"
                     Source="{DynamicResource maximize_icon}"/>
-                    </Button>
-                    <Button
+                        </Button>
+                        <Button
                     x:Name="closeButton"                    
                     Click="CloseButton_Click"
                     Style="{DynamicResource ExitStyle}">
-                        <Image
+                            <Image
                     Height="10"
                     Width="10"
                     Stretch="Uniform"
                     Source="{DynamicResource close_iconDrawingImage}"
                     />
-                    </Button>
+                        </Button>
 
-                </StackPanel>
-                <!--#endregion-->
+                    </StackPanel>
+                    <!--#endregion-->
 
 
-                <Grid
+                    <Grid
                 Grid.Row="1">
-                    <!--#region Menu-->
-                    <StackPanel
+                        <!--#region Menu-->
+                        <StackPanel
                    Orientation="Horizontal"
                    HorizontalAlignment="Left"
                    Margin="40,0">
-                        <RadioButton
+                            <RadioButton
                        Content="Games"
                        IsChecked="True"/>
-                       <!-- <RadioButton
+                            <!-- <RadioButton
                        Content="Comics"
                        IsChecked="False"/>
                         <RadioButton
@@ -164,237 +163,257 @@
                        Content="Assets"
                        IsChecked="False"/>
                         -->
-                    </StackPanel>
-                    <!--#endregion-->
+                        </StackPanel>
+                        <!--#endregion-->
 
-                    <!--#region Search Box -->
-                    <Grid Background="{DynamicResource Secondary}"
+                        <!--#region Search Box -->
+                        <Grid Background="{DynamicResource Secondary}"
                       HorizontalAlignment="Stretch"
                       Height="40"
                       MinWidth="400"
                       Margin="450,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <Image
+                            <Image
                         Source="{DynamicResource search_icon}"
                         Stretch="Uniform"
                         Height="15"
                         Width="15"/>
 
-                        <!-- Search Text-->
-                        <TextBox x:Name="AtlasSearchBox"
+                            <!-- Search Text-->
+                            <TextBox x:Name="AtlasSearchBox"
                         Grid.Column="1"
                         Background="Transparent"
                         BorderThickness="0"
                         Foreground="{DynamicResource Text}"
                         Text="Search Atlas"
                         VerticalAlignment="Center" MouseEnter="AtlasSearchBox_MouseEnter" MouseLeave="AtlasSearchBox_MouseLeave" TextChanged="AtlasSearchBox_TextChanged"/>
+                        </Grid>
+                        <!--#endregion-->
+                        <TextBox HorizontalAlignment="Right" x:Name="tbVersion" MinHeight="20" MinWidth="40" BorderThickness="0" Background="Transparent" Margin="0,10,20,0"/>
                     </Grid>
-                    <!--#endregion-->
-                    <TextBox HorizontalAlignment="Right" x:Name="tbVersion" MinHeight="20" MinWidth="40" BorderThickness="0" Background="Transparent" Margin="0,10,20,0"/>
+
+
                 </Grid>
-
-
-            </Grid>
-            <!--#endregion-->
-
-            <!--#region Left Nav-->
-            <Grid
+                <!--#endregion-->
+                <!--#region Left Navigation-->
+                <Grid
             Panel.ZIndex="1"
             Background="{DynamicResource Primary}"
             BitmapEffect="{DynamicResource RightShadowEffect}"            
             Grid.Row="1">
-                <ListBox
+                    <ListBox
                 Background="Transparent"
                 BorderThickness="0">
-                    <ListBox.Resources>
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="Height" Value="60"/>
-                            <Setter Property="Width" Value="60"/>
-                            <Setter Property="Margin" Value="-1"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                        <Grid Background="{TemplateBinding Background}">
-                                            <Rectangle
+                        <ListBox.Resources>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Height" Value="60"/>
+                                <Setter Property="Width" Value="60"/>
+                                <Setter Property="Margin" Value="-1"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <Rectangle
                                             x:Name="indicator"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Stretch"
                                             Width="4"/>
-                                            <Path
+                                                <Path
                                             x:Name="icon"
                                             Data="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"
                                             Fill="{DynamicResource Text}"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="icon"
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="icon"
                                                     Property="Fill"
                                                     Value="{DynamicResource Accent}"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="indicator"
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="indicator"
                                                      Property="Fill"
                                                      Value="{DynamicResource Accent}"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.Resources>
-                    <ListBoxItem
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.Resources>
+                        <ListBoxItem
                     x:Name="Home"
                     Content="{DynamicResource home_icon}"
                     IsSelected="True"></ListBoxItem>
-                    <ListBoxItem
+                        <ListBoxItem
                     x:Name="Import"
                     Content="{DynamicResource add_icon}"
                     IsSelected="False"/>
-                    <ListBoxItem
+                        <ListBoxItem
                     x:Name="ShowList"
                     Content="{DynamicResource list_icon}"
                     IsSelected="False"/>
-                    <ListBoxItem
+                        <ListBoxItem
                     x:Name="Refresh"
                     Content="{DynamicResource refresh_icon}"
                     IsSelected="False"/>
-                    <ListBoxItem
+                        <ListBoxItem
                     x:Name="Settings"
                     Content="{DynamicResource settings_icon}"
                     IsSelected="False"/>
-                </ListBox>
+                    </ListBox>
 
-            </Grid>
-            <!--#endregion-->
+                </Grid>
+                <!--#endregion-->
 
-            <!--#region Record View-->
-            <Grid x:Name="RecordView"
-            Background="{DynamicResource Canvas}"
-            Grid.Column="2"
-            Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="1*"/>
-                    <!-- Important for .Net Core -->
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <!-- Important for .Net Core -->
-                </Grid.RowDefinitions>
-                <ListBox x:Name="GameListBox" Margin="0,2,2,0" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <!-- Scroll Bar -->
-                    <ListBox.Resources>
-                        <Style TargetType="{x:Type ScrollBar}">
-                            <Setter Property="Background" Value="{StaticResource Primary}"/>
-                            <Setter Property="BorderBrush" Value="{StaticResource Primary}"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ScrollBar}">
-                                        <Grid x:Name="Bg" SnapsToDevicePixels="true">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
-                                                <RowDefinition Height="0.00001*"/>
-                                                <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
-                                            </Grid.RowDefinitions>
-                                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Row="1" CornerRadius="5"/>
-                                            <!--<RepeatButton x:Name="PART_LineUpButton" Command="{x:Static ScrollBar.LineUpCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Margin="0,0,0,-20">    
+                <Grid Grid.Column="2" Grid.Row="2">
+
+                    <!--#region Game View and Game List-->
+                    <Grid x:Name="RecordView"
+            Background="{DynamicResource Canvas}" Visibility="Visible">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="1*"/>
+                            <!-- Important for .Net Core -->
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <!-- Important for .Net Core -->
+                        </Grid.RowDefinitions>
+                        <ListBox x:Name="GameListBox" Margin="0,2,2,0" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Title}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <!-- Scroll Bar -->
+                            <ListBox.Resources>
+                                <Style TargetType="{x:Type ScrollBar}">
+                                    <Setter Property="Background" Value="{StaticResource Primary}"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource Primary}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                                <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                                                        <RowDefinition Height="0.00001*"/>
+                                                        <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Row="1" CornerRadius="5"/>
+                                                    <!--<RepeatButton x:Name="PART_LineUpButton" Command="{x:Static ScrollBar.LineUpCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Margin="0,0,0,-20">    
                  <Path x:Name="ArrowTop" Data="M 0,4 C0,4 0,6 0,6 0,6 3.5,2.5 3.5,2.5 3.5,2.5 7,6 7,6 7,6 7,4 7,4 7,4 3.5,0.5 3.5,0.5 3.5,0.5 0,4 0,4 z" Fill="{StaticResource ScrollBar.Static.Glyph}" Margin="3,4,3,3" Stretch="Uniform"/>    
              </RepeatButton>-->
-                                            <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="1">
-                                                <Track.DecreaseRepeatButton>
-                                                    <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource RepeatButtonTransparent}" HorizontalAlignment="Left" Width="17"/>
-                                                </Track.DecreaseRepeatButton>
-                                                <Track.IncreaseRepeatButton>
-                                                    <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
-                                                </Track.IncreaseRepeatButton>
-                                                <Track.Thumb>
-                                                    <Thumb Style="{StaticResource ScrollBarThumbVertical}" />
-                                                </Track.Thumb>
-                                            </Track>
-                                            <!--<RepeatButton x:Name="PART_LineDownButton" Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="2" Style="{StaticResource ScrollBarButton}"  Margin="0,-20,0,0">    
+                                                    <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="1">
+                                                        <Track.DecreaseRepeatButton>
+                                                            <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource RepeatButtonTransparent}" HorizontalAlignment="Left" Width="17"/>
+                                                        </Track.DecreaseRepeatButton>
+                                                        <Track.IncreaseRepeatButton>
+                                                            <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
+                                                        </Track.IncreaseRepeatButton>
+                                                        <Track.Thumb>
+                                                            <Thumb Style="{StaticResource ScrollBarThumbVertical}" />
+                                                        </Track.Thumb>
+                                                    </Track>
+                                                    <!--<RepeatButton x:Name="PART_LineDownButton" Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="2" Style="{StaticResource ScrollBarButton}"  Margin="0,-20,0,0">    
                  <Path x:Name="ArrowBottom" Data="M 0,2.5 C0,2.5 0,0.5 0,0.5 0,0.5 3.5,4 3.5,4 3.5,4 7,0.5 7,0.5 7,0.5 7,2.5 7,2.5 7,2.5 3.5,6 3.5,6 3.5,6 0,2.5 0,2.5 z" Fill="{StaticResource ScrollBar.Static.Glyph}" Margin="3,4,3,3" Stretch="Uniform"/>    
              </RepeatButton>-->
-                                        </Grid>
+                                                </Grid>
 
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.Resources>
-                </ListBox>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.Resources>
+                        </ListBox>
 
-                <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,0,0" Background="{DynamicResource Primary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                        <ListView  x:Name="BannerView" Grid.Column="1" Margin="0,2,0,0" Background="{DynamicResource Primary}" Foreground="{DynamicResource Text}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                        HorizontalAlignment="Stretch" 
-                       ScrollViewer.CanContentScroll="True"                                
-                       VirtualizingPanel.ScrollUnit="Pixel"   
+                       ScrollViewer.CanContentScroll="True"      
+                       VirtualizingPanel.ScrollUnit="Pixel"
                        VirtualizingPanel.VirtualizationMode="Recycling"  
                        VirtualizingStackPanel.CleanUpVirtualizedItem="BannerView_CleanUpVirtualizedItem">
-                    <ListBox.Template>
-                        <ControlTemplate>
-                            <ScrollViewer CanContentScroll="True"
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <ScrollViewer CanContentScroll="True"
                                       Focusable="False"
                                       HorizontalScrollBarVisibility="Auto"
                                       VerticalScrollBarVisibility="Auto"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch"
                                           Background="{DynamicResource Primary}">
-                                <ItemsPresenter/>
-                            </ScrollViewer>
-                        </ControlTemplate>
-                    </ListBox.Template>
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}"/>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <custom:GameBanner Margin="0,2,0,2"></custom:GameBanner>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="Height" Value="{DynamicResource bannerY}" />
-                            <Setter Property="Width" Value="{DynamicResource bannerX}" />
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="Padding" Value="0"/>
-                            <Setter Property="Margin" Value="0"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.Resources>
-                    </ListView.Resources>
-                    <ListView.ContextMenu>
-                        <ContextMenu x:Name="cmGame" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                            <MenuItem x:Name="miPlay" Header="Play">
-                                <MenuItem x:Name="miVersions" Header="Versions"/>
-                            </MenuItem>
-                            <MenuItem Header="Add to favorites"/>
-                            <MenuItem Header="Manage">
-                                <MenuItem Header="Add desktop icon"/>
-                                <MenuItem Header="Browse local files"/>
-                                <MenuItem Header="Set custom artwork"/>
-                            </MenuItem>
-                            <Separator/>
-                            <MenuItem Header="Properties"/>
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-                </ListView>
-            </Grid>
-            <!--#endregion-->
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <custom:GameBanner Margin="0,2,0,2"></custom:GameBanner>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Height" Value="{DynamicResource bannerY}" />
+                                    <Setter Property="Width" Value="{DynamicResource bannerX}" />
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.Resources>
+                            </ListView.Resources>
+                            <ListView.ContextMenu>
+                                <ContextMenu x:Name="cmGame" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <MenuItem x:Name="miPlay" Header="Play">
+                                        <MenuItem x:Name="miVersions" Header="Versions"/>
+                                    </MenuItem>
+                                    <MenuItem Header="Add to favorites"/>
+                                    <MenuItem Header="Manage">
+                                        <MenuItem Header="Add desktop icon"/>
+                                        <MenuItem Header="Browse local files"/>
+                                        <MenuItem Header="Set custom artwork"/>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="Properties"/>
+                                </ContextMenu>
+                            </ListView.ContextMenu>
+                        </ListView>
+                    </Grid>
+                    <!--#endregion-->
 
-        </Grid>
+                    <!--#region Updates-->
+                    <Grid x:Name="Updater"
+            Background="{DynamicResource Canvas}" Visibility="Hidden">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <!-- Important for .Net Core -->
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <!-- Important for .Net Core -->
+                        </Grid.RowDefinitions>
+                        <DockPanel LastChildFill="True">
+                            <Grid DockPanel.Dock="Top" Height="200" Background="{DynamicResource Tertiary}"/>
+                            <ListView DockPanel.Dock="Bottom" Background="{DynamicResource Primary}" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource Accent}"/>
+                        </DockPanel>
+                    </Grid>
+                    <!--#endregion-->
+                </Grid>
+            </Grid>
+
+        </DockPanel>
+
     </Grid>
     <!-- </Border>-->
 </Window>

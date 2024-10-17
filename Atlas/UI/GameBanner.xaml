@@ -13,15 +13,40 @@
              BorderBrush="Black">
     <Grid >
         <!-- Layout is backwards. Topmost item is at the back
-        <Image Source="/UI/config_image.webp" Stretch="Fill">
+        <Image Source="{Binding ImageData}" Stretch="Fill">
             <Image.Effect>
                 <BlurEffect KernelType="Gaussian" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Radius="30"/>
             </Image.Effect>
-        </Image>-->
-        <Image Source="{Binding ImageData}" Stretch="Uniform" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Height="{DynamicResource bannerY}"/>
+        </Image>
+        <Image Source="{Binding ImageData}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Height="{DynamicResource bannerY}"/>-->
+
+        <Grid>
+            <Rectangle Width="{DynamicResource bannerX}" Height="{DynamicResource bannerY}">
+                <Rectangle.Fill> 
+                    <ImageBrush ImageSource="{Binding ImageData}" Stretch="Uniform"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Width="{DynamicResource bannerX}" Height="{DynamicResource bannerY}">
+                <Rectangle.OpacityMask>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#00000000" Offset="0"/>
+                        <GradientStop Color="Black" Offset="1"/>
+                    </RadialGradientBrush>
+                </Rectangle.OpacityMask>
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="{Binding ImageData}" />
+                </Rectangle.Fill>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="1"/>
+                </Rectangle.Effect>
+            </Rectangle>
+        </Grid>
+
+        <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}" Stretch="Uniform" Height="{DynamicResource bannerY}" gif:AnimationBehavior.RepeatBehavior="Forever"/>
+
         <Grid VerticalAlignment="Top" x:Name="OverlayTop" Height="{DynamicResource overlayTopH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
         <Grid VerticalAlignment="Bottom" x:Name="OverlayBottom" Height="{DynamicResource overlayBottomH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
-        
+
         <!-- Text for Layout-->
         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="{Binding Title}" Foreground="White" Margin="3,3,3,3" Padding="2" Background="Transparent" FontSize="14">
             <TextBlock.Effect>
@@ -38,12 +63,12 @@
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="3"/>
                 </Style>
-            </TextBox.Resources>           
+            </TextBox.Resources>
         </TextBox>
         <TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Text="{Binding Creator}" Foreground="White" Margin="3,3,3,3" Padding="2" Background="Transparent" FontSize="12" BorderThickness="0"/>
         <TextBox VerticalAlignment="Top" HorizontalAlignment="Right" Text="{Binding Version}" Foreground="White" Margin="3,3,3,3" Padding="2" Background="Transparent" FontSize="12" BorderThickness="0"/>
         <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="{Binding Status}" Foreground="White" Margin="3,3,3,3" Padding="2" Background="Transparent" FontSize="12" BorderThickness="0"/>
-        
-       
+
+
     </Grid>
 </UserControl>
