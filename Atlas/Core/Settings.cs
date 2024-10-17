@@ -22,7 +22,7 @@ namespace Atlas.Core
             Config.ThemesPath = Config.ThemesPath == null ? "themes" : Config.ThemesPath;
 
             //APP
-            Config.Theme = Config.Theme == "" ? "Dark.xaml" : Config.Theme;
+            Config.Theme = Config.Theme == null ? "Dark.xaml" : Config.Theme;
 
             //IMPORTER
             Config.FolderStructure = Config.FolderStructure == null ? @"{Creator}\{Title}\{Version}" : Config.FolderStructure;

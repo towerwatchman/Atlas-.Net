@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
              xmlns:local="clr-namespace:Atlas.UI"
              mc:Ignorable="d" 
              d:DesignHeight="{DynamicResource bannerY}"
@@ -18,7 +19,9 @@
                 <BlurEffect KernelType="Gaussian" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Radius="30"/>
             </Image.Effect>
         </Image>-->
-        <Image Source="{Binding ImageData}" Stretch="Uniform" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Height="{DynamicResource bannerY}"/>
+        <Image Source="{Binding ImageData}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Height="{DynamicResource bannerY}"/>
+        <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}" Stretch="Uniform" Height="{DynamicResource bannerY}" gif:AnimationBehavior.RepeatBehavior="Forever"/>
+
         <Grid VerticalAlignment="Top" x:Name="OverlayTop" Height="{DynamicResource overlayTopH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
         <Grid VerticalAlignment="Bottom" x:Name="OverlayBottom" Height="{DynamicResource overlayBottomH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
         
