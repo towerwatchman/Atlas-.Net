@@ -78,6 +78,7 @@ namespace Atlas
                 Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "images"));
                 Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "logs"));
                 Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "updates"));
+                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes"));
             }
             catch (Exception ex) { Logger.Error(ex); }
             UpdateLauncherProgressBar(10);
