@@ -242,13 +242,14 @@ namespace Atlas
                                         }
                                         Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
                                         //Find Game in gamelist and set the banner to it
-                                        Application.Current.Dispatcher.Invoke(() =>
-                                        {
-                                            ModelData.Games[ModelData.Games.FindIndex(x => x.RecordID == game.RecordID)].ImageData =
-                                            ImageInterface.LoadImage(
+                                        BitmapImage img =  ImageInterface.LoadImage(
                                                     bannerUrl == "" ? "" : banner_path,
                                                     Atlas.Core.Settings.Config.ImageRenderWidth,
                                                     Atlas.Core.Settings.Config.ImageRenderHeight);
+                                        Application.Current.Dispatcher.Invoke(() =>
+                                        {
+                                            ModelData.Games[ModelData.Games.FindIndex(x => x.RecordID == game.RecordID)].ImageData = img;
+                                            
                                             this.BannerView.Items.Refresh();
                                         });
                                         //Hack to free up memory

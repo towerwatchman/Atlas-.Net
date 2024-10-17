@@ -13,35 +13,11 @@
              BorderThickness="1"
              BorderBrush="Black">
     <Grid >
-        <!-- Layout is backwards. Topmost item is at the back
-        <Image Source="{Binding ImageData}" Stretch="Fill">
-            <Image.Effect>
-                <BlurEffect KernelType="Gaussian" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Radius="30"/>
-            </Image.Effect>
-        </Image>
-        <Image Source="{Binding ImageData}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Height="{DynamicResource bannerY}"/>-->
+        <!-- Layout is backwards. Topmost item is at the back-->
 
-        <Grid>
-            <Rectangle Width="{DynamicResource bannerX}" Height="{DynamicResource bannerY}">
-                <Rectangle.Fill> 
-                    <ImageBrush ImageSource="{Binding ImageData}" Stretch="Uniform"/>
-                </Rectangle.Fill>
-            </Rectangle>
-            <Rectangle Width="{DynamicResource bannerX}" Height="{DynamicResource bannerY}">
-                <Rectangle.OpacityMask>
-                    <RadialGradientBrush>
-                        <GradientStop Color="#00000000" Offset="0"/>
-                        <GradientStop Color="Black" Offset="1"/>
-                    </RadialGradientBrush>
-                </Rectangle.OpacityMask>
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="{Binding ImageData}" />
-                </Rectangle.Fill>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="1"/>
-                </Rectangle.Effect>
-            </Rectangle>
-        </Grid>
+        <Image Source="{Binding ImageData}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Height="{DynamicResource bannerY}"/>
+
+       
 
         <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}" Stretch="Uniform" Height="{DynamicResource bannerY}" gif:AnimationBehavior.RepeatBehavior="Forever"/>
 
