@@ -21,7 +21,7 @@
             </Image.Effect>
         </Image>
         <Image Source="{Binding ImageData}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Height="{DynamicResource bannerY}"/>
-        <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}" Stretch="Uniform" Height="{DynamicResource bannerY}" gif:AnimationBehavior.RepeatBehavior="Forever"/>
+        <!--<Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}" Stretch="Uniform" Height="{DynamicResource bannerY}" gif:AnimationBehavior.RepeatBehavior="Forever"/>-->
 
         <Grid VerticalAlignment="Top" x:Name="OverlayTop" Height="{DynamicResource overlayTopH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
         <Grid VerticalAlignment="Bottom" x:Name="OverlayBottom" Height="{DynamicResource overlayBottomH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
