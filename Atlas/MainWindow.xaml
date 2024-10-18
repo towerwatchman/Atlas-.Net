@@ -358,7 +358,7 @@
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <custom:GameBanner Margin="0,2,0,2"></custom:GameBanner>
+                                    <custom:GameBanner Margin="2"></custom:GameBanner>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                             <ListView.ItemContainerStyle>
