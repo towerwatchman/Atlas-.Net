@@ -338,7 +338,7 @@
                        VirtualizingPanel.ScrollUnit="Pixel"
                        VirtualizingPanel.VirtualizationMode="Recycling"  
                        VirtualizingStackPanel.CleanUpVirtualizedItem="BannerView_CleanUpVirtualizedItem">
-                            <ListBox.Template>
+                            <ListView.Template>
                                 <ControlTemplate>
                                     <ScrollViewer CanContentScroll="True"
                                       Focusable="False"
@@ -350,7 +350,7 @@
                                         <ItemsPresenter/>
                                     </ScrollViewer>
                                 </ControlTemplate>
-                            </ListBox.Template>
+                            </ListView.Template>
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}"/>
@@ -369,6 +369,17 @@
                                     <Setter Property="BorderThickness" Value="0"/>
                                     <Setter Property="Padding" Value="0"/>
                                     <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Panel.ZIndex" Value="1000"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.01" ScaleY="1.01"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.Resources>
