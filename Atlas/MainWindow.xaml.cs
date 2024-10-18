@@ -50,7 +50,7 @@ namespace Atlas
             BannerView.MouseUp += BannerView_MouseUp;
 
             //Assign version
-            tbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
+            tbVersion.Text = $"Version: {Assembly.GetExecutingAssembly().GetName().Version!.ToString()}";
 
             InterfaceHelper.BannerView = BannerView;
 
