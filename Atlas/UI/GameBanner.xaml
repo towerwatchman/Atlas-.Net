@@ -15,10 +15,12 @@
     <Grid >
         <!-- Layout is backwards. Topmost item is at the back-->
 
+        <Image Source="{Binding ImageData}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="LowQuality" Height="{DynamicResource bannerY}">
+            <Image.Effect>
+                <BlurEffect Radius="20"/>
+            </Image.Effect>
+        </Image>
         <Image Source="{Binding ImageData}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Height="{DynamicResource bannerY}"/>
-
-       
-
         <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}" Stretch="Uniform" Height="{DynamicResource bannerY}" gif:AnimationBehavior.RepeatBehavior="Forever"/>
 
         <Grid VerticalAlignment="Top" x:Name="OverlayTop" Height="{DynamicResource overlayTopH}" Width="{DynamicResource bannerX}" Background="{DynamicResource overlayTopColor}" Opacity="{DynamicResource overlayOpacity}"/>
