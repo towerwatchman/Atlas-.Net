@@ -298,7 +298,7 @@
                             <RowDefinition Height="1*"/>
                             <!-- Important for .Net Core -->
                         </Grid.RowDefinitions>
-                        <ListBox x:Name="GameListBox" Margin="0,2,2,0" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0">
+                        <ListBox x:Name="GameListBox" Margin="0,2,2,0" Background="{DynamicResource Secondary}" Foreground="{DynamicResource Text}" BorderThickness="0" MouseUp="GameListBox_MouseUp">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Title}"/>

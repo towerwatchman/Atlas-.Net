@@ -409,5 +409,10 @@ namespace Atlas
                 }
             }
         }
+
+        private void GameListBox_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            int index = GameListBox.SelectedIndex;
+        }
     }
 }
