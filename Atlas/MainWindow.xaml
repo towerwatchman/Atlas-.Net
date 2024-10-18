@@ -20,15 +20,20 @@
             <!--region Footer-->
             <Border DockPanel.Dock="Bottom" Panel.ZIndex="4" BorderBrush="{DynamicResource Border}" BorderThickness="0,1,0,0">
                 <Grid x:Name="Footer" DockPanel.Dock="Bottom" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Background="{DynamicResource Primary}">
-                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical" VerticalAlignment="Center">                        
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">                        
                         <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
                             <Path Data="{DynamicResource games_icon}" Fill="{DynamicResource Accent}" VerticalAlignment="Top"/>
-                            <TextBox x:Name="Version" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="0 Games Installed, 0 Total Versions" MinHeight="20" BorderThickness="0" Background="Transparent"/>
-                        </StackPanel>                        
+                            <TextBox x:Name="TotalGames" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="0 Games Installed, 0 Total Versions" MinHeight="20" BorderThickness="0" Background="Transparent"/>
+                        </StackPanel>                       
                     </StackPanel>
-                    
-                   
-
+                    <StackPanel Orientation="Horizontal" Margin="20,0,0,0" HorizontalAlignment="Left">
+                        <Path Data="{DynamicResource add_icon}" Fill="{DynamicResource Accent}" VerticalAlignment="Center"/>
+                        <TextBox x:Name="Version" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="Add Game" MinHeight="20" BorderThickness="0" Background="Transparent"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Right">
+                        <Path Data="{DynamicResource import_icon}" Fill="{DynamicResource Accent}" VerticalAlignment="Center"/>
+                        <TextBox x:Name="Downloads" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="Downloads" MinHeight="20" BorderThickness="0" Background="Transparent"/>
+                    </StackPanel>
                 </Grid>
             </Border>
             <!--#endregion-->
