@@ -23,6 +23,7 @@ using System.Windows.Interop;
 using System.Drawing.Imaging;
 using Atlas.Core.Utilities;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Atlas
 {
@@ -372,16 +373,20 @@ namespace Atlas
         {
             if (AtlasSearchBox.Text == "Search Atlas")
             {
-                AtlasSearchBox.Text = string.Empty;
+                AtlasSearchBox.Text = string.Empty;                
             }
+            //SearchBarBorder.BorderThickness = new Thickness(1);
+            SearchBarBorder.SetResourceReference(Control.BorderBrushProperty, "Accent");
         }
 
         private void AtlasSearchBox_MouseLeave(object sender, MouseEventArgs e)
         {
             if (AtlasSearchBox.Text == string.Empty)
             {
-                AtlasSearchBox.Text = "Search Atlas";
+                AtlasSearchBox.Text = "Search Atlas";                
             }
+            //SearchBarBorder.BorderThickness = new Thickness(0);
+            SearchBarBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
         }
 
         private bool UserFilter(object item)
