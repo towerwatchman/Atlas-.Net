@@ -20,11 +20,11 @@
             <!--region Footer-->
             <Border DockPanel.Dock="Bottom" Panel.ZIndex="4" BorderBrush="{DynamicResource Border}" BorderThickness="0,1,0,0">
                 <Grid x:Name="Footer" DockPanel.Dock="Bottom" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Background="{DynamicResource Primary}">
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">                        
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
                             <Path Data="{DynamicResource games_icon}" Fill="{DynamicResource Accent}" VerticalAlignment="Top"/>
                             <TextBox x:Name="TotalGames" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="0 Games Installed, 0 Total Versions" MinHeight="20" BorderThickness="0" Background="Transparent"/>
-                        </StackPanel>                       
+                        </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="20,0,0,0" HorizontalAlignment="Left">
                         <Path Data="{DynamicResource add_icon}" Fill="{DynamicResource Accent}" VerticalAlignment="Center"/>
@@ -180,33 +180,37 @@
                         <!--#endregion-->
 
                         <!--#region Search Box -->
-                        <Grid Background="{DynamicResource Secondary}"
+                        <Border BorderBrush="{DynamicResource Accent}" BorderThickness="1" Height="40" Width="400" Margin="450,0">
+                            <Grid Background="{DynamicResource Secondary}"
                       HorizontalAlignment="Stretch"
                       Height="40"
-                      MinWidth="400"
-                      Margin="450,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+                      MinWidth="400">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-                            <Image
+                                <Image
                         Source="{DynamicResource search_icon}"
                         Stretch="Uniform"
                         Height="15"
                         Width="15"/>
 
-                            <!-- Search Text-->
-                            <TextBox x:Name="AtlasSearchBox"
+                                <!-- Search Text-->
+                                <TextBox x:Name="AtlasSearchBox"
                         Grid.Column="1"
                         Background="Transparent"
                         BorderThickness="0"
                         Foreground="{DynamicResource Text}"
                         Text="Search Atlas"
                         VerticalAlignment="Center" MouseEnter="AtlasSearchBox_MouseEnter" MouseLeave="AtlasSearchBox_MouseLeave" TextChanged="AtlasSearchBox_TextChanged"/>
-                        </Grid>
+                            </Grid>
+                        </Border>
                         <!--#endregion-->
-                        <TextBox x:Name="tbVersion" HorizontalAlignment="Right" VerticalContentAlignment="Center"  Text="Version: 0.0.0" MinHeight="20" BorderThickness="0" Background="Transparent" Margin="0,8,15,0"/>
+                        <StackPanel  Margin="0,8,15,0" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                            <TextBox x:Name="tbVersion" HorizontalAlignment="Right" VerticalContentAlignment="Center" Text="Version: 0.0.0" MinHeight="20" BorderThickness="0" Background="Transparent" Margin="0,-10,0,-10"/>
+                            <TextBox Text="α" BorderThickness="0" Background="Transparent" Foreground="Goldenrod" HorizontalAlignment="Right" Margin="0,-10,0,-10" VerticalContentAlignment="Center"/>
+                        </StackPanel>
 
                     </Grid>
 
