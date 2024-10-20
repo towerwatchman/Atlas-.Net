@@ -40,8 +40,6 @@ namespace Atlas
             setAlignmentValue();
             SystemParameters.StaticPropertyChanged += (sender, e) => { setAlignmentValue(); };
 
-
-
             Task.Run(async () =>
             {
                 try

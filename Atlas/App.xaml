@@ -513,15 +513,15 @@
 
             <!--#region -->
             <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
-                <StackPanel Margin="-20,0,0,0" Background="{DynamicResource Tertiary}"/>
-
+                <StackPanel Background="{DynamicResource Tertiary}"/>
             </ItemsPanelTemplate>
 
             <Style TargetType="{x:Type MenuItem}">
-                <!--<Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>-->
-                <Setter Property="Height" Value="25"/>
+                <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
+                <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
+                <Setter Property="Height" Value="30"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="4,0,0,0"/>
+                <Setter Property="Padding" Value="5"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type MenuItem}">

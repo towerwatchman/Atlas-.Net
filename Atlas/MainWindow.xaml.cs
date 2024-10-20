@@ -113,7 +113,6 @@ namespace Atlas
         {
             MenuItem obMenuItem = e.OriginalSource as MenuItem;
 
-            //
             LaunchExeProcess(obMenuItem.Tag.ToString());
         }
 
