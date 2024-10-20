@@ -243,14 +243,14 @@ namespace Atlas
                                         }
                                         Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
                                         //Find Game in gamelist and set the banner to it
-                                        BitmapImage img =  ImageInterface.LoadImage(
+                                        BitmapImage img = ImageInterface.LoadImage(
                                                     bannerUrl == "" ? "" : banner_path,
                                                     Atlas.Core.Settings.Config.ImageRenderWidth,
                                                     Atlas.Core.Settings.Config.ImageRenderHeight);
                                         Application.Current.Dispatcher.Invoke(() =>
                                         {
                                             ModelData.Games[ModelData.Games.FindIndex(x => x.RecordID == game.RecordID)].ImageData = img;
-                                            
+
                                             this.BannerView.Items.Refresh();
                                         });
                                         //Hack to free up memory
@@ -373,7 +373,7 @@ namespace Atlas
         {
             if (AtlasSearchBox.Text == "Search Atlas")
             {
-                AtlasSearchBox.Text = string.Empty;                
+                AtlasSearchBox.Text = string.Empty;
             }
             //SearchBarBorder.BorderThickness = new Thickness(1);
             SearchBarBorder.SetResourceReference(Control.BorderBrushProperty, "Accent");
@@ -383,7 +383,7 @@ namespace Atlas
         {
             if (AtlasSearchBox.Text == string.Empty)
             {
-                AtlasSearchBox.Text = "Search Atlas";                
+                AtlasSearchBox.Text = "Search Atlas";
             }
             //SearchBarBorder.BorderThickness = new Thickness(0);
             SearchBarBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
@@ -419,5 +419,30 @@ namespace Atlas
         {
             int index = GameListBox.SelectedIndex;
         }
+
+        private void AddGameButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            //AddGameButton.ContextMenu.Items.Add("test");
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItem = new MenuItem();
+
+            menuItem.Header = "Add Game";            
+            menuItem.Click += MenuItem_Click;
+            contextMenu.Items.Add(menuItem);
+
+            menuItem = new MenuItem();
+            menuItem.Header = "Add Integration";
+            menuItem.Click += MenuItem_Click;
+            contextMenu.Items.Add(menuItem);
+
+            AddGameButton.ContextMenu = contextMenu;
+            //this will open for right and left click
+            AddGameButton.ContextMenu.IsOpen = true;
+
+        }
+
+        //Show context menu for adding games
+
     }
 }

@@ -26,10 +26,16 @@
                             <TextBox x:Name="TotalGames" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="0 Games Installed, 0 Total Versions" MinHeight="20" BorderThickness="0" Background="Transparent"/>
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="20,0,0,0" HorizontalAlignment="Left">
-                        <Path Data="{DynamicResource add_icon}" Fill="{DynamicResource Accent}" VerticalAlignment="Center"/>
-                        <TextBox x:Name="Version" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="Add Game" MinHeight="20" BorderThickness="0" Background="Transparent"/>
-                    </StackPanel>
+                    <Button Height="30" Width="100" x:Name="AddGameButton" Margin="20,0,0,0" HorizontalAlignment="Left" Click="AddGameButton_Click" Style="{StaticResource TransparentButton}">
+                        <Grid IsEnabled="False">
+                            <Path Style="{StaticResource PathHover}" Data="{DynamicResource add_icon}" Fill="{DynamicResource Accent}" VerticalAlignment="Center" IsEnabled="False">
+
+                            </Path>
+
+                            <TextBlock x:Name="Version" Margin="30,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Add Game" MinHeight="20"/>
+                        </Grid>
+                        
+                    </Button>
                     <StackPanel Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Right">
                         <Path Data="{DynamicResource import_icon}" Fill="{DynamicResource Accent}" VerticalAlignment="Center"/>
                         <TextBox x:Name="Downloads" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="Downloads" MinHeight="20" BorderThickness="0" Background="Transparent"/>

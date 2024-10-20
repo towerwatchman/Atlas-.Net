@@ -67,6 +67,29 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+
+            <Style x:Key="TransparentButton" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource Border}" BorderThickness="0" CornerRadius="2">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
             <!--#endregion-->
 
             <!-- #region Min Max and Exit Buttons -->
@@ -129,15 +152,32 @@
                     </Style>
                 </Style.Resources>
             </Style>
+
+            <Style x:Key="TextBoxSimple" TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                        <Setter Property="Opacity" Value="1"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                        <Setter Property="Opacity" Value="1"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
             <!--#endregion-->
 
-            <!-- Label -->
+            <!--#region X:Type Label -->
             <Style TargetType="{x:Type Label}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Foreground" Value="{DynamicResource Text}"/>
             </Style>
+            <!--#endregion-->
 
-            <!-- Checkbox -->
+            <!--#region Checkbox -->
             <Style TargetType="{x:Type CheckBox}">
                 <Setter Property="Background" Value="{DynamicResource Text}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
@@ -168,6 +208,7 @@
                 </Setter>
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
+            <!--#endregion-->
 
             <!-- ListView -->
             <Style x:Key="DefaultListViewStyle" TargetType="ListView">
@@ -247,7 +288,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
             <!-- This has to be set after RepeatButtonTransparent-->
             <Style TargetType="{x:Type ScrollBar}">
                 <Style.Triggers>
@@ -458,6 +499,58 @@
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="12" />
             </Style>
+
+            <!--#region PathHover -->
+            <Style x:Key="PathHover" TargetType="{x:Type Path}">
+                <Setter Property="Fill" Value="{DynamicResource Accent}"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Fill" Value="{DynamicResource Text}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <!--#endregion-->
+
+            <!--#region -->
+            <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
+                <StackPanel Margin="-20,0,0,0" Background="{DynamicResource Tertiary}"/>
+
+            </ItemsPanelTemplate>
+
+            <Style TargetType="{x:Type MenuItem}">
+                <!--<Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>-->
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="4,0,0,0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type MenuItem}">
+                            <Border x:Name="Bd" Padding="17,0,17,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Uid="Border_38">
+                                <ContentPresenter x:Name="ContentPresenter"  Content="{TemplateBinding Header}" Grid.Column="1" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Uid="ContentPresenter_33"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsHighlighted" Value="True">
+                                    <Setter Property="Background"  Value="{DynamicResource Text }"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource Tertiary}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="ContextMenu">
+                <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
+                <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+
+            </Style>
+
+
+            <!--#endregion-->
 
         </ResourceDictionary>
 

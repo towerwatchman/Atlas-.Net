@@ -7,6 +7,7 @@ using Config.Net;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using static System.Net.WebRequestMethods;
 
@@ -30,6 +31,15 @@ namespace Atlas
 
             //Check if program is already open
             if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
+
+            //Fix context menu
+            var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+            Action setAlignmentValue = () => {
+                if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
+            };
+            setAlignmentValue();
+            SystemParameters.StaticPropertyChanged += (sender, e) => { setAlignmentValue(); };
+
 
 
             Task.Run(async () =>
