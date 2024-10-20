@@ -513,7 +513,7 @@
 
             <!--#region -->
             <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
-                <StackPanel Background="{DynamicResource Tertiary}"/>
+                <StackPanel Margin="-1,-1,0,0" Background="{DynamicResource Tertiary}"/>
             </ItemsPanelTemplate>
 
             <Style TargetType="{x:Type MenuItem}">
