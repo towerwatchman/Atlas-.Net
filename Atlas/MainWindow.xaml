@@ -34,7 +34,7 @@
 
                             <TextBlock x:Name="Version" Margin="30,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Add Game" MinHeight="20"/>
                         </Grid>
-                        
+
                     </Button>
                     <StackPanel Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Right">
                         <Path Data="{DynamicResource import_icon}" Fill="{DynamicResource Accent}" VerticalAlignment="Center"/>
@@ -409,16 +409,22 @@
                             </ListView.Resources>
                             <ListView.ContextMenu>
                                 <ContextMenu x:Name="cmGame" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                                    <MenuItem x:Name="miPlay" Header="Play">
-                                        <MenuItem x:Name="miVersions" Header="Versions"/>
-                                    </MenuItem>
+
+                                    <MenuItem x:Name="miPlay" Style="{StaticResource PlayMenuItem}" Header="Play" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center" >
+                                            <MenuItem.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#72CF00"/>
+                                                    <GradientStop Color="#56B628" Offset="0"/>
+                                                </LinearGradientBrush>
+                                            </MenuItem.Background>
+                                            <MenuItem x:Name="miVersions" Header="Versions"/>
+                                        </MenuItem>
                                     <MenuItem Header="Add to favorites"/>
                                     <MenuItem Header="Manage">
                                         <MenuItem Header="Add desktop icon"/>
                                         <MenuItem Header="Browse local files"/>
                                         <MenuItem Header="Set custom artwork"/>
                                     </MenuItem>
-                                    <Separator/>
                                     <MenuItem Header="Properties"/>
                                 </ContextMenu>
                             </ListView.ContextMenu>
