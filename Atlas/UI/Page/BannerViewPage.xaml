@@ -1,0 +1,110 @@
+﻿<Page x:Class="Atlas.UI.Pages.BannerViewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
+      xmlns:custom="clr-namespace:Atlas.UI"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="BannerViewPage">
+    <Grid>
+        <ListView x:Name="BannerView"
+                  Margin="0,2,0,0"
+                  Background="{DynamicResource Primary}"
+                  Foreground="{DynamicResource Text}"
+                  BorderThickness="0"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  HorizontalAlignment="Stretch"
+                  ScrollViewer.CanContentScroll="True"
+                  VirtualizingPanel.ScrollUnit="Pixel"
+                  VirtualizingPanel.VirtualizationMode="Recycling">
+            <ListView.Template>
+                <ControlTemplate>
+                    <ScrollViewer CanContentScroll="True"
+                                  Focusable="False"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  Background="{DynamicResource Primary}">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ListView.Template>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <custom:GameBanner x:Name="GameBannerItem"
+                                       Margin="2" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="Stretch" />
+                    <Setter Property="Height"
+                            Value="{DynamicResource bannerY}" />
+                    <Setter Property="Width"
+                            Value="{DynamicResource bannerX}" />
+                    <Setter Property="BorderThickness"
+                            Value="0" />
+                    <Setter Property="Padding"
+                            Value="0" />
+                    <Setter Property="Margin"
+                            Value="0" />
+                    <Setter Property="RenderTransformOrigin"
+                            Value="0.5,0.5" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Panel.ZIndex"
+                                    Value="1000" />
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1.01"
+                                                    ScaleY="1.01" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Resources></ListView.Resources>
+            <ListView.ContextMenu>
+                <ContextMenu x:Name="cmGame"
+                             DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <MenuItem x:Name="miPlay"
+                              Style="{StaticResource PlayMenuItem}"
+                              Header="Play"
+                              FontSize="14"
+                              FontWeight="Bold"
+                              HorizontalContentAlignment="Center">
+                        <MenuItem.Background>
+                            <LinearGradientBrush EndPoint="0.5,1"
+                                                 StartPoint="0.5,0">
+                                <GradientStop Color="#72CF00" />
+                                <GradientStop Color="#56B628"
+                                              Offset="0" />
+                            </LinearGradientBrush>
+                        </MenuItem.Background>
+                        <MenuItem x:Name="miVersions"
+                                  Header="Versions" />
+                    </MenuItem>
+                    <MenuItem Header="Add to favorites" />
+                    <MenuItem Header="Manage">
+                        <MenuItem Header="Add desktop icon" />
+                        <MenuItem Header="Browse local files" />
+                        <MenuItem Header="Set custom artwork" />
+                    </MenuItem>
+                    <MenuItem Header="Properties" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+    </Grid>
+</Page>

@@ -486,7 +486,12 @@ games.title as title,
 games.creator as creator,
 games.engine as engine,
 banners.path as image_path,
-f95_zone_data.tags as tags
+f95_zone_data.f95_id as f95_id,
+f95_zone_data.site_url as site_url,
+f95_zone_data.views as views,
+f95_zone_data.likes as likes,
+f95_zone_data.tags as tags,
+f95_zone_data.rating as rating
 
 FROM
 atlas_mappings
@@ -494,7 +499,7 @@ LEFT JOIN games on atlas_mappings.record_id = games.record_id
 LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
 LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
 
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            await using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -511,17 +516,22 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                             {
                                 AtlasID = reader["atlas_id"].ToString(),
                                 RecordID = Convert.ToInt32(reader["record_id"].ToString()),
+                                F95ID = reader["f95_id"].ToString(),
                                 Title = reader["title"].ToString(),
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
+                                Views =reader["views"].ToString(),
+                                Likes = reader["likes"].ToString(),
                                 Tags = reader["tags"].ToString(),
+                                BannerPath = reader["image_path"].ToString(),
                                 //Versions = null,
                                 Versions = GetVersions(reader["record_id"].ToString()),
-                                ImageUriAnimated = Path.GetExtension(reader["image_path"].ToString()) == ".gif" ? 
-                                    new Uri(reader["image_path"].ToString()) : 
+                                ImageUriAnimated = Path.GetExtension(reader["image_path"].ToString()) == ".gif" ?
+                                    new Uri(reader["image_path"].ToString()) :
                                     null,
-                                ImageData = ImageInterface.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight) 
+                                ImageData = ImageInterface.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)
                             };
+
                             Games.Add(game);
                         }
                         catch (Exception ex)

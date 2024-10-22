@@ -24,6 +24,7 @@ using System.Drawing.Imaging;
 using Atlas.Core.Utilities;
 using System.Windows.Data;
 using System.Windows.Media;
+using Atlas.UI.Pages;
 
 namespace Atlas
 {
@@ -32,9 +33,14 @@ namespace Atlas
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private bool isBatchImporterOpen = false;
         private bool isRefreshRunning = false;
+
+        //Create private members for each page
+        BannerViewPage bvp = new BannerViewPage();
+
         public MainWindow()
         {
             InitializeComponent();
+            atlas_frame.Content = bvp;
 
 
             //Custom Event manager for pressing one of the Navigation buttons on the left side
@@ -47,28 +53,40 @@ namespace Atlas
             }
 
             //Hide context menu
-            cmGame.Visibility = Visibility.Hidden;
-            BannerView.MouseUp += BannerView_MouseUp;
+            bvp.cmGame.Visibility = Visibility.Hidden;
+            bvp.BannerView.MouseUp += BannerView_MouseUp;
 
             //Assign version
             tbVersion.Text = $"Version: {Assembly.GetExecutingAssembly().GetName().Version!.ToString()}";
 
-            InterfaceHelper.BannerView = BannerView;
+            InterfaceHelper.BannerView = bvp.BannerView;
 
             //initalize the BannerView
             InitListView();
 
+            //Assign Left click event to BannerView
+            bvp.BannerView.MouseLeftButtonUp += BannerView_MouseLeftButtonUp;
+
+        }
+
+        private void BannerView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //Game game = (Game)sender;
+            //throw new NotImplementedException();
+
+
+            this.atlas_frame.Content = new GameDetailPage((Game)bvp.BannerView.SelectedItem);
         }
 
         private void InitListView()
         {
             //Reset the list
             this.GameListBox.ItemsSource = null;
-            this.BannerView.ItemsSource = null;
-            this.BannerView.ItemsSource = ModelData.Games;
+            bvp.BannerView.ItemsSource = null;
+            bvp.BannerView.ItemsSource = ModelData.Games;
             this.GameListBox.ItemsSource = ModelData.Games;
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BannerView.ItemsSource);
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource);
             view.Filter = UserFilter;
             // the code that's accessing UI properties
             //sort items in lists
@@ -78,15 +96,15 @@ namespace Atlas
         #region Banner Left Click
         private void BannerView_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (this.BannerView.ItemsSource != null && this.BannerView.Items.Count > 0)
+            if (bvp.BannerView.ItemsSource != null && bvp.BannerView.Items.Count > 0)
             {
 
-                Game game = BannerView.SelectedItem as Game;
+                Game game = bvp.BannerView.SelectedItem as Game;
                 if (game != null)
                 {
-                    cmGame.Visibility = Visibility.Visible;
-                    miPlay.ItemsSource = null;
-                    miPlay.Items.Clear();
+                    bvp.cmGame.Visibility = Visibility.Visible;
+                    bvp.miPlay.ItemsSource = null;
+                    bvp.miPlay.Items.Clear();
 
                     List<MenuItem> menuitems = new List<MenuItem>();
                     if (game.Versions != null)
@@ -100,7 +118,7 @@ namespace Atlas
                             menuitems.Add(menuItem);
                         }
                     }
-                    miPlay.ItemsSource = menuitems;
+                    bvp.miPlay.ItemsSource = menuitems;
                 }
             }
         }
@@ -185,6 +203,12 @@ namespace Atlas
         {
             var Item = (ListBoxItem)sender;
             //Console.WriteLine(Item.Name);
+
+            if(Item.Name.ToString() == "Home")
+            {
+                this.atlas_frame.Content = bvp;
+            }
+
             if (Item.Name.ToString() == "Import" && isBatchImporterOpen == false)
             {
                 isBatchImporterOpen = true;
@@ -250,7 +274,7 @@ namespace Atlas
                                         {
                                             ModelData.Games[ModelData.Games.FindIndex(x => x.RecordID == game.RecordID)].ImageData = img;
 
-                                            this.BannerView.Items.Refresh();
+                                            bvp.BannerView.Items.Refresh();
                                         });
                                         //Hack to free up memory
                                         GC.Collect();
@@ -398,13 +422,13 @@ namespace Atlas
 
         private void AtlasSearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (BannerView != null)
+            if (bvp.BannerView != null)
             {
-                if (BannerView.ItemsSource != null)
+                if (bvp.BannerView.ItemsSource != null)
                 {
                     try
                     {
-                        CollectionViewSource.GetDefaultView(BannerView.ItemsSource).Refresh();
+                        CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource).Refresh();
                     }
                     catch (Exception ex)
                     {
@@ -417,8 +441,8 @@ namespace Atlas
         private void GameListBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
             int index = GameListBox.SelectedIndex;
-            BannerView.SelectedIndex = index;
-            BannerView.ScrollIntoView(BannerView.SelectedItem); 
+            bvp.BannerView.SelectedIndex = index;
+            bvp.BannerView.ScrollIntoView(bvp.BannerView.SelectedItem); 
         }
 
         private void AddGameButton_Click(object sender, RoutedEventArgs e)

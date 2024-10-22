@@ -17,7 +17,7 @@ namespace Atlas.Core.Utilities
     public static class ImageInterface
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public static BitmapImage LoadImage(string path, double width, double height)
+        public static BitmapImage LoadImage(string path, double width, double height = 0)
         {
             var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
 

@@ -13,7 +13,17 @@ namespace Atlas.Core
         public required string Engine { get; set; }
         public required List<GameVersion> Versions  { get; set; }
         public string Status { get; set; }
+        public string Likes { get; set; }
+        public string Favorites { get; set; }
+        public string Views { get; set; }
+        public string Category { get; set; }
+        public string Overview { get; set; }
+        public string Os { get; set; }
+        public bool IsFavorite { get; set; }
         public required BitmapImage ImageData { get; set; }
+        public string BannerPath { get; set; }
+        public string SiteUrl { get; set; }
+        public string[] Screens { get; set; }
         public required Uri ImageUriAnimated { get; set; }
         public string Tags { get; set; }
     }

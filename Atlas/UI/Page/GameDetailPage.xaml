@@ -1,0 +1,135 @@
+﻿<Page x:Class="Atlas.UI.Pages.GameDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Atlas.UI.Pages"
+      xmlns:svg="http://sharpvectors.codeplex.com/runtime/"
+      xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+      mc:Ignorable="d"
+      d:DesignHeight="720"
+      d:DesignWidth="1280"
+      Title="GameDetailPage"
+      Background="{DynamicResource Primary}">
+    <Grid>
+        <!-- Main Image at the top -->
+        <Image x:Name="banner_background"
+               Source="/Assets/Images/default.jpg"
+               Height="225"
+               Width="Auto"
+               Panel.ZIndex="0"
+               VerticalAlignment="Top"
+               Stretch="UniformToFill"
+               RenderOptions.BitmapScalingMode="HighQuality"
+               >
+            <Image.Effect>
+                <BlurEffect Radius="20" />
+            </Image.Effect>
+        </Image>
+        <Image x:Name="banner_main"
+               Source="/Assets/Images/default.jpg"
+               Height="225"
+               Width="Auto"
+               Panel.ZIndex="1"
+               VerticalAlignment="Top"
+               Stretch="Uniform" />
+        
+        <Border BorderBrush="{DynamicResource Border}"
+                BorderThickness="1,0,0,0">
+            <Grid Margin="0,225,0,0">                
+                <!-- All content goes in this Grid-->
+                <Grid Panel.ZIndex="2"
+                      Background="{DynamicResource Primary}"
+                      Opacity=".95">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="20"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top">
+                        <Button Style="{StaticResource TransparentButton}"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Width="140"
+                                Height="38">
+                            <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,.5"
+                                                     StartPoint="0,.5">
+                                    <GradientStop Color="#7FD500" />
+                                    <GradientStop Color="#58C000"
+                                                  Offset="1" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Grid>
+                                <Image Source="{svgc:SvgImage Source=/Assets/Icons/play_normal.svg}"
+                                       Width="70"
+                                       Height="30" />
+                            </Grid>
+                        </Button>
+                        <Button VerticalAlignment="Top"
+                                Margin="10,0,0,0"
+                                Style="{StaticResource TransparentButton}"
+                                Width="20"
+                                Height="38"
+                                Background="#58C000">
+                            <Grid>
+                                <Image Source="{svgc:SvgImage Source=/Assets/Icons/down_arrow_small.svg}"
+                                       Width="10"
+                                       Height="20" />
+                            </Grid>
+                        </Button>
+                        <!-- Last Played -->
+                        <StackPanel Margin="30,0,0,0"
+                                    Orientation="Vertical">
+                            <Label Content="LAST PLAYED"
+                                   Foreground="{DynamicResource Text}"
+                                   FontWeight="Bold"
+                                   Padding="1" />
+                            <Label Content=""
+                                   Foreground="{DynamicResource Text}"
+                                   Padding="1" />
+                        </StackPanel>
+                        <!-- Play Time -->
+                        <StackPanel Margin="30,0,0,0"
+                                    Orientation="Vertical">
+                            <Label Content="PLAY TIME"
+                                   Foreground="{DynamicResource Text}"
+                                   FontWeight="Bold"
+                                   Padding="1" />
+                            <Label Content=""
+                                   Foreground="{DynamicResource Text}"
+                                   Padding="1" />
+                        </StackPanel>
+                        <!-- File Size -->
+                        <StackPanel Margin="30,0,0,0"
+                                    Orientation="Vertical">
+                            <Label Content="STORAGE USED"
+                                   Foreground="{DynamicResource Text}"
+                                   FontWeight="Bold"
+                                   Padding="1" />
+                            <Label Content=""
+                                   Foreground="{DynamicResource Text}"
+                                   Padding="1" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,20,0" Orientation="Horizontal">
+                        <Button Width="30"
+                                Height="30"
+                                Style="{StaticResource TransparentButton}"
+                                Background="{DynamicResource Secondary}" Margin="10,0,0,0" />
+                        <Button Width="30"
+                                Height="30"
+                                Style="{StaticResource TransparentButton}"
+                                Background="{DynamicResource Secondary}"
+                                Margin="10,0,0,0" />
+                        <Button Width="30"
+                                Height="30"
+                                Style="{StaticResource TransparentButton}"
+                                Background="{DynamicResource Secondary}"
+                                Margin="10,0,0,0" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
