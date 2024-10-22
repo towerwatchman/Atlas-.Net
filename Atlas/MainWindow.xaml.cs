@@ -71,10 +71,6 @@ namespace Atlas
 
         private void BannerView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //Game game = (Game)sender;
-            //throw new NotImplementedException();
-
-
             this.atlas_frame.Content = new GameDetailPage((Game)bvp.BannerView.SelectedItem);
         }
 
@@ -387,11 +383,6 @@ namespace Atlas
             });
         }
 
-        private void BannerView_CleanUpVirtualizedItem(object sender, CleanUpVirtualizedItemEventArgs e)
-        {
-
-        }
-
         private void AtlasSearchBox_MouseEnter(object sender, MouseEventArgs e)
         {
             if (AtlasSearchBox.Text == "Search Atlas")
@@ -440,9 +431,19 @@ namespace Atlas
 
         private void GameListBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            int index = GameListBox.SelectedIndex;
-            bvp.BannerView.SelectedIndex = index;
-            bvp.BannerView.ScrollIntoView(bvp.BannerView.SelectedItem); 
+            Page currentPage = (Page)this.atlas_frame.Content;
+
+            if (currentPage.Title == "BannerViewPage")
+            {
+                int index = GameListBox.SelectedIndex;
+                bvp.BannerView.SelectedIndex = index;
+                bvp.BannerView.ScrollIntoView(bvp.BannerView.SelectedItem);
+            }
+            else if(currentPage.Title == "GameDetailPage")
+            {
+                this.atlas_frame.Content = null;
+                this.atlas_frame.Content = new GameDetailPage((Game)GameListBox.SelectedItem);
+            }          
         }
 
         private void AddGameButton_Click(object sender, RoutedEventArgs e)
