@@ -151,6 +151,13 @@ namespace Atlas
                         // your code
                         ModelLoader loader = new ModelLoader();
                         await loader.CreateGamesList(Settings.Config.DefaultPage);
+                        ModelData.TotalGames = ModelData.Games.Count;
+                        int versions = 0;
+                        foreach (var modelData in ModelData.Games)
+                        {
+                            versions += modelData.Versions.Count;
+                        }
+                        ModelData.TotalVersions = versions;
                     });
                     //Load the entire GameList before binding it to the view
 

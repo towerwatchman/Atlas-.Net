@@ -35,14 +35,16 @@
                Stretch="Uniform" />
         
         <Border BorderBrush="{DynamicResource Border}"
-                BorderThickness="1,0,0,0">
-            <Grid Margin="0,225,0,0">                
+                BorderThickness="1,0,0,0"
+                Panel.ZIndex="3">
+            <Grid Margin="0,225,0,0"
+                  Panel.ZIndex="3">                
                 <!-- All content goes in this Grid-->
-                <Grid Panel.ZIndex="2"
-                      Background="{DynamicResource Primary}"
-                      Opacity=".95">
+                <Grid Panel.ZIndex="3"
+                      Background="{DynamicResource Canvas}"
+                      Opacity=".95" Height="60" VerticalAlignment="Top">
                     <StackPanel Orientation="Horizontal"
-                                Margin="20"
+                                Margin="20,10,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top">
                         <Button Style="{StaticResource TransparentButton}"
@@ -112,7 +114,7 @@
                                    Padding="1" />
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,20,0" Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,20,0" Orientation="Horizontal">
                         <Button Width="30"
                                 Height="30"
                                 Style="{StaticResource TransparentButton}"

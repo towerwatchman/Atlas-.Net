@@ -67,6 +67,8 @@ namespace Atlas
             //Assign Left click event to BannerView
             bvp.BannerView.MouseLeftButtonUp += BannerView_MouseLeftButtonUp;
 
+            //Set total Versions & games
+            TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
         }
 
         private void BannerView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
