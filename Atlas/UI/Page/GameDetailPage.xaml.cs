@@ -28,6 +28,7 @@ namespace Atlas.UI.Pages
             CurrentGame = game;
             InitializeComponent();
             BuildGameDetail();
+            ShowVersions.Visibility = Visibility.Hidden;
         }
 
         private void BuildGameDetail()
@@ -37,7 +38,12 @@ namespace Atlas.UI.Pages
                 var ImageData = ImageInterface.LoadImage(CurrentGame.BannerPath, 1000);
                 banner_main.Source = ImageData;
                 banner_background.Source = ImageData;
-                CurrentVersion.Content = $"Selected Version: {CurrentGame.Versions[0].Version}";
+                CurrentVersion.Content = $"{CurrentGame.Versions[0].Version}";
+                if(CurrentGame.Versions.Count > 1) 
+                {
+                    ShowVersions.Visibility = Visibility.Visible;
+                }
+
             }
         }
     }

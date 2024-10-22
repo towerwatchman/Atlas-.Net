@@ -64,7 +64,7 @@
                                    Width="70"
                                    Height="30" />
                     </Button>
-                    <Button VerticalAlignment="Top"
+                    <Button x:Name="ShowVersions" VerticalAlignment="Top"
                             Margin="10,0,0,0"
                             Style="{StaticResource TransparentButton}"
                             Width="20"
@@ -146,7 +146,7 @@
             <!--#region Current Version Selected -->
             <Grid Height="24"
                   Width="400"
-                  Margin="0,61,0,0"
+                  Margin="0,60,0,0"
                   VerticalAlignment="Top"
                   HorizontalAlignment="Left">
                 <!-- Center -->
@@ -170,13 +170,22 @@
                                Y="0" />
                     </Polygon.Points>
                 </Polygon>
-                <Label x:Name="CurrentVersion"
+                <StackPanel Orientation="Horizontal">
+                <Label
                        Content="Selected Version:"
                        HorizontalAlignment="Left"
                        VerticalContentAlignment="Center"
-                       Margin="20,0,0,0"
+                       Margin="20,-2,0,0"
                        Padding="0"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center" FontWeight="Bold" />
+                    <Label x:Name="CurrentVersion"
+                           Content="Selected Version:"
+                           HorizontalAlignment="Left"
+                           VerticalContentAlignment="Center"
+                           Margin="5,-2,0,0"
+                           Padding="0"
+                           VerticalAlignment="Center" />
+                </StackPanel>
             </Grid>
             <!--#endregion-->
         </Grid>
