@@ -35,6 +35,7 @@
     <None Remove="Assets\Icons\play_normal.svg" />
     <None Remove="Assets\Icons\rating_icon.svg" />
     <None Remove="Assets\Icons\settings.svg" />
+    <None Remove="Assets\Images\config_image.webp" />
     <None Remove="Assets\Images\default.jpg" />
     <None Remove="UI\config_image.webp" />
   </ItemGroup>
@@ -78,8 +79,8 @@
     <Resource Include="Assets\Icons\play_normal.svg" />
     <Resource Include="Assets\Icons\rating_icon.svg" />
     <Resource Include="Assets\Icons\settings.svg" />
+    <Resource Include="Assets\Images\config_image.webp" />
     <Resource Include="Assets\Images\default.jpg" />
-    <Resource Include="UI\config_image.webp" />
   </ItemGroup>
 
   <ItemGroup>

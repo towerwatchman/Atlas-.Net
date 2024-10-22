@@ -11,183 +11,220 @@
       d:DesignWidth="1280"
       Title="GameDetailPage"
       Background="{DynamicResource Primary}">
-    <Grid Background="{DynamicResource Tertiary}">
-      
-        <!-- Main Image at the top -->
-        <Image x:Name="banner_background"
-               Source="/Assets/Images/default.jpg"
-               Height="225"
-               Width="Auto"
-               Panel.ZIndex="0"
-               VerticalAlignment="Top"
-               Stretch="UniformToFill"
-               RenderOptions.BitmapScalingMode="HighQuality">
-            <Image.Effect>
-                <BlurEffect Radius="20" />
-            </Image.Effect>
-        </Image>
-        <Image x:Name="banner_main"
-               Source="/Assets/Images/default.jpg"
-               Height="225"
-               Width="Auto"
-               Panel.ZIndex="1"
-               VerticalAlignment="Top"
-               Stretch="Uniform" />
-        <Grid Margin="0,225,0,0"
-              Panel.ZIndex="3">
-            <!-- All content goes in this Grid-->
-            <Grid Panel.ZIndex="3"
-                  Background="{DynamicResource Canvas}"
-                  Opacity=".95"
-                  Height="60"
-                  VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal"
-                            Margin="20,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top">
-                    <Button Style="{StaticResource TransparentButton}"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            BorderBrush="Transparent"
-                            BorderThickness="0"
-                            Width="140"
-                            Height="38">
-                        <Button.Background>
-                            <LinearGradientBrush EndPoint="0.5,.5"
-                                                 StartPoint="0,.5">
-                                <GradientStop Color="#7FD500" />
-                                <GradientStop Color="#58C000"
-                                              Offset="1" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                            <Image Source="{svgc:SvgImage Source=/Assets/Icons/play_normal.svg, AppName=Atlas}"
-                                   Width="70"
-                                   Height="30" />
-                    </Button>
-                    <Button x:Name="ShowVersions" VerticalAlignment="Top"
-                            Margin="10,0,0,0"
-                            Style="{StaticResource TransparentButton}"
-                            Width="20"
-                            Height="38"
-                            Background="#58C000">
-                        <Grid>
-                            <Image Source="{svgc:SvgImage Source=/Assets/Icons/down_arrow_wide.svg, AppName=Atlas}"
-                                   Width="15"
-                                   Height="20" />
-                        </Grid>
-                    </Button>
-                    <!-- Last Played -->
-                    <StackPanel Margin="30,0,0,0"
-                                Orientation="Vertical">
-                        <Label Content="LAST PLAYED"
-                               Foreground="{DynamicResource Text}"
-                               FontWeight="Bold"
-                               Padding="1" />
-                        <Label Content="Never"
-                               Foreground="{DynamicResource Text}"
-                               Padding="1" />
-                    </StackPanel>
-                    <!-- Play Time -->
-                    <StackPanel Margin="30,0,0,0"
-                                Orientation="Vertical">
-                        <Label Content="PLAY TIME"
-                               Foreground="{DynamicResource Text}"
-                               FontWeight="Bold"
-                               Padding="1" />
-                        <Label Content="00:00:00"
-                               Foreground="{DynamicResource Text}"
-                               Padding="1" />
-                    </StackPanel>
-                    <!-- File Size -->
-                    <StackPanel Margin="30,0,0,0"
-                                Orientation="Vertical">
-                        <Label Content="STORAGE USED"
-                               Foreground="{DynamicResource Text}"
-                               FontWeight="Bold"
-                               Padding="1" />
-                        <Label Content="0 MB"
-                               Foreground="{DynamicResource Text}"
-                               Padding="1" />
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Margin="0,15,20,0"
-                            Orientation="Horizontal">
-                    <Button Width="30"
-                            Height="30"
-                            Style="{StaticResource TransparentButton}"
-                            Background="{DynamicResource Secondary}"
-                            Margin="10,0,0,0">
-                        <Image Source="{svgc:SvgImage Source=/Assets/Icons/settings.svg, AppName=Atlas}"
-                               Width="20"                               
-                               Height="20" />
-                    </Button>
-                    <Button Width="30"
-                            Height="30"
-                            Style="{StaticResource TransparentButton}"
-                            Background="{DynamicResource Secondary}"
-                            Margin="10,0,0,0">
-                        <Image Source="{svgc:SvgImage Source=/Assets/Icons/info.svg, AppName=Atlas}"
-                               Width="20"
-                               Height="20" />
-                    </Button>
-                    <Button Width="30"
-                            Height="30"
-                            Style="{StaticResource TransparentButton}"
-                            Background="{DynamicResource Secondary}"
-                            Margin="10,0,0,0">
-                        <Image Source="{svgc:SvgImage Source=/Assets/Icons/rating_icon.svg, AppName=Atlas}"
-                               Width="20"
-                               Height="20" />
-                    </Button>
-                </StackPanel>
-            </Grid>
-            <!--#region Current Version Selected -->
-            <Grid Height="24"
-                  Width="400"
-                  Margin="0,60,0,0"
-                  VerticalAlignment="Top"
-                  HorizontalAlignment="Left">
-                <!-- Center -->
-                <Rectangle Width="375"
-                           Fill="{DynamicResource Primary}"
-                           HorizontalAlignment="Left" />
-                <!-- Right Corner-->
-                <Polygon Fill="{DynamicResource Primary}"
-                         Stretch="Uniform"
-                         Height="24"
-                         VerticalAlignment="Top"
-                         HorizontalAlignment="Left"
-                         Panel.ZIndex="5"
-                         Margin="375,0,0,0">
-                    <Polygon.Points>
-                        <Point X="0"
-                               Y="0" />
-                        <Point X="-24"
-                               Y="24" />
-                        <Point X="-24"
-                               Y="0" />
-                    </Polygon.Points>
-                </Polygon>
-                <StackPanel Orientation="Horizontal">
-                <Label
-                       Content="Selected Version:"
+    <Grid>
+        <!-- Set Images. There are a total of 4 to get the effect-->
+        <Grid Panel.ZIndex="1">
+            <!-- FWD image. Uniform -->
+            <Image x:Name="banner_main"
+                   Source="/Assets/Images/config_image.webp"
+                   Height="225"
+                   Width="Auto"
+                   Panel.ZIndex="1"
+                   VerticalAlignment="Top"
+                   Stretch="Uniform">
+            </Image>           
+        </Grid>
+        <!--#region Current Version Selected -->
+        <Grid Height="25"
+              Width="400"
+              Margin="0,0,0,0"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Left" Panel.ZIndex="2">
+            <!-- Center -->
+            <Rectangle Width="375"
+                       Fill="{DynamicResource Accent}"
+                       HorizontalAlignment="Left" Margin="0,1,0,0" Height="24"/>
+            <Rectangle Width="375"
+                       Fill="{DynamicResource Canvas}"
+                       HorizontalAlignment="Left" Height="24">                
+            </Rectangle>
+           
+            <!-- Right Corner-->
+            <Polygon Fill="{DynamicResource Accent}"
+                     Stretch="Uniform"
+                     Height="24"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     Panel.ZIndex="5"
+                     Margin="375,1,0,0">
+                <Polygon.Points>
+                    <Point X="0"
+                           Y="0" />
+                    <Point X="-24"
+                           Y="24" />
+                    <Point X="-24"
+                           Y="0" />
+                </Polygon.Points>
+            </Polygon>
+            
+            <Polygon Fill="{DynamicResource Canvas}"
+                     Stretch="Uniform"
+                     Height="24"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     Panel.ZIndex="5"
+                     Margin="375,0,0,0">
+                <Polygon.Points>
+                    <Point X="0"
+                           Y="0" />
+                    <Point X="-24"
+                           Y="24" />
+                    <Point X="-24"
+                           Y="0" />
+                </Polygon.Points>                
+            </Polygon>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Title:"
                        HorizontalAlignment="Left"
                        VerticalContentAlignment="Center"
                        Margin="20,-2,0,0"
                        Padding="0"
-                       VerticalAlignment="Center" FontWeight="Bold" />
-                    <Label x:Name="CurrentVersion"
-                           Content="Selected Version:"
-                           HorizontalAlignment="Left"
-                           VerticalContentAlignment="Center"
-                           Margin="5,-2,0,0"
-                           Padding="0"
-                           VerticalAlignment="Center" />
-                </StackPanel>
-            </Grid>
-            <!--#endregion-->
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource Accent}" />
+                <Label x:Name="CurrentTitle"
+                       Content="None"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       Margin="5,-2,0,0"
+                       Padding="0"
+                       VerticalAlignment="Center"
+                       Foreground="{DynamicResource Text}" />
+                <Label Content="Selected Version:"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       Margin="20,-2,0,0"
+                       Padding="0"
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource Accent}" />
+                <Label x:Name="CurrentVersion"
+                       Content="None"
+                       HorizontalAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       Margin="5,-2,0,0"
+                       Padding="0"
+                       VerticalAlignment="Center"
+                       Foreground="{DynamicResource Text}" />
+            </StackPanel>
         </Grid>
+        <!--#endregion-->
+        <ScrollViewer Panel.ZIndex="2" Background="Transparent">
+            <Grid x:Name="Header"                 
+                  Panel.ZIndex="2">
+                <Grid Margin="0,225,0,0"
+                      Panel.ZIndex="3" Background="{DynamicResource Secondary}">
+                    <!-- All content goes in this Grid-->
+                    <Grid Panel.ZIndex="3"
+                          Background="{DynamicResource Canvas}"
+                          Opacity=".95"
+                          Height="60"
+                          VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="20,10,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top">
+                            <Button Style="{StaticResource TransparentButton}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    Width="140"
+                                    Height="38">
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="0.5,.5"
+                                                         StartPoint="0,.5">
+                                        <GradientStop Color="#7FD500" />
+                                        <GradientStop Color="#58C000"
+                                                      Offset="1" />
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                                <Image Source="{svgc:SvgImage Source=/Assets/Icons/play_normal.svg, AppName=Atlas}"
+                                       Width="70"
+                                       Height="30" />
+                            </Button>
+                            <Button x:Name="ShowVersions"
+                                    VerticalAlignment="Top"
+                                    Margin="10,0,0,0"
+                                    Style="{StaticResource TransparentButton}"
+                                    Width="20"
+                                    Height="38"
+                                    Background="#58C000">
+                                <Grid>
+                                    <Image Source="{svgc:SvgImage Source=/Assets/Icons/down_arrow_wide.svg, AppName=Atlas}"
+                                           Width="15"
+                                           Height="20" />
+                                </Grid>
+                            </Button>
+                            <!-- Last Played -->
+                            <StackPanel Margin="30,0,0,0"
+                                        Orientation="Vertical">
+                                <Label Content="LAST PLAYED"
+                                       Foreground="{DynamicResource Text}"
+                                       FontWeight="Bold"
+                                       Padding="1" />
+                                <Label Content="Never"
+                                       Foreground="{DynamicResource Text}"
+                                       Padding="1" />
+                            </StackPanel>
+                            <!-- Play Time -->
+                            <StackPanel Margin="30,0,0,0"
+                                        Orientation="Vertical">
+                                <Label Content="PLAY TIME"
+                                       Foreground="{DynamicResource Text}"
+                                       FontWeight="Bold"
+                                       Padding="1" />
+                                <Label Content="00:00:00"
+                                       Foreground="{DynamicResource Text}"
+                                       Padding="1" />
+                            </StackPanel>
+                            <!-- File Size -->
+                            <StackPanel Margin="30,0,0,0"
+                                        Orientation="Vertical">
+                                <Label Content="STORAGE USED"
+                                       Foreground="{DynamicResource Text}"
+                                       FontWeight="Bold"
+                                       Padding="1" />
+                                <Label Content="0 MB"
+                                       Foreground="{DynamicResource Text}"
+                                       Padding="1" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0,15,20,0"
+                                    Orientation="Horizontal">
+                            <Button Width="30"
+                                    Height="30"
+                                    Style="{StaticResource TransparentButton}"
+                                    Background="{DynamicResource Secondary}"
+                                    Margin="10,0,0,0">
+                                <Image Source="{svgc:SvgImage Source=/Assets/Icons/settings.svg, AppName=Atlas}"
+                                       Width="20"
+                                       Height="20" />
+                            </Button>
+                            <Button Width="30"
+                                    Height="30"
+                                    Style="{StaticResource TransparentButton}"
+                                    Background="{DynamicResource Secondary}"
+                                    Margin="10,0,0,0">
+                                <Image Source="{svgc:SvgImage Source=/Assets/Icons/info.svg, AppName=Atlas}"
+                                       Width="20"
+                                       Height="20" />
+                            </Button>
+                            <Button Width="30"
+                                    Height="30"
+                                    Style="{StaticResource TransparentButton}"
+                                    Background="{DynamicResource Secondary}"
+                                    Margin="10,0,0,0">
+                                <Image Source="{svgc:SvgImage Source=/Assets/Icons/rating_icon.svg, AppName=Atlas}"
+                                       Width="20"
+                                       Height="20" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>                  
+                </Grid>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>
