@@ -184,7 +184,7 @@ namespace Atlas
         private async void OnListBoxNavButtonUp(object sender, RoutedEventArgs e)
         {
             var Item = (ListBoxItem)sender;
-            Console.WriteLine(Item.Name);
+            //Console.WriteLine(Item.Name);
             if (Item.Name.ToString() == "Import" && isBatchImporterOpen == false)
             {
                 isBatchImporterOpen = true;
@@ -417,6 +417,8 @@ namespace Atlas
         private void GameListBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
             int index = GameListBox.SelectedIndex;
+            BannerView.SelectedIndex = index;
+            BannerView.ScrollIntoView(BannerView.SelectedItem); 
         }
 
         private void AddGameButton_Click(object sender, RoutedEventArgs e)

@@ -10,11 +10,13 @@ using System.Windows.Media.Imaging;
 using ImageMagick;
 using System.Collections;
 using System.Windows.Media;
+using NLog;
 
 namespace Atlas.Core.Utilities
 {
     public static class ImageInterface
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static BitmapImage LoadImage(string path, double width, double height)
         {
             var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
@@ -44,7 +46,7 @@ namespace Atlas.Core.Utilities
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Logger.Error(ex.Message);
                     return image;
                 }
             }

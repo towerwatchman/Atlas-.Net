@@ -34,7 +34,7 @@ namespace Atlas.Core
             }));
 
 
-            Console.WriteLine($"There are a total of {total_dirs} folders\n");
+            Logger.Info($"There are a total of {total_dirs} folders\n");
             //StreamWriter outputFile = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "Atlas_Output.txt"));
             //We need to go through each item and find if it is a folder or file
 

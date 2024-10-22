@@ -170,11 +170,11 @@ namespace Atlas.Core.Network
                             await stream.CopyToAsync(fileStream);
                         }
 
-                        Console.WriteLine("File downloaded successfully: " + filename);
+                        Logger.Info("File downloaded successfully: " + filename);
                     }
                     catch (HttpRequestException ex)
                     {
-                        Console.WriteLine("Failed to download File: " + ex.Message);
+                        Logger.Error("Failed to download File: " + ex.Message);
                     }
                 }
             }

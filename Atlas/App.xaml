@@ -553,8 +553,8 @@
                             <Border x:Name="Bd" Padding="17,0,17,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Uid="Border_38" CornerRadius="3">
                                 <ContentPresenter x:Name="ContentPresenter"  Content="{TemplateBinding Header}" Grid.Column="1" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Uid="ContentPresenter_33"/>
                             </Border>
-                            
                         </ControlTemplate>
+                        
                     </Setter.Value>
                 </Setter>
             </Style>
