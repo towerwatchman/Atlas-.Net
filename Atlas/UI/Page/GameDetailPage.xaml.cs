@@ -37,6 +37,7 @@ namespace Atlas.UI.Pages
                 var ImageData = ImageInterface.LoadImage(CurrentGame.BannerPath, 1000);
                 banner_main.Source = ImageData;
                 banner_background.Source = ImageData;
+                CurrentVersion.Content = $"Selected Version: {CurrentGame.Versions[0].Version}";
             }
         }
     }
