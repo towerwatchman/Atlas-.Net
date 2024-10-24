@@ -103,15 +103,14 @@
                         <!--#endregion-->
                         <!--#region Search Box -->
                         <Border x:Name="SearchBarBorder" BorderBrush="Transparent" BorderThickness="1" Height="40" Width="400" Margin="450,0">
-                            <Grid Background="{DynamicResource Secondary}" HorizontalAlignment="Stretch" Height="40" MinWidth="400">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Image Source="{DynamicResource search_icon}" Stretch="Uniform" Height="15" Width="15" />
+                            <StackPanel Background="{DynamicResource Secondary}" HorizontalAlignment="Stretch" Height="40" MinWidth="400" Orientation="Horizontal">
+                                <Image Source="{DynamicResource search_icon}" Stretch="Uniform" Height="15" Width="15" Margin="10,0,0,0"/>
                                 <!-- Search Text-->
-                                <TextBox x:Name="AtlasSearchBox" Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource Text}" Text="Search Atlas" VerticalAlignment="Center" MouseEnter="AtlasSearchBox_MouseEnter" MouseLeave="AtlasSearchBox_MouseLeave" TextChanged="AtlasSearchBox_TextChanged" />
-                            </Grid>
+                                <TextBox x:Name="AtlasSearchBox" Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource Text}" Text="Search Atlas" VerticalAlignment="Center" MouseEnter="AtlasSearchBox_MouseEnter" MouseLeave="AtlasSearchBox_MouseLeave" TextChanged="AtlasSearchBox_TextChanged" Width="325" />
+                                <Button x:Name="ClearSearchBox" Style="{DynamicResource TransparentButton}" Width="30" MouseEnter="ClearSearchBox_MouseEnter" Click="ClearSearchBox_Click">
+                                    <Image Height="10" Width="10" Stretch="Uniform" Source="{DynamicResource close_iconDrawingImage}" />
+                                </Button>
+                            </StackPanel>
                         </Border>
                         <!--#endregion-->
                         <StackPanel Margin="0,8,15,0" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
@@ -157,7 +156,7 @@
                     </ListBox>
                 </Grid>
                 <!--#endregion-->
-                
+
                 <!-- This is where each page will be inserted -->
                 <Grid Grid.Column="2" Grid.Row="2">
                     <!--#region Game View and Game List-->
@@ -237,7 +236,7 @@
                     </Grid>
                     <!--#endregion-->
                 </Grid>
-                
+
             </Grid>
         </DockPanel>
     </Grid>

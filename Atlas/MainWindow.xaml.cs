@@ -69,6 +69,9 @@ namespace Atlas
 
             //Set total Versions & games
             TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
+
+            //Hide clear text
+            ClearSearchBox.Visibility = Visibility.Hidden;
         }
 
         private void BannerView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -402,6 +405,7 @@ namespace Atlas
             {
                 AtlasSearchBox.Text = "Search Atlas";
                 SearchBarBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                ClearSearchBox.Visibility = Visibility.Hidden;
             }
             //SearchBarBorder.BorderThickness = new Thickness(0);
             
@@ -417,6 +421,18 @@ namespace Atlas
 
         private void AtlasSearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if(ClearSearchBox != null)
+            {
+                if (AtlasSearchBox.Text != "" && AtlasSearchBox.Text != null && AtlasSearchBox.Text != "Search Atlas")
+                {
+                    ClearSearchBox.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ClearSearchBox.Visibility = Visibility.Hidden;
+                }
+            }
+
             if (bvp.BannerView != null)
             {
                 if (bvp.BannerView.ItemsSource != null)
@@ -470,6 +486,16 @@ namespace Atlas
             //this will open for right and left click
             AddGameButton.ContextMenu.IsOpen = true;
 
+        }
+
+        private void ClearSearchBox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            SearchBarBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
+
+        private void ClearSearchBox_Click(object sender, RoutedEventArgs e)
+        {
+            AtlasSearchBox.Text = "Search Atlas";
         }
 
         //Show context menu for adding games
