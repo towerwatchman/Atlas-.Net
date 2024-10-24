@@ -397,12 +397,14 @@ namespace Atlas
 
         private void AtlasSearchBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (AtlasSearchBox.Text == string.Empty)
+            //check if text is entered or if the user has clicked on the checkbox
+            if (AtlasSearchBox.Text == string.Empty && AtlasSearchBox.IsSelectionActive == false)
             {
                 AtlasSearchBox.Text = "Search Atlas";
+                SearchBarBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
             }
             //SearchBarBorder.BorderThickness = new Thickness(0);
-            SearchBarBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            
         }
 
         private bool UserFilter(object item)
