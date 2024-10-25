@@ -97,7 +97,7 @@ namespace Atlas.Core
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("There was an error retieveing the update");
+                    //MessageBox.Show("There was an error retieveing the update");
                     Logger.Error(ex);
                 }
             }
