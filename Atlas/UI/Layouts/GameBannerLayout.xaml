@@ -20,6 +20,8 @@
                 <BlurEffect Radius="20"/>
             </Image.Effect>
         </Image>
+        
+        <!-- This will only work for images that are not wide enough. Will need to add another option -->
         <Image Source="{Binding ImageData}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Height="{DynamicResource bannerY}">
             <Image.OpacityMask>
                 <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
