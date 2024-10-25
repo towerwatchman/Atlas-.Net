@@ -205,7 +205,7 @@ namespace Atlas
             var Item = (ListBoxItem)sender;
             //Console.WriteLine(Item.Name);
 
-            if(Item.Name.ToString() == "Home")
+            if (Item.Name.ToString() == "Home")
             {
                 this.atlas_frame.Content = bvp;
             }
@@ -408,7 +408,7 @@ namespace Atlas
                 ClearSearchBox.Visibility = Visibility.Hidden;
             }
             //SearchBarBorder.BorderThickness = new Thickness(0);
-            
+
         }
 
         private bool UserFilter(object item)
@@ -421,7 +421,7 @@ namespace Atlas
 
         private void AtlasSearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(ClearSearchBox != null)
+            if (ClearSearchBox != null)
             {
                 if (AtlasSearchBox.Text != "" && AtlasSearchBox.Text != null && AtlasSearchBox.Text != "Search Atlas")
                 {
@@ -459,11 +459,11 @@ namespace Atlas
                 bvp.BannerView.SelectedIndex = index;
                 bvp.BannerView.ScrollIntoView(bvp.BannerView.SelectedItem);
             }
-            else if(currentPage.Title == "GameDetailPage")
+            else if (currentPage.Title == "GameDetailPage")
             {
                 this.atlas_frame.Content = null;
                 this.atlas_frame.Content = new GameDetailPage((Game)GameListBox.SelectedItem);
-            }          
+            }
         }
 
         private void AddGameButton_Click(object sender, RoutedEventArgs e)
@@ -473,7 +473,7 @@ namespace Atlas
             ContextMenu contextMenu = new ContextMenu();
             MenuItem menuItem = new MenuItem();
 
-            menuItem.Header = "Add Game";            
+            menuItem.Header = "Add Game";
             menuItem.Click += MenuItem_Click;
             contextMenu.Items.Add(menuItem);
 

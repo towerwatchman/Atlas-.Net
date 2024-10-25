@@ -80,7 +80,6 @@
                 <ContextMenu x:Name="cmGame"
                              DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <MenuItem x:Name="miPlay"
-                              Style="{StaticResource PlayMenuItem}"
                               Header="Play"
                               FontSize="14"
                               FontWeight="Bold"
