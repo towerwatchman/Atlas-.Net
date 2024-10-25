@@ -67,9 +67,6 @@ namespace Atlas
             //Assign Left click event to BannerView
             bvp.BannerView.MouseLeftButtonUp += BannerView_MouseLeftButtonUp;
 
-            //Set total Versions & games
-            TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
-
             //Hide clear text
             ClearSearchBox.Visibility = Visibility.Hidden;
         }
@@ -92,6 +89,9 @@ namespace Atlas
             // the code that's accessing UI properties
             //sort items in lists
             GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+
+            //Set total Versions & games
+            TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
         }
 
         #region Banner Left Click
