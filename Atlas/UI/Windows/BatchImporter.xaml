@@ -1,9 +1,9 @@
-﻿<Window x:Class="Atlas.UI.Importer.BatchImporter"
+﻿<Window x:Class="Atlas.UI.Windows.BatchImporter"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Atlas.UI.Importer"
+        xmlns:local="clr-namespace:Atlas.UI.Windows"
         mc:Ignorable="d"
         Background="Transparent"
         AllowsTransparency="True"
@@ -25,7 +25,7 @@ Orientation="Horizontal"
 HorizontalAlignment="Left"
 VerticalAlignment="Top"
 Margin="10,3,3,0">
-                <Label Content="Import Game" HorizontalAlignment="Left" Width="Auto"/>
+                <Label Content="Import Games" HorizontalAlignment="Left" Width="Auto"/>
             </StackPanel>
             <StackPanel
     Grid.RowSpan="2"
@@ -98,7 +98,7 @@ Margin="10,3,3,0">
                     VerticalAlignment="Stretch"
                     Background="{DynamicResource Primary}">
                         <TabControl x:Name="tbc_Import" VerticalAlignment="Stretch" BorderThickness="0" Margin="0,10,0,0" Padding="0">
-                            <TabItem Header="Start" x:Name="tc_start" Visibility="Hidden">
+                            <TabItem Header="Start" x:Name="tc_start" Visibility="Visible">
                                 <Grid Background="{DynamicResource Secondary}">
                                     <StackPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                         <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
@@ -112,8 +112,8 @@ Margin="10,3,3,0">
                                             <TextBox x:Name="tb_format" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch"/>
                                         </DockPanel>
                                         <DockPanel Height="30" Margin="0,20,0,10" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
-                                            <Label DockPanel.Dock="Left" Content="MetaData Scraper:" Margin="0,0,15,0"/>
-                                            <ComboBox DockPanel.Dock="Left" x:Name="cbScanner" Width="200" SelectedIndex="0"/>
+                                            <Label DockPanel.Dock="Left" Content="Import Source:" Margin="0,0,15,0"/>
+                                            <ComboBox DockPanel.Dock="Left" x:Name="ImportSourceComboBox" Width="200" SelectedIndex="0"/>
                                         </DockPanel>
                                         <DockPanel Height="200" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
                                             <Label Margin="10,10,0,0"  DockPanel.Dock="Left" Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xA;- Each of the options need to be surrounded by braces {}.&#xA;- Use the examples below for reference. &#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xA;&#xA;Examples&#xA;{engine}/{creator}/{title}/{version}&#xA;{creator}/{title}/{version&#xA;{title}/{version}&#xD;&#xA;{title-version}" HorizontalAlignment="Left" />

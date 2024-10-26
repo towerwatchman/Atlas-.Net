@@ -1,6 +1,5 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
-using Atlas.UI.Importer;
 using Atlas.Core.Network;
 using Castle.Core.Resource;
 using NLog;
@@ -25,6 +24,7 @@ using Atlas.Core.Utilities;
 using System.Windows.Data;
 using System.Windows.Media;
 using Atlas.UI.Pages;
+using Atlas.UI.Windows;
 
 namespace Atlas
 {
@@ -291,8 +291,12 @@ namespace Atlas
                     isRefreshRunning = false;
                 }
             }
+            if (Item.Name.ToString() == "Settings")
+            {
+                SettingsWindow settingsWindow = new SettingsWindow();
+                settingsWindow.Show();
+            }
         }
-
         #region Game ListView Visibility
         private void ShowListView()
         {

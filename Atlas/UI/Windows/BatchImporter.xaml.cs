@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Atlas.UI.Importer
+namespace Atlas.UI.Windows
 {
     /// <summary>
     /// Interaction logic for BatchImporter.xaml
@@ -43,7 +43,8 @@ namespace Atlas.UI.Importer
             pbGameScanner.Visibility = Visibility.Hidden;
 
             //Add Scanners to list
-            cbScanner.Items.Add("Atlas Scraper");
+            ImportSourceComboBox.Items.Add("Other");
+            ImportSourceComboBox.Items.Add("Steam");
             //cbScanner.Items.Add("Steam");
 
 
