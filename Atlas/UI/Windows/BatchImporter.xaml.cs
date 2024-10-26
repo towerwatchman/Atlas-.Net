@@ -45,6 +45,8 @@ namespace Atlas.UI.Windows
             //Add Scanners to list
             ImportSourceComboBox.Items.Add("Other");
             ImportSourceComboBox.Items.Add("Steam");
+
+            ImportSourceComboBox.SelectedIndex = 0;
             //cbScanner.Items.Add("Steam");
 
 

@@ -101,28 +101,40 @@ Margin="10,3,3,0">
                             <TabItem Header="Start" x:Name="tc_start" Visibility="Visible">
                                 <Grid Background="{DynamicResource Secondary}">
                                     <StackPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                        <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
-                                            <Label DockPanel.Dock="Left" Content="Root Path:" HorizontalAlignment="Left"/>
-                                            <Button x:Name="btn_OpenFolder" DockPanel.Dock="Right" Content="Set Folder" Click="btn_OpenFolder_Click"/>
-                                            <TextBox x:Name="tb_FolderDialog" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" TextChanged="tb_FolderDialog_TextChanged"/>
-                                        </DockPanel>
-                                        <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
-                                            <Label DockPanel.Dock="Left" Content="Folder Structure:" HorizontalAlignment="Left"/>
-                                            <CheckBox x:Name="cb_format" DockPanel.Dock="Right" Content="Unstructured Format" Click="cb_format_Click"/>
-                                            <TextBox x:Name="tb_format" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch"/>
-                                        </DockPanel>
-                                        <DockPanel Height="30" Margin="0,20,0,10" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
+                                        <DockPanel Height="30" Margin="0,0,0,10" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
                                             <Label DockPanel.Dock="Left" Content="Import Source:" Margin="0,0,15,0"/>
                                             <ComboBox DockPanel.Dock="Left" x:Name="ImportSourceComboBox" Width="200" SelectedIndex="0"/>
+                                            <Label Content="The settings below will change based on the import source" Margin="20,0,0,0"/>
                                         </DockPanel>
-                                        <DockPanel Height="200" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
-                                            <Label Margin="10,10,0,0"  DockPanel.Dock="Left" Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xA;- Each of the options need to be surrounded by braces {}.&#xA;- Use the examples below for reference. &#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xA;&#xA;Examples&#xA;{engine}/{creator}/{title}/{version}&#xA;{creator}/{title}/{version&#xA;{title}/{version}&#xD;&#xA;{title-version}" HorizontalAlignment="Left" />
-                                        </DockPanel>
-                                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="Auto" Width="Auto">
-                                            <CheckBox Content="Download Images if match found in Atlas database" Margin="10,10,0,0" Visibility="Hidden"/>
-                                            <CheckBox Content="Move to Atlas game folder" Margin="10,10,0,0" Visibility="Hidden"/>
-                                            <CheckBox Content="Scan folder size duing import" Margin="10,10,0,0" Visibility="Hidden"/>
-                                        </StackPanel>
+                                        <Separator Opacity=".5"/>
+                                        <TabControl VerticalAlignment="Stretch" BorderThickness="0" Margin="0,10,0,0" Padding="0">
+                                            <TabItem Header="Other" x:Name="TabSteam" Visibility="Collapsed">
+                                                <Grid Background="{DynamicResource Secondary}">
+                                                    <StackPanel Orientation="Vertical">
+                                                        <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
+                                                        <Label DockPanel.Dock="Left" Content="Root Path:" HorizontalAlignment="Left"/>
+                                                        <Button x:Name="btn_OpenFolder" DockPanel.Dock="Right" Content="Set Folder" Click="btn_OpenFolder_Click"/>
+                                                        <TextBox x:Name="tb_FolderDialog" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" TextChanged="tb_FolderDialog_TextChanged"/>
+                                                    </DockPanel>
+                                                    <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
+                                                        <Label DockPanel.Dock="Left" Content="Folder Structure:" HorizontalAlignment="Left"/>
+                                                        <CheckBox x:Name="cb_format" DockPanel.Dock="Right" Content="Unstructured Format" Click="cb_format_Click"/>
+                                                        <TextBox x:Name="tb_format" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch"/>
+                                                    </DockPanel>
+
+                                                    <DockPanel Height="200" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
+                                                        <Label Margin="10,10,0,0"  DockPanel.Dock="Left" Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xA;- Each of the options need to be surrounded by braces {}.&#xA;- Use the examples below for reference. &#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xA;&#xA;Examples&#xA;{engine}/{creator}/{title}/{version}&#xA;{creator}/{title}/{version&#xA;{title}/{version}&#xD;&#xA;{title-version}" HorizontalAlignment="Left" />
+                                                    </DockPanel>
+                                                    </StackPanel>
+                                                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="Auto" Width="Auto">
+                                                        <CheckBox Content="Download Images if match found in Atlas database" Margin="10,10,0,0" Visibility="Hidden"/>
+                                                        <CheckBox Content="Move to Atlas game folder" Margin="10,10,0,0" Visibility="Hidden"/>
+                                                        <CheckBox Content="Scan folder size duing import" Margin="10,10,0,0" Visibility="Hidden"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </TabItem>
+                                        </TabControl>
+                                       
                                     </StackPanel>
                                 </Grid>
                             </TabItem>
