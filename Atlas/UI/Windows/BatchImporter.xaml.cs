@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Atlas.UI.Pages;
 
 namespace Atlas.UI.Windows
 {
@@ -29,6 +30,7 @@ namespace Atlas.UI.Windows
         }
         #endregion
 
+        //private 
         public BatchImporter()
         {
             InitializeComponent();
@@ -43,14 +45,14 @@ namespace Atlas.UI.Windows
             pbGameScanner.Visibility = Visibility.Hidden;
 
             //Add Scanners to list
-            ImportSourceComboBox.Items.Add("Other");
+            ImportSourceComboBox.Items.Add("Custom");
             ImportSourceComboBox.Items.Add("Steam");
 
             ImportSourceComboBox.SelectedIndex = 0;
             //cbScanner.Items.Add("Steam");
 
 
-            tb_format.Text = Settings.Config.FolderStructure;
+            //tb_format.Text = Settings.Config.FolderStructure;
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -83,17 +85,7 @@ namespace Atlas.UI.Windows
             this.Close();
         }
 
-        private void btn_OpenFolder_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFolderDialog dialog = new OpenFolderDialog();
-            var result = dialog.ShowDialog();
-
-            var folder = dialog.FolderName;
-            if (folder != null)
-            {
-                tb_FolderDialog.Text = folder;
-            }
-        }
+      
 
         private void btn_cancel_Click(object sender, RoutedEventArgs e)
         {
@@ -111,9 +103,9 @@ namespace Atlas.UI.Windows
                 //GameList.ItemsSource = F95Scanner.GameDetailList;
                 InterfaceHelper.Datagrid = GameList;
 
-                string folder = tb_FolderDialog.Text;
+                string folder = "";// tb_FolderDialog.Text;
 
-                string format = (bool)cb_format.IsChecked == true ? "" : tb_format.Text;
+                string format = "";// (bool)cb_format.IsChecked == true ? "" : tb_format.Text;
 
                 //Hide Next Button
                 btn_next.Width = 0;
@@ -151,15 +143,6 @@ namespace Atlas.UI.Windows
 
         }
 
-        private void cb_format_Click(object sender, RoutedEventArgs e)
-        {
-            tb_format.IsEnabled = !(bool)cb_format.IsChecked;
-        }
-
-        private void tb_FolderDialog_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //Check if the current text in the Root Path is a valid folder
-            btn_next.IsEnabled = Directory.Exists(tb_FolderDialog.Text);
-        }
+       
     }
 }

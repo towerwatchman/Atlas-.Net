@@ -9,188 +9,242 @@
         AllowsTransparency="True"
         ResizeMode="CanResize"
         WindowStyle="None"
-        WindowStartupLocation="CenterOwner"    
+        WindowStartupLocation="CenterOwner"
         MouseDown="Window_MouseDown"
-        Title="BatchImporter" Height="720" Width="1280">
-    <Border BorderBrush="{DynamicResource Border}" BorderThickness="1" CornerRadius="6" RenderOptions.BitmapScalingMode="HighQuality">
+        Title="BatchImporter"
+        Height="720"
+        Width="1280">
+    <Border BorderBrush="{DynamicResource Border}"
+            BorderThickness="1"
+            CornerRadius="6"
+            RenderOptions.BitmapScalingMode="HighQuality">
         <Grid>
             <Grid.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=Border1}" />
             </Grid.OpacityMask>
-            <Border x:Name="Border1" CornerRadius="6" Background="Black" BorderThickness="0" />
+            <Border x:Name="Border1"
+                    CornerRadius="6"
+                    Background="Black"
+                    BorderThickness="0" />
             <!-- #region Minimize, Maximize, Close -->
             <StackPanel Grid.RowSpan="2"
-Panel.ZIndex="1"
-Orientation="Horizontal"
-HorizontalAlignment="Left"
-VerticalAlignment="Top"
-Margin="10,3,3,0">
-                <Label Content="Import Games" HorizontalAlignment="Left" Width="Auto"/>
+                        Panel.ZIndex="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="10,3,3,0">
+                <Label Content="Import Games"
+                       HorizontalAlignment="Left"
+                       Width="Auto" />
             </StackPanel>
-            <StackPanel
-    Grid.RowSpan="2"
-    Panel.ZIndex="1"
-    Orientation="Horizontal"
-    HorizontalAlignment="Right"
-    VerticalAlignment="Top"
-    Margin="0,3,3,0">
-
-                <Button
-        x:Name="minimizeButton"
-        Click="MinimizeButton_Click" 
-        Style="{DynamicResource MinMaxStyle}">
-                    <Image
-        Height="10"
-        Width="10"
-        Stretch="Uniform"
-        Source="{DynamicResource minimize_icon}"/>
+            <StackPanel Grid.RowSpan="2"
+                        Panel.ZIndex="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,3,3,0">
+                <Button x:Name="minimizeButton"
+                        Click="MinimizeButton_Click"
+                        Style="{DynamicResource MinMaxStyle}">
+                    <Image Height="10"
+                           Width="10"
+                           Stretch="Uniform"
+                           Source="{DynamicResource minimize_icon}" />
                 </Button>
-                <Button
-        x:Name="maximizeButton"
-        Click="MaximizeButton_Click"
-        Style="{DynamicResource MinMaxStyle}">
-                    <Image
-        Height="10"
-        Width="10"
-        Stretch="Uniform"
-        Source="{DynamicResource maximize_icon}"/>
+                <Button x:Name="maximizeButton"
+                        Click="MaximizeButton_Click"
+                        Style="{DynamicResource MinMaxStyle}">
+                    <Image Height="10"
+                           Width="10"
+                           Stretch="Uniform"
+                           Source="{DynamicResource maximize_icon}" />
                 </Button>
-                <Button
-        x:Name="closeButton"                    
-        Click="CloseButton_Click"
-        Style="{DynamicResource ExitStyle}">
-                    <Image
-        Height="10"
-        Width="10"
-        Stretch="Uniform"
-        Source="{DynamicResource close_iconDrawingImage}"
-        />
+                <Button x:Name="closeButton"
+                        Click="CloseButton_Click"
+                        Style="{DynamicResource ExitStyle}">
+                    <Image Height="10"
+                           Width="10"
+                           Stretch="Uniform"
+                           Source="{DynamicResource close_iconDrawingImage}" />
                 </Button>
-
             </StackPanel>
             <!--#endregion-->
-            <DockPanel VerticalAlignment="Stretch" Height="Auto">
-                <DockPanel
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" 
-                Height="Auto">
-                    <Grid 
-                    DockPanel.Dock="Bottom" 
-                    Height="60"
-                    Background="{DynamicResource Primary}" 
-                    VerticalAlignment="Stretch">
+            <DockPanel VerticalAlignment="Stretch"
+                       Height="Auto">
+                <DockPanel HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Height="Auto">
+                    <Grid DockPanel.Dock="Bottom"
+                          Height="60"
+                          Background="{DynamicResource Primary}"
+                          VerticalAlignment="Stretch">
                         <Grid HorizontalAlignment="Left">
-                            <ProgressBar x:Name="pbGameScanner"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="400" Height="20" Margin="50,0,50,0" Visibility="Visible"/>
-                            <TextBlock x:Name="ImporterScanTextBox" Text=""  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Text}"/>
+                            <ProgressBar x:Name="pbGameScanner"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         Width="400"
+                                         Height="20"
+                                         Margin="50,0,50,0"
+                                         Visibility="Visible" />
+                            <TextBlock x:Name="ImporterScanTextBox"
+                                       Text=""
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource Text}" />
                         </Grid>
-                        <TextBox x:Name="tbPotentialGames" HorizontalAlignment="Center" Text="" VerticalAlignment="Center" BorderBrush="Transparent" Background="Transparent" IsEnabled="False"/>
-                        <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
-                            <Button x:Name="btn_import" Content="Import" Margin="4" Visibility="Hidden" Width="0" Click="Btn_Import_Click"/>
-                            <Button x:Name="btn_next" Content="Next" Margin="4" Click="btn_next_Click"/>
-                            <Button x:Name="btn_cancel" Content="Cancel" Margin="4" Click="btn_cancel_Click"/>
+                        <TextBox x:Name="tbPotentialGames"
+                                 HorizontalAlignment="Center"
+                                 Text=""
+                                 VerticalAlignment="Center"
+                                 BorderBrush="Transparent"
+                                 Background="Transparent"
+                                 IsEnabled="False" />
+                        <DockPanel HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Margin="10">
+                            <Button x:Name="btn_import"
+                                    Content="Import"
+                                    Margin="4"
+                                    Visibility="Hidden"
+                                    Width="0"
+                                    Click="Btn_Import_Click" />
+                            <Button x:Name="btn_next"
+                                    Content="Next"
+                                    Margin="4"
+                                    Click="btn_next_Click" />
+                            <Button x:Name="btn_cancel"
+                                    Content="Cancel"
+                                    Margin="4"
+                                    Click="btn_cancel_Click" />
                         </DockPanel>
                     </Grid>
-
-                    <DockPanel 
-                    DockPanel.Dock="Top" 
-                    Width="Auto" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Background="{DynamicResource Primary}">
-                        <TabControl x:Name="tbc_Import" VerticalAlignment="Stretch" BorderThickness="0" Margin="0,10,0,0" Padding="0">
-                            <TabItem Header="Start" x:Name="tc_start" Visibility="Visible">
+                    <DockPanel DockPanel.Dock="Top"
+                               Width="Auto"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               Background="{DynamicResource Primary}">
+                        <TabControl x:Name="tbc_Import"
+                                    VerticalAlignment="Stretch"
+                                    BorderThickness="0"
+                                    Margin="0,10,0,0"
+                                    Padding="0">
+                            <TabItem Header="Start"
+                                     x:Name="tc_start"
+                                     Visibility="Visible">
                                 <Grid Background="{DynamicResource Secondary}">
-                                    <StackPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                        <DockPanel Height="30" Margin="0,0,0,10" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
-                                            <Label DockPanel.Dock="Left" Content="Import Source:" Margin="0,0,15,0"/>
-                                            <ComboBox DockPanel.Dock="Left" x:Name="ImportSourceComboBox" Width="200" SelectedIndex="0"/>
-                                            <Label Content="The settings below will change based on the import source" Margin="20,0,0,0"/>
+                                    <StackPanel Margin="20"
+                                                VerticalAlignment="Stretch"
+                                                HorizontalAlignment="Stretch">
+                                        <DockPanel Height="30"
+                                                   Margin="0,0,0,10"
+                                                   Width="Auto"
+                                                   VerticalAlignment="Top"
+                                                   HorizontalAlignment="Stretch"
+                                                   LastChildFill="False">
+                                            <Label DockPanel.Dock="Left"
+                                                   Content="Import Source:"
+                                                   Margin="0,0,15,0" />
+                                            <ComboBox DockPanel.Dock="Left"
+                                                      x:Name="ImportSourceComboBox"
+                                                      Width="200"
+                                                      SelectedIndex="0" />
+                                            <Label Content="The settings below will change based on the import source"
+                                                   Margin="20,0,0,0" />
                                         </DockPanel>
-                                        <Separator Opacity=".5"/>
-                                        <TabControl VerticalAlignment="Stretch" BorderThickness="0" Margin="0,10,0,0" Padding="0">
-                                            <TabItem Header="Other" x:Name="TabSteam" Visibility="Collapsed">
-                                                <Grid Background="{DynamicResource Secondary}">
-                                                    <StackPanel Orientation="Vertical">
-                                                        <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True" Margin="0,0,0,20">
-                                                        <Label DockPanel.Dock="Left" Content="Root Path:" HorizontalAlignment="Left"/>
-                                                        <Button x:Name="btn_OpenFolder" DockPanel.Dock="Right" Content="Set Folder" Click="btn_OpenFolder_Click"/>
-                                                        <TextBox x:Name="tb_FolderDialog" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch" TextChanged="tb_FolderDialog_TextChanged"/>
-                                                    </DockPanel>
-                                                    <DockPanel Height="30" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="True">
-                                                        <Label DockPanel.Dock="Left" Content="Folder Structure:" HorizontalAlignment="Left"/>
-                                                        <CheckBox x:Name="cb_format" DockPanel.Dock="Right" Content="Unstructured Format" Click="cb_format_Click"/>
-                                                        <TextBox x:Name="tb_format" DockPanel.Dock="Left" Width="Auto" HorizontalAlignment="Stretch"/>
-                                                    </DockPanel>
-
-                                                    <DockPanel Height="200" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
-                                                        <Label Margin="10,10,0,0"  DockPanel.Dock="Left" Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xA;- Each of the options need to be surrounded by braces {}.&#xA;- Use the examples below for reference. &#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xA;&#xA;Examples&#xA;{engine}/{creator}/{title}/{version}&#xA;{creator}/{title}/{version&#xA;{title}/{version}&#xD;&#xA;{title-version}" HorizontalAlignment="Left" />
-                                                    </DockPanel>
-                                                    </StackPanel>
-                                                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="Auto" Width="Auto">
-                                                        <CheckBox Content="Download Images if match found in Atlas database" Margin="10,10,0,0" Visibility="Hidden"/>
-                                                        <CheckBox Content="Move to Atlas game folder" Margin="10,10,0,0" Visibility="Hidden"/>
-                                                        <CheckBox Content="Scan folder size duing import" Margin="10,10,0,0" Visibility="Hidden"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </TabItem>
-                                        </TabControl>
-                                       
+                                        <Separator Opacity=".5"  Margin="20,0,20,0"/>
+                                        <Frame x:Name="ImportFrameNavigation"/>
                                     </StackPanel>
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="Import" x:Name="tc_import" Height="20" VerticalAlignment="Top" Visibility="Hidden">
-                                <Grid Background="{DynamicResource Tertiary}" VirtualizingPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True">
-                                    <DataGrid AutoGenerateColumns="False" x:Name="GameList" CanUserAddRows="False" IsReadOnly="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanUserResizeColumns="True" VirtualizingPanel.IsContainerVirtualizable="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.VirtualizationMode="Recycling">
+                            <TabItem Header="Import"
+                                     x:Name="tc_import"
+                                     Height="20"
+                                     VerticalAlignment="Top"
+                                     Visibility="Hidden">
+                                <Grid Background="{DynamicResource Tertiary}"
+                                      VirtualizingPanel.IsVirtualizing="True"
+                                      ScrollViewer.CanContentScroll="True"
+                                      VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+                                    <DataGrid AutoGenerateColumns="False"
+                                              x:Name="GameList"
+                                              CanUserAddRows="False"
+                                              IsReadOnly="False"
+                                              HorizontalScrollBarVisibility="Visible"
+                                              VerticalScrollBarVisibility="Visible"
+                                              CanUserResizeColumns="True"
+                                              VirtualizingPanel.IsContainerVirtualizable="True"
+                                              VirtualizingPanel.IsVirtualizing="True"
+                                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                              VirtualizingPanel.VirtualizationMode="Recycling">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Atlas ID" Binding="{Binding Path=Id}" Width="50" IsReadOnly="True"/>
-                                            <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" MinWidth="200" IsReadOnly="False" />
-                                            <DataGridTextColumn Header="Creator" Binding="{Binding Path=Creator}" Width="100" IsReadOnly="False"/>
-                                            <DataGridTextColumn Header="Engine" Binding="{Binding Path=Engine}" Width="100" IsReadOnly="False"/>
-                                            <DataGridTextColumn Header="Version" Binding="{Binding Path=Version}" Width="100" IsReadOnly="False"/>
+                                            <DataGridTextColumn Header="Atlas ID"
+                                                                Binding="{Binding Path=Id}"
+                                                                Width="50"
+                                                                IsReadOnly="True" />
+                                            <DataGridTextColumn Header="Title"
+                                                                Binding="{Binding Path=Title}"
+                                                                MinWidth="200"
+                                                                IsReadOnly="False" />
+                                            <DataGridTextColumn Header="Creator"
+                                                                Binding="{Binding Path=Creator}"
+                                                                Width="100"
+                                                                IsReadOnly="False" />
+                                            <DataGridTextColumn Header="Engine"
+                                                                Binding="{Binding Path=Engine}"
+                                                                Width="100"
+                                                                IsReadOnly="False" />
+                                            <DataGridTextColumn Header="Version"
+                                                                Binding="{Binding Path=Version}"
+                                                                Width="100"
+                                                                IsReadOnly="False" />
                                             <DataGridTemplateColumn Header="Executable">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <DockPanel HorizontalAlignment="Left" LastChildFill="True" MinWidth="300">
-                                                            <TextBlock DockPanel.Dock="Left" Text="{Binding SingleExecutable}" Foreground="{DynamicResource Text}" HorizontalAlignment="Left" Visibility="{Binding SingleEngineVisible}"/>
+                                                        <DockPanel HorizontalAlignment="Left"
+                                                                   LastChildFill="True"
+                                                                   MinWidth="300">
+                                                            <TextBlock DockPanel.Dock="Left"
+                                                                       Text="{Binding SingleExecutable}"
+                                                                       Foreground="{DynamicResource Text}"
+                                                                       HorizontalAlignment="Left"
+                                                                       Visibility="{Binding SingleEngineVisible}" />
                                                             <ComboBox DockPanel.Dock="Right"
-                                                            ItemsSource="{Binding Executable}" 
-                                                            SelectedValue="{Binding SelectedValue}" 
-                                                            SelectedValuePath="Key" 
-                                                            Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"  
-                                                            MinWidth="300" 
-                                                            IsReadOnly="False"
-                                                            Visibility="{Binding MultipleEngineVisible}"
-                                                            />
-
+                                                                      ItemsSource="{Binding Executable}"
+                                                                      SelectedValue="{Binding SelectedValue}"
+                                                                      SelectedValuePath="Key"
+                                                                      Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                                                                      MinWidth="300"
+                                                                      IsReadOnly="False"
+                                                                      Visibility="{Binding MultipleEngineVisible}" />
                                                         </DockPanel>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>                                            
+                                            </DataGridTemplateColumn>
                                             <DataGridTemplateColumn Header="Possible Database Matches">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <ComboBox
-                                                            ItemsSource="{Binding Results}" 
-                                                            SelectedValue="{Binding ResultSelectedValue}" 
-                                                            SelectedValuePath="Key" 
-                                                            Text="{Binding ResultText, UpdateSourceTrigger=PropertyChanged}"  
-                                                            MinWidth="300" 
-                                                            IsReadOnly="False"
-                                                            Visibility="{Binding ResultVisibilityState}"/>
+                                                        <ComboBox ItemsSource="{Binding Results}"
+                                                                  SelectedValue="{Binding ResultSelectedValue}"
+                                                                  SelectedValuePath="Key"
+                                                                  Text="{Binding ResultText, UpdateSourceTrigger=PropertyChanged}"
+                                                                  MinWidth="300"
+                                                                  IsReadOnly="False"
+                                                                  Visibility="{Binding ResultVisibilityState}" />
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            <DataGridTextColumn Header="Folder" Binding="{Binding Path=Folder}" MinWidth="50" IsReadOnly="False"/>
+                                            <DataGridTextColumn Header="Folder"
+                                                                Binding="{Binding Path=Folder}"
+                                                                MinWidth="50"
+                                                                IsReadOnly="False" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>
                             </TabItem>
                         </TabControl>
-
                     </DockPanel>
                 </DockPanel>
             </DockPanel>
-
         </Grid>
     </Border>
 </Window>
