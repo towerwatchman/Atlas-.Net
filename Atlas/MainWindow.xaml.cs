@@ -84,14 +84,18 @@ namespace Atlas
             bvp.BannerView.ItemsSource = ModelData.Games;
             this.GameListBox.ItemsSource = ModelData.Games;
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource);
-            view.Filter = UserFilter;
-            // the code that's accessing UI properties
-            //sort items in lists
-            GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+            try
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource);
+                view.Filter = UserFilter;
+                // the code that's accessing UI properties
+                //sort items in lists
+                GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
 
-            //Set total Versions & games
-            TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
+                //Set total Versions & games
+                TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
+            }
+            catch (Exception ex) { Logger.Error(ex); }
         }
 
         #region Banner Left Click
@@ -250,36 +254,73 @@ namespace Atlas
                         {
                             foreach (Game game in tempList)
                             {
+                                //Try to run as many as we can
+
                                 try
                                 {
+                                    //Get Banner Path for database
+                                    Logger.Info(game.Title);
+                                    string banner_path = SQLiteInterface.GetBannerPath(game.RecordID.ToString());
                                     //check if banner already exist
-                                    if (SQLiteInterface.GetBannerPath(game.RecordID.ToString()) == string.Empty && game.AtlasID != "")
+                                    if ((banner_path == string.Empty && game.AtlasID != "") || !File.Exists(banner_path))
                                     {
-                                        string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
-                                        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
-                                        string banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                        Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
-                                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
-                                        //update banner table
-                                        if (bannerUrl != "")
+                                        //Run below in a new task
+                                        await Task.Run(async () =>
                                         {
-                                            SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
-                                        }
-                                        Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
-                                        //Find Game in gamelist and set the banner to it
-                                        BitmapImage img = ImageInterface.LoadImage(
-                                                    bannerUrl == "" ? "" : banner_path,
-                                                    Atlas.Core.Settings.Config.ImageRenderWidth,
-                                                    Atlas.Core.Settings.Config.ImageRenderHeight);
-                                        Application.Current.Dispatcher.Invoke(() =>
-                                        {
-                                            ModelData.Games[ModelData.Games.FindIndex(x => x.RecordID == game.RecordID)].ImageData = img;
+                                            string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
+                                            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
+                                            byte[] ImageArray = null;
 
-                                            bvp.BannerView.Items.Refresh();
+                                            banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                            await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+
+                                            /*if (Path.GetExtension(bannerUrl) == ".gif")
+                                            {
+                                                banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                                await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+                                            }
+                                            else
+                                            {
+                                                banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
+                                                ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 200);
+                                            }*/
+
+                                            //Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
+
+
+                                            if (ImageArray != null)
+                                            {
+                                                //ConvertImage to webp
+                                                ImageInterface image = new ImageInterface();
+                                                banner_path = image.ConvertToWebpAsync(ImageArray, banner_path).Result;
+
+                                            }
+                                            //update banner table
+                                            if (banner_path != "")
+                                            {
+                                                SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
+
+                                                Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
+                                                ImageInterface image = new ImageInterface();
+                                                //Find Game in gamelist and set the banner to it
+                                                BitmapImage img = image.LoadImage(
+                                                            bannerUrl == "" ? "" : banner_path,
+                                                            Atlas.Core.Settings.Config.ImageRenderWidth,
+                                                            Atlas.Core.Settings.Config.ImageRenderHeight);
+                                                Application.Current.Dispatcher.Invoke(() =>
+                                                {
+                                                    ModelData.Games[ModelData.Games.FindIndex(x => x.RecordID == game.RecordID)].ImageData = img;
+
+                                                    bvp.BannerView.Items.Refresh();
+                                                });
+                                            }
+
+                                            //Hack to free up memory
+                                            GC.Collect();
+                                            GC.WaitForPendingFinalizers();
+                                            //Set a default waiting period for downloading images
+                                            System.Threading.Thread.Sleep(200);
                                         });
-                                        //Hack to free up memory
-                                        GC.Collect();
-                                        GC.WaitForPendingFinalizers();
                                     }
                                 }
                                 catch (Exception ex)

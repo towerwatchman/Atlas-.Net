@@ -1,6 +1,7 @@
 ﻿using Atlas.UI;
 using Newtonsoft.Json.Linq;
 using NLog;
+using SixLabors.ImageSharp.Formats.Webp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -182,6 +183,40 @@ namespace Atlas.Core.Network
             //If we need to give the downloader a delay, this will help. 
             System.Threading.Thread.Sleep(delay);
             return Task.CompletedTask;
+        }
+
+        public static async Task<byte[]> DownloadBytesAsync(string url, string filename, int delay = 0)
+        {
+            byte[] byteArray = null;
+            if (url != "")
+            {
+                using (var client = new HttpClient())
+                {
+                    try
+                    {
+                        var response = await client.GetAsync(url);
+                        response.EnsureSuccessStatusCode();
+
+                        using var stream = await response.Content.ReadAsStreamAsync();
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            Logger.Info("File downloaded successfully: " + filename);
+                            stream.CopyTo(memoryStream);
+                            return memoryStream.ToArray();
+                        }
+
+
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        Logger.Error("Failed to download File: " + ex.Message);
+                    }
+                }
+            }
+
+            //If we need to give the downloader a delay, this will help. 
+            System.Threading.Thread.Sleep(delay);
+            return byteArray;
         }
     }
 }
