@@ -168,11 +168,13 @@ namespace Atlas
         {
             if (WindowState == WindowState.Normal)
             {
+                //this.AllowsTransparency = false;
                 WindowState = WindowState.Maximized;
                 this.BorderThickness = new System.Windows.Thickness(7);
             }
             else
             {
+                //this.AllowsTransparency = true;
                 WindowState = WindowState.Normal;
                 this.BorderThickness = new System.Windows.Thickness(0);
             }

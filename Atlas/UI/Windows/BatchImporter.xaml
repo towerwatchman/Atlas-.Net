@@ -131,7 +131,7 @@
                                     Padding="0">
                             <TabItem Header="Start"
                                      x:Name="tc_start"
-                                     Visibility="Visible">
+                                     Visibility="Hidden">
                                 <Grid Background="{DynamicResource Secondary}">
                                     <StackPanel Margin="20"
                                                 VerticalAlignment="Stretch"

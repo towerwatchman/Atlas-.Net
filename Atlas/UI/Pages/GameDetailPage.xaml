@@ -53,7 +53,7 @@
                                VerticalAlignment="Center"
                                FontWeight="Bold"
                                Foreground="{DynamicResource Accent}" />
-                        <Label x:Name="Title"
+                        <Label x:Name="GameTitle"
                                Content="None"
                                HorizontalAlignment="Left"
                                VerticalContentAlignment="Center"
