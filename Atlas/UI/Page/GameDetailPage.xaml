@@ -21,99 +21,117 @@
                    Width="Auto"
                    Panel.ZIndex="1"
                    VerticalAlignment="Top"
-                   Stretch="Uniform">
-            </Image>           
+                   Stretch="Uniform"></Image>
         </Grid>
         <!--#region Current Version Selected -->
-        <Grid Height="25"
-              Width="400"
-              Margin="0,0,0,0"
-              VerticalAlignment="Top"
-              HorizontalAlignment="Left" Panel.ZIndex="2">
-            <!-- Center -->
+        
+        <StackPanel Orientation="Horizontal"
+                    Panel.ZIndex="20" >
+            <Border  BorderBrush="{DynamicResource Accent}"
+                     BorderThickness="0,0,0,1"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top">
+                <Grid Height="24"
+                      Margin="0,0,0,0"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Left"
+                      Background="{DynamicResource Canvas}">
+                    <!-- Center 
             <Rectangle Width="375"
                        Fill="{DynamicResource Accent}"
                        HorizontalAlignment="Left" Margin="0,1,0,0" Height="24"/>
             <Rectangle Width="375"
                        Fill="{DynamicResource Canvas}"
                        HorizontalAlignment="Left" Height="24">                
-            </Rectangle>
-           
+            </Rectangle>-->
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Title:"
+                               HorizontalAlignment="Left"
+                               VerticalContentAlignment="Center"
+                               Margin="20,-2,0,0"
+                               Padding="0"
+                               VerticalAlignment="Center"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource Accent}" />
+                        <Label x:Name="Title"
+                               Content="None"
+                               HorizontalAlignment="Left"
+                               VerticalContentAlignment="Center"
+                               Margin="5,-2,0,0"
+                               Padding="0"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource Text}" />
+                        <Label Content="Version:"
+                               HorizontalAlignment="Left"
+                               VerticalContentAlignment="Center"
+                               Margin="20,-2,0,0"
+                               Padding="0"
+                               VerticalAlignment="Center"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource Accent}" />
+                        <!-- Add padding to last element so its not touching object-->
+                        <Label x:Name="CurrentVersion"
+                               Content="None"
+                               HorizontalAlignment="Left"
+                               VerticalContentAlignment="Center"
+                               Margin="5,-2,20,0"
+                               Padding="0"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource Text}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
             <!-- Right Corner-->
-            <Polygon Fill="{DynamicResource Accent}"
-                     Stretch="Uniform"
-                     Height="24"
-                     VerticalAlignment="Top"
-                     HorizontalAlignment="Left"
-                     Panel.ZIndex="5"
-                     Margin="375,1,0,0">
-                <Polygon.Points>
-                    <Point X="0"
-                           Y="0" />
-                    <Point X="-24"
-                           Y="24" />
-                    <Point X="-24"
-                           Y="0" />
-                </Polygon.Points>
-            </Polygon>
-            
-            <Polygon Fill="{DynamicResource Canvas}"
-                     Stretch="Uniform"
-                     Height="24"
-                     VerticalAlignment="Top"
-                     HorizontalAlignment="Left"
-                     Panel.ZIndex="5"
-                     Margin="375,0,0,0">
-                <Polygon.Points>
-                    <Point X="0"
-                           Y="0" />
-                    <Point X="-24"
-                           Y="24" />
-                    <Point X="-24"
-                           Y="0" />
-                </Polygon.Points>                
-            </Polygon>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Title:"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       Margin="20,-2,0,0"
-                       Padding="0"
-                       VerticalAlignment="Center"
-                       FontWeight="Bold"
-                       Foreground="{DynamicResource Accent}" />
-                <Label x:Name="CurrentTitle"
-                       Content="None"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       Margin="5,-2,0,0"
-                       Padding="0"
-                       VerticalAlignment="Center"
-                       Foreground="{DynamicResource Text}" />
-                <Label Content="Selected Version:"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       Margin="20,-2,0,0"
-                       Padding="0"
-                       VerticalAlignment="Center"
-                       FontWeight="Bold"
-                       Foreground="{DynamicResource Accent}" />
-                <Label x:Name="CurrentVersion"
-                       Content="None"
-                       HorizontalAlignment="Left"
-                       VerticalContentAlignment="Center"
-                       Margin="5,-2,0,0"
-                       Padding="0"
-                       VerticalAlignment="Center"
-                       Foreground="{DynamicResource Text}" />
-            </StackPanel>
-        </Grid>
+            <Grid Margin="-1,0,0,0">
+                <Polygon Fill="{DynamicResource Accent}"
+                         Stretch="Uniform"
+                         Height="25"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                         Panel.ZIndex="5"
+                         Margin="0,0,0,0"
+                         RenderOptions.EdgeMode="Aliased">
+                    <Polygon.Points>
+                        <Point X="-25"
+                               Y="26" />
+                        <Point X="-26"
+                               Y="26" />
+                        <Point X="-26"
+                               Y="0" />
+                        <Point X="1"
+                               Y="0" />
+                    </Polygon.Points>
+                </Polygon>
+                <Polygon Fill="{DynamicResource Canvas}"
+                         Stretch="Uniform"
+                         Height="24"
+                         Width="24"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                         Panel.ZIndex="5"
+                         Margin="0,0,0,0"
+                         RenderOptions.EdgeMode="Aliased">
+                    <Polygon.Points>                        
+                        <Point X="-26"
+                               Y="26" />
+                        <Point X="-26"
+                               Y="26" />
+                        <Point X="-26"
+                               Y="0" />
+                        <Point X="0"
+                               Y="0" />
+                    </Polygon.Points>
+                </Polygon>
+            </Grid>
+        </StackPanel>
         <!--#endregion-->
-        <ScrollViewer Panel.ZIndex="2" Background="Transparent">
-            <Grid x:Name="Header"                 
+        <ScrollViewer Panel.ZIndex="2"
+                      Background="Transparent">
+            <Grid x:Name="Header"
                   Panel.ZIndex="2">
                 <Grid Margin="0,225,0,0"
-                      Panel.ZIndex="3" Background="{DynamicResource Secondary}">
+                      Panel.ZIndex="3"
+                      Background="{DynamicResource Secondary}">
                     <!-- All content goes in this Grid-->
                     <Grid Panel.ZIndex="3"
                           Background="{DynamicResource Canvas}"
@@ -222,7 +240,7 @@
                                        Height="20" />
                             </Button>
                         </StackPanel>
-                    </Grid>                  
+                    </Grid>
                 </Grid>
             </Grid>
         </ScrollViewer>

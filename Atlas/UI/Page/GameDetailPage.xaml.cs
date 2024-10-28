@@ -37,7 +37,7 @@ namespace Atlas.UI.Pages
             {
                 var ImageData = ImageInterface.LoadImage(CurrentGame.BannerPath, 1000, 250); //ImageInterface.LoadImage(CurrentGame.BannerPath, 1000);
                 banner_main.Source = ImageData;
-                CurrentTitle.Content = CurrentGame.Title;
+                Title.Content = CurrentGame.Title;
                 //banner_left.Source = ImageData;
                 //banner_right.Source = ImageData;
                 //banner_background.Source = ImageData;
