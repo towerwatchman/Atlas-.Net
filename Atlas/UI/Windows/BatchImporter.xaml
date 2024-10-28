@@ -33,7 +33,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Margin="10,3,3,0">
-                <Label Content="Import Games"
+                <Label Content="Import Games Wizard"
                        HorizontalAlignment="Left"
                        Width="Auto" />
             </StackPanel>
@@ -142,13 +142,19 @@
                                                    HorizontalAlignment="Stretch"
                                                    LastChildFill="False">
                                             <Label DockPanel.Dock="Left"
-                                                   Content="Import Source:"
+                                                   Content="Import Type:"
                                                    Margin="0,0,15,0" />
                                             <ComboBox DockPanel.Dock="Left"
                                                       x:Name="ImportSourceComboBox"
                                                       Width="200"
-                                                      SelectedIndex="0" />
-                                            <Label Content="The settings below will change based on the import source"
+                                                      SelectedIndex="0">
+                                                <ComboBoxItem>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                        <Label Content="Custom"/>
+                                                    </StackPanel>
+                                                </ComboBoxItem>
+                                            </ComboBox>
+                                            <Label Content="Please select the ..."
                                                    Margin="20,0,0,0" />
                                         </DockPanel>
                                         <Separator Opacity=".5"  Margin="20,0,20,0"/>

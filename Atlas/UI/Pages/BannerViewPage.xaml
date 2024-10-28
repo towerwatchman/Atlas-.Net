@@ -41,7 +41,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <custom:GameBanner x:Name="GameBannerItem"
-                                       Margin="2" />
+                                       Margin="5" />
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>

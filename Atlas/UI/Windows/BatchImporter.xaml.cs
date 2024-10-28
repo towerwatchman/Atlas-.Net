@@ -45,13 +45,9 @@ namespace Atlas.UI.Windows
             pbGameScanner.Visibility = Visibility.Hidden;
 
             //Add Scanners to list
-            ImportSourceComboBox.Items.Add("Custom");
-            ImportSourceComboBox.Items.Add("Steam");
 
             ImportSourceComboBox.SelectedIndex = 0;
             //cbScanner.Items.Add("Steam");
-
-
             //tb_format.Text = Settings.Config.FolderStructure;
         }
         #region Windows Buttons

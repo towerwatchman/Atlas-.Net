@@ -1,0 +1,63 @@
+﻿<Page x:Class="Atlas.UI.Pages.Settings.InterfacePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Atlas.UI.Pages.Settings"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="InterfacePage">
+    <Grid Background="{DynamicResource Primary}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical"
+                        Margin="20">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Language:"
+                           Margin="0,0,10,0" />
+                    <ComboBox x:Name="AtlasLanguage"
+                              MinWidth="100"
+                              SelectedIndex="0">
+                        <ComboBoxItem Content="English" />
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,10,0,0">
+                    <Label Content="When Atlas Starts:"
+                           Margin="0,0,10,0" />
+                    <ComboBox x:Name="AtlasStartup"
+                              MinWidth="170"
+                              SelectedIndex="1">
+                        <ComboBoxItem Content="Do Nothing" />
+                        <ComboBoxItem Content="Minimize To System Tray" />
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,10,0,0">
+                    <Label Content="When Game Starts:"
+                           Margin="0,0,10,0" />
+                    <ComboBox x:Name="GamesStartup"
+                              MinWidth="100"
+                              SelectedIndex="0">
+                        <ComboBoxItem Content="Do Nothing" />
+                        <ComboBoxItem Content="Minimize" />
+                        <ComboBoxItem Content="Close" />
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="Minimize Atlas to system tray when the aplication window is closed"
+                              Margin="0,10,0,0" />
+                    <CheckBox Content="Download metadata during game import"
+                              Margin="0,10,0,0" />
+                    <CheckBox Content="Launch Atlas Maximized"
+                              Margin="0,10,0,0" />
+                    <CheckBox Content="Launch Atlas when you start your computer"
+                              Margin="0,10,0,0" />
+                    <CheckBox Content="Update game install size on library update"
+                              Margin="0,10,0,0" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

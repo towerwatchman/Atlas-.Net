@@ -53,52 +53,136 @@ MouseDown="Window_MouseDown"
             <!--#endregion-->
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Background="{DynamicResource Tertiary}">
-                    <Label Content="Atlas Settings" Foreground="{DynamicResource Accent}" HorizontalContentAlignment="Center" Margin="0,0,0,5"/>
+                    <Label Content="Atlas Settings" Foreground="{DynamicResource Accent}" HorizontalContentAlignment="Center" Margin="0,0,0,5" FontWeight="DemiBold"/>
                     <ListBox Width="180" BorderThickness="0" Background="{DynamicResource Tertiary}">
                         <ListBoxItem>
                             <StackPanel Orientation="Horizontal">
-                                <Image/>
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
                                 <Label Content="Interface"/>
                             </StackPanel>
                         </ListBoxItem>
                         <ListBoxItem>
                             <StackPanel Orientation="Horizontal">
-                                <Image/>
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
                                 <Label Content="Library"/>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
+                                <Label Content="Platforms" />
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
+                                <Label Content="Emulators" />
                             </StackPanel>
                         </ListBoxItem>
                         <Separator/>
                         <ListBoxItem>
                             <StackPanel Orientation="Horizontal">
-                                <Image/>
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
                                 <Label Content="Appearance"/>
                             </StackPanel>
                         </ListBoxItem>
                         <ListBoxItem>
                             <StackPanel Orientation="Horizontal">
-                                <Image/>
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
                                 <Label Content="Metadata"/>
                             </StackPanel>
                         </ListBoxItem>
                         <ListBoxItem>
-                            <StackPanel Orientation="Horizontal">                                
-                                    <Path Data="{DynamicResource import_icon}" Fill="{DynamicResource Text}" VerticalAlignment="Bottom">
-                                        <Path.RenderTransform>
-                                            <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
-                                        </Path.RenderTransform>
-                                    </Path>
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
+                                <Label Content="Search" />
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
                                 <Label Content="Downloads"/>
                             </StackPanel>
                         </ListBoxItem>
                         <ListBoxItem>
                             <StackPanel Orientation="Horizontal">
-                                <Image/>
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
                                 <Label Content="Notifications"/>
                             </StackPanel>
                         </ListBoxItem>
                         <ListBoxItem>
                             <StackPanel Orientation="Horizontal">
-                                <Image/>
+                                <Path Data="{DynamicResource settings_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      VerticalAlignment="Bottom">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.75"
+                                                        ScaleY="0.75" />
+                                    </Path.RenderTransform>
+                                </Path>
                                 <Label Content="Storage"/>
                             </StackPanel>
                         </ListBoxItem>
