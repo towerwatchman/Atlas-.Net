@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Atlas.UI.Windows"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
         Background="Transparent"
         AllowsTransparency="True"
@@ -147,18 +148,19 @@
                                             <ComboBox DockPanel.Dock="Left"
                                                       x:Name="ImportSourceComboBox"
                                                       Width="200"
-                                                      SelectedIndex="0">
-                                                <ComboBoxItem>
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                        <Label Content="Custom"/>
-                                                    </StackPanel>
-                                                </ComboBoxItem>
+                                                      SelectedIndex="0"
+                                                      SelectionChanged="ImportSourceComboBox_SelectionChanged">
+                                                <ComboBoxItem  Content="Custom" />
+                                                <ComboBoxItem  Content="Steam" />
+                                                <ComboBoxItem  Content="Roms" />
                                             </ComboBox>
                                             <Label Content="Please select the ..."
                                                    Margin="20,0,0,0" />
                                         </DockPanel>
-                                        <Separator Opacity=".5"  Margin="20,0,20,0"/>
-                                        <Frame x:Name="ImportFrameNavigation"/>
+                                        <Separator Opacity=".5"
+                                                   />
+                                        <Frame x:Name="ImportFrameNavigation"
+                                               NavigationUIVisibility="Hidden" />
                                     </StackPanel>
                                 </Grid>
                             </TabItem>

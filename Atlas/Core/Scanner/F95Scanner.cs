@@ -10,12 +10,13 @@ namespace Atlas.Core
     public static class F95Scanner
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public static ObservableCollection<GameDetails> _GameDetailList = new ObservableCollection<GameDetails>();
+        public static ObservableCollection<GameDetails> _GameDetailList;
         public static IEnumerable<GameDetails> GameDetailList { get { return _GameDetailList; } }
 
         public static bool isRunning = false;
-        public static Task Start(string path, string format)
+        public static Task Start(string path, string format, string[] extensions)
         {
+            _GameDetailList = new ObservableCollection<GameDetails>();
             //Set the item list before we do anything else
 
             List<string> root_paths = new List<string>();
@@ -63,7 +64,7 @@ namespace Atlas.Core
                         if (cur_level <= stop_level)
                         {
 
-                            List<string> potential_executables = Executable.DetectExecutable(Directory.GetFiles(t));
+                            List<string> potential_executables = Executable.DetectExecutable(Directory.GetFiles(t), extensions);
                             if (potential_executables.Count > 0)
                             {
                                 //check to see how to parse data

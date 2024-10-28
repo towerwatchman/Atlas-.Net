@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Atlas.Core;
 
 namespace Atlas.UI.Pages.Importers
 {
@@ -25,6 +26,8 @@ namespace Atlas.UI.Pages.Importers
         public Custom()
         {
             InitializeComponent();
+            tb_format.Text = Atlas.Core.Settings.Config.FolderStructure;
+            OtherDefaultExt.Text = $"{Extensions.win_exe},{Extensions.oth_exe}";
         }
         private void btn_OpenFolder_Click(object sender, RoutedEventArgs e)
         {

@@ -23,11 +23,17 @@ namespace Atlas.UI.Windows
 
         public void EmitImportSignal()
         {
-            if(StartImport != null)
+            if (StartImport != null)
             {
                 StartImport(this, EventArgs.Empty);
             }
         }
+        #endregion
+
+        #region Importers
+        Pages.Importers.Custom customImporter = new Pages.Importers.Custom();
+        Pages.Importers.Steam steamImporter = new Pages.Importers.Steam();
+
         #endregion
 
         //private 
@@ -40,13 +46,14 @@ namespace Atlas.UI.Windows
             InterfaceHelper.ImporterScanTextBox = ImporterScanTextBox;
 
             //Disable Import,Next Button & progressbar
-            btn_next.IsEnabled = false;
+            //btn_next.IsEnabled = false;
             btn_import.IsEnabled = true;
             pbGameScanner.Visibility = Visibility.Hidden;
 
             //Add Scanners to list
 
             ImportSourceComboBox.SelectedIndex = 0;
+            ImportFrameNavigation.Content = customImporter;
             //cbScanner.Items.Add("Steam");
             //tb_format.Text = Settings.Config.FolderStructure;
         }
@@ -95,14 +102,63 @@ namespace Atlas.UI.Windows
 
             if (item.Header.ToString() == "Start")
             {
+                //VN and H Games. F95 Mostly
+                if (ImportSourceComboBox.SelectedIndex == 0)
+                {
+                    await f95ImportAsync();
+                }
+            }
+
+        }
+
+        private void Btn_Import_Click(object sender, RoutedEventArgs e)
+        {
+            //Before we can start the import we need to verify a few details
+            //Check that the Creator column is valid
+            if (F95Scanner._GameDetailList.Count > 0)
+            {
+                EmitImportSignal();
+                this.Close();
+
+                /* if (F95Scanner._GameDetailList.Any(x=>x.Creator != string.Empty) &&
+                     F95Scanner._GameDetailList.Any(x => x.Title != string.Empty)
+                 )
+                 {                   
+                 }*/
+            }
+
+        }
+
+        private void ImportSourceComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var ComboBox = sender as ComboBox;
+            if (ComboBox != null && ImportFrameNavigation != null)
+            {
+                if (ComboBox.SelectedIndex == 0)
+                {
+                    ImportFrameNavigation.Content = customImporter;
+                }
+                if (ComboBox.SelectedIndex == 1)
+                {
+                    ImportFrameNavigation.Content = steamImporter;
+                }
+            }
+        }
+
+        #region Importers
+
+        private async Task f95ImportAsync()
+        {
+            if (Directory.Exists(customImporter.tb_FolderDialog.Text))
+            {
                 tbc_Import.SelectedIndex = 1;
                 //GameScanner gameScanner = new GameScanner();
                 //GameList.ItemsSource = F95Scanner.GameDetailList;
                 InterfaceHelper.Datagrid = GameList;
 
-                string folder = "";// tb_FolderDialog.Text;
+                string folder = customImporter.tb_FolderDialog.Text;
 
-                string format = "";// (bool)cb_format.IsChecked == true ? "" : tb_format.Text;
+                string format = (bool)customImporter.cb_format.IsChecked == true ? "" : customImporter.tb_format.Text;
 
                 //Hide Next Button
                 btn_next.Width = 0;
@@ -112,34 +168,17 @@ namespace Atlas.UI.Windows
                 btn_import.IsEnabled = false;
                 btn_import.Width = 70;
 
+                string[] extensions = customImporter.OtherDefaultExt.Text.Split(",");
+
                 await Task.Run(async () =>
                 {
-                    await F95Scanner.Start(folder, format);
+                    await F95Scanner.Start(folder, format, extensions);
                 });
 
                 btn_import.IsEnabled = true;
             }
-
         }
 
-        private void Btn_Import_Click(object sender, RoutedEventArgs e)
-        {
-            //Before we can start the import we need to verify a few details
-            //Check that the Creator column is valid
-            if(F95Scanner._GameDetailList.Count > 0)
-            {
-                EmitImportSignal();
-                this.Close();
-
-               /* if (F95Scanner._GameDetailList.Any(x=>x.Creator != string.Empty) &&
-                    F95Scanner._GameDetailList.Any(x => x.Title != string.Empty)
-                )
-                {                   
-                }*/
-            }
-
-        }
-
-       
+        #endregion
     }
 }

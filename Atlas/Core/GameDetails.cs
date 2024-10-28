@@ -29,15 +29,10 @@ public static class Executable
         "credits.html",
         "LICENSES.chromium.html",
         "Uninstall.exe",
-        "CONFIG_dl.exe"];
-    static string[] lin_exe = [".sh"];
-    static string[] win_exe = [".exe"];
-    static string[] osx_exe = [".dmg"];
-    static string[] oth_exe = [".swf", ".flv", ".f4v", ".rag", ".cmd", ".bat", ".jar", ".html"];
+        "CONFIG_dl.exe"];    
 
-    public static List<string> DetectExecutable(string[] files)
+    public static List<string> DetectExecutable(string[] files, string[] extensions)
     {
-        string[] extensions = GetExtensions();
         List<string> potential_executables = []; // This has to reset every time we change folders   
         foreach (var file in files)
         {
@@ -77,14 +72,14 @@ public static class Executable
         }
     }
 
-    static string[] GetExtensions()
+    /*static string[] GetExtensions()
     {
         //combine all extensions
         //if settings.os == "Windows":
-        return [.. win_exe, .. oth_exe];
+        return [.. Extensions.win_exe, .. Extensions.oth_exe];
         //if (settings.os == "Linux"):
         //return executable.lin_exe + executable.oth_exe
-    }
+    }*/
 }
 
 public static class Engine
