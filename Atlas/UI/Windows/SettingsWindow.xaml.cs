@@ -23,7 +23,7 @@ namespace Atlas.UI.Windows
         {
             InitializeComponent();
         }
-        #region Windwow Buttons
+        #region Windows Buttons
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
@@ -45,7 +45,7 @@ namespace Atlas.UI.Windows
         }
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            this.Close();
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {

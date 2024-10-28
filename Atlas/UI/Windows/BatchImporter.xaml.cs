@@ -54,6 +54,7 @@ namespace Atlas.UI.Windows
 
             //tb_format.Text = Settings.Config.FolderStructure;
         }
+        #region Windows Buttons
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -84,8 +85,8 @@ namespace Atlas.UI.Windows
         {
             this.Close();
         }
+        #endregion
 
-      
 
         private void btn_cancel_Click(object sender, RoutedEventArgs e)
         {

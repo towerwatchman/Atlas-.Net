@@ -18,6 +18,39 @@ MouseDown="Window_MouseDown"
                 <VisualBrush Visual="{Binding ElementName=Border1}" />
             </Grid.OpacityMask>
             <Border x:Name="Border1" CornerRadius="6" Background="Black" BorderThickness="0" />
+            <!-- #region Minimize, Maximize, Close -->
+            <StackPanel Grid.RowSpan="2"
+                        Panel.ZIndex="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,3,3,0">
+                <Button x:Name="minimizeButton"
+                        Click="MinimizeButton_Click"
+                        Style="{DynamicResource MinMaxStyle}">
+                    <Image Height="10"
+                           Width="10"
+                           Stretch="Uniform"
+                           Source="{DynamicResource minimize_icon}" />
+                </Button>
+                <Button x:Name="maximizeButton"
+                        Click="MaximizeButton_Click"
+                        Style="{DynamicResource MinMaxStyle}">
+                    <Image Height="10"
+                           Width="10"
+                           Stretch="Uniform"
+                           Source="{DynamicResource maximize_icon}" />
+                </Button>
+                <Button x:Name="closeButton"
+                        Click="CloseButton_Click"
+                        Style="{DynamicResource ExitStyle}">
+                    <Image Height="10"
+                           Width="10"
+                           Stretch="Uniform"
+                           Source="{DynamicResource close_iconDrawingImage}" />
+                </Button>
+            </StackPanel>
+            <!--#endregion-->
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Background="{DynamicResource Tertiary}">
                     <Label Content="Atlas Settings" Foreground="{DynamicResource Accent}" HorizontalContentAlignment="Center" Margin="0,0,0,5"/>
