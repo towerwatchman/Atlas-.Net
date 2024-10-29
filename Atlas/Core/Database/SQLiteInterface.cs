@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Reflection;
@@ -476,7 +477,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
 
         public static async Task<Task> BuildGameListDetails()
         {
-            List<Game> Games = new List<Game>();
+            ObservableCollection<Game> Games = new ObservableCollection<Game>();
 
             //this will need to be modified for more data in the future
             string query = @"SELECT 

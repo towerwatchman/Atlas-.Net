@@ -169,8 +169,11 @@ namespace Atlas
             if (WindowState == WindowState.Normal)
             {
                 //this.AllowsTransparency = false;
+                //WindowState = WindowState.Maximized;
+                //this.BorderThickness = new System.Windows.Thickness(7);
+                WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Maximized;
-                this.BorderThickness = new System.Windows.Thickness(7);
+                WindowStyle = WindowStyle.None;
             }
             else
             {
@@ -311,8 +314,12 @@ namespace Atlas
                                                             Atlas.Core.Settings.Config.ImageRenderHeight);
                                                 Application.Current.Dispatcher.Invoke(() =>
                                                 {
-                                                    ModelData.Games[ModelData.Games.FindIndex(x => x.RecordID == game.RecordID)].ImageData = img;
-
+                                                    Game gameObj = ModelData.Games.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
+                                                    var index = ModelData.Games.IndexOf(gameObj);
+                                                    if (gameObj != null)
+                                                    {
+                                                        ModelData.Games[index].ImageData = img;
+                                                    }             
                                                     bvp.BannerView.Items.Refresh();
                                                 });
                                             }

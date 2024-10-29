@@ -108,6 +108,11 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Styles\CustomControls\" />
+    <Folder Include="Styles\DefaultControls\" />
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="mkdir &quot;$(TargetDir)\themes&quot;&#xD;&#xA;copy /Y &quot;$(SolutionDir)$(ProjectName)\Themes&quot; &quot;$(TargetDir)themes&quot;" />
   </Target>
