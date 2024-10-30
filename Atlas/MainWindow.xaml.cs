@@ -170,8 +170,8 @@ namespace Atlas
             {
                 //this.AllowsTransparency = false;
                 //WindowState = WindowState.Maximized;
-                //this.BorderThickness = new System.Windows.Thickness(7);
-                WindowStyle = WindowStyle.SingleBorderWindow;
+                this.BorderThickness = new System.Windows.Thickness(7);
+                //WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Maximized;
                 WindowStyle = WindowStyle.None;
             }

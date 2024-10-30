@@ -14,7 +14,7 @@
         WindowStyle="None"
         FontSize="13"
         Background="Transparent"
-        AllowsTransparency="False"
+        AllowsTransparency="True"
         MouseDown="Window_MouseDown">
     <Grid>
         <DockPanel LastChildFill="True">
