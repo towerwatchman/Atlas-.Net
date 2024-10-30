@@ -36,7 +36,7 @@ namespace Atlas
 
         //Create private members for each page
         BannerViewPage bvp = new BannerViewPage();
-
+        private SettingsWindow settingsWindow = new SettingsWindow();
         public MainWindow()
         {
             InitializeComponent();
@@ -344,8 +344,11 @@ namespace Atlas
             }
             if (Item.Name.ToString() == "Settings")
             {
-                SettingsWindow settingsWindow = new SettingsWindow();
-                settingsWindow.Show();
+                if(!settingsWindow.IsVisible)
+                {
+                    settingsWindow.Show();
+                }
+                
             }
         }
         #region Game ListView Visibility
