@@ -37,7 +37,10 @@
                Stretch="Uniform"
                RenderOptions.BitmapScalingMode="HighQuality"
                Height="{DynamicResource bannerY}" />
-        <!--<Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}" Stretch="Uniform" Height="{DynamicResource bannerY}" gif:AnimationBehavior.RepeatBehavior="Forever"/>-->
+        <!--<Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
+               Stretch="Uniform"
+               Height="{DynamicResource bannerY}"
+               gif:AnimationBehavior.RepeatBehavior="Forever" />-->
         <Grid VerticalAlignment="Top"
               x:Name="OverlayTop"
               Height="{DynamicResource overlayTopH}"
@@ -91,7 +94,7 @@
                  Background="Transparent"
                  FontSize="12"
                  BorderThickness="0" />
-        <TextBox VerticalAlignment="Top"
+        <!--<TextBox VerticalAlignment="Top"
                  HorizontalAlignment="Right"
                  Text="{Binding Version}"
                  Foreground="White"
@@ -99,7 +102,7 @@
                  Padding="2"
                  Background="Transparent"
                  FontSize="12"
-                 BorderThickness="0" />
+                 BorderThickness="0" />-->
         <TextBox VerticalAlignment="Bottom"
                  HorizontalAlignment="Right"
                  Text="{Binding Status}"

@@ -264,7 +264,7 @@ namespace Atlas
                                 try
                                 {
                                     //Get Banner Path for database
-                                    Logger.Info(game.Title);
+                                    //Logger.Info(game.Title);
                                     string banner_path = SQLiteInterface.GetBannerPath(game.RecordID.ToString());
                                     //check if banner already exist
                                     if ((banner_path == string.Empty && game.AtlasID != "") || !File.Exists(banner_path))
@@ -312,16 +312,17 @@ namespace Atlas
                                                             bannerUrl == "" ? "" : banner_path,
                                                             Atlas.Core.Settings.Config.ImageRenderWidth,
                                                             Atlas.Core.Settings.Config.ImageRenderHeight);
-                                                Application.Current.Dispatcher.Invoke(() =>
+
+                                                Game gameObj = ModelData.Games.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
+                                                var index = ModelData.Games.IndexOf(gameObj);
+                                                ModelData.Games[index].ImageData = img;
+                                                if (gameObj != null)
                                                 {
-                                                    Game gameObj = ModelData.Games.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
-                                                    var index = ModelData.Games.IndexOf(gameObj);
-                                                    if (gameObj != null)
+                                                    Application.Current.Dispatcher.Invoke(() =>
                                                     {
-                                                        ModelData.Games[index].ImageData = img;
-                                                    }             
-                                                    bvp.BannerView.Items.Refresh();
-                                                });
+                                                        bvp.BannerView.Items.Refresh();
+                                                    });
+                                                }
                                             }
 
                                             //Hack to free up memory

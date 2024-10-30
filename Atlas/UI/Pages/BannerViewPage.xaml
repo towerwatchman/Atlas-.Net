@@ -35,7 +35,7 @@
             </ListView.Template>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}" />
+                    <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}" VirtualizingPanel.CacheLengthUnit="Item" VirtualizingPanel.CacheLength="25" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>

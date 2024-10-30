@@ -38,8 +38,8 @@ namespace Atlas.Core.Utilities
                     bitmapImage.BeginInit();
                     bitmapImage.UriSource = uri;
                     bitmapImage.DecodePixelWidth = (int)width;
-                    bitmapImage.CacheOption = BitmapCacheOption.None;
-                    bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                    bitmapImage.CacheOption = BitmapCacheOption.OnDemand;
+                    bitmapImage.CreateOptions = BitmapCreateOptions.DelayCreation;
                     bitmapImage.EndInit();
                     bitmapImage.Freeze();
                     return bitmapImage;//bi;
