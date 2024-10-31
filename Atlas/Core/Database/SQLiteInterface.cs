@@ -530,8 +530,8 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                                 Versions = GetVersions(reader["record_id"].ToString()),
                                 ImageUriAnimated = Path.GetExtension(reader["image_path"].ToString()) == ".gif" ?
                                     new Uri(reader["image_path"].ToString()) :
-                                    null,
-                                ImageData = image.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)
+                                    null/*,
+                                ImageData = image.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)*/
                             };
 
                             Games.Add(game);
@@ -579,7 +579,7 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                                 Engine = reader["engine"].ToString(),
                                 Versions = null,
                                 ImageUriAnimated = null,
-                                ImageData = image.LoadImage("", Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight),
+                                /*ImageData = image.LoadImage("", Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight),*/
                             };       
                             data.Add(game);
                         }
@@ -601,7 +601,7 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                     InterfaceHelper.MainWindow.Dispatcher.Invoke(() =>
                     {
                         game.Versions = GetVersions(game.RecordID.ToString());
-                        game.ImageData = image.LoadImage(GetBannerPath(game.RecordID.ToString()), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight);
+                        /*game.ImageData = image.LoadImage(GetBannerPath(game.RecordID.ToString()), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight);*/
 
                         GameList.Add(game);
                         InterfaceHelper.BannerView.Items.Refresh();

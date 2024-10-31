@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
+      xmlns:my="clr-namespace:Atlas.UI.Pages"
       xmlns:custom="clr-namespace:Atlas.UI"
       mc:Ignorable="d"
       d:DesignHeight="450"
@@ -22,36 +23,46 @@
                   VirtualizingPanel.VirtualizationMode="Recycling">
             <ListView.Template>
                 <ControlTemplate>
-                    <ScrollViewer CanContentScroll="True"
-                                  Focusable="False"
-                                  HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  Background="{DynamicResource Primary}">
-                        <ItemsPresenter />
-                    </ScrollViewer>
+                    <my:MyScrollViewer CanContentScroll="True"
+                                       Focusable="False"
+                                       HorizontalScrollBarVisibility="Auto"
+                                       VerticalScrollBarVisibility="Auto"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       Background="{DynamicResource Primary}">
+                        <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}"
+                                                   VirtualizingPanel.IsVirtualizing="True"
+                                                   VirtualizingPanel.VirtualizationMode="Recycling"
+                                                   IsItemsHost="True" />
+                    </my:MyScrollViewer>
                 </ControlTemplate>
             </ListView.Template>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}" VirtualizingPanel.CacheLengthUnit="Item" VirtualizingPanel.CacheLength="25" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <custom:GameBanner x:Name="GameBannerItem"
-                                       Margin="5" />
+                    <StackPanel>
+                        <Grid Margin="4">
+                            <Image x:Name="BannerImageTest"
+                                   Stretch="Uniform"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   Height="{DynamicResource bannerY}"
+                                   Width="{DynamicResource bannerX}" />
+                            <custom:GameBanner x:Name="GameBannerItem" />
+                        </Grid>
+                    </StackPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=(my:MyScrollViewer.IsInViewport), RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
+                                     Value="True">
+                            <Setter TargetName="BannerImageTest"
+                                    Property="Source"
+                                    Value="{Binding BannerImage}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
                             Value="Stretch" />
-                    <Setter Property="Height"
-                            Value="{DynamicResource bannerY}" />
-                    <Setter Property="Width"
-                            Value="{DynamicResource bannerX}" />
                     <Setter Property="BorderThickness"
                             Value="0" />
                     <Setter Property="Padding"

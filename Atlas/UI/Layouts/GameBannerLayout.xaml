@@ -6,13 +6,11 @@
              xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
              xmlns:local="clr-namespace:Atlas.UI"
              mc:Ignorable="d"
-             d:DesignHeight="{DynamicResource bannerY}"
-             d:DesignWidth="{DynamicResource bannerX}"
-             MaxHeight="{DynamicResource bannerY}"
-             MaxWidth="{DynamicResource bannerX}"
-             BorderThickness="1"
+             Height="{DynamicResource bannerY}"
+             Width="{DynamicResource bannerX}"
+             BorderThickness="0"
              BorderBrush="Black">
-    <Grid>
+    <Grid Margin="0">
         <!-- Layout is backwards. Topmost item is at the back-->
         <!--<Image Source="{Binding ImageData}" Stretch="Fill" RenderOptions.BitmapScalingMode="LowQuality" Height="{DynamicResource bannerY}">
             <Image.Effect>
@@ -33,11 +31,11 @@
                 </LinearGradientBrush>
             </Image.OpacityMask>
         </Image>-->
-        <Image Source="{Binding ImageData}"
+        <!--<Image Source="{Binding ImageData}"
                Stretch="Uniform"
                RenderOptions.BitmapScalingMode="HighQuality"
                Height="{DynamicResource bannerY}" />
-        <!--<Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
+       <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
                Stretch="Uniform"
                Height="{DynamicResource bannerY}"
                gif:AnimationBehavior.RepeatBehavior="Forever" />-->
@@ -47,12 +45,13 @@
               Width="{DynamicResource bannerX}"
               Background="{DynamicResource overlayTopColor}"
               Opacity="{DynamicResource overlayOpacity}" />
-        <Grid VerticalAlignment="Bottom"
+        <Grid VerticalAlignment="Top"
               x:Name="OverlayBottom"
               Height="{DynamicResource overlayBottomH}"
               Width="{DynamicResource bannerX}"
               Background="{DynamicResource overlayTopColor}"
-              Opacity="{DynamicResource overlayOpacity}" />
+              Opacity="{DynamicResource overlayOpacity}"
+              Margin="0,225,0,0" />
         <!-- Text for Layout-->
         <TextBlock VerticalAlignment="Bottom"
                    HorizontalAlignment="Center"
@@ -93,7 +92,7 @@
                  Padding="2"
                  Background="Transparent"
                  FontSize="12"
-                 BorderThickness="0" />
+                 BorderThickness="0"></TextBox>
         <!--<TextBox VerticalAlignment="Top"
                  HorizontalAlignment="Right"
                  Text="{Binding Version}"

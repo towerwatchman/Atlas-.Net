@@ -315,7 +315,7 @@ namespace Atlas
 
                                                 Game gameObj = ModelData.Games.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
                                                 var index = ModelData.Games.IndexOf(gameObj);
-                                                ModelData.Games[index].ImageData = img;
+                                                /*ModelData.Games[index].ImageData = img;*/
                                                 if (gameObj != null)
                                                 {
                                                     Application.Current.Dispatcher.Invoke(() =>

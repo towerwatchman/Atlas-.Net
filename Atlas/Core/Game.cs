@@ -20,12 +20,18 @@ namespace Atlas.Core
         public string Overview { get; set; }
         public string Os { get; set; }
         public bool IsFavorite { get; set; }
-        public required BitmapImage ImageData { get; set; }
+        public virtual BannerImage BannerImage { get; set; }
         public string BannerPath { get; set; }
         public string SiteUrl { get; set; }
         public string[] Screens { get; set; }
         public required Uri ImageUriAnimated { get; set; }
         public string Tags { get; set; }
+    }
+
+    public class BannerImage
+    {
+        public int id { get; set; }
+        public BitmapImage BitmapImage { get; set; }
     }
 
     public class GameDetails
