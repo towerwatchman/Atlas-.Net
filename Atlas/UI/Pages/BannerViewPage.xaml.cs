@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Atlas.Core;
+using Atlas.UI;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Windows.Media.Capture;
 
 namespace Atlas.UI.Pages
 {
@@ -27,6 +31,8 @@ namespace Atlas.UI.Pages
     }
     public sealed class MyScrollViewer : ScrollViewer
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public static int ItemsInView {  get; set; }
         public static readonly DependencyProperty IsInViewportProperty =
             DependencyProperty.RegisterAttached("IsInViewport", typeof(bool), typeof(MyScrollViewer));
 
@@ -42,6 +48,7 @@ namespace Atlas.UI.Pages
 
         protected override void OnScrollChanged(ScrollChangedEventArgs e)
         {
+            ItemsInView = 0;
             base.OnScrollChanged(e);
 
             var panel = Content as Panel;
@@ -59,11 +66,32 @@ namespace Atlas.UI.Pages
                     SetIsInViewport(child, false);
                     continue;
                 }
+                //Get the current Game object that is in view and list it
+                else
+                {
+                    ListViewItem item = child as ListViewItem;
+                    if(item.Content != null && item.Content is Game)
+                    {
+                        try
+                        {
+                            Game game = (Game)item.Content;
+                            ItemsInView++;
+                            //Logger.Info($"Title:{game.Title} ID:{game.RecordID}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Warn(ex);
+                        }
+
+                    }
+                    
+                }
 
                 GeneralTransform transform = child.TransformToAncestor(this);
                 Rect childBounds = transform.TransformBounds(new Rect(new Point(0, 0), child.RenderSize));
                 SetIsInViewport(child, viewport.IntersectsWith(childBounds));
             }
+            Logger.Warn($"Total Items in View: {ItemsInView}");
         }
     }
 }

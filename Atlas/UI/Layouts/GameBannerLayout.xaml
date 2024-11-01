@@ -8,9 +8,11 @@
              mc:Ignorable="d"
              Height="{DynamicResource bannerY}"
              Width="{DynamicResource bannerX}"
-             BorderThickness="0"
+             BorderThickness="1"
              BorderBrush="Black">
     <Grid Margin="0">
+        <Image x:Name="BannerImage"
+               Source="{Binding BannerImage}" />
         <!-- Layout is backwards. Topmost item is at the back-->
         <!--<Image Source="{Binding ImageData}" Stretch="Fill" RenderOptions.BitmapScalingMode="LowQuality" Height="{DynamicResource bannerY}">
             <Image.Effect>

@@ -20,7 +20,7 @@ namespace Atlas.Core
         public string Overview { get; set; }
         public string Os { get; set; }
         public bool IsFavorite { get; set; }
-        public virtual BannerImage BannerImage { get; set; }
+       public virtual BannerImage BannerImage { get; set; }
         public string BannerPath { get; set; }
         public string SiteUrl { get; set; }
         public string[] Screens { get; set; }
