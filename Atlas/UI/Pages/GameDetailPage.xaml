@@ -15,18 +15,43 @@
         <!-- Set Images. There are a total of 4 to get the effect-->
         <Grid Panel.ZIndex="1">
             <!-- FWD image. Uniform -->
-            <Image x:Name="banner_main"
+            <Image x:Name="banner_background"
                    Source="/Assets/Images/config_image.webp"
-                   Height="225"
+                   Stretch="Fill"
+                   Height="315"
                    Width="Auto"
                    Panel.ZIndex="1"
                    VerticalAlignment="Top"
-                   Stretch="Uniform"></Image>
+                   RenderOptions.BitmapScalingMode="LowQuality">
+                <Image.Effect>
+                    <BlurEffect Radius="80" />
+                </Image.Effect>
+            </Image>
+            <Image x:Name="banner_main"
+                   Source="/Assets/Images/config_image.webp"
+                   Height="315"
+                   Width="Auto"
+                   Panel.ZIndex="1"
+                   VerticalAlignment="Top"
+                   Stretch="Uniform">
+                <Image.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0.5"
+                                         EndPoint="1,0.5">
+                        <GradientStop Color="Transparent"
+                                      Offset="0.0" />
+                        <GradientStop Color="Black"
+                                      Offset="0.08" />
+                        <GradientStop Color="Black"
+                                      Offset="0.92" />
+                        <GradientStop Color="Transparent"
+                                      Offset="1.0" />
+                    </LinearGradientBrush>
+                </Image.OpacityMask>
+            </Image>
         </Grid>
         <!--#region Current Version Selected -->
-        
         <StackPanel Orientation="Horizontal"
-                    Panel.ZIndex="20" >
+                    Panel.ZIndex="20">
             <Border  BorderBrush="{DynamicResource Accent}"
                      BorderThickness="0,0,0,1"
                      HorizontalAlignment="Left"
@@ -111,7 +136,7 @@
                          Panel.ZIndex="5"
                          Margin="0,0,0,0"
                          RenderOptions.EdgeMode="Aliased">
-                    <Polygon.Points>                        
+                    <Polygon.Points>
                         <Point X="-26"
                                Y="26" />
                         <Point X="-26"
@@ -129,7 +154,7 @@
                       Background="Transparent">
             <Grid x:Name="Header"
                   Panel.ZIndex="2">
-                <Grid Margin="0,225,0,0"
+                <Grid Margin="0,315,0,0"
                       Panel.ZIndex="3"
                       Background="{DynamicResource Secondary}">
                     <!-- All content goes in this Grid-->
