@@ -8,7 +8,6 @@
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
       xmlns:viewmodel="clr-namespace:Atlas.UI.ViewModel"
-      d:DataContext="{d:DesignInstance Type=viewmodel:GameViewModel}"
       mc:Ignorable="d"
       d:DesignHeight="720"
       d:DesignWidth="1280"
@@ -19,11 +18,12 @@
         <Grid Panel.ZIndex="1">
             <!-- FWD image. Uniform -->
             <Grid VerticalAlignment="Top">
-            <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
+            <Image x:Name="AnimatedBanner"
+                gif:AnimationBehavior.SourceUri=""
                    Stretch="Uniform"
                    Height="315"
                    gif:AnimationBehavior.RepeatBehavior="Forever"
-                   Panel.ZIndex="1" />
+                   Panel.ZIndex="5" />
             <Image x:Name="banner_background"
                    Stretch="Fill"
                    Height="315"
