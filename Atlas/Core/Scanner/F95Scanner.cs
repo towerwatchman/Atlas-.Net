@@ -73,7 +73,7 @@ namespace Atlas.Core
                                 //Now that we have a list of executables, we need to try and parse the engine, version, name etc..,
                                 game_path = t;
                                 string[] file_list = Walk(t);//This is the list we will use to determine the engine
-                                game_engine = Engine.FindEngine(file_list);
+                                game_engine = GameEngine.FindEngine(file_list);
                                 string[] game_data = Details.ParseDetails(t.Replace($"{path}\\", ""));
                                 if (format == "")
                                 {

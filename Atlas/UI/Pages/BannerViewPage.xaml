@@ -41,7 +41,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:GameViewModel}">
                     <StackPanel>
-                        <Grid Margin="4">                          
+                        <Grid Margin="4">                           
                             <custom:GameBanner x:Name="GameBannerItem" />
                         </Grid>
                     </StackPanel>

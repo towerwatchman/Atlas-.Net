@@ -11,16 +11,16 @@ namespace Atlas.Core
         public required string Title { get; set; }
         public required string Creator { get; set; }
         public required string Engine { get; set; }
-        public required List<GameVersion> Versions  { get; set; }
+        public required List<GameVersion> Versions { get; set; }
         public string Status { get; set; }
         public string Likes { get; set; }
         public string Favorites { get; set; }
         public string Views { get; set; }
         public string Category { get; set; }
         public string Overview { get; set; }
-        public string Os { get; set; }
+        public string OS { get; set; }
         public bool IsFavorite { get; set; }
-       public virtual BannerImage BannerImage { get; set; }
+        public virtual BannerImage BannerImage { get; set; }
         public string BannerPath { get; set; }
         public string SiteUrl { get; set; }
         public string[] Screens { get; set; }
@@ -36,7 +36,7 @@ namespace Atlas.Core
 
     public class GameDetails
     {
-        public string Id { get; set; }  
+        public string Id { get; set; }
         public required string Title { set; get; }
         public required string Creator { set; get; }
         public required string Engine { set; get; }

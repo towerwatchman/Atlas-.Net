@@ -1,5 +1,6 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Utilities;
+using Atlas.UI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,21 +23,20 @@ namespace Atlas.UI.Pages
     /// </summary>
     public partial class GameDetailPage : Page
     {
-        private Game CurrentGame { get; set; }
-        public GameDetailPage(Game game)
+        private GameViewModel CurrentGame { get; set; }
+        public GameDetailPage(GameViewModel game)
         {
             CurrentGame = game;
             InitializeComponent();
-            BuildGameDetail();
+            BuildGameDetailAsync();
             ShowVersions.Visibility = Visibility.Hidden;
         }
 
-        private void BuildGameDetail()
+        private async Task BuildGameDetailAsync()
         {
             if(CurrentGame != null)
             {
-                ImageInterface image = new ImageInterface();
-                var ImageData = image.LoadImage(CurrentGame.BannerPath, 1000, 250); //ImageInterface.LoadImage(CurrentGame.BannerPath, 1000);
+                var ImageData = await ImageInterface.LoadImage(CurrentGame.BannerPath, 1000, 250); //ImageInterface.LoadImage(CurrentGame.BannerPath, 1000);
                 banner_main.Source = ImageData;
                 banner_background.Source = ImageData;
                 GameTitle.Content = CurrentGame.Title;

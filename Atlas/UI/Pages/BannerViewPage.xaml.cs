@@ -1,5 +1,6 @@
 ﻿using Atlas.Core;
 using Atlas.UI;
+using Atlas.UI.ViewModel;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -66,15 +67,14 @@ namespace Atlas.UI.Pages
                     SetIsInViewport(child, false);
                     continue;
                 }
-                //Get the current Game object that is in view and list it
                 else
                 {
                     ListViewItem item = child as ListViewItem;
-                    if(item.Content != null && item.Content is Game)
+                    if (item.Content != null && item.Content is GameViewModel)
                     {
                         try
                         {
-                            Game game = (Game)item.Content;
+                            GameViewModel game = (GameViewModel)item.Content;
                             ItemsInView++;
                             //Logger.Info($"Title:{game.Title} ID:{game.RecordID}");
                         }
@@ -84,8 +84,10 @@ namespace Atlas.UI.Pages
                         }
 
                     }
-                    
+
                 }
+                //Get the current Game object that is in view and list it
+
 
                 GeneralTransform transform = child.TransformToAncestor(this);
                 Rect childBounds = transform.TransformBounds(new Rect(new Point(0, 0), child.RenderSize));

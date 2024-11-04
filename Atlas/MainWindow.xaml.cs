@@ -1,5 +1,6 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
+using Atlas.UI.ViewModel;
 using Atlas.Core.Network;
 using Castle.Core.Resource;
 using NLog;
@@ -73,7 +74,7 @@ namespace Atlas
 
         private void BannerView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            this.atlas_frame.Content = new GameDetailPage((Game)bvp.BannerView.SelectedItem);
+            this.atlas_frame.Content = new GameDetailPage((GameViewModel)bvp.BannerView.SelectedItem);
         }
 
         private void InitListView()
@@ -81,13 +82,16 @@ namespace Atlas
             //Reset the list
             this.GameListBox.ItemsSource = null;
             bvp.BannerView.ItemsSource = null;
-            bvp.BannerView.ItemsSource = ModelData.Games;
-            this.GameListBox.ItemsSource = ModelData.Games;
+            bvp.BannerView.ItemsSource = ModelData.GameCollection;
+            this.GameListBox.ItemsSource = ModelData.GameCollection;
 
             try
             {
-                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource);
-                view.Filter = UserFilter;
+                if (bvp.BannerView.Items.Count > 0)
+                {
+                    CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource);
+                    view.Filter = UserFilter;
+                }
                 // the code that's accessing UI properties
                 //sort items in lists
                 GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
@@ -247,100 +251,8 @@ namespace Atlas
 
             if (Item.Name.ToString() == "Refresh")
             {
-                //Keep user from pressing refresh more than once
-                if (isRefreshRunning == false)
-                {
-                    //Disable List box
-                    isRefreshRunning = true;
-                    //sort list by title
-                    List<Game> tempList = ModelData.Games.OrderBy(o => o.Title).ToList();
-                    //download images
-                    await Task.Run(async () =>
-                        {
-                            foreach (Game game in tempList)
-                            {
-                                //Try to run as many as we can
-
-                                try
-                                {
-                                    //Get Banner Path for database
-                                    //Logger.Info(game.Title);
-                                    string banner_path = SQLiteInterface.GetBannerPath(game.RecordID.ToString());
-                                    //check if banner already exist
-                                    if ((banner_path == string.Empty && game.AtlasID != "") || !File.Exists(banner_path))
-                                    {
-                                        //Run below in a new task
-                                        await Task.Run(async () =>
-                                        {
-                                            string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID);
-                                            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
-                                            byte[] ImageArray = null;
-
-                                            banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                            await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
-
-                                            /*if (Path.GetExtension(bannerUrl) == ".gif")
-                                            {
-                                                banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                                await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
-                                            }
-                                            else
-                                            {
-                                                banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
-                                                ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 200);
-                                            }*/
-
-                                            //Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
-
-
-                                            if (ImageArray != null)
-                                            {
-                                                //ConvertImage to webp
-                                                ImageInterface image = new ImageInterface();
-                                                banner_path = image.ConvertToWebpAsync(ImageArray, banner_path).Result;
-
-                                            }
-                                            //update banner table
-                                            if (banner_path != "")
-                                            {
-                                                SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
-
-                                                Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
-                                                ImageInterface image = new ImageInterface();
-                                                //Find Game in gamelist and set the banner to it
-                                                BitmapImage img = image.LoadImage(
-                                                            bannerUrl == "" ? "" : banner_path,
-                                                            Atlas.Core.Settings.Config.ImageRenderWidth,
-                                                            Atlas.Core.Settings.Config.ImageRenderHeight);
-
-                                                Game gameObj = ModelData.Games.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
-                                                var index = ModelData.Games.IndexOf(gameObj);
-                                                /*ModelData.Games[index].ImageData = img;*/
-                                                if (gameObj != null)
-                                                {
-                                                    Application.Current.Dispatcher.Invoke(() =>
-                                                    {
-                                                        bvp.BannerView.Items.Refresh();
-                                                    });
-                                                }
-                                            }
-
-                                            //Hack to free up memory
-                                            GC.Collect();
-                                            GC.WaitForPendingFinalizers();
-                                            //Set a default waiting period for downloading images
-                                            System.Threading.Thread.Sleep(200);
-                                        });
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    Logger.Error(ex.ToString());
-                                }
-                            }
-                        });
-                    isRefreshRunning = false;
-                }
+               
+                
             }
             if (Item.Name.ToString() == "Settings")
             {
@@ -474,7 +386,7 @@ namespace Atlas
             if (String.IsNullOrEmpty(AtlasSearchBox.Text) || AtlasSearchBox.Text == "Search Atlas")
                 return true;
             else
-                return ((item as Game).Title.IndexOf(AtlasSearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as GameViewModel).Title.IndexOf(AtlasSearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
         private void AtlasSearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -520,7 +432,7 @@ namespace Atlas
             else if (currentPage.Title == "GameDetailPage")
             {
                 this.atlas_frame.Content = null;
-                this.atlas_frame.Content = new GameDetailPage((Game)GameListBox.SelectedItem);
+                this.atlas_frame.Content = new GameDetailPage((GameViewModel)GameListBox.SelectedItem);
             }
         }
 

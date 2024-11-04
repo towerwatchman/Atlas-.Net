@@ -34,7 +34,8 @@ namespace Atlas
 
             //Fix context menu
             var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
-            Action setAlignmentValue = () => {
+            Action setAlignmentValue = () =>
+            {
                 if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
             };
             setAlignmentValue();
@@ -47,7 +48,8 @@ namespace Atlas
                     //Run all tasks prior to opening
                     await Init();
                     //Launch Main Window
-                    Application.Current.Dispatcher.Invoke((Action)delegate {
+                    Application.Current.Dispatcher.Invoke((Action)delegate
+                    {
                         LaunchMainWindow();
                     });
 
@@ -147,13 +149,13 @@ namespace Atlas
             {
                 try
                 {
-                    await Application.Current.Dispatcher.Invoke(async() => {
-                        // your code
+                    await Application.Current.Dispatcher.Invoke(async () =>
+                    {
                         ModelLoader loader = new ModelLoader();
                         await loader.CreateGamesList(Settings.Config.DefaultPage);
-                        ModelData.TotalGames = ModelData.Games.Count;
+                        ModelData.TotalGames = ModelData.GameCollection.Count;
                         int versions = 0;
-                        foreach (var modelData in ModelData.Games)
+                        foreach (var modelData in ModelData.GameCollection)
                         {
                             versions += modelData.Versions.Count;
                         }
@@ -162,7 +164,7 @@ namespace Atlas
                     //Load the entire GameList before binding it to the view
 
                     //Pass the default pageview
-                    
+
                 }
                 catch (Exception ex)
                 {

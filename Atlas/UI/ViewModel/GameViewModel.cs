@@ -1,63 +1,94 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Utilities;
+using NLog;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Atlas.UI.ViewModel
 {
-    public sealed class GameViewModel
+    public sealed class GameViewModel : INotifyPropertyChanged
     {
-        public GameViewModel(Game game) 
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public GameViewModel(Game game)
         {
-            _recordID = game.RecordID;
-            _title = game.Title;
-            _creator = game.Creator;
-            _engine = game.Engine;
-            _versions = game.Versions;
-            _status = game.Status;
-            _likes = game.Likes;
-            _favorites = game.Favorites;
-            _views = game.Views;
-            _category = game.Category;
-            _overview = game.Overview;
-            _os = game.Os;
-            _isFavorite = game.IsFavorite;
-            _bannerPath = game.BannerPath;
-            _siteUrl = game.SiteUrl;
-            _screens = game.Screens;
-            _tags = game.Tags;
+            RecordID = game.RecordID;
+            Title = game.Title;
+            Creator = game.Creator;
+            Engine = game.Engine;
+            Versions = game.Versions;
+            Status = game.Status;
+            Likes = game.Likes;
+            Favorites = game.Favorites;
+            Views = game.Views;
+            Category = game.Category;
+            Overview = game.Overview;
+            OS = game.OS;
+            IsFavorite = game.IsFavorite;
+            BannerPath = game.BannerPath;
+            SiteUrl = game.SiteUrl;
+            Screens = game.Screens;
+            Tags = game.Tags;
 
         }
-        public int _recordID { get; private set; }
-        public int _atlasID { get; private set; }
-        public int _f95_id { get; private set; }
-        public string _title { get; private set; }
-        public string _creator { get; private set; }
-        public string _engine { get; private set; }
-        public List<GameVersion> _versions { get; private set; }
-        public string _status { get; private set; }
-        public string _likes { get; private set; }
-        public string _favorites { get; private set; }
-        public string _views { get; private set; }
-        public string _category { get; private set; }
-        public string _overview { get; private set; }
-        public string _os { get; private set; }
-        public bool _isFavorite { get; private set; }
-        public string _bannerPath { get; private set; }
-        public string _siteUrl { get; private set; }
-        public string[] _screens { get; private set; }
-        public string _tags { get; private set; }
+        public int RecordID { get; private set; }
+        public int AtlasID { get; private set; }
+        public int F95ID { get; private set; }
+        public string Title { get; set; }
+        public string Creator { get; set; }
+        public string Engine { get; set; }
+        public List<GameVersion> Versions { get; set; }
+        public string Status { get; set; }
+        public string Likes { get; private set; }
+        public string Favorites { get; private set; }
+        public string Views { get; private set; }
+        public string Category { get; private set; }
+        public string Overview { get; private set; }
+        public string OS { get; private set; }
+        public bool IsFavorite { get; private set; }
+        public string BannerPath { get; private set; }
+        public string SiteUrl { get; private set; }
+        public string[] Screens { get; private set; }
+        public string Tags { get; private set; }
 
-        public BitmapImage BannerImage()
+        public BitmapSource BannerImage
         {
-            ImageInterface image = new ImageInterface();
-            return image.LoadImage(_bannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
+            get
+            {
+                //return _bannerImage;
+                Task.Run(async () =>
+                {
+                    ImageInterface image = new ImageInterface();
+                    BitmapImage bi = await ImageInterface.LoadImage(BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
+                    bi.Freeze();
+
+                    Application.Current.Dispatcher.Invoke(() => 
+                    {
+                        _bannerImage = bi; 
+                    });
+                    Logger.Warn(Title);
+                    OnPropertyChanged("BannerImage");
+
+                });
+                return _bannerImage;
+            }
         }
-        BitmapImage _bannerImage;
+
+        BitmapSource _bannerImage;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Logger.Warn("Property Changed");
+        }
     }
 }

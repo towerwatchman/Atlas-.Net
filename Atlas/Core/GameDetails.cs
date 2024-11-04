@@ -82,7 +82,7 @@ public static class Executable
     }*/
 }
 
-public static class Engine
+public static class GameEngine
 {
     //implement later
     public static string FindEngine(string[] file_list)

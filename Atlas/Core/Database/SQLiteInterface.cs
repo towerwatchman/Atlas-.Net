@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using Atlas.Core.Utilities;
 using Atlas.UI;
+using Atlas.UI.ViewModel;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
 using NLog;
@@ -477,7 +478,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
 
         public static async Task<Task> BuildGameListDetails()
         {
-            ObservableCollection<Game> Games = new ObservableCollection<Game>();
+            ObservableCollection<GameViewModel> GameCollection = new ObservableCollection<GameViewModel>();
 
             //this will need to be modified for more data in the future
             string query = @"SELECT 
@@ -534,7 +535,7 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                                 ImageData = image.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)*/
                             };
 
-                            Games.Add(game);
+                            GameCollection.Add(new GameViewModel(game));
                         }
                         catch (Exception ex)
                         {
@@ -546,7 +547,7 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                 }
             }
 
-            ModelData.Games = Games;
+            ModelData.GameCollection = GameCollection;
 
             return Task.CompletedTask;
         }

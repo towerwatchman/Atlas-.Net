@@ -57,7 +57,7 @@
         <!-- Text for Layout-->
         <TextBlock VerticalAlignment="Bottom"
                    HorizontalAlignment="Center"
-                   Text="{Binding Title}"
+                   Text="{Binding _title}"
                    Foreground="White"
                    Margin="3,3,3,3"
                    Padding="2"
@@ -72,7 +72,7 @@
             </TextBlock.Effect></TextBlock>
         <TextBox VerticalAlignment="Bottom"
                  HorizontalAlignment="Left"
-                 Text="{Binding Engine}"
+                 Text="{Binding _engine}"
                  Foreground="White"
                  Margin="3,3,3,3"
                  Padding="2"
@@ -88,7 +88,7 @@
         </TextBox>
         <TextBox VerticalAlignment="Top"
                  HorizontalAlignment="Left"
-                 Text="{Binding Creator}"
+                 Text="{Binding _creator}"
                  Foreground="White"
                  Margin="3,3,3,3"
                  Padding="2"
@@ -106,7 +106,7 @@
                  BorderThickness="0" />-->
         <TextBox VerticalAlignment="Bottom"
                  HorizontalAlignment="Right"
-                 Text="{Binding Status}"
+                 Text="{Binding _status}"
                  Foreground="White"
                  Margin="3,3,3,3"
                  Padding="2"

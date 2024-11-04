@@ -13,13 +13,14 @@ using System.Windows.Media;
 using NLog;
 using SixLabors.ImageSharp.Formats.Webp;
 using Image = SixLabors.ImageSharp.Image;
+using System.Windows.Shapes;
 
 namespace Atlas.Core.Utilities
 {
     public class ImageInterface
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public BitmapImage LoadImage(string path, double width, double height = 0)
+        public BitmapImage LoadImages(string path, double width, double height = 0)
         {
             var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
 
@@ -38,8 +39,8 @@ namespace Atlas.Core.Utilities
                     bitmapImage.BeginInit();
                     bitmapImage.UriSource = uri;
                     bitmapImage.DecodePixelWidth = (int)width;
-                    bitmapImage.CacheOption = BitmapCacheOption.OnDemand;
-                    bitmapImage.CreateOptions = BitmapCreateOptions.DelayCreation;
+                    bitmapImage.CacheOption = BitmapCacheOption.Default;
+                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
                     bitmapImage.EndInit();
                     bitmapImage.Freeze();
                     return bitmapImage;//bi;
@@ -73,6 +74,40 @@ namespace Atlas.Core.Utilities
             catch (Exception ex) { Logger.Error(ex); }
 
             return path;
+        }
+
+        public static async Task<BitmapImage> LoadImage(string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
+        {
+            var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
+
+            //Check if path is empty or if the file exist
+            if (bannerPath == "" || !File.Exists(bannerPath))
+            {
+                return image;
+            }
+            else
+            {
+                try
+                {
+
+                    var uri = new Uri(bannerPath);
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.UriSource = uri;
+                    bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
+                    bitmapImage.CacheOption = BitmapCacheOption.Default;
+                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+                    return bitmapImage;//bi;
+
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex.Message);
+                    return image;
+                }
+            }
         }
     }
 }
