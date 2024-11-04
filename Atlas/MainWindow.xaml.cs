@@ -102,7 +102,7 @@ namespace Atlas
             catch (Exception ex) { Logger.Error(ex); }
         }
 
-        #region Banner Left Click
+        #region Banner Right Click
         private void BannerView_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (bvp.BannerView.ItemsSource != null && bvp.BannerView.Items.Count > 0)
@@ -251,8 +251,101 @@ namespace Atlas
 
             if (Item.Name.ToString() == "Refresh")
             {
-               
-                
+                //Keep user from pressing refresh more than once
+
+                if (isRefreshRunning == false)
+                {
+                    //Disable List box
+                    isRefreshRunning = true;
+                    //sort list by title
+                    var tempList = ModelData.GameCollection.OrderBy(o => o.Title);
+                    //download images
+                    await Task.Run(async () =>
+                    {
+                        foreach (GameViewModel game in tempList)
+                        {
+                            //Try to run as many as we can
+
+                            try
+                            {
+                                //Get Banner Path for database
+                                //Logger.Info(game.Title);
+                                string banner_path = SQLiteInterface.GetBannerPath(game.RecordID.ToString());
+                                //check if banner already exist
+                                if ((banner_path == string.Empty && game.AtlasID > -1) || !File.Exists(banner_path))
+                                {
+                                    //Run below in a new task
+                                    await Task.Run(async () =>
+                                    {
+                                        string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID.ToString());
+                                        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
+                                        byte[] ImageArray = null;
+
+                                        banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+
+                                        /*if (Path.GetExtension(bannerUrl) == ".gif")
+                                        {
+                                            banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                            await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+                                        }
+                                        else
+                                        {
+                                            banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
+                                            ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 200);
+                                        }*/
+
+                                        //Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
+
+
+                                        if (ImageArray != null)
+                                        {
+                                            //ConvertImage to webp
+                                            ImageInterface image = new ImageInterface();
+                                            banner_path = image.ConvertToWebpAsync(ImageArray, banner_path).Result;
+
+                                        }
+                                        //update banner table
+                                        if (banner_path != "")
+                                        {
+                                            SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
+
+                                            Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
+                                            //Find Game in gamelist and set the banner to it
+                                            BitmapImage img = await ImageInterface.LoadImage(game.RecordID,
+                                                        bannerUrl == "" ? "" : banner_path,
+                                                        Atlas.Core.Settings.Config.ImageRenderWidth,
+                                                        Atlas.Core.Settings.Config.ImageRenderHeight);
+                                            //Freeze Image so it can update main UI thread
+                                            img.Freeze();
+
+                                            GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
+                                            var index = ModelData.GameCollection.IndexOf(gameObj);
+                                            
+                                            if (gameObj != null)
+                                            {
+                                                ModelData.GameCollection[index].BannerImage = img;
+                                                ModelData.GameCollection[index].BannerPath = banner_path;
+                                                gameObj.OnPropertyChanged("BannerImage");
+                                            }
+                                        }
+
+                                        //Hack to free up memory
+                                        GC.Collect();
+                                        GC.WaitForPendingFinalizers();
+                                        //Set a default waiting period for downloading images
+                                        System.Threading.Thread.Sleep(200);
+                                    });
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex.ToString());
+                            }
+                        }
+                    });
+                    isRefreshRunning = false;
+                }
             }
             if (Item.Name.ToString() == "Settings")
             {

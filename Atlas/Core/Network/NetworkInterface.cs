@@ -179,6 +179,10 @@ namespace Atlas.Core.Network
                     }
                 }
             }
+            else
+            {
+                Logger.Warn("Unable to get a valid image URL");
+            }
 
             //If we need to give the downloader a delay, this will help. 
             System.Threading.Thread.Sleep(delay);

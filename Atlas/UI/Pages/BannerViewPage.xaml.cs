@@ -33,7 +33,7 @@ namespace Atlas.UI.Pages
     public sealed class MyScrollViewer : ScrollViewer
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public static int ItemsInView {  get; set; }
+        public static int ItemsInView { get; set; }
         public static readonly DependencyProperty IsInViewportProperty =
             DependencyProperty.RegisterAttached("IsInViewport", typeof(bool), typeof(MyScrollViewer));
 
@@ -74,7 +74,7 @@ namespace Atlas.UI.Pages
                     {
                         try
                         {
-                            GameViewModel game = (GameViewModel)item.Content;
+                            //GameViewModel game = (GameViewModel)item.Content;
                             ItemsInView++;
                             //Logger.Info($"Title:{game.Title} ID:{game.RecordID}");
                         }

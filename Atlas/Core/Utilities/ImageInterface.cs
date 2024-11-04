@@ -20,6 +20,7 @@ namespace Atlas.Core.Utilities
     public class ImageInterface
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public BitmapImage LoadImages(string path, double width, double height = 0)
         {
             var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
@@ -76,38 +77,42 @@ namespace Atlas.Core.Utilities
             return path;
         }
 
-        public static async Task<BitmapImage> LoadImage(string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
+        public static async Task<BitmapImage> LoadImage(int id, string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
         {
-            var image = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/default.jpg"));
+            //Logger.Warn($"Getting image for id: {id}");
+            //try to get image from cache
 
-            //Check if path is empty or if the file exist
-            if (bannerPath == "" || !File.Exists(bannerPath))
+            Uri uri = new Uri("pack://application:,,,/Assets/Images/default.jpg");
+
+            try
             {
-                return image;
+                if (File.Exists(bannerPath))
+                {
+                    uri = new Uri(bannerPath);
+                }
+
+                BitmapImage bitmapImage;
+
+
+                bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = uri;
+                bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
+                bitmapImage.CacheOption = BitmapCacheOption.Default;
+                bitmapImage.CreateOptions = BitmapCreateOptions.None;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                //Logger.Warn(id);
+
+
+                return bitmapImage;//bi;
             }
-            else
+            catch (Exception ex)
             {
-                try
-                {
-
-                    var uri = new Uri(bannerPath);
-                    BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.UriSource = uri;
-                    bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
-                    bitmapImage.CacheOption = BitmapCacheOption.Default;
-                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                    bitmapImage.EndInit();
-                    bitmapImage.Freeze();
-                    return bitmapImage;//bi;
-
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex.Message);
-                    return image;
-                }
+                Logger.Error(ex.Message);
+                return null;
             }
+
         }
     }
 }

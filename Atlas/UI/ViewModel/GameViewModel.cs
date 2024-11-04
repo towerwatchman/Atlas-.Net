@@ -21,6 +21,8 @@ namespace Atlas.UI.ViewModel
         public GameViewModel(Game game)
         {
             RecordID = game.RecordID;
+            AtlasID = game.AtlasID;
+            F95ID = game.F95ID;
             Title = game.Title;
             Creator = game.Creator;
             Engine = game.Engine;
@@ -54,7 +56,8 @@ namespace Atlas.UI.ViewModel
         public string Overview { get; private set; }
         public string OS { get; private set; }
         public bool IsFavorite { get; private set; }
-        public string BannerPath { get; private set; }
+        public string BannerPath { get; set; }
+        public string ImageUriAnimated { get; set; }
         public string SiteUrl { get; private set; }
         public string[] Screens { get; private set; }
         public string Tags { get; private set; }
@@ -66,29 +69,38 @@ namespace Atlas.UI.ViewModel
                 //return _bannerImage;
                 Task.Run(async () =>
                 {
-                    ImageInterface image = new ImageInterface();
-                    BitmapImage bi = await ImageInterface.LoadImage(BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
+                    BitmapImage bi = await ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
                     bi.Freeze();
 
-                    Application.Current.Dispatcher.Invoke(() => 
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        _bannerImage = bi; 
+                        _bannerImage = bi;
+                        if (!BannersInView.Contains(RecordID))
+                        {
+                            OnPropertyChanged("BannerImage");
+                            Logger.Warn($"Loading Image for id: {RecordID}");
+                        }
+                        BannersInView.Add(RecordID);
                     });
-                    Logger.Warn(Title);
-                    OnPropertyChanged("BannerImage");
+                    //Logger.Warn(Title);
+
 
                 });
                 return _bannerImage;
             }
+            set { _bannerImage = value; }
         }
 
         BitmapSource _bannerImage;
 
+        public static List<int> BannersInView = new List<int>();
+
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
+        public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             Logger.Warn("Property Changed");
+
         }
     }
 }

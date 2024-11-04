@@ -517,9 +517,9 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                             ImageInterface image = new ImageInterface();
                             Game game = new Game
                             {
-                                AtlasID = reader["atlas_id"].ToString(),
+                                AtlasID = reader["atlas_id"] == DBNull.Value ? -1 : Convert.ToInt32(reader["atlas_id"]),
                                 RecordID = Convert.ToInt32(reader["record_id"].ToString()),
-                                F95ID = reader["f95_id"].ToString(),
+                                F95ID = reader["f95_id"] == DBNull.Value ? -1 : Convert.ToInt32(reader["f95_id"]),
                                 Title = reader["title"].ToString(),
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),

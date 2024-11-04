@@ -182,7 +182,7 @@ namespace Atlas.Core.Database
 				);",
                 @"CREATE TABLE IF NOT EXISTS banners
 				(
-					record_id REFERENCES games (record_id),
+					record_id REFERENCES games (record_id) UNIQUE PRIMARY KEY,
 					path TEXT UNIQUE,
 					type INTEGER,
 					UNIQUE (record_id, path, type)

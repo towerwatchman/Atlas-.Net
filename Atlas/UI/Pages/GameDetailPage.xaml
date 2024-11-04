@@ -6,6 +6,9 @@
       xmlns:local="clr-namespace:Atlas.UI.Pages"
       xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+      xmlns:viewmodel="clr-namespace:Atlas.UI.ViewModel"
+      d:DataContext="{d:DesignInstance Type=viewmodel:GameViewModel}"
       mc:Ignorable="d"
       d:DesignHeight="720"
       d:DesignWidth="1280"
@@ -15,25 +18,28 @@
         <!-- Set Images. There are a total of 4 to get the effect-->
         <Grid Panel.ZIndex="1">
             <!-- FWD image. Uniform -->
+            <Grid VerticalAlignment="Top">
+            <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
+                   Stretch="Uniform"
+                   Height="315"
+                   gif:AnimationBehavior.RepeatBehavior="Forever"
+                   Panel.ZIndex="1" />
             <Image x:Name="banner_background"
-                   Source="/Assets/Images/config_image.webp"
                    Stretch="Fill"
                    Height="315"
                    Width="Auto"
                    Panel.ZIndex="1"
-                   VerticalAlignment="Top"
+                   
                    RenderOptions.BitmapScalingMode="LowQuality">
                 <Image.Effect>
                     <BlurEffect Radius="80" />
                 </Image.Effect>
             </Image>
             <Image x:Name="banner_main"
-                   Source="/Assets/Images/config_image.webp"
                    Height="315"
                    Width="Auto"
                    Panel.ZIndex="1"
-                   VerticalAlignment="Top"
-                   Stretch="Uniform">
+                  >
                 <Image.OpacityMask>
                     <LinearGradientBrush StartPoint="0,0.5"
                                          EndPoint="1,0.5">
@@ -48,6 +54,7 @@
                     </LinearGradientBrush>
                 </Image.OpacityMask>
             </Image>
+            </Grid>
         </Grid>
         <!--#region Current Version Selected -->
         <StackPanel Orientation="Horizontal"
