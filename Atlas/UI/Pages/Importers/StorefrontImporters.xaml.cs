@@ -18,9 +18,9 @@ namespace Atlas.UI.Pages.Importers
     /// <summary>
     /// Interaction logic for Steam.xaml
     /// </summary>
-    public partial class Steam : Page
+    public partial class Storefront : Page
     {
-        public Steam()
+        public Storefront()
         {
             InitializeComponent();
         }

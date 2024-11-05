@@ -62,7 +62,7 @@ namespace Atlas
 
             InterfaceHelper.BannerView = bvp.BannerView;
 
-            //initalize the BannerView
+            //Initalize the BannerView
             InitListView();
 
             //Assign Left click event to BannerView
@@ -442,13 +442,13 @@ namespace Atlas
                 }
             });
 
-            await Application.Current.Dispatcher.Invoke(async () =>
+            /*await Application.Current.Dispatcher.Invoke(async () =>
             {
                 // your code
                 ModelLoader loader = new ModelLoader();
                 await loader.CreateGamesList(Atlas.Core.Settings.Config.DefaultPage);
                 InitListView();
-            });
+            });*/
         }
 
         private void AtlasSearchBox_MouseEnter(object sender, MouseEventArgs e)
