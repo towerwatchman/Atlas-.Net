@@ -69,7 +69,7 @@ namespace Atlas.UI.ViewModel
                 //return _bannerImage;
                 Task.Run(async () =>
                 {
-                    BitmapImage bi = await ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
+                    BitmapSource bi = await ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
                     bi.Freeze();
                     if (!BannersInView.Contains(RecordID))
                     {

@@ -79,51 +79,50 @@ namespace Atlas.Core.Utilities
             return path;
         }
 
-        public static async Task<BitmapImage> LoadImage(int id, string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
+        public static async Task<BitmapSource> LoadImage(int id, string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
         {
             //Logger.Warn($"Getting image for id: {id}");
             //try to get image from cache
-           
-            BitmapImage bitmapImage;
-            Uri uri = new Uri("pack://application:,,,/Assets/Images/default.jpg");
-            if (!_cache.TryGetValue(id, out bitmapImage))
+
+            //BitmapImage bitmapImage;
+            //Uri uri = new Uri("pack://application:,,,/Assets/Images/default.jpg");
+            string path = "";// "pack://application:,,,/Assets/Images/default.jpg";
+
+            try
             {
-               
+                Logger.Debug($"loading imge from disk {id}");
+                if (File.Exists(bannerPath))
+                {
+                    path = bannerPath;
+                }
+
+                byte[] image = System.IO.File.ReadAllBytes(path);
+
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                //bitmapImage.UriSource = uri;
+                bitmapImage.StreamSource = new MemoryStream(image);
+                bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
+                bitmapImage.CacheOption = BitmapCacheOption.Default;
+                bitmapImage.CreateOptions = BitmapCreateOptions.None;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                return bitmapImage;
+                //Logger.Warn(id);
                 try
                 {
-                    Logger.Debug($"loading imge from disk {id}");
-                    if (File.Exists(bannerPath))
-                    {
-                        uri = new Uri(bannerPath);
-                    }
+                    _cache.Add(id, bitmapImage);
+                }
+                catch (Exception ex) { Logger.Error(ex); }
 
-                    bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.UriSource = uri;
-                    bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
-                    bitmapImage.CacheOption = BitmapCacheOption.Default;
-                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                    bitmapImage.EndInit();
-                    bitmapImage.Freeze();
-                    //Logger.Warn(id);
-                    try
-                    {
-                        _cache.Add(id, bitmapImage);
-                    }
-                    catch(Exception ex) { Logger.Error(ex); }   
-                    
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex.Message);
-                    return null;
-                }
             }
-            else
+            catch (Exception ex)
             {
-                Logger.Warn($"Loading image from cache {id}");
+                Logger.Error(ex.Message);
+                return new BitmapImage();
             }
-            return bitmapImage;//bi;
+
+            //bi;
         }
     }
 }

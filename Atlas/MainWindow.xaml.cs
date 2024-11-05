@@ -312,7 +312,7 @@ namespace Atlas
 
                                             Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
                                             //Find Game in gamelist and set the banner to it
-                                            BitmapImage img = await ImageInterface.LoadImage(game.RecordID,
+                                            BitmapSource img = await ImageInterface.LoadImage(game.RecordID,
                                                         bannerUrl == "" ? "" : banner_path,
                                                         Atlas.Core.Settings.Config.ImageRenderWidth,
                                                         Atlas.Core.Settings.Config.ImageRenderHeight);
