@@ -80,8 +80,6 @@ namespace Atlas.UI.ViewModel
                     }
                     BannersInView.Add(RecordID);
                     //Logger.Warn(Title);
-
-
                 });
                 return _bannerImage;
             }

@@ -19,6 +19,8 @@ namespace Atlas.Core.Utilities
 {
     public class ImageInterface
     {
+        public static Dictionary<int, BitmapImage> _cache = new Dictionary<int, BitmapImage>();
+
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public BitmapImage LoadImages(string path, double width, double height = 0)
@@ -81,38 +83,47 @@ namespace Atlas.Core.Utilities
         {
             //Logger.Warn($"Getting image for id: {id}");
             //try to get image from cache
-
+           
+            BitmapImage bitmapImage;
             Uri uri = new Uri("pack://application:,,,/Assets/Images/default.jpg");
-
-            try
+            if (!_cache.TryGetValue(id, out bitmapImage))
             {
-                if (File.Exists(bannerPath))
+               
+                try
                 {
-                    uri = new Uri(bannerPath);
+                    Logger.Debug($"loading imge from disk {id}");
+                    if (File.Exists(bannerPath))
+                    {
+                        uri = new Uri(bannerPath);
+                    }
+
+                    bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.UriSource = uri;
+                    bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
+                    bitmapImage.CacheOption = BitmapCacheOption.Default;
+                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+                    //Logger.Warn(id);
+                    try
+                    {
+                        _cache.Add(id, bitmapImage);
+                    }
+                    catch(Exception ex) { Logger.Error(ex); }   
+                    
                 }
-
-                BitmapImage bitmapImage;
-
-
-                bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = uri;
-                bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
-                bitmapImage.CacheOption = BitmapCacheOption.Default;
-                bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                bitmapImage.EndInit();
-                bitmapImage.Freeze();
-                //Logger.Warn(id);
-
-
-                return bitmapImage;//bi;
+                catch (Exception ex)
+                {
+                    Logger.Error(ex.Message);
+                    return null;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Logger.Error(ex.Message);
-                return null;
+                Logger.Warn($"Loading image from cache {id}");
             }
-
+            return bitmapImage;//bi;
         }
     }
 }

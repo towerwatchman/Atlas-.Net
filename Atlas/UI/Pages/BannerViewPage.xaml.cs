@@ -49,35 +49,51 @@ namespace Atlas.UI.Pages
 
         protected override void OnScrollChanged(ScrollChangedEventArgs e)
         {
-            /*ItemsInView = 0;
+            ItemsInView = 0;
             base.OnScrollChanged(e);
 
-            UIElementCollection UiElements = (Content as Panel).Children;
-
-            if (UiElements == null)
+            var panel = Content as Panel;
+            if (panel == null)
             {
                 return;
             }
 
             Rect viewport = new Rect(new Point(0, 0), RenderSize);
 
-            Task.Run(() =>
+            foreach (UIElement child in panel.Children)
             {
-                foreach (UIElement child in UiElements)
+                if (!child.IsVisible)
                 {
-                    if (!child.IsVisible)
-                    {
-                        SetIsInViewport(child, false);
-                        continue;
-                    }
-                    //Get the current Game object that is in view and list it
-
-                    GeneralTransform transform = child.TransformToAncestor(this);
-                    Rect childBounds = transform.TransformBounds(new Rect(new Point(0, 0), child.RenderSize));
-                    SetIsInViewport(child, viewport.IntersectsWith(childBounds));
+                    SetIsInViewport(child, false);
+                    continue;
                 }
-            });*/
-            //Logger.Warn($"Total Items in View: {ItemsInView}");
+                else
+                {
+                    ListViewItem item = child as ListViewItem;
+                    if (item.Content != null && item.Content is GameViewModel)
+                    {
+                        try
+                        {
+                            GameViewModel game = (GameViewModel)item.Content;
+                            ItemsInView++;
+                            Logger.Info($"Title:{game.Title} ID:{game.RecordID}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Warn(ex);
+                        }
+
+                    }
+
+                }
+                //Get the current Game object that is in view and list it
+
+
+                GeneralTransform transform = child.TransformToAncestor(this);
+                Rect childBounds = transform.TransformBounds(new Rect(new Point(0, 0), child.RenderSize));
+                SetIsInViewport(child, viewport.IntersectsWith(childBounds));
+            }
+            Logger.Warn($"Total Items in View: {ItemsInView}");
         }
     }
 }
