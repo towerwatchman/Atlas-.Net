@@ -150,8 +150,7 @@
                                                       Width="200"
                                                       SelectedIndex="0"
                                                       SelectionChanged="ImportSourceComboBox_SelectionChanged">
-                                                <ComboBoxItem  Content="Custom" />
-                                                <ComboBoxItem  Content="Steam" />
+                                                <ComboBoxItem  Content="VN &amp; H Games" />
                                                 <ComboBoxItem  Content="Roms" />
                                             </ComboBox>
                                             <Label Content="Please select the ..."

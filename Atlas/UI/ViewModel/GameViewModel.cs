@@ -71,17 +71,14 @@ namespace Atlas.UI.ViewModel
                 {
                     BitmapImage bi = await ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
                     bi.Freeze();
-
-                    Application.Current.Dispatcher.Invoke(() =>
+                    if (!BannersInView.Contains(RecordID))
                     {
                         _bannerImage = bi;
-                        if (!BannersInView.Contains(RecordID))
-                        {
-                            OnPropertyChanged("BannerImage");
-                            Logger.Warn($"Loading Image for id: {RecordID}");
-                        }
-                        BannersInView.Add(RecordID);
-                    });
+                        
+                        OnPropertyChanged("BannerImage");
+                        //Logger.Warn($"Loading Image for id: {RecordID}");
+                    }
+                    BannersInView.Add(RecordID);
                     //Logger.Warn(Title);
 
 
@@ -99,8 +96,7 @@ namespace Atlas.UI.ViewModel
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Logger.Warn("Property Changed");
-
+            //Logger.Warn("Property Changed");
         }
     }
 }

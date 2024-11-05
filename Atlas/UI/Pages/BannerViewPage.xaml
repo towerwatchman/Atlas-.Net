@@ -24,32 +24,19 @@
                   VirtualizingPanel.VirtualizationMode="Recycling">
             <ListView.Template>
                 <ControlTemplate>
-                    <my:MyScrollViewer CanContentScroll="True"
-                                       Focusable="False"
-                                       HorizontalScrollBarVisibility="Auto"
-                                       VerticalScrollBarVisibility="Auto"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Stretch"
-                                       Background="{DynamicResource Primary}">
-                        <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}"
-                                                   VirtualizingPanel.IsVirtualizing="True"
-                                                   VirtualizingPanel.VirtualizationMode="Recycling"
-                                                   IsItemsHost="True" />
-                    </my:MyScrollViewer>
+                    <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}"
+                                               VirtualizingPanel.IsVirtualizing="True"
+                                               VirtualizingPanel.VirtualizationMode="Recycling"
+                                               IsItemsHost="True" />
                 </ControlTemplate>
             </ListView.Template>
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:GameViewModel}">
                     <StackPanel>
-                        <Grid Margin="4">                           
+                        <Grid Margin="4">
                             <custom:GameBanner x:Name="GameBannerItem" />
                         </Grid>
                     </StackPanel>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Path=(my:MyScrollViewer.IsInViewport), RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
-                                     Value="True">
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>

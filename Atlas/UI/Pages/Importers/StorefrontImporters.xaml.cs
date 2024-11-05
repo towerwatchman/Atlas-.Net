@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Atlas.UI.Pages.Importers
 {
     /// <summary>
-    /// Interaction logic for Steam.xaml
+    /// Interaction logic for Storefront.xaml
     /// </summary>
     public partial class Storefront : Page
     {

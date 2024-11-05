@@ -32,7 +32,7 @@ namespace Atlas.UI.Windows
 
         #region Importers
         Pages.Importers.Custom customImporter = new Pages.Importers.Custom();
-        Pages.Importers.Steam steamImporter = new Pages.Importers.Steam();
+        Pages.Importers.Storefront steamImporter = new Pages.Importers.Storefront();
 
         #endregion
 
