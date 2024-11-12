@@ -42,18 +42,18 @@
                 <DataTemplate DataType="{x:Type vm:GameViewModel}">
                     <StackPanel>
                         <Grid Margin="4">
-                            <Image x:Name="BannerImage"/>
+                           <!-- <Image x:Name="BannerImage"/>-->
                             <custom:GameBanner x:Name="GameBannerItem" />
                         </Grid>
                     </StackPanel>
-                    <DataTemplate.Triggers>
+                     <!--<DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Path=(my:MyScrollViewer.IsInViewport), RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
                                      Value="True">
-                            <Setter TargetName="BannerImage"
+                           <Setter TargetName="BannerImage"
                                     Property="Source"
                                     Value="{Binding BannerImage}" />
                         </DataTrigger>
-                    </DataTemplate.Triggers>
+                    </DataTemplate.Triggers>-->
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>

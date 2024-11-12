@@ -75,7 +75,7 @@ namespace Atlas.UI.ViewModel
                     {
                         _bannerImage = bi;
                         
-                        OnPropertyChanged("BannerImage");
+                        //OnPropertyChanged("BannerImage");
                         //Logger.Warn($"Loading Image for id: {RecordID}");
                     }
                     BannersInView.Add(RecordID);
@@ -94,7 +94,7 @@ namespace Atlas.UI.ViewModel
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            //Logger.Warn("Property Changed");
+            Logger.Warn("Property Changed");
         }
     }
 }

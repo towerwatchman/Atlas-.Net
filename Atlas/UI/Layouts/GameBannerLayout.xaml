@@ -6,11 +6,111 @@
              xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
              xmlns:local="clr-namespace:Atlas.UI"
              mc:Ignorable="d"
-             Height="{DynamicResource bannerY}"
-             Width="{DynamicResource bannerX}"
+             d:DesignHeight="{DynamicResource bannerY}"
+             d:DesignWidth="{DynamicResource bannerX}"
+             MaxHeight="{DynamicResource bannerY}"
+             MaxWidth="{DynamicResource bannerX}"
              BorderThickness="1"
              BorderBrush="Black">
-    <Grid Margin="0">
-
+    <Grid>
+        <!-- Layout is backwards. Topmost item is at the back-->
+        <!--<Image Source="{Binding ImageData}" Stretch="Fill" RenderOptions.BitmapScalingMode="LowQuality" Height="{DynamicResource bannerY}">
+            <Image.Effect>
+                <BlurEffect Radius="20"/>
+            </Image.Effect>
+        </Image>
+         This will only work for images that are not wide enough. Will need to add another option 
+        <Image Source="{Binding ImageData}"
+               Stretch="Uniform"
+               RenderOptions.BitmapScalingMode="HighQuality"
+               Height="{DynamicResource bannerY}">
+            <Image.OpacityMask>
+                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                    <GradientStop Color="Transparent" Offset="0.0"/>
+                    <GradientStop Color="Black" Offset="0.08"/>
+                    <GradientStop Color="Black" Offset="0.92"/>
+                    <GradientStop Color="Transparent" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Image.OpacityMask>
+        </Image>-->
+        <Image Source="{Binding BannerImage}"
+               Stretch="Uniform"
+               RenderOptions.BitmapScalingMode="HighQuality"
+               Height="{DynamicResource bannerY}" />
+        <!--<Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
+               Stretch="Uniform"
+               Height="{DynamicResource bannerY}"
+               gif:AnimationBehavior.RepeatBehavior="Forever" />-->
+        <Grid VerticalAlignment="Top"
+              x:Name="OverlayTop"
+              Height="{DynamicResource overlayTopH}"
+              Width="{DynamicResource bannerX}"
+              Background="{DynamicResource overlayTopColor}"
+              Opacity="{DynamicResource overlayOpacity}" />
+        <Grid VerticalAlignment="Bottom"
+              x:Name="OverlayBottom"
+              Height="{DynamicResource overlayBottomH}"
+              Width="{DynamicResource bannerX}"
+              Background="{DynamicResource overlayTopColor}"
+              Opacity="{DynamicResource overlayOpacity}" />
+        <!-- Text for Layout-->
+        <TextBlock VerticalAlignment="Bottom"
+                   HorizontalAlignment="Center"
+                   Text="{Binding Title}"
+                   Foreground="White"
+                   Margin="3,3,3,3"
+                   Padding="2"
+                   Background="Transparent"
+                   FontSize="14">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="1"
+                                  Direction="330"
+                                  Color="Black"
+                                  Opacity=".8"
+                                  BlurRadius="1" />
+            </TextBlock.Effect></TextBlock>
+        <TextBox VerticalAlignment="Bottom"
+                 HorizontalAlignment="Left"
+                 Text="{Binding Engine}"
+                 Foreground="White"
+                 Margin="3,3,3,3"
+                 Padding="2"
+                 Background="Transparent"
+                 FontSize="12"
+                 BorderThickness="0">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius"
+                            Value="3" />
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <TextBox VerticalAlignment="Top"
+                 HorizontalAlignment="Left"
+                 Text="{Binding Creator}"
+                 Foreground="White"
+                 Margin="3,3,3,3"
+                 Padding="2"
+                 Background="Transparent"
+                 FontSize="12"
+                 BorderThickness="0" />
+        <!--<TextBox VerticalAlignment="Top"
+                 HorizontalAlignment="Right"
+                 Text="{Binding Version}"
+                 Foreground="White"
+                 Margin="3,3,3,3"
+                 Padding="2"
+                 Background="Transparent"
+                 FontSize="12"
+                 BorderThickness="0" />-->
+        <TextBox VerticalAlignment="Bottom"
+                 HorizontalAlignment="Right"
+                 Text="{Binding Status}"
+                 Foreground="White"
+                 Margin="3,3,3,3"
+                 Padding="2"
+                 Background="Transparent"
+                 FontSize="12"
+                 BorderThickness="0" />
     </Grid>
 </UserControl>

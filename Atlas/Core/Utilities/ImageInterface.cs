@@ -90,30 +90,43 @@ namespace Atlas.Core.Utilities
 
             try
             {
-                Logger.Debug($"loading imge from disk {id}");
+                
                 if (File.Exists(bannerPath))
                 {
                     path = bannerPath;
                 }
-
-                byte[] image = System.IO.File.ReadAllBytes(path);
-
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                //bitmapImage.UriSource = uri;
-                bitmapImage.StreamSource = new MemoryStream(image);
-                bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
-                bitmapImage.CacheOption = BitmapCacheOption.Default;
-                bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                bitmapImage.EndInit();
-                bitmapImage.Freeze();
-                return bitmapImage;
-                //Logger.Warn(id);
-                try
+                BitmapImage bitmapImage;
+                if (!_cache.TryGetValue(id, out bitmapImage))
                 {
-                    _cache.Add(id, bitmapImage);
+                    Logger.Debug($"loading imge from disk {id}");
+
+                    byte[] image = System.IO.File.ReadAllBytes(path);
+
+                    bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    //bitmapImage.UriSource = uri;
+                    bitmapImage.StreamSource = new MemoryStream(image);
+                    bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
+                    bitmapImage.CacheOption = BitmapCacheOption.Default;
+                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+                    //Logger.Warn(id);
+                    try
+                    {
+                        _cache.Add(id, bitmapImage);
+                        
+                    }
+                    catch (Exception ex) { Logger.Error(ex); }
+
+
+                    return bitmapImage;
                 }
-                catch (Exception ex) { Logger.Error(ex); }
+                else
+                {
+                    Logger.Info("Loading from cache");
+                    return bitmapImage;
+                }
 
             }
             catch (Exception ex)
