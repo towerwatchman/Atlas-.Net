@@ -87,6 +87,7 @@ namespace Atlas.Core.Utilities
             //BitmapImage bitmapImage;
             //Uri uri = new Uri("pack://application:,,,/Assets/Images/default.jpg");
             string path = "";// "pack://application:,,,/Assets/Images/default.jpg";
+            
 
             try
             {
@@ -95,12 +96,18 @@ namespace Atlas.Core.Utilities
                 {
                     path = bannerPath;
                 }
+                else
+                {
+                    return null;
+                }
+
+                
                 BitmapImage bitmapImage;
                 if (!_cache.TryGetValue(id, out bitmapImage))
                 {
-                    Logger.Debug($"loading imge from disk {id}");
+                    Logger.Debug($"Loading Image from disk for: {id}");
 
-                    byte[] image = System.IO.File.ReadAllBytes(path);
+                    byte[] image =  System.IO.File.ReadAllBytes(path);
 
                     bitmapImage = new BitmapImage();
                     bitmapImage.BeginInit();
@@ -132,10 +139,8 @@ namespace Atlas.Core.Utilities
             catch (Exception ex)
             {
                 Logger.Error(ex.Message);
-                return new BitmapImage();
+                return null;
             }
-
-            //bi;
         }
     }
 }

@@ -87,7 +87,7 @@
     <Resource Include="Assets\Icons\rating_icon.svg" />
     <Resource Include="Assets\Icons\settings.svg" />
     <Resource Include="Assets\Images\config_image.webp" />
-    <Resource Include="Assets\Images\default.jpg" />
+    <EmbeddedResource Include="Assets\Images\default.jpg" />
   </ItemGroup>
 
   <ItemGroup>

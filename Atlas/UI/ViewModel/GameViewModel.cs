@@ -66,21 +66,24 @@ namespace Atlas.UI.ViewModel
         {
             get
             {
-                //return _bannerImage;
-                Task.Run(async () =>
+                if (!BannersInView.Contains(RecordID))
                 {
-                    BitmapSource bi = await ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
-                    bi.Freeze();
-                    if (!BannersInView.Contains(RecordID))
-                    {
-                        _bannerImage = bi;
-                        
-                        //OnPropertyChanged("BannerImage");
-                        //Logger.Warn($"Loading Image for id: {RecordID}");
-                    }
                     BannersInView.Add(RecordID);
-                    //Logger.Warn(Title);
-                });
+                    //return _bannerImage;
+                    Task.Run(async () =>
+                    {
+                        BitmapSource bi = await ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
+
+                        if(bi != null)
+                        {
+                            bi.Freeze();
+                            _bannerImage = bi;
+                            OnPropertyChanged("BannerImage");
+                            Logger.Warn($"Loaded Image for id: {RecordID}");
+                            //Logger.Warn(Title);
+                        }
+                    });
+                }
                 return _bannerImage;
             }
             set { _bannerImage = value; }
@@ -94,7 +97,7 @@ namespace Atlas.UI.ViewModel
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Logger.Warn("Property Changed");
+            Logger.Warn($"Property Changed: {propertyName}");
         }
     }
 }
