@@ -70,18 +70,22 @@ namespace Atlas.UI.ViewModel
                 {
                     BannersInView.Add(RecordID);
                     //return _bannerImage;
-                    Task.Run(async () =>
+                    Task.Run(() =>
                     {
-                        BitmapSource bi = await ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
+                        BitmapSource bi = ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
 
                         if(bi != null)
                         {
                             bi.Freeze();
                             _bannerImage = bi;
+                            //System.Threading.Thread.Sleep(10);
                             OnPropertyChanged("BannerImage");
-                            Logger.Warn($"Loaded Image for id: {RecordID}");
+                            //Logger.Warn($"Loaded Image for id: {RecordID}");
                             //Logger.Warn(Title);
+                            
                         }
+                        
+                        return _bannerImage;
                     });
                 }
                 return _bannerImage;

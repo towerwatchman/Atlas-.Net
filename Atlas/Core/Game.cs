@@ -31,7 +31,7 @@ namespace Atlas.Core
     public class BannerImage
     {
         public int id { get; set; }
-        public BitmapImage BitmapImage { get; set; }
+        public byte[] BitmapImage { get; set; }
     }
 
     public class GameDetails

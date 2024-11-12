@@ -21,7 +21,8 @@
                   HorizontalAlignment="Stretch"
                   ScrollViewer.CanContentScroll="True"
                   VirtualizingPanel.ScrollUnit="Pixel"
-                  VirtualizingPanel.VirtualizationMode="Recycling">
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  MaxHeight="10000">
             <ListView.Template>
                 <ControlTemplate>
                     <my:MyScrollViewer CanContentScroll="True"
@@ -34,18 +35,18 @@
                         <vwp:VirtualizingWrapPanel Background="{StaticResource Tertiary}"
                                                    VirtualizingPanel.IsVirtualizing="True"
                                                    VirtualizingPanel.VirtualizationMode="Recycling"
-                                                   IsItemsHost="True" />
+                                                   IsItemsHost="True"/>
                     </my:MyScrollViewer>
                 </ControlTemplate>
             </ListView.Template>
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:GameViewModel}">
-                    <StackPanel>
+                    <VirtualizingStackPanel>
                         <Grid Margin="4">
                            <!-- <Image x:Name="BannerImage"/>-->
                             <custom:GameBanner x:Name="GameBannerItem" />
                         </Grid>
-                    </StackPanel>
+                    </VirtualizingStackPanel>
                      <!--<DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Path=(my:MyScrollViewer.IsInViewport), RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
                                      Value="True">

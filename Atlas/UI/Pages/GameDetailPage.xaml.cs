@@ -41,7 +41,7 @@ namespace Atlas.UI.Pages
             if (CurrentGame != null)
             {
 
-                BitmapSource ImageData = await ImageInterface.LoadImage(CurrentGame.RecordID, CurrentGame.BannerPath, 1000, 250);
+                BitmapSource ImageData = ImageInterface.LoadImage(CurrentGame.RecordID, CurrentGame.BannerPath, 1000, 250);
                 ImageData.Freeze();
                 if(System.IO.Path.GetExtension(CurrentGame.BannerPath) == ".gif")
                 {

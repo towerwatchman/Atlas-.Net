@@ -42,9 +42,24 @@ namespace Atlas.UI.Pages
             return (bool)element.GetValue(IsInViewportProperty);
         }
 
-        public static void SetIsInViewport(UIElement element, bool value)
+        public static void SetIsInViewport(UIElement element, bool value, GameViewModel game)
         {
+            if(value == false)
+            {
+
+            }
             element.SetValue(IsInViewportProperty, value);
+            if (game != null)
+            {
+                GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
+                var index = ModelData.GameCollection.IndexOf(gameObj);
+
+                if (gameObj != null)
+                {
+                    ModelData.GameCollection[index].BannerImage = null;
+                    
+                }
+            }
         }
 
         protected override void OnScrollChanged(ScrollChangedEventArgs e)
@@ -62,21 +77,24 @@ namespace Atlas.UI.Pages
 
             foreach (UIElement child in panel.Children)
             {
+                ListViewItem item = child as ListViewItem;
+                if(item.Content is GameViewModel) { 
+                GameViewModel game = (GameViewModel)item.Content;
+
                 if (!child.IsVisible)
                 {
-                    SetIsInViewport(child, false);
+                    SetIsInViewport(child, false, game );
                     continue;
                 }
                 else
                 {
-                    ListViewItem item = child as ListViewItem;
-                    if (item.Content != null && item.Content is GameViewModel)
+                    if (item.Content != null)
                     {
                         try
                         {
-                            GameViewModel game = (GameViewModel)item.Content;
+                            
                             ItemsInView++;
-                            Logger.Info($"Title:{game.Title} ID:{game.RecordID}");
+                           // Logger.Info($"Title:{game.Title} ID:{game.RecordID}");
                         }
                         catch (Exception ex)
                         {
@@ -86,12 +104,13 @@ namespace Atlas.UI.Pages
                     }
 
                 }
+                }
                 //Get the current Game object that is in view and list it
 
 
                 GeneralTransform transform = child.TransformToAncestor(this);
                 Rect childBounds = transform.TransformBounds(new Rect(new Point(0, 0), child.RenderSize));
-                SetIsInViewport(child, viewport.IntersectsWith(childBounds));
+                SetIsInViewport(child, viewport.IntersectsWith(childBounds), null);
             }
             Logger.Warn($"Total Items in View: {ItemsInView}");
         }

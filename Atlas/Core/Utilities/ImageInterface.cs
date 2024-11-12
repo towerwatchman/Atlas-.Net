@@ -79,7 +79,7 @@ namespace Atlas.Core.Utilities
             return path;
         }
 
-        public static async Task<BitmapSource> LoadImage(int id, string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
+        public static BitmapSource LoadImage(int id, string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
         {
             //Logger.Warn($"Getting image for id: {id}");
             //try to get image from cache
@@ -121,7 +121,7 @@ namespace Atlas.Core.Utilities
                     //Logger.Warn(id);
                     try
                     {
-                        _cache.Add(id, bitmapImage);
+                        //_cache.Add(id, bitmapImage);
                         
                     }
                     catch (Exception ex) { Logger.Error(ex); }

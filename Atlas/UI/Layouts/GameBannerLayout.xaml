@@ -33,9 +33,8 @@
                 </LinearGradientBrush>
             </Image.OpacityMask>
         </Image>-->
-        <Image Source="{Binding BannerImage}"
+        <Image Source="{Binding BannerImage, IsAsync=True}"
                Stretch="Uniform"
-               RenderOptions.BitmapScalingMode="HighQuality"
                Height="{DynamicResource bannerY}" />
         <!--<Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
                Stretch="Uniform"
