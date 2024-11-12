@@ -281,10 +281,10 @@ namespace Atlas
                                         Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
                                         byte[] ImageArray = null;
 
-                                        banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+                                        /*banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);*/
 
-                                        /*if (Path.GetExtension(bannerUrl) == ".gif")
+                                        if (Path.GetExtension(bannerUrl) == ".gif")
                                         {
                                             banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
                                             await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
@@ -293,7 +293,7 @@ namespace Atlas
                                         {
                                             banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
                                             ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 200);
-                                        }*/
+                                        }
 
                                         //Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
 
