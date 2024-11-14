@@ -14,6 +14,7 @@ using NLog;
 using SixLabors.ImageSharp.Formats.Webp;
 using Image = SixLabors.ImageSharp.Image;
 using System.Windows.Shapes;
+using SixLabors.ImageSharp.Processing;
 
 namespace Atlas.Core.Utilities
 {
@@ -58,6 +59,34 @@ namespace Atlas.Core.Utilities
         }
 
         public async Task<string> ConvertToWebpAsync(byte[] imageArray, string imagePath)
+        {
+            string path = "";
+            try
+            {
+                using var inStream = new MemoryStream(imageArray);
+
+                using (Image image = await Image.LoadAsync(inStream))
+                {
+
+                    int width = 1080;
+
+                    image.Mutate(x => x.Resize(width, (width / image.Width) * image.Height, KnownResamplers.Lanczos3));
+
+                    using var outStream = new MemoryStream();
+
+                    await image.SaveAsync(outStream, new WebpEncoder());
+
+
+                    await image.SaveAsWebpAsync($"{imagePath}.webp");
+                    path = $"{imagePath}.webp";
+                }
+            }
+            catch (Exception ex) { Logger.Error(ex); }
+
+            return path;
+        }
+
+        public async Task<string> CreateThumb(byte[] imageArray, string imagePath)
         {
             string path = "";
             try
