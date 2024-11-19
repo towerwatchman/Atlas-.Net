@@ -41,7 +41,9 @@
             </ListView.Template>
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:GameViewModel}">
-                    <VirtualizingStackPanel>
+                    <VirtualizingStackPanel Orientation="Vertical"
+                        VirtualizingStackPanel.IsVirtualizing="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling">
                         <Grid Margin="4">
                            <!-- <Image x:Name="BannerImage"/>-->
                             <custom:GameBanner x:Name="GameBannerItem" />

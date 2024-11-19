@@ -103,7 +103,7 @@ namespace Atlas.UI.Pages
                 SetIsInViewport(child, viewport.IntersectsWith(childBounds), null);
             }
 
-            foreach(int id in previousItemsInView)
+            /*foreach(int id in previousItemsInView)
             {
                 GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == id).FirstOrDefault();
                 var index = ModelData.GameCollection.IndexOf(gameObj);
@@ -114,7 +114,7 @@ namespace Atlas.UI.Pages
                     ModelData.GameCollection[index].BannerImage = null;
 
                 }
-            }
+            }*/
             previousItemsInView = ItemsInView;
             Logger.Warn($"Total Items in View: {ItemsInView.Count}");
         }
