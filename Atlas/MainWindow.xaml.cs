@@ -51,7 +51,7 @@ namespace Atlas
 
             InterfaceHelper.BannerView = bvp.BannerView;
 
-            //Initalize the BannerView
+            //Initalize the BannerViews
             InitListView();
 
             //Assign Left click event to BannerView
@@ -59,6 +59,9 @@ namespace Atlas
 
             //Hide clear text
             ClearSearchBox.Visibility = Visibility.Hidden;
+
+            //Set First time setup as complete
+            Atlas.Core.Settings.Config.FTS = true;
         }
 
         private void BannerView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
