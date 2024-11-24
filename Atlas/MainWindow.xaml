@@ -15,7 +15,8 @@
         FontSize="13"
         Background="Transparent"
         AllowsTransparency="True"
-        MouseDown="Window_MouseDown">
+        MouseDown="Window_MouseDown"
+        StateChanged="Window_StateChanged">
     <Grid>
         <DockPanel LastChildFill="True">
             <!--region Footer-->

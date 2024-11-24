@@ -166,10 +166,10 @@ namespace Atlas
             {
                 //this.AllowsTransparency = false;
                 //WindowState = WindowState.Maximized;
-                this.BorderThickness = new System.Windows.Thickness(7);
+                //this.BorderThickness = new System.Windows.Thickness(7);
                 //WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Maximized;
-                WindowStyle = WindowStyle.None;
+                //WindowStyle = WindowStyle.None;
             }
             else
             {
@@ -555,6 +555,15 @@ namespace Atlas
         {
             AtlasSearchBox.Text = "Search Atlas";
             ClearSearchBox.Visibility = Visibility.Hidden;
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            //check for min or max.
+            if (WindowState == WindowState.Maximized)
+            {
+                this.BorderThickness = new System.Windows.Thickness(7);
+            }           
         }
 
         //Show context menu for adding games
