@@ -108,7 +108,7 @@
                 </Grid>
                 <!--#endregion-->
                 <!--#region  Top Navigation-->
-                <Grid Panel.ZIndex="5"
+                <Grid Panel.ZIndex="50"
                       BitmapEffect="{DynamicResource BottomShadowEffect}"
                       Background="{DynamicResource Primary}"
                       Grid.Column="1">
@@ -271,7 +271,7 @@
                 </Grid>
                 <!--#endregion-->
                 <!--#region Left Navigation-->
-                <Grid Panel.ZIndex="2"
+                <Grid Panel.ZIndex="50"
                       Background="{DynamicResource Primary}"
                       BitmapEffect="{DynamicResource RightShadowEffect}"
                       Grid.Row="1">
@@ -343,7 +343,7 @@
                     <Grid x:Name="RecordView"
                           Background="{DynamicResource Canvas}"
                           Visibility="Visible"
-                          Panel.ZIndex="1">
+                          Panel.ZIndex="30">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="1*" />
