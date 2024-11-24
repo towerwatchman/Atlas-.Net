@@ -100,7 +100,7 @@ namespace Atlas
             if (bvp.BannerView.ItemsSource != null && bvp.BannerView.Items.Count > 0)
             {
 
-                Game game = bvp.BannerView.SelectedItem as Game;
+                GameViewModel game = bvp.BannerView.SelectedItem as GameViewModel;
                 if (game != null)
                 {
                     bvp.cmGame.Visibility = Visibility.Visible;
