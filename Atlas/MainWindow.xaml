@@ -9,6 +9,8 @@
         Title="MainWindow"
         Height="720"
         Width="1370"
+        MinWidth="1000"
+        MinHeight="500"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -211,8 +213,7 @@
                                 BorderBrush="Transparent"
                                 BorderThickness="1"
                                 Height="40"
-                                Width="400"
-                                Margin="450,0">
+                                Width="400">
                             <StackPanel Background="{DynamicResource Secondary}"
                                         HorizontalAlignment="Stretch"
                                         Height="40"
