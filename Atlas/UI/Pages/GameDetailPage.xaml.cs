@@ -18,11 +18,11 @@ namespace Atlas.UI.Pages
         {
             CurrentGame = game;
             InitializeComponent();
-            BuildGameDetailAsync();
+            BuildGameDetail();
             ShowVersions.Visibility = Visibility.Hidden;
         }
 
-        private async Task BuildGameDetailAsync()
+        private void BuildGameDetail()
         {
             if (CurrentGame != null)
             {
