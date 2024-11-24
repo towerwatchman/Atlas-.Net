@@ -1,31 +1,20 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
+using Atlas.Core.Utilities;
+using Atlas.UI;
+using Atlas.UI.Pages;
 using Atlas.UI.ViewModel;
-using Atlas.Core.Network;
-using Castle.Core.Resource;
+using Atlas.UI.Windows;
 using NLog;
-using SharpVectors.Dom.Css;
-using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Net.NetworkInformation;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.IO;
-using Atlas.UI;
-using System.Windows.Threading;
-using System.Net.Cache;
-using System.Drawing;
-using System.Windows.Interop;
-using System.Drawing.Imaging;
-using Atlas.Core.Utilities;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
-using Atlas.UI.Pages;
-using Atlas.UI.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Atlas
 {
@@ -321,7 +310,7 @@ namespace Atlas
 
                                             GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
                                             var index = ModelData.GameCollection.IndexOf(gameObj);
-                                            
+
                                             if (gameObj != null)
                                             {
                                                 ModelData.GameCollection[index].BannerImage = img;
@@ -348,11 +337,11 @@ namespace Atlas
             }
             if (Item.Name.ToString() == "Settings")
             {
-                if(!settingsWindow.IsVisible)
+                if (!settingsWindow.IsVisible)
                 {
                     settingsWindow.Show();
                 }
-                
+
             }
         }
         #region Game ListView Visibility

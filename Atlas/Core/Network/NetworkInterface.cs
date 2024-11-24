@@ -1,27 +1,16 @@
 ﻿using Atlas.UI;
 using Newtonsoft.Json.Linq;
 using NLog;
-using SixLabors.ImageSharp.Formats.Webp;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security.Policy;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace Atlas.Core.Network
 {
     public class NetworkInterface
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private static readonly HttpClient _httpClient = new HttpClient();       
+        private static readonly HttpClient _httpClient = new HttpClient();
 
         private static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
@@ -33,7 +22,7 @@ namespace Atlas.Core.Network
                     Logger.Info(InterfaceHelper.LauncherProgressBar.Value);
                 }));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Warn(ex);
             }
@@ -146,7 +135,7 @@ namespace Atlas.Core.Network
             {
             }
 
-            
+
             return task;
             //await _httpClient.
             //byte[] fileBytes = await _httpClient.GetByteArrayAsync(uri);

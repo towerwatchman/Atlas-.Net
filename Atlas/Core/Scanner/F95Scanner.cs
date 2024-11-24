@@ -1,9 +1,9 @@
-﻿using Atlas.UI;
-using Atlas.Core.Database;
+﻿using Atlas.Core.Database;
+using Atlas.UI;
+using NLog;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
-using NLog;
 
 namespace Atlas.Core
 {

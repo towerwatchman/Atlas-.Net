@@ -1,22 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.IO;
-using System.Reflection;
-using System.Reflection.PortableExecutable;
-using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
-using System.Windows.Media.Imaging;
-using Atlas.Core.Utilities;
+﻿using Atlas.Core.Utilities;
 using Atlas.UI;
 using Atlas.UI.ViewModel;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
 using NLog;
-using NLog.LayoutRenderers;
-using static NLog.LayoutRenderers.Wrappers.ReplaceLayoutRendererWrapper;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Atlas.Core.Database
 {
@@ -523,7 +514,7 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                                 Title = reader["title"].ToString(),
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
-                                Views =reader["views"].ToString(),
+                                Views = reader["views"].ToString(),
                                 Likes = reader["likes"].ToString(),
                                 Tags = reader["tags"].ToString(),
                                 BannerPath = reader["image_path"].ToString(),
@@ -581,7 +572,7 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                                 Versions = null,
                                 ImageUriAnimated = null,
                                 /*ImageData = image.LoadImage("", Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight),*/
-                            };       
+                            };
                             data.Add(game);
                         }
                         catch (Exception ex)
@@ -595,7 +586,7 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
             }
             await Task.Run(() =>
             {
-                foreach (var game in data.OrderBy(o=>o.Title).ToList()) 
+                foreach (var game in data.OrderBy(o => o.Title).ToList())
                 {
                     ImageInterface image = new ImageInterface();
 

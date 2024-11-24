@@ -1,11 +1,8 @@
-﻿using Atlas.Core;
-using Atlas.UI;
-using Atlas.UI.ViewModel;
+﻿using Atlas.UI.ViewModel;
 using NLog;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Atlas.UI.Pages
 
@@ -102,7 +99,7 @@ namespace Atlas.UI.Pages
 
                     if (gameObj != null)
                     {
-                        Logger.Warn($"Removing image for id: {id}");                        
+                        Logger.Warn($"Removing image for id: {id}");
                         ModelData.GameCollection[index].BannerImage = null;
                     }
                 }

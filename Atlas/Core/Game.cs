@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Media.Imaging;
 
 namespace Atlas.Core
 {

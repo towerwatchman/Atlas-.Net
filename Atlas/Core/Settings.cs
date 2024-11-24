@@ -8,7 +8,7 @@ namespace Atlas.Core
         public static SettingInterface Config;
 
         public static void Init()
-        { 
+        {
             //Add link to config
             Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "config.ini")).Build();
             //Set all inital values here. 

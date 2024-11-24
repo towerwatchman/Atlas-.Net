@@ -1,13 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Data.Common;
 using System.IO;
-using System.Transactions;
-using System.Windows.Controls.Primitives;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Xml;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Atlas.Core.Database
 {
@@ -35,11 +27,11 @@ namespace Atlas.Core.Database
 
                             var recordsAffected = updateCommand.ExecuteNonQuery();
                         }
-                            // Update succeeded. Commit savepoint and continue with the transaction
-                            transaction.Release("Migrations Update");
+                        // Update succeeded. Commit savepoint and continue with the transaction
+                        transaction.Release("Migrations Update");
 
-                            updated = true;
-                      
+                        updated = true;
+
                     }
                     while (!updated);
 

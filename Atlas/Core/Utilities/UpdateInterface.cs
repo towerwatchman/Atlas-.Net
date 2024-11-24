@@ -1,15 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using Atlas.UI;
-using System.Web;
-using SQLitePCL;
-using Atlas.Core.Database;
-using System.Security.Cryptography.X509Certificates;
+﻿using Atlas.UI;
+using Newtonsoft.Json.Linq;
 
 namespace Atlas.Core.Utilities
 {
@@ -17,7 +7,7 @@ namespace Atlas.Core.Utilities
     {
         public static bool UpdateCompleted = false;
         public static async Task<Task> ParseUpdate(string data)
-        {            
+        {
             JObject dataObj = JObject.Parse(data);
             InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
             {
@@ -48,7 +38,7 @@ namespace Atlas.Core.Utilities
 
             UpdateCompleted = true;
             return Task.CompletedTask;
-        }      
+        }
 
     }
 }

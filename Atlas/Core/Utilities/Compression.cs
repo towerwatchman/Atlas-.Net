@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
-using K4os.Compression.LZ4;
-using K4os.Compression.LZ4.Streams;
+﻿using K4os.Compression.LZ4.Streams;
 using NLog;
+using System.IO;
 
 namespace Atlas.Core.Utilities
 {
@@ -28,7 +20,7 @@ namespace Atlas.Core.Utilities
                 data = System.Text.Encoding.Default.GetString(decoded);
                 //File.WriteAllText(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "test.txt"), data);
             }
-            catch(Exception ex) { Logger.Error(ex); }
+            catch (Exception ex) { Logger.Error(ex); }
 
             return data;
         }

@@ -1,17 +1,8 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Utilities;
 using NLog;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace Atlas.UI.ViewModel
 {
@@ -74,7 +65,7 @@ namespace Atlas.UI.ViewModel
                     {
                         BitmapSource bi = ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
 
-                        if(bi != null)
+                        if (bi != null)
                         {
                             bi.Freeze();
                             _bannerImage = bi;
@@ -82,9 +73,9 @@ namespace Atlas.UI.ViewModel
                             OnPropertyChanged("BannerImage");
                             //Logger.Warn($"Loaded Image for id: {RecordID}");
                             //Logger.Warn(Title);
-                            
+
                         }
-                        
+
                         return _bannerImage;
                     });
                 }

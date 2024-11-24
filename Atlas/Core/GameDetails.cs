@@ -29,7 +29,7 @@ public static class Executable
         "credits.html",
         "LICENSES.chromium.html",
         "Uninstall.exe",
-        "CONFIG_dl.exe"];    
+        "CONFIG_dl.exe"];
 
     public static List<string> DetectExecutable(string[] files, string[] extensions)
     {

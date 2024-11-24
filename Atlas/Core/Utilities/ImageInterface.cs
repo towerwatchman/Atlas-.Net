@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+﻿using NLog;
 using SixLabors.ImageSharp;
-using System.Collections;
-using System.Windows.Media;
-using NLog;
 using SixLabors.ImageSharp.Formats.Webp;
-using Image = SixLabors.ImageSharp.Image;
-using System.Windows.Shapes;
 using SixLabors.ImageSharp.Processing;
+using System.IO;
+using System.Windows.Media.Imaging;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace Atlas.Core.Utilities
 {
@@ -116,11 +106,11 @@ namespace Atlas.Core.Utilities
             //BitmapImage bitmapImage;
             //Uri uri = new Uri("pack://application:,,,/Assets/Images/default.jpg");
             string path = "";// "pack://application:,,,/Assets/Images/default.jpg";
-            
+
 
             try
             {
-                
+
                 if (File.Exists(bannerPath))
                 {
                     path = bannerPath;
@@ -130,13 +120,13 @@ namespace Atlas.Core.Utilities
                     return null;
                 }
 
-                
+
                 BitmapImage bitmapImage;
                 if (!_cache.TryGetValue(id, out bitmapImage))
                 {
                     Logger.Debug($"Loading Image from disk for: {id}");
 
-                    byte[] image =  System.IO.File.ReadAllBytes(path);
+                    byte[] image = System.IO.File.ReadAllBytes(path);
 
                     bitmapImage = new BitmapImage();
                     bitmapImage.BeginInit();
@@ -151,7 +141,7 @@ namespace Atlas.Core.Utilities
                     try
                     {
                         //_cache.Add(id, bitmapImage);
-                        
+
                     }
                     catch (Exception ex) { Logger.Error(ex); }
 

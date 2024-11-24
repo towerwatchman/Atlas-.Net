@@ -1,22 +1,8 @@
-﻿using ABI.System;
-using Atlas.Core;
-using Atlas.Core.Utilities;
+﻿using Atlas.Core.Utilities;
 using Atlas.UI.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using XamlAnimatedGif;
 
 namespace Atlas.UI.Pages
@@ -43,14 +29,14 @@ namespace Atlas.UI.Pages
 
                 BitmapSource ImageData = ImageInterface.LoadImage(CurrentGame.RecordID, CurrentGame.BannerPath, 1000, 250);
                 ImageData.Freeze();
-                if(System.IO.Path.GetExtension(CurrentGame.BannerPath) == ".gif")
+                if (System.IO.Path.GetExtension(CurrentGame.BannerPath) == ".gif")
                 {
-                    AnimationBehavior.SetSourceUri(AnimatedBanner , new System.Uri(CurrentGame.BannerPath));
+                    AnimationBehavior.SetSourceUri(AnimatedBanner, new System.Uri(CurrentGame.BannerPath));
                 }
                 else
                 {
                     banner_main.Source = ImageData;
-                    
+
                 }
                 banner_background.Source = ImageData;
 

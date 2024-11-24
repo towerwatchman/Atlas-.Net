@@ -3,13 +3,11 @@ using Atlas.Core.Database;
 using Atlas.Core.Network;
 using Atlas.Core.Utilities;
 using Atlas.UI;
-using Config.Net;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System.IO;
 using System.Reflection;
 using System.Windows;
-using static System.Net.WebRequestMethods;
 
 namespace Atlas
 {
