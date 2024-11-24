@@ -555,6 +555,7 @@ namespace Atlas
         {
             AtlasSearchBox.Text = "Search Atlas";
             ClearSearchBox.Visibility = Visibility.Hidden;
+            CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource).Refresh();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
