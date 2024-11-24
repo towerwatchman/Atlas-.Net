@@ -66,7 +66,7 @@ namespace Atlas.UI.ViewModel
         {
             get
             {
-                if (!BannersInView.Contains(RecordID))
+                if (!BannersInView.Contains(RecordID) || _bannerImage == null)
                 {
                     BannersInView.Add(RecordID);
                     //return _bannerImage;

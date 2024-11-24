@@ -306,7 +306,7 @@ namespace Atlas
 
                                         }
                                         //update banner table
-                                        if (banner_path != "")
+                                        if (File.Exists(banner_path))
                                         {
                                             SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
 
