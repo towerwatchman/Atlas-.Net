@@ -112,7 +112,6 @@ namespace Atlas.UI.Pages
             //previousItemsInView = ItemsInView;
             GC.WaitForPendingFinalizers();
             GC.Collect();
-
         }
     }
 }
