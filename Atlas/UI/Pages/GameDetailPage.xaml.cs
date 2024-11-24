@@ -26,29 +26,23 @@ namespace Atlas.UI.Pages
         {
             if (CurrentGame != null)
             {
-
                 BitmapSource ImageData = ImageInterface.LoadImage(CurrentGame.RecordID, CurrentGame.BannerPath, 1000, 250);
-                ImageData.Freeze();
-                if (System.IO.Path.GetExtension(CurrentGame.BannerPath) == ".gif")
+                if (ImageData != null)
                 {
-                    AnimationBehavior.SetSourceUri(AnimatedBanner, new System.Uri(CurrentGame.BannerPath));
+                    ImageData.Freeze();
+                    if (System.IO.Path.GetExtension(CurrentGame.BannerPath) == ".gif")
+                    {
+                        AnimationBehavior.SetSourceUri(AnimatedBanner, new System.Uri(CurrentGame.BannerPath));
+                    }
+                    else
+                    {
+                        banner_main.Source = ImageData;
+
+                    }
+                    banner_background.Source = ImageData;
                 }
-                else
-                {
-                    banner_main.Source = ImageData;
-
-                }
-                banner_background.Source = ImageData;
-
-
-
-
-
-
                 GameTitle.Content = CurrentGame.Title;
-                //banner_left.Source = ImageData;
-                //banner_right.Source = ImageData;
-                //banner_background.Source = ImageData;
+
                 CurrentVersion.Content = $"{CurrentGame.Versions[0].Version}";
                 if (CurrentGame.Versions.Count > 1)
                 {
