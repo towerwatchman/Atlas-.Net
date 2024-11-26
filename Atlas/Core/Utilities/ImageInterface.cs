@@ -59,9 +59,18 @@ namespace Atlas.Core.Utilities
                 using (Image image = await Image.LoadAsync(inStream))
                 {
 
-                    int width = 1080;
+                    double width = 1080;
 
-                    image.Mutate(x => x.Resize(width, (width / image.Width) * image.Height, KnownResamplers.Lanczos3));
+                    if (image.Width > image.Height)
+                    {
+                        double height = (width / image.Width) * image.Height;
+                        image.Mutate(x => x.Resize(Convert.ToInt32(width), Convert.ToInt32(height) , KnownResamplers.Lanczos3));
+                    }
+                    else
+                    {
+                        double _width = (width / image.Height) * image.Width;
+                        image.Mutate(x => x.Resize(Convert.ToInt32(_width), Convert.ToInt32(width), KnownResamplers.Lanczos3));
+                    }
 
                     using var outStream = new MemoryStream();
 

@@ -273,8 +273,8 @@ namespace Atlas
                                         Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
                                         byte[] ImageArray = null;
 
-                                        /*banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);*/
+                                        banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
 
                                         if (Path.GetExtension(bannerUrl) == ".gif")
                                         {
