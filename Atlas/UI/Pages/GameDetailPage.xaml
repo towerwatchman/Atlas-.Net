@@ -17,19 +17,18 @@
         <!-- Set Images. There are a total of 4 to get the effect-->
         <Grid Panel.ZIndex="1">
             <!-- FWD image. Uniform -->
-            <Grid VerticalAlignment="Top">
+            <Grid VerticalAlignment="Top" ClipToBounds="True">
             <Image x:Name="AnimatedBanner"
                 gif:AnimationBehavior.SourceUri=""
                    Stretch="Uniform"
                    Height="315"
                    gif:AnimationBehavior.RepeatBehavior="Forever"
-                   Panel.ZIndex="5" />
+                   Panel.ZIndex="2" />
             <Image x:Name="banner_background"
                    Stretch="Fill"
                    Height="315"
                    Width="Auto"
-                   Panel.ZIndex="1"
-                   
+                   Panel.ZIndex="0"                   
                    RenderOptions.BitmapScalingMode="LowQuality">
                 <Image.Effect>
                     <BlurEffect Radius="80" />
@@ -58,7 +57,7 @@
         </Grid>
         <!--#region Current Version Selected -->
         <StackPanel Orientation="Horizontal"
-                    Panel.ZIndex="20">
+                    Panel.ZIndex="6">
             <Border  BorderBrush="{DynamicResource Accent}"
                      BorderThickness="0,0,0,1"
                      HorizontalAlignment="Left"

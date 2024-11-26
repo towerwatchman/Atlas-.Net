@@ -25,6 +25,7 @@ namespace Atlas.Core
         public string[] Screens { get; set; }
         public required Uri ImageUriAnimated { get; set; }
         public string Tags { get; set; }
+        public string Collection { get; set; }
     }
 
     public class BannerImage

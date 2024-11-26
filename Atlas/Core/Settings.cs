@@ -23,15 +23,12 @@ namespace Atlas.Core
 
             //APP
             Config.Theme = Config.Theme == null ? "Dark.xaml" : Config.Theme;
+            Config.ShowListView = Config.FTS != true ? true : Config.ShowListView;
 
             //IMPORTER
             Config.FolderStructure = Config.FolderStructure == null ? @"{Creator}\{Title}\{Version}" : Config.FolderStructure;
-
             Config.ImageRenderHeight = Config.ImageRenderHeight == 0 ? 251 : Config.ImageRenderHeight;
             Config.ImageRenderWidth = Config.ImageRenderWidth == 0 ? 537 : Config.ImageRenderWidth;
-
-
-
             Config.DefaultPage = Config.DefaultPage == "" ? "VNHGames" : Config.DefaultPage;
         }
 
@@ -54,6 +51,8 @@ namespace Atlas.Core
         #endregion
 
         #region APP
+        [Option(Alias = "app.FTS")]
+        bool FTS { get; set; }
         [Option(Alias = "app.Theme")]
         string Theme { get; set; }
         [Option(Alias = "app.ShowListView")]

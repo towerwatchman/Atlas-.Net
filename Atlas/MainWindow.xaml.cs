@@ -51,7 +51,7 @@ namespace Atlas
 
             InterfaceHelper.BannerView = bvp.BannerView;
 
-            //Initalize the BannerView
+            //Initalize the BannerViews
             InitListView();
 
             //Assign Left click event to BannerView
@@ -59,6 +59,9 @@ namespace Atlas
 
             //Hide clear text
             ClearSearchBox.Visibility = Visibility.Hidden;
+
+            //Set First time setup as complete
+            Atlas.Core.Settings.Config.FTS = true;
         }
 
         private void BannerView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -97,7 +100,7 @@ namespace Atlas
             if (bvp.BannerView.ItemsSource != null && bvp.BannerView.Items.Count > 0)
             {
 
-                Game game = bvp.BannerView.SelectedItem as Game;
+                GameViewModel game = bvp.BannerView.SelectedItem as GameViewModel;
                 if (game != null)
                 {
                     bvp.cmGame.Visibility = Visibility.Visible;
@@ -163,10 +166,10 @@ namespace Atlas
             {
                 //this.AllowsTransparency = false;
                 //WindowState = WindowState.Maximized;
-                this.BorderThickness = new System.Windows.Thickness(7);
+                //this.BorderThickness = new System.Windows.Thickness(7);
                 //WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Maximized;
-                WindowStyle = WindowStyle.None;
+                //WindowStyle = WindowStyle.None;
             }
             else
             {
@@ -464,7 +467,7 @@ namespace Atlas
 
         private bool UserFilter(object item)
         {
-            if (String.IsNullOrEmpty(AtlasSearchBox.Text) || AtlasSearchBox.Text == "Search Atlas")
+            if (String.IsNullOrEmpty(AtlasSearchBox.Text) || AtlasSearchBox.Text == "Search Atlas" || AtlasSearchBox.Text == "")
                 return true;
             else
                 return ((item as GameViewModel).Title.IndexOf(AtlasSearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
@@ -472,29 +475,33 @@ namespace Atlas
 
         private void AtlasSearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ClearSearchBox != null)
+            Logger.Warn(AtlasSearchBox.Text.ToString());
+            if (AtlasSearchBox.Text != "" && AtlasSearchBox.Text != "Search Atlas")
             {
-                if (AtlasSearchBox.Text != "" && AtlasSearchBox.Text != null && AtlasSearchBox.Text != "Search Atlas")
+                if (ClearSearchBox != null)
                 {
-                    ClearSearchBox.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    ClearSearchBox.Visibility = Visibility.Hidden;
-                }
-            }
-
-            if (bvp.BannerView != null)
-            {
-                if (bvp.BannerView.ItemsSource != null)
-                {
-                    try
+                    if (AtlasSearchBox.Text != "" && AtlasSearchBox.Text != null && AtlasSearchBox.Text != "Search Atlas")
                     {
-                        CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource).Refresh();
+                        ClearSearchBox.Visibility = Visibility.Visible;
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Logger.Error(ex);
+                        ClearSearchBox.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (bvp.BannerView != null)
+                {
+                    if (bvp.BannerView.ItemsSource != null)
+                    {
+                        try
+                        {
+                            CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource).Refresh();
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
                     }
                 }
             }
@@ -547,6 +554,17 @@ namespace Atlas
         private void ClearSearchBox_Click(object sender, RoutedEventArgs e)
         {
             AtlasSearchBox.Text = "Search Atlas";
+            ClearSearchBox.Visibility = Visibility.Hidden;
+            CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource).Refresh();
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            //check for min or max.
+            if (WindowState == WindowState.Maximized)
+            {
+                this.BorderThickness = new System.Windows.Thickness(7);
+            }           
         }
 
         //Show context menu for adding games

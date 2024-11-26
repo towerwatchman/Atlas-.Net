@@ -30,6 +30,7 @@ namespace Atlas.UI.ViewModel
             SiteUrl = game.SiteUrl;
             Screens = game.Screens;
             Tags = game.Tags;
+            Collection = game.Collection;
 
         }
         public int RecordID { get; private set; }
@@ -52,6 +53,7 @@ namespace Atlas.UI.ViewModel
         public string SiteUrl { get; private set; }
         public string[] Screens { get; private set; }
         public string Tags { get; private set; }
+        public string Collection {  get; private set; }
 
         public BitmapSource BannerImage
         {

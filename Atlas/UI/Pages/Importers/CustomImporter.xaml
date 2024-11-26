@@ -78,14 +78,11 @@
                         Height="Auto"
                         Width="Auto">
                 <CheckBox Content="Download Images if match found in Atlas database"
-                          Margin="10,10,0,0"
-                          Visibility="Hidden" />
+                          Margin="10,10,0,0" />
                 <CheckBox Content="Move to Atlas game folder"
-                          Margin="10,10,0,0"
-                          Visibility="Hidden" />
+                          Margin="10,10,0,0" />
                 <CheckBox Content="Scan folder size duing import"
-                          Margin="10,10,0,0"
-                          Visibility="Hidden" />
+                          Margin="10,10,0,0" />
             </StackPanel>
         </Grid>
     </Grid>
