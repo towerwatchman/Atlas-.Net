@@ -55,7 +55,7 @@
         <!-- Text for Layout-->
         <TextBlock VerticalAlignment="Bottom"
                    HorizontalAlignment="Center"
-                   Text="{Binding Title}"
+                   Text="{Binding RecordID}"
                    Foreground="White"
                    Margin="3,3,3,3"
                    Padding="2"

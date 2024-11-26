@@ -22,7 +22,11 @@ namespace Atlas.UI.Pages
             ShowVersions.Visibility = Visibility.Hidden;
         }
 
+<<<<<<< Updated upstream
         private async Task BuildGameDetailAsync()
+=======
+        private void BuildGameDetailAsync()
+>>>>>>> Stashed changes
         {
             if (CurrentGame != null)
             {

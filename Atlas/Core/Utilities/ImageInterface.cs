@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Atlas.UI.ViewModel;
+using NLog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
@@ -122,38 +123,26 @@ namespace Atlas.Core.Utilities
 
 
                 BitmapImage bitmapImage;
-                if (!_cache.TryGetValue(id, out bitmapImage))
+
+                Logger.Error($"ID {id} request for image");
+                /*if (!GameViewModel.BannersInView.Any(s => s == id))
                 {
-                    Logger.Debug($"Loading Image from disk for: {id}");
+                    return new BitmapImage();
+                }*/
 
-                    byte[] image = System.IO.File.ReadAllBytes(path);
+                Logger.Debug($"Loading Image from disk for: {id}");
+                byte[] image = System.IO.File.ReadAllBytes(path);
 
-                    bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    //bitmapImage.UriSource = uri;
-                    bitmapImage.StreamSource = new MemoryStream(image);
-                    bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
-                    bitmapImage.CacheOption = BitmapCacheOption.Default;
-                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                    bitmapImage.EndInit();
-                    bitmapImage.Freeze();
-                    //Logger.Warn(id);
-                    try
-                    {
-                        //_cache.Add(id, bitmapImage);
-
-                    }
-                    catch (Exception ex) { Logger.Error(ex); }
-
-
-                    return bitmapImage;
-                }
-                else
-                {
-                    Logger.Info("Loading from cache");
-                    return bitmapImage;
-                }
-
+                bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                //bitmapImage.UriSource = uri;
+                bitmapImage.StreamSource = new MemoryStream(image);
+                bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
+                bitmapImage.CacheOption = BitmapCacheOption.Default;
+                bitmapImage.CreateOptions = BitmapCreateOptions.None;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                return bitmapImage;
             }
             catch (Exception ex)
             {

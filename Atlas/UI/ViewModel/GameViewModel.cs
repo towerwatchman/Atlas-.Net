@@ -57,27 +57,28 @@ namespace Atlas.UI.ViewModel
         {
             get
             {
-                if (!BannersInView.Contains(RecordID) || _bannerImage == null)
+                if (GameViewModel.BannersInView.Any(s => s == RecordID)
+                    || _bannerImage == null)
                 {
-                    BannersInView.Add(RecordID);
+                    //BannersInView.Add(RecordID);
                     //return _bannerImage;
-                    Task.Run(() =>
-                    {
+                    //Task.Run(() =>
+                    //{
                         BitmapSource bi = ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
-
                         if (bi != null)
                         {
+                            //OnPropertyChanged("BannerImage");
                             bi.Freeze();
                             _bannerImage = bi;
                             //System.Threading.Thread.Sleep(10);
-                            OnPropertyChanged("BannerImage");
+                            
                             //Logger.Warn($"Loaded Image for id: {RecordID}");
                             //Logger.Warn(Title);
+                        }                        
+                    //});
 
-                        }
-
-                        return _bannerImage;
-                    });
+                    Logger.Warn("!!!!!!!!!! RETURNING BLANK IMAGE");
+                    return _bannerImage;
                 }
                 return _bannerImage;
             }

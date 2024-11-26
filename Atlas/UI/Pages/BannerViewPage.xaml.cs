@@ -21,7 +21,7 @@ namespace Atlas.UI.Pages
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static List<int> previousItemsInView = new List<int>();
-        public static List<int> ItemsInView = new List<int>();
+        //public static List<int> ItemsInView = new List<int>();
 
         public static readonly DependencyProperty IsInViewportProperty =
             DependencyProperty.RegisterAttached("IsInViewport", typeof(bool), typeof(MyScrollViewer));
@@ -48,7 +48,7 @@ namespace Atlas.UI.Pages
             }
 
             Rect viewport = new Rect(new Point(0, 0), RenderSize);
-            ItemsInView.Clear();
+            GameViewModel.BannersInView.Clear();
             foreach (UIElement child in panel.Children)
             {
 
@@ -69,7 +69,8 @@ namespace Atlas.UI.Pages
                             try
                             {
 
-                                ItemsInView.Add(game.RecordID);
+                                GameViewModel.BannersInView.Add(game.RecordID);
+
                                 //Logger.Info($"Title:{game.Title} ID:{game.RecordID}");
                             }
                             catch (Exception ex)
@@ -92,7 +93,7 @@ namespace Atlas.UI.Pages
             {
                 //Logger.Error(id);
                 //check if is is not in view
-                if (!ItemsInView.Any(s => s == id))
+                if (!GameViewModel.BannersInView.Any(s => s == id))
                 {
                     GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == id).FirstOrDefault();
                     var index = ModelData.GameCollection.IndexOf(gameObj);
@@ -104,10 +105,10 @@ namespace Atlas.UI.Pages
                     }
                 }
             }
-            Logger.Warn($"Total Items in View: {ItemsInView.Count} previtems: {previousItemsInView.Count}");
+            Logger.Warn($"Total Items in View: {GameViewModel.BannersInView.Count} previtems: {previousItemsInView.Count}");
 
             previousItemsInView.Clear();
-            previousItemsInView = ItemsInView.ToList();
+            previousItemsInView = GameViewModel.BannersInView.ToList();
 
             //previousItemsInView = ItemsInView;
             GC.WaitForPendingFinalizers();
