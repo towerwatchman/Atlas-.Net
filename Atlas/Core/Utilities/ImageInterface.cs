@@ -125,10 +125,6 @@ namespace Atlas.Core.Utilities
                 BitmapImage bitmapImage;
 
                 Logger.Error($"ID {id} request for image");
-                /*if (!GameViewModel.BannersInView.Any(s => s == id))
-                {
-                    return new BitmapImage();
-                }*/
 
                 Logger.Debug($"Loading Image from disk for: {id}");
                 byte[] image = System.IO.File.ReadAllBytes(path);
@@ -137,7 +133,7 @@ namespace Atlas.Core.Utilities
                 bitmapImage.BeginInit();
                 //bitmapImage.UriSource = uri;
                 bitmapImage.StreamSource = new MemoryStream(image);
-                bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
+                //bitmapImage.DecodePixelWidth = (int)imageRenderWidth;
                 bitmapImage.CacheOption = BitmapCacheOption.Default;
                 bitmapImage.CreateOptions = BitmapCreateOptions.None;
                 bitmapImage.EndInit();
