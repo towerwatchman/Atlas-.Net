@@ -49,7 +49,7 @@ namespace Atlas.Core.Utilities
             }
         }
 
-        public async Task<string> ConvertToWebpAsync(byte[] imageArray, string imagePath)
+        public async Task<string> ConvertToWebpAsync(byte[] imageArray, string imagePath, bool createThumb)
         {
             string path = "";
             try
@@ -59,26 +59,29 @@ namespace Atlas.Core.Utilities
                 using (Image image = await Image.LoadAsync(inStream))
                 {
 
-                    double width = 1080;
+                    double max_size = 1080;
 
                     if (image.Width > image.Height)
                     {
-                        double height = (width / image.Width) * image.Height;
-                        image.Mutate(x => x.Resize(Convert.ToInt32(width), Convert.ToInt32(height) , KnownResamplers.Lanczos3));
+                        double height = (max_size / image.Width) * image.Height;
+                        image.Mutate(x => x.Resize(Convert.ToInt32(max_size), Convert.ToInt32(height) , KnownResamplers.Lanczos3));
                     }
                     else
                     {
-                        double _width = (width / image.Height) * image.Width;
-                        image.Mutate(x => x.Resize(Convert.ToInt32(_width), Convert.ToInt32(width), KnownResamplers.Lanczos3));
+                        double width = (max_size / image.Height) * image.Width;
+                        image.Mutate(x => x.Resize(Convert.ToInt32(width), Convert.ToInt32(max_size), KnownResamplers.Lanczos3));
                     }
 
                     using var outStream = new MemoryStream();
 
                     await image.SaveAsync(outStream, new WebpEncoder());
-
-
                     await image.SaveAsWebpAsync($"{imagePath}.webp");
                     path = $"{imagePath}.webp";
+
+                    if (createThumb)
+                    {
+                        await CreateThumb(image, imagePath);
+                    }
                 }
             }
             catch (Exception ex) { Logger.Error(ex); }
@@ -86,26 +89,30 @@ namespace Atlas.Core.Utilities
             return path;
         }
 
-        public async Task<string> CreateThumb(byte[] imageArray, string imagePath)
+        public async Task<Task> CreateThumb(Image image, string imagePath)
         {
-            string path = "";
+            double max_size = 20;
             try
             {
-                using var inStream = new MemoryStream(imageArray);
+                if (image.Width > image.Height)
+                {
+                    double height = (max_size / image.Width) * image.Height;
+                    image.Mutate(x => x.Resize(Convert.ToInt32(max_size), Convert.ToInt32(height), KnownResamplers.Lanczos3));
+                }
+                else
+                {
+                    double width = (max_size / image.Height) * image.Width;
+                    image.Mutate(x => x.Resize(Convert.ToInt32(width), Convert.ToInt32(max_size), KnownResamplers.Lanczos3));
+                }
 
-                using var image = await Image.LoadAsync(inStream);
+                //using var outStream = new MemoryStream();
+                //await image.SaveAsync(outStream, new WebpEncoder());
 
-                using var outStream = new MemoryStream();
-
-                await image.SaveAsync(outStream, new WebpEncoder());
-
-                await image.SaveAsWebpAsync($"{imagePath}.webp");
-                image.Dispose();
-                path = $"{imagePath}.webp";
+                await image.SaveAsWebpAsync($"{imagePath}_thumb.webp");
             }
             catch (Exception ex) { Logger.Error(ex); }
 
-            return path;
+            return Task.CompletedTask;
         }
 
         public static BitmapSource LoadImage(int id, string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)

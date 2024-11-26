@@ -2,6 +2,7 @@
 using Atlas.Core.Utilities;
 using NLog;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace Atlas.UI.ViewModel
@@ -53,7 +54,7 @@ namespace Atlas.UI.ViewModel
         public string SiteUrl { get; private set; }
         public string[] Screens { get; private set; }
         public string Tags { get; private set; }
-        public string Collection {  get; private set; }
+        public string Collection { get; private set; }
 
         public BitmapSource BannerImage
         {
@@ -65,22 +66,29 @@ namespace Atlas.UI.ViewModel
                     //BannersInView.Add(RecordID);
                     //return _bannerImage;
                     //Task.Run(() =>
-                    //{
-                        BitmapSource bi = ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
-                        if (bi != null)
-                        {
-                            //OnPropertyChanged("BannerImage");
-                            bi.Freeze();
-                            _bannerImage = bi;
-                            //System.Threading.Thread.Sleep(10);
-                            
-                            //Logger.Warn($"Loaded Image for id: {RecordID}");
-                            //Logger.Warn(Title);
-                        }                        
+                   // {
+                    BitmapSource bi = ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
+                    if (bi != null)
+                    {
+                        
+                        bi.Freeze();
+                        _bannerImage = bi;
+                        //OnPropertyChanged("BannerImage");                       
+
+                        //Logger.Warn($"Loaded Image for id: {RecordID}");
+                        //Logger.Warn(Title);
+                    }
                     //});
 
                     Logger.Warn("!!!!!!!!!! RETURNING BLANK IMAGE");
-                    return _bannerImage;
+                    /*string thumb = $"{BannerPath.Replace(".webp","")}_thumb.webp";
+                    if (File.Exists(thumb))
+                    {
+                        BitmapImage biThumb = new BitmapImage(new Uri(thumb));
+                        biThumb.Freeze();
+                        _bannerImage = biThumb;
+                    }*/
+                        return _bannerImage;
                 }
                 return _bannerImage;
             }

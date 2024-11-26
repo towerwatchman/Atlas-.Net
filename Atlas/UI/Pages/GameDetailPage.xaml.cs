@@ -28,18 +28,20 @@ namespace Atlas.UI.Pages
             {
 
                 BitmapSource ImageData = ImageInterface.LoadImage(CurrentGame.RecordID, CurrentGame.BannerPath, 1000, 250);
-                ImageData.Freeze();
-                if (System.IO.Path.GetExtension(CurrentGame.BannerPath) == ".gif")
+                if (ImageData != null)
                 {
-                    AnimationBehavior.SetSourceUri(AnimatedBanner, new System.Uri(CurrentGame.BannerPath));
-                }
-                else
-                {
-                    banner_main.Source = ImageData;
+                    ImageData.Freeze();
+                    if (System.IO.Path.GetExtension(CurrentGame.BannerPath) == ".gif")
+                    {
+                        AnimationBehavior.SetSourceUri(AnimatedBanner, new System.Uri(CurrentGame.BannerPath));
+                    }
+                    else
+                    {
+                        banner_main.Source = ImageData;
 
+                    }
+                    banner_background.Source = ImageData;
                 }
-                banner_background.Source = ImageData;
-
 
 
 
