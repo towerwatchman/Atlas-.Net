@@ -26,7 +26,6 @@ namespace Atlas.Core
         public required Uri ImageUriAnimated { get; set; }
         public string Tags { get; set; }
         public string Collection { get; set; }
-        public bool InView { get; set; }
     }
 
     public class BannerImage

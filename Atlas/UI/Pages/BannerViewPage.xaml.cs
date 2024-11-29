@@ -101,8 +101,7 @@ namespace Atlas.UI.Pages
                     if (gameObj != null)
                     {
                         //Logger.Warn($"Removing image for id: {id}");
-                        ModelData.GameCollection[index].BannerImage = null;
-                        ModelData.GameCollection[index].InView = false;
+                        ModelData.GameCollection[index].BannerImage = null;  
                     }
                 }
             }

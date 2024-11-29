@@ -32,7 +32,6 @@ namespace Atlas.UI.ViewModel
             Screens = game.Screens;
             Tags = game.Tags;
             Collection = game.Collection;
-            InView = game.InView;
 
         }
         public int RecordID { get; private set; }
@@ -56,35 +55,32 @@ namespace Atlas.UI.ViewModel
         public string[] Screens { get; private set; }
         public string Tags { get; private set; }
         public string Collection { get; private set; }
-        public bool InView { get; set; }
 
         public BitmapSource BannerImage
         {
             get
             {
-               
 
-                if(_bannerImage == null)
+
+                if (_bannerImage == null)
                 {
                     //BannersInView.Add(RecordID);
                     //return _bannerImage;
                     Task.Run(() =>
                     {
-                    BitmapSource bi = ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
-                    if (bi != null)
-                    {
-                        
-                        bi.Freeze();
-                        _bannerImage = bi;
-                        InView = true;
-                        OnPropertyChanged("BannerImage");                       
+                        BitmapSource bi = ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
+                        if (bi != null)
+                        {
 
-                        //Logger.Warn($"Loaded Image for id: {RecordID}");
-                        //Logger.Warn(Title);
-                    }
+                            bi.Freeze();
+                            _bannerImage = bi;
+                            OnPropertyChanged("BannerImage");
+
+                            //Logger.Warn($"Loaded Image for id: {RecordID}");
+                        }
                     });
 
-                        return _bannerImage;
+                    return _bannerImage;
                 }
                 return _bannerImage;
             }
