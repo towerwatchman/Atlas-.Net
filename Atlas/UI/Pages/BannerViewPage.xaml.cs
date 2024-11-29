@@ -48,6 +48,9 @@ namespace Atlas.UI.Pages
             }
 
             Rect viewport = new Rect(new Point(0, 0), RenderSize);
+
+            //Run task to add and remove images in another thread
+            Task.Run(() => {
             GameViewModel.BannersInView.Clear();
             foreach (UIElement child in panel.Children)
             {
@@ -86,6 +89,7 @@ namespace Atlas.UI.Pages
                 GeneralTransform transform = child.TransformToAncestor(this);
                 Rect childBounds = transform.TransformBounds(new Rect(new Point(0, 0), child.RenderSize));
                 SetIsInViewport(child, viewport.IntersectsWith(childBounds), null);
+
             }
 
 
@@ -113,6 +117,7 @@ namespace Atlas.UI.Pages
             //previousItemsInView = ItemsInView;
             GC.WaitForPendingFinalizers();
             GC.Collect();
+            });
         }
     }
 }
