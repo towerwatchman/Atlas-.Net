@@ -32,6 +32,7 @@ namespace Atlas.UI.ViewModel
             Screens = game.Screens;
             Tags = game.Tags;
             Collection = game.Collection;
+            InView = game.InView;
 
         }
         public int RecordID { get; private set; }
@@ -55,39 +56,34 @@ namespace Atlas.UI.ViewModel
         public string[] Screens { get; private set; }
         public string Tags { get; private set; }
         public string Collection { get; private set; }
+        public bool InView { get; set; }
 
         public BitmapSource BannerImage
         {
             get
             {
-                if (GameViewModel.BannersInView.Any(s => s == RecordID)
-                    || _bannerImage == null)
+               
+
+                if(_bannerImage == null)
                 {
                     //BannersInView.Add(RecordID);
                     //return _bannerImage;
-                    //Task.Run(() =>
-                   // {
+                    Task.Run(() =>
+                    {
                     BitmapSource bi = ImageInterface.LoadImage(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
                     if (bi != null)
                     {
                         
                         bi.Freeze();
                         _bannerImage = bi;
-                        //OnPropertyChanged("BannerImage");                       
+                        InView = true;
+                        OnPropertyChanged("BannerImage");                       
 
                         //Logger.Warn($"Loaded Image for id: {RecordID}");
                         //Logger.Warn(Title);
                     }
-                    //});
+                    });
 
-                    Logger.Warn("!!!!!!!!!! RETURNING BLANK IMAGE");
-                    /*string thumb = $"{BannerPath.Replace(".webp","")}_thumb.webp";
-                    if (File.Exists(thumb))
-                    {
-                        BitmapImage biThumb = new BitmapImage(new Uri(thumb));
-                        biThumb.Freeze();
-                        _bannerImage = biThumb;
-                    }*/
                         return _bannerImage;
                 }
                 return _bannerImage;
@@ -103,7 +99,7 @@ namespace Atlas.UI.ViewModel
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Logger.Warn($"Property Changed: {propertyName}");
+            //Logger.Warn($"Property Changed: {propertyName}");
         }
     }
 }

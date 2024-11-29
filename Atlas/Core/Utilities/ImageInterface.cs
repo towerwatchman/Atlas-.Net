@@ -59,7 +59,7 @@ namespace Atlas.Core.Utilities
                 using (Image image = await Image.LoadAsync(inStream))
                 {
 
-                    double max_size = 1080;
+                    double max_size = 616;
 
                     if (image.Width > image.Height)
                     {
@@ -140,9 +140,9 @@ namespace Atlas.Core.Utilities
 
                 BitmapImage bitmapImage;
 
-                Logger.Error($"ID {id} request for image");
+                //Logger.Error($"ID {id} request for image");
 
-                Logger.Debug($"Loading Image from disk for: {id}");
+                //Logger.Debug($"Loading Image from disk for: {id}");
                 byte[] image = System.IO.File.ReadAllBytes(path);
 
                 bitmapImage = new BitmapImage();

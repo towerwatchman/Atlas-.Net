@@ -55,19 +55,12 @@
         <!-- Text for Layout-->
         <TextBlock VerticalAlignment="Bottom"
                    HorizontalAlignment="Center"
-                   Text="{Binding RecordID}"
+                   Text="{Binding Title}"
                    Foreground="White"
                    Margin="3,3,3,3"
                    Padding="2"
                    Background="Transparent"
-                   FontSize="14">
-            <TextBlock.Effect>
-                <DropShadowEffect ShadowDepth="1"
-                                  Direction="330"
-                                  Color="Black"
-                                  Opacity=".8"
-                                  BlurRadius="1" />
-            </TextBlock.Effect></TextBlock>
+                   FontSize="14"></TextBlock>
         <TextBox VerticalAlignment="Bottom"
                  HorizontalAlignment="Left"
                  Text="{Binding Engine}"

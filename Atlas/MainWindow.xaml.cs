@@ -276,16 +276,16 @@ namespace Atlas
                                         /*banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
                                         await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);*/
 
-                                        if (Path.GetExtension(bannerUrl) == ".gif")
-                                        {
-                                            banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                            await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
-                                        }
+                                        /*if (Path.GetExtension(bannerUrl) == ".gif")
+                                        {*/
+                                            //banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                            //await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+                                        /*}
                                         else
-                                        {
+                                        {*/
                                             banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
                                             ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 200);
-                                        }
+                                        //}
 
                                         //Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
 
@@ -294,7 +294,7 @@ namespace Atlas
                                         {
                                             //ConvertImage to webp
                                             ImageInterface image = new ImageInterface();
-                                            banner_path = image.ConvertToWebpAsync(ImageArray, banner_path, true).Result;
+                                            banner_path = image.ConvertToWebpAsync(ImageArray, banner_path, false).Result;
 
                                         }
                                         //update banner table
