@@ -121,7 +121,7 @@ namespace Atlas.Core.Utilities
             //try to get image from cache
 
             //BitmapImage bitmapImage;
-            //Uri uri = new Uri("pack://application:,,,/Assets/Images/default.jpg");
+            Uri uri = new Uri("pack://application:,,,/Assets/Images/default.jpg");
             string path = "";// "pack://application:,,,/Assets/Images/default.jpg";
 
 
@@ -134,7 +134,7 @@ namespace Atlas.Core.Utilities
                 }
                 else
                 {
-                    return null;
+                    return null;// new BitmapImage(uri);
                 }
 
 
@@ -154,6 +154,8 @@ namespace Atlas.Core.Utilities
                 bitmapImage.CreateOptions = BitmapCreateOptions.None;
                 bitmapImage.EndInit();
                 bitmapImage.Freeze();
+
+                image = null;
                 return bitmapImage;
             }
             catch (Exception ex)

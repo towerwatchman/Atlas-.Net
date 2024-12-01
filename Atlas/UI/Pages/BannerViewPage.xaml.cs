@@ -38,6 +38,7 @@ namespace Atlas.UI.Pages
 
         protected override void OnScrollChanged(ScrollChangedEventArgs e)
         {
+            /*
             //ItemsInView = 0;
             //base.OnScrollChanged(e);
 
@@ -48,76 +49,78 @@ namespace Atlas.UI.Pages
             }
 
             Rect viewport = new Rect(new Point(0, 0), RenderSize);
-
-            //Run task to add and remove images in another thread
-            Task.Run(() => {
+            UIElementCollection bannerItems = panel.Children;
             GameViewModel.BannersInView.Clear();
-            foreach (UIElement child in panel.Children)
-            {
-
-                ListViewItem item = child as ListViewItem;
-                if (item.Content is GameViewModel)
+            //Run task to add and remove images in another thread
+           
+                foreach (UIElement child in bannerItems)
                 {
-                    GameViewModel game = (GameViewModel)item.Content;
 
-                    if (!child.IsVisible)
+                    ListViewItem item = child as ListViewItem;
+                    if (item.Content is GameViewModel)
                     {
-                        SetIsInViewport(child, false, game);
-                        continue;
-                    }
-                    else
-                    {
-                        if (item.Content != null)
+                        GameViewModel game = (GameViewModel)item.Content;
+
+                        if (!child.IsVisible)
                         {
-                            try
+                            SetIsInViewport(child, false, game);
+                            continue;
+                        }
+                        else
+                        {
+                            if (item.Content != null)
                             {
+                                try
+                                {
 
-                                GameViewModel.BannersInView.Add(game.RecordID);
+                                    GameViewModel.BannersInView.Add(game.RecordID);
 
-                               // Logger.Info($"Title:{game.Title} ID:{game.RecordID}");
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Warn(ex);
+                                    // Logger.Info($"Title:{game.Title} ID:{game.RecordID}");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.Warn(ex);
+                                }
+
                             }
 
                         }
-
                     }
+                    //Get the current Game object that is in view and list it
+                    //GeneralTransform transform = child.TransformToAncestor(this);
+                    //Rect childBounds = transform.TransformBounds(new Rect(new Point(0, 0), child.RenderSize));
+                    //SetIsInViewport(child, viewport.IntersectsWith(childBounds), null);
+
                 }
-                //Get the current Game object that is in view and list it
-                GeneralTransform transform = child.TransformToAncestor(this);
-                Rect childBounds = transform.TransformBounds(new Rect(new Point(0, 0), child.RenderSize));
-                SetIsInViewport(child, viewport.IntersectsWith(childBounds), null);
 
-            }
-
-
-            foreach (int id in previousItemsInView)
+            Task.Run(() =>
             {
-                //Logger.Error(id);
-                //check if is is not in view
-                if (!GameViewModel.BannersInView.Any(s => s == id))
+                foreach (int id in previousItemsInView)
                 {
-                    GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == id).FirstOrDefault();
-                    var index = ModelData.GameCollection.IndexOf(gameObj);
-
-                    if (gameObj != null)
+                    //Logger.Error(id);
+                    //check if is is not in view
+                    if (!GameViewModel.BannersInView.Any(s => s == id))
                     {
-                        //Logger.Warn($"Removing image for id: {id}");
-                        ModelData.GameCollection[index].BannerImage = null;  
+                        GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == id).FirstOrDefault();
+                        var index = ModelData.GameCollection.IndexOf(gameObj);
+
+                        if (gameObj != null)
+                        {
+                            Logger.Warn($"Removing image for id: {id}");
+                            ModelData.GameCollection[index].BannerImage = null;
+                        }
                     }
                 }
-            }
-            //Logger.Warn($"Total Items in View: {GameViewModel.BannersInView.Count} previtems: {previousItemsInView.Count}");
+                //Logger.Warn($"Total Items in View: {GameViewModel.BannersInView.Count} previtems: {previousItemsInView.Count}");
 
-            previousItemsInView.Clear();
-            previousItemsInView = GameViewModel.BannersInView.ToList();
+                previousItemsInView.Clear();
+                previousItemsInView = GameViewModel.BannersInView.ToList();
 
-            //previousItemsInView = ItemsInView;
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
+                //previousItemsInView = ItemsInView;
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
             });
+            */
         }
     }
 }

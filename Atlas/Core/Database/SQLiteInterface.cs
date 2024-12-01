@@ -472,6 +472,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
             ObservableCollection<GameViewModel> GameCollection = new ObservableCollection<GameViewModel>();
 
             //this will need to be modified for more data in the future
+            //Modify to pull banner image and screens
             string query = @"SELECT 
 games.record_id as record_id,
 atlas_mappings.atlas_id as atlas_id,	

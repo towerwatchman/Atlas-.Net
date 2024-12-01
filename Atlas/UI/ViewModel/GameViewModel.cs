@@ -74,6 +74,8 @@ namespace Atlas.UI.ViewModel
 
                             bi.Freeze();
                             _bannerImage = bi;
+                            bi = null;
+
                             OnPropertyChanged("BannerImage");
 
                             //Logger.Warn($"Loaded Image for id: {RecordID}");
