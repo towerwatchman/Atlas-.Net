@@ -266,8 +266,9 @@ namespace Atlas
                                 //check if banner already exist
                                 if ((banner_path == string.Empty && game.AtlasID > -1) || !File.Exists(banner_path))
                                 {
-                                    //Run below in a new task
-                                    await Task.Run(async () =>
+                                    Logger.Info($"Downloading images id:{game.RecordID} name:{game.Title}");
+                                    //Run below in a new task that is awaited
+                                    _ = Task.Run(async () =>
                                     {
                                         string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID.ToString());
                                         Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString()));
@@ -278,13 +279,13 @@ namespace Atlas
 
                                         /*if (Path.GetExtension(bannerUrl) == ".gif")
                                         {*/
-                                            //banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                            //await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+                                        //banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                        //await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
                                         /*}
                                         else
                                         {*/
-                                            banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
-                                            ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 200);
+                                        banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
+                                        ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 200);
                                         //}
 
                                         //Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
@@ -304,7 +305,7 @@ namespace Atlas
 
                                             Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
                                             //Find Game in gamelist and set the banner to it
-                                            BitmapSource img = ImageInterface.LoadImage(game.RecordID,
+                                            BitmapSource img = await ImageInterface.LoadImageAsync(game.RecordID,
                                                         bannerUrl == "" ? "" : banner_path,
                                                         Atlas.Core.Settings.Config.ImageRenderWidth,
                                                         Atlas.Core.Settings.Config.ImageRenderHeight);
@@ -324,9 +325,11 @@ namespace Atlas
 
                                         GC.Collect();
                                         GC.WaitForPendingFinalizers();
-                                        //Set a default waiting period for downloading images
-                                        System.Threading.Thread.Sleep(200);
+
                                     });
+                                    //Set a default waiting period for downloading images
+                                    Random random = new Random();
+                                    System.Threading.Thread.Sleep(random.Next(200, 1000));
                                 }
                             }
                             catch (Exception ex)

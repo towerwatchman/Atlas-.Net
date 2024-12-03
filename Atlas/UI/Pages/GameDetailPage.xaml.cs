@@ -22,12 +22,12 @@ namespace Atlas.UI.Pages
             ShowVersions.Visibility = Visibility.Hidden;
         }
 
-        private void BuildGameDetailAsync()
+        private async Task BuildGameDetailAsync()
         {
             if (CurrentGame != null)
             {
 
-                BitmapSource ImageData = ImageInterface.LoadImage(CurrentGame.RecordID, CurrentGame.BannerPath, 1000, 250);
+                BitmapSource ImageData = await ImageInterface.LoadImageAsync(CurrentGame.RecordID, CurrentGame.BannerPath, 1000, 250);
                 if (ImageData != null)
                 {
                     ImageData.Freeze();

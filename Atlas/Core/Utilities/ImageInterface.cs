@@ -115,7 +115,7 @@ namespace Atlas.Core.Utilities
             return Task.CompletedTask;
         }
 
-        public static BitmapSource LoadImage(int id, string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
+        public static async Task<BitmapSource> LoadImageAsync(int id, string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
         {
             //Logger.Warn($"Getting image for id: {id}");
             //try to get image from cache
@@ -143,7 +143,13 @@ namespace Atlas.Core.Utilities
                 //Logger.Error($"ID {id} request for image");
 
                 //Logger.Debug($"Loading Image from disk for: {id}");
-                byte[] image = System.IO.File.ReadAllBytes(path);
+                byte[] image;
+                using (FileStream stream = File.Open(path, FileMode.Open))
+                {
+                    image = new byte[stream.Length];
+                    await stream.ReadAsync(image, 0, (int)stream.Length);
+                }
+                    //= await System.IO.File.ReadAllBytes(path);
 
                 bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
