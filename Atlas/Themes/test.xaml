@@ -15,14 +15,21 @@
     Highlight: Text Hover Effect color
     -->
 	<SolidColorBrush x:Key="Canvas" Color="red"/>
-	<SolidColorBrush x:Key="Primary" Color="green"/>
+    <SolidColorBrush x:Key="Shadow"
+                     Color="Orange" />
+    
+    <SolidColorBrush x:Key="Primary" Color="green"/>
 	<SolidColorBrush x:Key="Secondary" Color="blue"/>
 	<SolidColorBrush x:Key="Tertiary" Color="orange"/>
-	<SolidColorBrush x:Key="Accent" Color="purple"/>
+    
+    <SolidColorBrush x:Key="Border"
+                     Color="magenta" />
+    <SolidColorBrush x:Key="Selected"
+                     Color="lightgreen" />
+    
+    <SolidColorBrush x:Key="Accent" Color="purple"/>
 	<SolidColorBrush x:Key="AccentBar" Color="pink"/>
 	<SolidColorBrush x:Key="AtlasLogo" Color="orange"/>
-	<SolidColorBrush x:Key="Border" Color="magenta"/>
-	<SolidColorBrush x:Key="Selected" Color="lightgreen"/>
 	<SolidColorBrush x:Key="Text" Color="yellow"/>
 	<SolidColorBrush x:Key="Highlight" Color="cyan"/>
 </ResourceDictionary>

@@ -252,12 +252,10 @@ namespace Atlas
                     //sort list by title
                     var tempList = ModelData.GameCollection.OrderBy(o => o.Title);
                     //download images
-                    await Task.Run(async () =>
+                    _ = Task.Run(() =>
                     {
                         foreach (GameViewModel game in tempList)
                         {
-                            //Try to run as many as we can
-
                             try
                             {
                                 //Get Banner Path for database
@@ -327,10 +325,12 @@ namespace Atlas
                                         GC.WaitForPendingFinalizers();
 
                                     });
-                                    //Set a default waiting period for downloading images
+                                    //Set a default waiting period for downloading images between 200ms and 1s
                                     Random random = new Random();
                                     System.Threading.Thread.Sleep(random.Next(200, 1000));
                                 }
+
+                                string[] screens = SQLiteInterface.getScreensUrlList(game.RecordID.ToString());
                             }
                             catch (Exception ex)
                             {

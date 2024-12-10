@@ -131,26 +131,19 @@ public static class Details
     {
         string[] file_data = [];
 
-        if (v.Contains('-'))
+        if (v.Contains('_'))
         {
-            file_data = ParseStringByDelimeter(v, '-');
+            file_data = ParseStringByDelimeter(v, '_');
         }
         else
         {
-            if (v.Contains('_'))
+            if (v.Contains(' '))
             {
-                file_data = ParseStringByDelimeter(v, '_');
+                file_data = ParseStringByDelimeter(v, ' ');
             }
             else
             {
-                if (v.Contains(' '))
-                {
-                    file_data = ParseStringByDelimeter(v, ' ');
-                }
-                else
-                {
-                    file_data = [AddSpaces(v), ""];
-                }
+                file_data = [AddSpaces(v), ""];
             }
         }
 
@@ -169,6 +162,7 @@ public static class Details
             if (item.Contains(' '))
             {
                 var temp = ParseSingleFileName(item);
+
                 title = temp[0];
                 version = temp[1];
             }
@@ -235,7 +229,7 @@ public static class Details
         string version = string.Empty;
         string[] delimiters = { "final", "episode", "chapter", "version", "season", "v." };
 
-        if (delimiters.Any(x => v.Contains(x)))
+        if (delimiters.Any(x => v.ToLower().Contains(x)))
         {
             return ["", v];
         }

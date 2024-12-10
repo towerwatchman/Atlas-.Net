@@ -1,9 +1,14 @@
 ﻿using Atlas.Core.Database;
 using Atlas.UI;
 using NLog;
+using System;
 using System.Collections.ObjectModel;
+using System.DirectoryServices.ActiveDirectory;
+using System.Formats.Tar;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace Atlas.Core
 {
@@ -12,6 +17,12 @@ namespace Atlas.Core
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static ObservableCollection<GameDetails> _GameDetailList;
         public static IEnumerable<GameDetails> GameDetailList { get { return _GameDetailList; } }
+
+        public static string game_path = "";
+        public static string title = "";
+        public static string version = "";
+        public static string creator = "";
+        public static string game_engine = "Others";
 
         public static bool isRunning = false;
         public static Task Start(string path, string format, string[] extensions)
@@ -43,11 +54,14 @@ namespace Atlas.Core
             int potentialGames = 0;
             foreach (string dir in directories)
             {
-                string game_path = "";
-                string title = "";
-                string version = "";
-                string creator = "";
-                string game_engine = "Others";
+                game_path = string.Empty;
+                title = string.Empty;
+                version = string.Empty;
+                creator = string.Empty;
+                game_engine = "Others";
+
+                Logger.Info(dir);
+                
                 //int folder_size = 0;
                 int cur_level = 0;
                 int stop_level = 6; //Set to max of 15 levels. There should not be more than 15 at most
@@ -63,149 +77,15 @@ namespace Atlas.Core
                         string[] s = t.Split('\\');
                         if (cur_level <= stop_level)
                         {
+                            FindGame(t, format, extensions, path, stop_level, potentialGames);
+                        }
+                    }
 
-                            List<string> potential_executables = Executable.DetectExecutable(Directory.GetFiles(t), extensions);
-                            if (potential_executables.Count > 0)
-                            {
-                                //check to see how to parse data
-
-                                stop_level = t.Split('\\').Length;
-                                //Now that we have a list of executables, we need to try and parse the engine, version, name etc..,
-                                game_path = t;
-                                string[] file_list = Walk(t);//This is the list we will use to determine the engine
-                                game_engine = GameEngine.FindEngine(file_list);
-                                string[] game_data = Details.ParseDetails(t.Replace($"{path}\\", ""));
-                                if (format == "")
-                                {
-
-                                    if (game_data.Length > 0)
-                                    {
-                                        title = game_data[0];
-                                        version = game_data[1];
-                                    }
-                                    if (game_data.Length > 2)
-                                    {
-                                        creator = game_data[2];
-                                    }
-                                }
-                                else
-                                {
-                                    //try to parse based on pattern matching
-                                    string[] parseFormat = format.ToUpper().Replace("{", "").Replace("}", "").Split("\\");
-                                    string[] strArr = t.Replace($"{path}\\", "").Split("\\");
-
-                                    var title_index = Array.FindIndex(parseFormat, row => row == "TITLE");
-                                    var creator_index = Array.FindIndex(parseFormat, row => row == "CREATOR");
-                                    var engine_index = Array.FindIndex(parseFormat, row => row == "ENGINE");
-                                    var version_index = Array.FindIndex(parseFormat, row => row == "VERSION");
-
-                                    if (title_index > -1)
-                                    {
-                                        title = strArr[title_index];
-                                    }
-                                    if (creator_index > -1)
-                                    {
-                                        creator = strArr[creator_index];
-                                    }
-                                    if (engine_index > -1)
-                                    {
-                                        game_engine = strArr[engine_index];
-                                    }
-                                    if (version_index > -1)
-                                    {
-                                        version = strArr[version_index];
-                                    }
-                                }
-
-
-                                //Check the database to see if we have a match
-                                List<string[]> data = SQLiteInterface.GetAtlasId(title, creator);
-
-                                List<string> results = new List<string>();
-                                string SingleExecutable = string.Empty;
-                                Visibility ResultVisibilityState = Visibility.Visible;
-                                Visibility SingleEngineVisible = Visibility.Visible;
-                                Visibility MultipleEngineVisible = Visibility.Visible;
-
-                                if (potential_executables.Count == 1)
-                                {
-                                    SingleEngineVisible = Visibility.Visible;
-                                    MultipleEngineVisible = Visibility.Collapsed;
-                                    SingleExecutable = potential_executables[0].Trim();
-                                }
-
-                                string Id = "";
-                                if (data.Count == 0)
-                                {
-                                    ResultVisibilityState = Visibility.Hidden;
-                                }
-                                else if (data.Count == 1)
-                                {
-                                    Id = data[0][0];
-                                    title = data[0][1];
-                                    creator = data[0][2];
-                                    game_engine = data[0][3];
-                                    ResultVisibilityState = Visibility.Hidden;
-                                }
-                                else
-                                {
-                                    if (data.Count > 1)
-                                    {
-                                        foreach (var item in data)
-                                        {
-                                            results.Add($"{item[0]} | {item[1]} | {item[2]}");
-                                        }
-                                    }
-                                }
-
-                                var gd = new GameDetails
-                                {
-                                    Id = Id,
-                                    Title = title.Trim(),
-                                    Version = version.Trim(),
-                                    Creator = creator.Trim(),
-                                    Engine = game_engine.Trim(),
-                                    SingleEngineVisible = SingleEngineVisible,
-                                    Executable = [.. potential_executables],
-                                    SingleExecutable = SingleExecutable,
-                                    MultipleEngineVisible = MultipleEngineVisible,
-                                    Folder = t,
-                                    Results = results,
-                                    ResultVisibilityState = ResultVisibilityState
-                                };
-
-                                if (title != "")
-                                {
-                                    try
-                                    {
-                                        Application.Current.Dispatcher.BeginInvoke(() =>
-                                        {
-
-                                            _GameDetailList.Add(gd);
-                                            potentialGames++;
-                                            UpdatePotentialGames(potentialGames);
-                                            //dg.Items.Refresh();
-
-                                        });
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Logger.Warn(ex);
-                                    }
-                                    Task.Run(() =>
-                                    {
-                                        try
-                                        {
-                                            AddGameToBannerView(gd);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error(ex);
-                                        }
-                                        //UpdateBannerView();
-                                    });
-                                }
-                            }
+                    if(Directory.GetDirectories(dir).Length <= 0) 
+                    {
+                        foreach (var file in Directory.GetFiles(dir))
+                        {
+                            FindGame(file, format, extensions, path, stop_level, potentialGames, true);
                         }
                     }
                 }
@@ -214,12 +94,176 @@ namespace Atlas.Core
                     Logger.Warn(ex);
                 }
             }
+
+            //if there are no folders, then check for files. 
             //Try to bind item source 
             UpdateBannerView();
             //outputFile.Close();
 
             return Task.CompletedTask;
         }
+
+        public static void FindGame(string t, string format, string[] extensions, string path, int stop_level, int potentialGames, bool isFile = false)
+        {
+  
+            List<string> potential_executables = new List<string>();
+            if(isFile)
+            {
+                potential_executables = Executable.DetectExecutable([t], extensions);
+            }
+            else
+            {
+                potential_executables = Executable.DetectExecutable(Directory.GetFiles(t), extensions);
+            }
+                
+                
+            if (potential_executables.Count > 0)
+            {
+                //check to see how to parse data
+
+                stop_level = t.Split('\\').Length;
+                //Now that we have a list of executables, we need to try and parse the engine, version, name etc..,
+                game_path = t;
+                string[] file_list = Walk(t);//This is the list we will use to determine the engine
+                game_engine = GameEngine.FindEngine(file_list);
+                string[] game_data = Details.ParseDetails(t.Replace($"{path}\\", "").Replace('-','_'));
+                if (format == "")
+                {
+
+                    if (game_data.Length > 0)
+                    {
+                        title = game_data[0];
+                        version = game_data[1];
+                    }
+                    if (game_data.Length > 2)
+                    {
+                        creator = game_data[2];
+                    }
+                }
+                else
+                {
+                    //try to parse based on pattern matching
+                    string[] parseFormat = format.ToUpper().Replace("{", "").Replace("}", "").Split("\\");
+                    string[] strArr = t.Replace($"{path}\\", "").Split("\\");
+
+                    var title_index = Array.FindIndex(parseFormat, row => row == "TITLE");
+                    var creator_index = Array.FindIndex(parseFormat, row => row == "CREATOR");
+                    var engine_index = Array.FindIndex(parseFormat, row => row == "ENGINE");
+                    var version_index = Array.FindIndex(parseFormat, row => row == "VERSION");
+
+                    if (title_index > -1)
+                    {
+                        title = strArr[title_index];
+                    }
+                    if (creator_index > -1)
+                    {
+                        creator = strArr[creator_index];
+                    }
+                    if (engine_index > -1)
+                    {
+                        game_engine = strArr[engine_index];
+                    }
+                    if (version_index > -1)
+                    {
+                        version = strArr[version_index];
+                    }
+                }
+
+
+                //Check the database to see if we have a match
+                List<string[]> data = new List<string[]>();
+                if (creator == null)
+                {
+                     data = SQLiteInterface.GetAtlasId(title, creator);
+                }
+
+                List<string> results = new List<string>();
+                string SingleExecutable = string.Empty;
+                Visibility ResultVisibilityState = Visibility.Visible;
+                Visibility SingleEngineVisible = Visibility.Visible;
+                Visibility MultipleEngineVisible = Visibility.Visible;
+
+                if (potential_executables.Count == 1)
+                {
+                    SingleEngineVisible = Visibility.Visible;
+                    MultipleEngineVisible = Visibility.Collapsed;
+                    SingleExecutable = potential_executables[0].Trim();
+                }
+
+                string Id = "";
+                if (data.Count == 0)
+                {
+                    ResultVisibilityState = Visibility.Hidden;
+                }
+                else if (data.Count == 1)
+                {
+                    Id = data[0][0];
+                    title = data[0][1];
+                    creator = data[0][2];
+                    game_engine = data[0][3];
+                    ResultVisibilityState = Visibility.Hidden;
+                }
+                else
+                {
+                    if (data.Count > 1)
+                    {
+                        foreach (var item in data)
+                        {
+                            results.Add($"{item[0]} | {item[1]} | {item[2]}");
+                        }
+                    }
+                }
+
+                var gd = new GameDetails
+                {
+                    Id = Id,
+                    Title = title.Trim(),
+                    Version = version.Trim(),
+                    Creator = creator.Trim(),
+                    Engine = game_engine.Trim(),
+                    SingleEngineVisible = SingleEngineVisible,
+                    Executable = [.. potential_executables],
+                    SingleExecutable = SingleExecutable,
+                    MultipleEngineVisible = MultipleEngineVisible,
+                    Folder = t,
+                    Results = results,
+                    ResultVisibilityState = ResultVisibilityState
+                };
+
+                if (title != "")
+                {
+                    try
+                    {
+                        Application.Current.Dispatcher.BeginInvoke(() =>
+                        {
+
+                            _GameDetailList.Add(gd);
+                            potentialGames++;
+                            UpdatePotentialGames(potentialGames);
+                            //dg.Items.Refresh();
+
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Warn(ex);
+                    }
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            AddGameToBannerView(gd);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+                        //UpdateBannerView();
+                    });
+                }
+            }
+        }
+
         private static void AddGameToBannerView(GameDetails gd)
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>

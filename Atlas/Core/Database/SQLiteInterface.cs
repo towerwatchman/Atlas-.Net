@@ -678,10 +678,34 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
             return banner_path;
         }
 
-        internal static void UpdateBanners(int recordID, string banner_path, string type)
+        public static void UpdateBanners(int recordID, string banner_path, string type)
         {
             string query = $"INSERT OR REPLACE INTO banners (record_id, path, type) VALUES('{recordID}','{banner_path}','{type}')";
             InsertOrUpdate(query, 1);
+        }
+
+        public  static string[] getScreensUrlList(string record_id)
+        {
+            string[] screen_paths = null;
+            string query = $"SELECT path from banners where record_id = '{record_id}'";
+
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                     //   banner_path = (reader["path"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            return [];
         }
     }
 }
