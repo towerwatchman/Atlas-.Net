@@ -172,10 +172,9 @@ namespace Atlas.Core
 
                 //Check the database to see if we have a match
                 List<string[]> data = new List<string[]>();
-                if (creator == null)
-                {
+                
                      data = SQLiteInterface.GetAtlasId(title, creator);
-                }
+                
 
                 List<string> results = new List<string>();
                 string SingleExecutable = string.Empty;
@@ -284,9 +283,19 @@ namespace Atlas.Core
         }
         public static string[] Walk(string path)
         {
-            string[] directories = Directory.GetDirectories(path);
-            string[] files = Directory.GetFiles(path);
-            var list = directories.Concat(files).ToArray();
+            FileAttributes attr = File.GetAttributes(path);
+            string[] list = null;
+            if (attr.HasFlag(FileAttributes.Directory))
+            {
+
+                string[] directories = Directory.GetDirectories(path);
+                string[] files = Directory.GetFiles(path);
+                list = directories.Concat(files).ToArray();
+            }
+            else
+            {
+                list = [path];
+            }
 
             return list;
         }

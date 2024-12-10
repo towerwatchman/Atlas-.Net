@@ -1,6 +1,8 @@
 ﻿using K4os.Compression.LZ4.Streams;
 using NLog;
 using System.IO;
+using SevenZipExtractor;
+
 
 namespace Atlas.Core.Utilities
 {
@@ -23,6 +25,39 @@ namespace Atlas.Core.Utilities
             catch (Exception ex) { Logger.Error(ex); }
 
             return data;
+        }
+
+        public static bool ExtractFile(string input, string output)
+        {
+            if(!Directory.Exists(output)) Directory.CreateDirectory(output);
+            bool rootFolder = false;
+            string root = "";
+            int index = 0;
+
+            using (ArchiveFile archiveFile = new ArchiveFile(input))
+            {
+                foreach (Entry entry in archiveFile.Entries)
+                {
+                    if(entry.FileName.Split('\\').Length > 1)
+                    {
+                        rootFolder = true;
+                        root = entry.FileName.Split('\\')[0];
+                    }
+
+                    string obj = entry.FileName.Replace(root, "");
+                    Console.WriteLine(obj);
+
+                    // extract to file
+                    string path = $"{output}{obj}";
+                    entry.Extract(path);
+
+                    // extract to stream
+                    //MemoryStream memoryStream = new MemoryStream();
+                    //entry.Extract(memoryStream);
+                }
+            }
+
+            return true;
         }
     }
 }

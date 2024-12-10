@@ -71,6 +71,7 @@
     <PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.3.4" />
+    <PackageReference Include="SevenZipExtractor" Version="1.0.17" />
     <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
     <PackageReference Include="SQLite" Version="3.13.0" />

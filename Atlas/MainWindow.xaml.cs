@@ -404,7 +404,21 @@ namespace Atlas
 
                 foreach (var GameDetail in F95Scanner.GameDetailList)
                 {
-                    await Task.Run(async () =>
+                    //Check if the file is an archive
+                    if (GameDetail.Executable[0].Contains(".zip"))
+                    {
+                        string input = $"{GameDetail.Folder}";
+                        string output = $"{Directory.GetCurrentDirectory()}\\data\\games";
+                        if(GameDetail.Creator != string.Empty)
+                        {
+                            output += $"\\{GameDetail.Creator}\\{GameDetail.Title}\\{GameDetail.Version}";
+                            if (!Directory.Exists(output)) { Directory.CreateDirectory(output); }
+                            Compression.ExtractFile(input, output);
+                        }
+
+                    }
+
+                     /*await Task.Run(async () =>
                     {
                         //We need to insert in to database first then get the id of the new item
                         string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
@@ -431,7 +445,7 @@ namespace Atlas
 
                         GC.WaitForPendingFinalizers();
                         GC.Collect();
-                    });
+                    });*/
 
                 }
             });
