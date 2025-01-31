@@ -41,7 +41,7 @@ namespace Atlas.UI.Pages.Importers
         private void cb_compression_Click(object sender, RoutedEventArgs e)
         {
             tb_format.IsEnabled = !(bool)cb_compression.IsChecked;
-            OtherDefaultExt.Text = cb_compression.IsChecked == false ? ".exe,.swf,.flv,.f4v,.rag,.cmd,.bat,.jar,.html" : ".zip, .rar, .7z";
+            OtherDefaultExt.Text = cb_compression.IsChecked == false ? Atlas.Core.Settings.Config.ExecutableExt : Atlas.Core.Settings.Config.ExtractionExt;
             cb_format.IsChecked = true;
         }
 

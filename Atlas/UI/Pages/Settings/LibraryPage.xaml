@@ -35,14 +35,16 @@
                 <Label DockPanel.Dock="Left"
                        Content="Game Folder:"
                        HorizontalAlignment="Left" />
-                <Button x:Name="btn_OpenFolder"
+                <Button x:Name="btn_SetGameFolder"
                         DockPanel.Dock="Right"
-                        Content="Set Folder" />
+                        Content="Set Folder"
+                        Click="btn_SetGameFolder_Click" />
                 
                 <TextBox x:Name="tb_GameFolder"
                          DockPanel.Dock="Left"
                          Width="Auto"
-                         HorizontalAlignment="Stretch" />
+                         HorizontalAlignment="Stretch"
+                         TextChanged="tb_GameFolder_TextChanged" />
             </DockPanel>
            
             

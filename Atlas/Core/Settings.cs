@@ -1,4 +1,5 @@
 ﻿using Config.Net;
+using SQLitePCL;
 using System.IO;
 
 namespace Atlas.Core
@@ -10,15 +11,16 @@ namespace Atlas.Core
         public static void Init()
         {
             //Add link to config
+            Console.WriteLine(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "config.ini"));
             Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "config.ini")).Build();
             //Set all inital values here. 
 
             //PATHS
-            Config.EnginesPath = Config.EnginesPath == null ? "data/engines" : Config.EnginesPath;
-            Config.RootPath = Config.RootPath == null ? "" : Config.RootPath;
+            Config.EnginesPath = Config.EnginesPath == null ? "data\\engines" : Config.EnginesPath;
+            Config.RootPath = Config.RootPath == null ? Directory.GetCurrentDirectory() : Config.RootPath;
             Config.DatabasePath = Config.DatabasePath == null ? "data" : Config.DatabasePath;
-            Config.ImagesPath = Config.ImagesPath == null ? "data/images" : Config.ImagesPath;
-            Config.GamesPath = Config.GamesPath == null ? "data/games" : Config.GamesPath;
+            Config.ImagesPath = Config.ImagesPath == null ? "data\\images" : Config.ImagesPath;
+            Config.GamesPath = Config.GamesPath == null ? "data\\games" : Config.GamesPath;
             Config.ThemesPath = Config.ThemesPath == null ? "themes" : Config.ThemesPath;
 
             //APP
@@ -30,6 +32,8 @@ namespace Atlas.Core
             Config.ImageRenderHeight = Config.ImageRenderHeight == 0 ? 251 : Config.ImageRenderHeight;
             Config.ImageRenderWidth = Config.ImageRenderWidth == 0 ? 537 : Config.ImageRenderWidth;
             Config.DefaultPage = Config.DefaultPage == "" ? "VNHGames" : Config.DefaultPage;
+            Config.ExecutableExt = Config.ExecutableExt == "" ? ".zip,.7z,.rar" : Config.ExecutableExt;
+            Config.ExtractionExt = Config.ExtractionExt == "" ? ".exe,.swf,.flv,.f4v,.rag,.cmd,.bat,.jar,.html" : Config.ExtractionExt;
         }
 
     }
@@ -62,6 +66,10 @@ namespace Atlas.Core
         #region IMPORTER
         [Option(Alias = "importer.FolderStructure")]
         string FolderStructure { get; set; }
+        [Option(Alias = "importer.ExtractionExt")]
+        string ExtractionExt { get; set; }
+        [Option(Alias = "importer.ExecutableExt")]
+        string ExecutableExt { get; set; }
         #endregion
 
         #region UI

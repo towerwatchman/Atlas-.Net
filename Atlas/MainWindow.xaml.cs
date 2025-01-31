@@ -413,7 +413,7 @@ namespace Atlas
                     if (GameDetail.Executable[0].Contains(".zip"))
                     {
                         string input = $"{GameDetail.Folder}";
-                        string output = $"{Directory.GetCurrentDirectory()}\\data\\games";
+                        string output = Atlas.Core.Settings.Config.GamesPath;
                         if(GameDetail.Creator != string.Empty)
                         {
                             output += $"\\{GameDetail.Creator}\\{GameDetail.Title}\\{GameDetail.Version}";
