@@ -68,7 +68,7 @@
                              HorizontalAlignment="Stretch" />
                   
                 </DockPanel>
-                <DockPanel Height="200"
+                <DockPanel 
                            Width="Auto"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Stretch"
@@ -83,10 +83,15 @@
                            Width="Auto">
                     <StackPanel>
                         <CheckBox Content="Download Images if match found in Atlas database"
-                                  Margin="10,10,0,0" />
+                                  Margin="10,10,0,0"
+                                  Visibility="Hidden" />
                         <CheckBox Content="Move to Atlas game folder"
-                                  Margin="10,10,0,0" />
+                                  Margin="10,10,0,0"
+                                  Visibility="Hidden" />
                         <CheckBox Content="Scan folder size duing import"
+                                  Margin="10,10,0,0"
+                                  Visibility="Hidden" />
+                        <CheckBox x:Name="cb_DeleteFolder" Content="Delete Folder After Extraction"
                                   Margin="10,10,0,0" />
                     </StackPanel>
                 </DockPanel>
