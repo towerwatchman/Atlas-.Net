@@ -488,8 +488,8 @@ f95_zone_data.tags as tags,
 f95_zone_data.rating as rating
 
 FROM
-atlas_mappings
-LEFT JOIN games on atlas_mappings.record_id = games.record_id
+games
+LEFT JOIN atlas_mappings on games.record_id = atlas_mappings.record_id
 LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
 LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
 

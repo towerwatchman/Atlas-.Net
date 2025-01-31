@@ -8,6 +8,7 @@ using Atlas.UI.Windows;
 using NLog;
 using System.Diagnostics;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+//using System.Windows.Shapes;
 
 namespace Atlas
 {
@@ -409,8 +411,9 @@ namespace Atlas
 
                 foreach (var GameDetail in F95Scanner.GameDetailList)
                 {
+                    string[] archiveExt = Atlas.Core.Settings.Config.ExtractionExt.Split(',');
                     //Check if the file is an archive. 
-                    if (GameDetail.Executable[0].Contains(".zip"))
+                    if (archiveExt.Any(GameDetail.Executable[0].Contains))
                     {
                         string input = $"{GameDetail.Folder}";
                         string output = Atlas.Core.Settings.Config.GamesPath;
@@ -421,9 +424,19 @@ namespace Atlas
                             Compression.ExtractFile(input, output);
                         }
 
+                        //We now need to find the executable. 
+                        
+                            //F95Scanner.FindGame(file, "", Atlas.Core.Settings.Config.ExecutableExt.Split(","), "", 1, 0, true);
+                            List<string> executables = Executable.DetectExecutable(Directory.GetFiles(output), Atlas.Core.Settings.Config.ExecutableExt.Split(","));
+                            GameDetail.Executable = executables;
+                            if(executables.Count == 1)
+                            {
+                                GameDetail.SingleExecutable = executables[0];
+                            }
+                        
                     }
 
-                     /*await Task.Run(async () =>
+                     await Task.Run(() =>
                     {
                         //We need to insert in to database first then get the id of the new item
                         string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
@@ -450,18 +463,18 @@ namespace Atlas
 
                         GC.WaitForPendingFinalizers();
                         GC.Collect();
-                    });*/
+                    });
 
                 }
             });
 
-            /*await Application.Current.Dispatcher.Invoke(async () =>
+            await Application.Current.Dispatcher.Invoke(async () =>
             {
                 // your code
                 ModelLoader loader = new ModelLoader();
                 await loader.CreateGamesList(Atlas.Core.Settings.Config.DefaultPage);
                 InitListView();
-            });*/
+            });
         }
 
         private void AtlasSearchBox_MouseEnter(object sender, MouseEventArgs e)
