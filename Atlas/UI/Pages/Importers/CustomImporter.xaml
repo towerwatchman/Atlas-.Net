@@ -60,7 +60,8 @@
                     <CheckBox x:Name="cb_compression"
                               DockPanel.Dock="Right"
                               Content="Extract Games"
-                              Click="cb_compression_Click" />
+                              Click="cb_compression_Click"
+                              Checked="cb_compression_Checked" />
                     <TextBox x:Name="OtherDefaultExt"
                              DockPanel.Dock="Left"
                              Width="Auto"

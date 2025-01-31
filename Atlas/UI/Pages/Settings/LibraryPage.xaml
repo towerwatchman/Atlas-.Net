@@ -9,6 +9,43 @@
       Title="LibraryPage">
 
     <Grid>
-        
+        <StackPanel Orientation="Vertical"
+                    Margin="20">
+            <DockPanel Height="30"
+                       Width="Auto"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Stretch"
+                       LastChildFill="True"
+                       Margin="0,0,0,10">
+                <Label DockPanel.Dock="Left"
+                       Content="Root Path:"
+                       HorizontalAlignment="Left" />
+               
+                <TextBox x:Name="tb_AtlasRoot"
+                         DockPanel.Dock="Left"
+                         Width="Auto"
+                         HorizontalAlignment="Stretch" />
+            </DockPanel>
+            <DockPanel Height="30"
+                       Width="Auto"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Stretch"
+                       LastChildFill="True"
+                       Margin="0,0,0,10">
+                <Label DockPanel.Dock="Left"
+                       Content="Game Folder:"
+                       HorizontalAlignment="Left" />
+                <Button x:Name="btn_OpenFolder"
+                        DockPanel.Dock="Right"
+                        Content="Set Folder" />
+                
+                <TextBox x:Name="tb_GameFolder"
+                         DockPanel.Dock="Left"
+                         Width="Auto"
+                         HorizontalAlignment="Stretch" />
+            </DockPanel>
+           
+            
+        </StackPanel>
     </Grid>
 </Page>

@@ -55,7 +55,7 @@ MouseDown="Window_MouseDown"
                 <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Background="{DynamicResource Tertiary}">
                     <Label Content="Atlas Settings" Foreground="{DynamicResource Accent}" HorizontalContentAlignment="Center" Margin="0,0,0,5" FontWeight="DemiBold"/>
                     <ListBox Width="180" BorderThickness="0" Background="{DynamicResource Tertiary}">
-                        <ListBoxItem>
+                        <ListBoxItem x:Name="Interface" MouseUp="OnListBoxNavButtonUp">
                             <StackPanel Orientation="Horizontal">
                                 <Path Data="{DynamicResource settings_icon}"
                                       Fill="{DynamicResource Text}"
@@ -68,7 +68,8 @@ MouseDown="Window_MouseDown"
                                 <Label Content="Interface"/>
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem>
+                        <ListBoxItem x:Name="Library"
+                                     MouseUp="OnListBoxNavButtonUp">
                             <StackPanel Orientation="Horizontal">
                                 <Path Data="{DynamicResource settings_icon}"
                                       Fill="{DynamicResource Text}"
@@ -194,7 +195,10 @@ MouseDown="Window_MouseDown"
                     <Label x:Name="SettingsLabel" Content="Settings"
                            Foreground="AliceBlue"
                            Height="45" FontSize="25" FontWeight="Bold" VerticalAlignment="Top" Margin="25,10,0,10" DockPanel.Dock="Top" />
-                    <Frame Background="{DynamicResource Primary}" DockPanel.Dock="Bottom" />
+                    <Frame x:Name="SettingsFrame"
+                           Background="{DynamicResource Primary}"
+                           DockPanel.Dock="Bottom"
+                           NavigationUIVisibility="Hidden" />
                 </DockPanel>
                 
             </DockPanel>

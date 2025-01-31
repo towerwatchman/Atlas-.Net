@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using Atlas.UI.Pages;
+using Atlas.UI.Pages.Settings;
+using Atlas.UI.ViewModel;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Atlas.UI.Windows
@@ -11,6 +15,8 @@ namespace Atlas.UI.Windows
         public SettingsWindow()
         {
             InitializeComponent();
+
+            this.SettingsFrame.Content = new InterfacePage();//GameDetailPage((GameViewModel)GameListBox.SelectedItem);
         }
         #region Windows Buttons
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
@@ -57,5 +63,22 @@ namespace Atlas.UI.Windows
                 }));
         }
         #endregion
+
+        private void OnListBoxNavButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var Item = (ListBoxItem)sender;
+            //Console.WriteLine(Item.Name);
+            Console.Out.WriteLine(Item.Name);
+
+            if (Item.Name.ToString() == "Interface")
+            {
+                this.SettingsFrame.Content = new InterfacePage();
+            }
+
+            if (Item.Name.ToString() == "Library")
+            {
+                this.SettingsFrame.Content = new LibraryPage();
+            }
+        }
     }
 }
