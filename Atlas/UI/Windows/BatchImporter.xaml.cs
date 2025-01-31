@@ -1,4 +1,5 @@
 ﻿using Atlas.Core;
+using Atlas.Core.Database;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -102,6 +103,11 @@ namespace Atlas.UI.Windows
                 if (ImportSourceComboBox.SelectedIndex == 0)
                 {
                     await f95ImportAsync();
+                    if (customImporter.cb_compression.IsChecked == true)
+                    {
+                        btn_matches.Visibility = Visibility.Visible;
+                        btn_matches.Width = 70;
+                    }
                 }
             }
 
@@ -176,5 +182,41 @@ namespace Atlas.UI.Windows
         }
 
         #endregion
+
+        //go through datatable and check each item. if there data has changed then search database for match
+        private void btn_Matches_Click(object sender, RoutedEventArgs e)
+        {
+            int index = 0;
+
+            var tempGameDetailsList = F95Scanner._GameDetailList.ToList();
+            foreach(GameDetails game in tempGameDetailsList)
+            {
+                var data = SQLiteInterface.GetAtlasId(game.Title, game.Creator);
+                List<string> results = new List<string>();
+
+                if (data.Count == 1)
+                {
+                    game.Id = data[0][0];
+                    game.Title = data[0][1];
+                    game.Creator = data[0][2];
+                    game.Engine = data[0][3];
+                }
+                else
+                {
+                    if (data.Count > 1)
+                    {
+                        foreach (var item in data)
+                        {
+                            results.Add($"{item[0]} | {item[1]} | {item[2]}");
+                        }
+                    }
+                }
+
+                F95Scanner._GameDetailList[index] = game;
+                GameList.Items.Refresh();
+
+                index++;
+            }
+        }
     }
 }

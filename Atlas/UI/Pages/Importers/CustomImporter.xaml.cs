@@ -37,5 +37,10 @@ namespace Atlas.UI.Pages.Importers
             //Check if the current text in the Root Path is a valid folder
             //btn_next.IsEnabled = Directory.Exists(tb_FolderDialog.Text);
         }
+
+        private void cb_compression_Click(object sender, RoutedEventArgs e)
+        {
+            tb_format.IsEnabled = !(bool)cb_compression.IsChecked;
+        }
     }
 }

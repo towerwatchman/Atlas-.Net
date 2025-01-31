@@ -57,10 +57,15 @@
                     <Label DockPanel.Dock="Left"
                            Content="Extensions:"
                            HorizontalAlignment="Left" />
+                    <CheckBox x:Name="cb_compression"
+                              DockPanel.Dock="Right"
+                              Content="Extract Games"
+                              Click="cb_compression_Click" />
                     <TextBox x:Name="OtherDefaultExt"
                              DockPanel.Dock="Left"
                              Width="Auto"
                              HorizontalAlignment="Stretch" />
+                  
                 </DockPanel>
                 <DockPanel Height="200"
                            Width="Auto"
@@ -72,17 +77,18 @@
                            Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xA;- Each of the options need to be surrounded by braces {}.&#xA;- Use the examples below for reference. &#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xA;&#xA;Examples&#xA;{engine}/{creator}/{title}/{version}&#xA;{creator}/{title}/{version&#xA;{title}/{version}&#xD;&#xA;{title-version}"
                            HorizontalAlignment="Left" />
                 </DockPanel>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        Height="Auto"
-                        Width="Auto">
-                <CheckBox Content="Download Images if match found in Atlas database"
-                          Margin="10,10,0,0" />
-                <CheckBox Content="Move to Atlas game folder"
-                          Margin="10,10,0,0" />
-                <CheckBox Content="Scan folder size duing import"
-                          Margin="10,10,0,0" />
+                <DockPanel HorizontalAlignment="Left"
+                           Height="Auto"
+                           Width="Auto">
+                    <StackPanel>
+                        <CheckBox Content="Download Images if match found in Atlas database"
+                                  Margin="10,10,0,0" />
+                        <CheckBox Content="Move to Atlas game folder"
+                                  Margin="10,10,0,0" />
+                        <CheckBox Content="Scan folder size duing import"
+                                  Margin="10,10,0,0" />
+                    </StackPanel>
+                </DockPanel>
             </StackPanel>
         </Grid>
     </Grid>

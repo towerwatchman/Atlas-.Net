@@ -103,6 +103,12 @@
                         <DockPanel HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
                                    Margin="10">
+                            <Button x:Name="btn_matches"
+                                    Content="Find Matches"
+                                    Margin="4"
+                                    Visibility="Hidden"
+                                    Width="0"
+                                    Click="btn_Matches_Click" />
                             <Button x:Name="btn_import"
                                     Content="Import"
                                     Margin="4"

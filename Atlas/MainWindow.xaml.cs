@@ -343,6 +343,11 @@ namespace Atlas
             }
             if (Item.Name.ToString() == "Settings")
             {
+                //Check if settings window is null from being closed
+                if (settingsWindow == null || settingsWindow.IsLoaded == false)
+                {
+                    settingsWindow = new SettingsWindow();  
+                }
                 if (!settingsWindow.IsVisible)
                 {
                     settingsWindow.Show();
@@ -404,7 +409,7 @@ namespace Atlas
 
                 foreach (var GameDetail in F95Scanner.GameDetailList)
                 {
-                    //Check if the file is an archive
+                    //Check if the file is an archive. 
                     if (GameDetail.Executable[0].Contains(".zip"))
                     {
                         string input = $"{GameDetail.Folder}";

@@ -213,6 +213,15 @@ namespace Atlas.Core
                     }
                 }
 
+                //Make sure version does not include the extension
+                foreach(var ext in extensions)
+                {
+                    if(version.Contains(ext))
+                    {
+                        version = version.Replace(ext, "");
+                    }
+                }
+
                 var gd = new GameDetails
                 {
                     Id = Id,
