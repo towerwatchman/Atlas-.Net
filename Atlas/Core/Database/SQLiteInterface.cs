@@ -239,7 +239,7 @@ namespace Atlas.Core.Database
 
         internal static int GetLastUpdateVersion()
         {
-            string query = "SELECT update_time FROM updates ORDER BY update_time ASC";
+            string query = "SELECT update_time FROM updates ORDER BY update_time DESC";
             List<string> data = SelectData(query);
             if (data.Count <= 0)
             {
@@ -247,6 +247,7 @@ namespace Atlas.Core.Database
             }
             else
             {
+                //Get top most item
                 return Convert.ToInt32(data[0]);
             }
         }

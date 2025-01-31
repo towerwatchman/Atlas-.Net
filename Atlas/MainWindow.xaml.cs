@@ -285,7 +285,7 @@ namespace Atlas
                                         else
                                         {*/
                                         banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
-                                        ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 200);
+                                        ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 2000);
                                         //}
 
                                         //Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
@@ -329,7 +329,7 @@ namespace Atlas
                                     });
                                     //Set a default waiting period for downloading images between 200ms and 1s
                                     Random random = new Random();
-                                    System.Threading.Thread.Sleep(random.Next(200, 1000));
+                                    System.Threading.Thread.Sleep(random.Next(1000, 2000));
                                 }
 
                                 string[] screens = SQLiteInterface.getScreensUrlList(game.RecordID.ToString());

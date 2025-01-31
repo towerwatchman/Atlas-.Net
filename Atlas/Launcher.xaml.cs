@@ -181,41 +181,47 @@ namespace Atlas
             string url = "https://atlas-gamesdb.com/api/updates";
             JArray jsonArray = NetworkInterface.RequestJSON(url);
             if (jsonArray != null)
-            {
-                //Get data for latest update
-                string date = jsonArray[0]["date"].ToString();
-                string name = jsonArray[0]["name"].ToString();
-                string md5 = jsonArray[0]["md5"].ToString();
-
+            {                    
                 int lastDbUpdateVersion = SQLiteInterface.GetLastUpdateVersion();
-                //Run db check to see if latest update is in database
-                if (Convert.ToInt32(date) <= lastDbUpdateVersion && lastDbUpdateVersion != 0)
-                    return;
-
-                //Download latest update
-                try
+                foreach (var jsonitem in jsonArray)
                 {
-                    UpdateLauncherText("Downloading Update");
-                    string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
-                    string OutputPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "updates", name);
 
-                    await NetworkInterface.DownloadFile(DownloadUrl, OutputPath);
 
-                    string data = Compression.DecodeLZ4Stream(OutputPath);
-                    UpdateLauncherText("Processing Update");
-                    await UpdateInterface.ParseUpdate(data);
+                    //Get data for latest update
+                    string date = jsonitem["date"].ToString();
+                    string name = jsonitem["name"].ToString();
+                    string md5 = jsonitem["md5"].ToString();
 
-                    if (UpdateInterface.UpdateCompleted)
+
+                    //Run db check to see if latest update is in database
+                    if (Convert.ToInt32(date) > lastDbUpdateVersion && lastDbUpdateVersion != 0)
                     {
-                        SQLiteInterface.InsertUpdateVersion(date, md5);
-                    }
+                        //Download latest update
+                        try
+                        {
+                            UpdateLauncherText("Downloading Update");
+                            string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
+                            string OutputPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "updates", name);
 
-                    //update database with data
-                    //Database.ProcessUpdate(OutputPath);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex);
+                            await NetworkInterface.DownloadFile(DownloadUrl, OutputPath);
+
+                            string data = Compression.DecodeLZ4Stream(OutputPath);
+                            UpdateLauncherText("Processing Update");
+                            await UpdateInterface.ParseUpdate(data);
+
+                            if (UpdateInterface.UpdateCompleted)
+                            {
+                                SQLiteInterface.InsertUpdateVersion(date, md5);
+                            }
+
+                            //update database with data
+                            //Database.ProcessUpdate(OutputPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+                    }
                 }
             }
         }

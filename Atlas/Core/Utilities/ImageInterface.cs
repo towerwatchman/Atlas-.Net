@@ -55,6 +55,7 @@ namespace Atlas.Core.Utilities
             try
             {
                 using var inStream = new MemoryStream(imageArray);
+                inStream.Position = 0;
 
                 using (Image image = await Image.LoadAsync(inStream))
                 {
