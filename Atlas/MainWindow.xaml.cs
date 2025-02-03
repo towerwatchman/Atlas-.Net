@@ -41,6 +41,7 @@ namespace Atlas
             InterfaceHelper.GameImportBox = GameImportBox;
             InterfaceHelper.GameImportTextBox = GameImportTextBox;
             InterfaceHelper.GameImportPB = GameImportPB;
+            InterfaceHelper.GameImportPBStatus = GameImportPBStatus;
 
 
             //Custom Event manager for pressing one of the Navigation buttons on the left side
@@ -429,12 +430,17 @@ namespace Atlas
                         {
                             output += $"\\{GameDetail.Creator}\\{GameDetail.Title}\\{GameDetail.Version}";
                             if (!Directory.Exists(output)) { Directory.CreateDirectory(output); }
-                            bool extStatus = Compression.ExtractFile(input, output);
+                            bool extStatus = Compression.ExtractFile(input, output, GameDetail.Title);
 
                             if (extStatus == false)
                             {
                                 Logger.Error($"Error extracting file {input}");
                                 break;
+                            }
+                            //Make sure to change gane Path
+                            else
+                            {
+                                GameDetail.Folder = output;
                             }
 
                             //Delete file if enabled

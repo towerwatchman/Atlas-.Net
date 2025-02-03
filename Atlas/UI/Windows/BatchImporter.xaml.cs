@@ -172,6 +172,7 @@ namespace Atlas.UI.Windows
                 btn_import.IsEnabled = false;
                 btn_import.Width = 70;
 
+                //gets extension from textbox
                 string[] extensions = customImporter.OtherDefaultExt.Text.Split(",");
 
                 await Task.Run(async () =>

@@ -3,6 +3,7 @@ using NLog;
 using System.IO;
 using SevenZipExtractor;
 using Atlas.UI;
+using Windows.Media.AppBroadcasting;
 
 
 namespace Atlas.Core.Utilities
@@ -28,7 +29,7 @@ namespace Atlas.Core.Utilities
             return data;
         }
 
-        public static bool ExtractFile(string input, string output)
+        public static bool ExtractFile(string input, string output, string gameName)
         {
             if(!Directory.Exists(output)) Directory.CreateDirectory(output);
             bool rootFolder = false;
@@ -43,10 +44,11 @@ namespace Atlas.Core.Utilities
                     InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                     {
                         //InterfaceHelper.up
-                        InterfaceHelper.GameImportTextBox.Content = "Extrating Game";
+                        InterfaceHelper.GameImportBox.Visibility = System.Windows.Visibility.Visible;
+                        InterfaceHelper.GameImportTextBox.Content = $"Extrating Game: {gameName}";
                         InterfaceHelper.GameImportPB.Value = 0;
                         InterfaceHelper.GameImportPB.Maximum = entries;
-                        //InterfaceHelper.UpdateTextBox.Text = "100%";
+                        InterfaceHelper.GameImportPBStatus.Content = $"File: 0\\{entries}";
                     }));
 
                     index = 0;
@@ -59,7 +61,11 @@ namespace Atlas.Core.Utilities
                             root = entry.FileName.Split('\\')[0];
                         }
 
-                        string obj = entry.FileName.Replace(root, "");
+                        string obj = root != "" ? entry.FileName.Replace(root, "") : entry.FileName;
+                        if(!obj.Contains('\\'))
+                        {
+                            obj = '\\' + obj;
+                        }
                         //Console.WriteLine(obj);
 
                         // extract to file
@@ -68,6 +74,7 @@ namespace Atlas.Core.Utilities
                         InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                         {
                             InterfaceHelper.GameImportPB.Value = index;
+                            InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
                         }));
                     }
                 }

@@ -24,5 +24,6 @@ namespace Atlas.UI
         public static Grid GameImportBox { get; internal set; }
         public static Label GameImportTextBox { get; internal set; }
         public static ProgressBar GameImportPB { get; internal set; }
+        public static Label GameImportPBStatus { get; internal set; }
     }
 }

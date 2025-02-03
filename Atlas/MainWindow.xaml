@@ -460,9 +460,13 @@
                            VerticalContentAlignment="Center"
                            Width="300"
                            HorizontalAlignment="Left" />
-                    <ProgressBar x:Name="GameImportPB" Height="15" Width="300">
-                        
-                    </ProgressBar>
+                    <Grid>
+                        <ProgressBar x:Name="GameImportPB"
+                                     Height="15"
+                                     Width="300" />
+                        <Label x:Name="GameImportPBStatus"
+                               Content="File 0/0" Padding="0" HorizontalAlignment="Center" FontSize="10" VerticalAlignment="Center" />
+                    </Grid>
                 </StackPanel>
                
             </Grid>

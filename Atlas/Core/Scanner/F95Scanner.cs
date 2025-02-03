@@ -88,6 +88,12 @@ namespace Atlas.Core
                             FindGame(file, format, extensions, path, stop_level, potentialGames, true);
                         }
                     }
+
+                    //if we cant find any folders, the check for files
+                    foreach (string f in Directory.GetFiles(dir))
+                    {
+                        FindGame(f, format, extensions, path, stop_level, potentialGames, true);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -153,19 +159,19 @@ namespace Atlas.Core
 
                     if (title_index > -1)
                     {
-                        title = strArr[title_index];
+                        title = strArr[title_index].Trim();
                     }
                     if (creator_index > -1)
                     {
-                        creator = strArr[creator_index];
+                        creator = strArr[creator_index].Trim();
                     }
                     if (engine_index > -1)
                     {
-                        game_engine = strArr[engine_index];
+                        game_engine = strArr[engine_index].Trim();
                     }
                     if (version_index > -1)
                     {
-                        version = strArr[version_index];
+                        version = strArr[version_index].Trim();
                     }
                 }
 
@@ -225,10 +231,10 @@ namespace Atlas.Core
                 var gd = new GameDetails
                 {
                     Id = Id,
-                    Title = title.Trim(),
-                    Version = version.Trim(),
-                    Creator = creator.Trim(),
-                    Engine = game_engine.Trim(),
+                    Title = title.Trim().Replace(" ", ""),
+                    Version = version.Trim().Replace(" ", ""),
+                    Creator = creator.Trim().Replace(" ", ""),
+                    Engine = game_engine.Trim().Replace(" ", ""),
                     SingleEngineVisible = SingleEngineVisible,
                     Executable = [.. potential_executables],
                     SingleExecutable = SingleExecutable,
@@ -244,12 +250,12 @@ namespace Atlas.Core
                     {
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {
-
-                            _GameDetailList.Add(gd);
-                            potentialGames++;
-                            UpdatePotentialGames(potentialGames);
-                            //dg.Items.Refresh();
-
+                            if (!_GameDetailList.Where(x => x.Folder == t).Any())
+                            {
+                                _GameDetailList.Add(gd);
+                                potentialGames++;
+                                UpdatePotentialGames(potentialGames);
+                            }
                         });
                     }
                     catch (Exception ex)
