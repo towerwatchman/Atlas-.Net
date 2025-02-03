@@ -188,7 +188,8 @@
                                               VirtualizingPanel.IsContainerVirtualizable="True"
                                               VirtualizingPanel.IsVirtualizing="True"
                                               VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                                              VirtualizingPanel.VirtualizationMode="Recycling">
+                                              VirtualizingPanel.VirtualizationMode="Recycling"
+                                              CanUserDeleteRows="True">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Atlas ID"
                                                                 Binding="{Binding Path=Id}"
