@@ -21,7 +21,8 @@ namespace Atlas.UI
         public static ListView BannerView { get; set; }
         public static Window MainWindow { get; set; }
         public static Dispatcher Dispatcher { get; internal set; }
-        public static Grid GameUpdateBox { get; internal set; }
-        public static Label GameUpdateTextBox { get; internal set; }
+        public static Grid GameImportBox { get; internal set; }
+        public static Label GameImportTextBox { get; internal set; }
+        public static ProgressBar GameImportPB { get; internal set; }
     }
 }

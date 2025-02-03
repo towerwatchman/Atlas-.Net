@@ -450,9 +450,21 @@
             </Grid>
         </DockPanel>
         <!-- ONLY USED FOR UPDATING GAMES-->
-        <Grid Height="20" VerticalAlignment="Bottom" Margin="0,0,0,41" x:Name="GameUpdateBox">
-            <Grid Margin="230,0,0,0" Panel.ZIndex="1500">
-                <Label x:Name="GameUpdateTextBox" Content="TEST" Padding="0" FontSize="10" VerticalContentAlignment="Center"/>
+        <Grid Height="20" VerticalAlignment="Bottom" Margin="0,0,0,41" x:Name="GameImportBox">
+            <Grid Margin="230,0,230,0" Panel.ZIndex="1500">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label x:Name="GameImportTextBox"
+                           Content="TEST"
+                           Padding="0"
+                           FontSize="10"
+                           VerticalContentAlignment="Center"
+                           Width="300"
+                           HorizontalAlignment="Left" />
+                    <ProgressBar x:Name="GameImportPB" Height="15" Width="300">
+                        
+                    </ProgressBar>
+                </StackPanel>
+               
             </Grid>
             
             <!--<ProgressBar Width="300" Height="15" Panel.ZIndex="1000" HorizontalAlignment="Right" Margin="0,0,260,0"/>-->

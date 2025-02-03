@@ -35,11 +35,13 @@ namespace Atlas
             atlas_frame.Content = bvp;
             Atlas.Core.Global.DeleteAfterImport = false;
 
-            GameUpdateBox.Visibility = Visibility.Hidden;
+            GameImportBox.Visibility = Visibility.Hidden;
 
             //Assign Update Section to InterfaceHelper
-            InterfaceHelper.GameUpdateBox = GameUpdateBox;
-            InterfaceHelper.GameUpdateTextBox = GameUpdateTextBox;
+            InterfaceHelper.GameImportBox = GameImportBox;
+            InterfaceHelper.GameImportTextBox = GameImportTextBox;
+            InterfaceHelper.GameImportPB = GameImportPB;
+
 
             //Custom Event manager for pressing one of the Navigation buttons on the left side
             EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
@@ -428,6 +430,12 @@ namespace Atlas
                             output += $"\\{GameDetail.Creator}\\{GameDetail.Title}\\{GameDetail.Version}";
                             if (!Directory.Exists(output)) { Directory.CreateDirectory(output); }
                             bool extStatus = Compression.ExtractFile(input, output);
+
+                            if (extStatus == false)
+                            {
+                                Logger.Error($"Error extracting file {input}");
+                                break;
+                            }
 
                             //Delete file if enabled
                             if (Atlas.Core.Global.DeleteAfterImport && extStatus)

@@ -2,6 +2,7 @@
 using NLog;
 using System.IO;
 using SevenZipExtractor;
+using Atlas.UI;
 
 
 namespace Atlas.Core.Utilities
@@ -38,8 +39,20 @@ namespace Atlas.Core.Utilities
             {
                 using (ArchiveFile archiveFile = new ArchiveFile(input))
                 {
+                    int entries = archiveFile.Entries.Count;
+                    InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+                    {
+                        //InterfaceHelper.up
+                        InterfaceHelper.GameImportTextBox.Content = "Extrating Game";
+                        InterfaceHelper.GameImportPB.Value = 0;
+                        InterfaceHelper.GameImportPB.Maximum = entries;
+                        //InterfaceHelper.UpdateTextBox.Text = "100%";
+                    }));
+
+                    index = 0;
                     foreach (Entry entry in archiveFile.Entries)
                     {
+                        index++;
                         if (entry.FileName.Split('\\').Length > 1)
                         {
                             rootFolder = true;
@@ -47,11 +60,15 @@ namespace Atlas.Core.Utilities
                         }
 
                         string obj = entry.FileName.Replace(root, "");
-                        Console.WriteLine(obj);
+                        //Console.WriteLine(obj);
 
                         // extract to file
                         string path = $"{output}{obj}";
                         entry.Extract(path);
+                        InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+                        {
+                            InterfaceHelper.GameImportPB.Value = index;
+                        }));
                     }
                 }
             }
