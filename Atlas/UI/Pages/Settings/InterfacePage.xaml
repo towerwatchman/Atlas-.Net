@@ -45,7 +45,7 @@
                         <ComboBoxItem Content="Close" />
                     </ComboBox>
                 </StackPanel>
-                <StackPanel Orientation="Vertical">
+                <!--<StackPanel Orientation="Vertical">
                     <CheckBox Content="Minimize Atlas to system tray when the aplication window is closed"
                               Margin="0,10,0,0" />
                     <CheckBox Content="Download metadata during game import"
@@ -56,7 +56,7 @@
                               Margin="0,10,0,0" />
                     <CheckBox Content="Update game install size on library update"
                               Margin="0,10,0,0" />
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
         </ScrollViewer>
     </Grid>
