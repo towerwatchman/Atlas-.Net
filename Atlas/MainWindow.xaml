@@ -451,7 +451,7 @@
         </DockPanel>
         <!-- ONLY USED FOR UPDATING GAMES-->
         <Grid Height="20" VerticalAlignment="Bottom" Margin="0,0,0,41" x:Name="GameUpdateBox">
-            <Grid Margin="230,0,0,0" Background="Red" Panel.ZIndex="1500">
+            <Grid Margin="230,0,0,0" Panel.ZIndex="1500">
                 <Label x:Name="GameUpdateTextBox" Content="TEST" Padding="0" FontSize="10" VerticalContentAlignment="Center"/>
             </Grid>
             

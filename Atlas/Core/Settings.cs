@@ -82,4 +82,9 @@ namespace Atlas.Core
 
         #endregion
     }
+
+    public static class Global
+    {
+        public static bool DeleteAfterImport { get; set; }
+    }
 }

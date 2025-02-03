@@ -34,28 +34,28 @@ namespace Atlas.Core.Utilities
             string root = "";
             int index = 0;
 
-            using (ArchiveFile archiveFile = new ArchiveFile(input))
+            try
             {
-                foreach (Entry entry in archiveFile.Entries)
+                using (ArchiveFile archiveFile = new ArchiveFile(input))
                 {
-                    if(entry.FileName.Split('\\').Length > 1)
+                    foreach (Entry entry in archiveFile.Entries)
                     {
-                        rootFolder = true;
-                        root = entry.FileName.Split('\\')[0];
+                        if (entry.FileName.Split('\\').Length > 1)
+                        {
+                            rootFolder = true;
+                            root = entry.FileName.Split('\\')[0];
+                        }
+
+                        string obj = entry.FileName.Replace(root, "");
+                        Console.WriteLine(obj);
+
+                        // extract to file
+                        string path = $"{output}{obj}";
+                        entry.Extract(path);
                     }
-
-                    string obj = entry.FileName.Replace(root, "");
-                    Console.WriteLine(obj);
-
-                    // extract to file
-                    string path = $"{output}{obj}";
-                    entry.Extract(path);
-
-                    // extract to stream
-                    //MemoryStream memoryStream = new MemoryStream();
-                    //entry.Extract(memoryStream);
                 }
             }
+            catch { return false; }
 
             return true;
         }

@@ -33,7 +33,13 @@ namespace Atlas
         {
             InitializeComponent();
             atlas_frame.Content = bvp;
+            Atlas.Core.Global.DeleteAfterImport = false;
 
+            GameUpdateBox.Visibility = Visibility.Hidden;
+
+            //Assign Update Section to InterfaceHelper
+            InterfaceHelper.GameUpdateBox = GameUpdateBox;
+            InterfaceHelper.GameUpdateTextBox = GameUpdateTextBox;
 
             //Custom Event manager for pressing one of the Navigation buttons on the left side
             EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonUpEvent, new RoutedEventHandler(this.OnListBoxNavButtonUp));
@@ -421,7 +427,18 @@ namespace Atlas
                         {
                             output += $"\\{GameDetail.Creator}\\{GameDetail.Title}\\{GameDetail.Version}";
                             if (!Directory.Exists(output)) { Directory.CreateDirectory(output); }
-                            Compression.ExtractFile(input, output);
+                            bool extStatus = Compression.ExtractFile(input, output);
+
+                            //Delete file if enabled
+                            if (Atlas.Core.Global.DeleteAfterImport && extStatus)
+                            {
+                                try
+                                {
+                                    File.Delete(input);
+                                }
+                                catch(Exception ex) { Logger.Error(ex); }
+                            }
+
                         }
 
                         //We now need to find the executable. 
