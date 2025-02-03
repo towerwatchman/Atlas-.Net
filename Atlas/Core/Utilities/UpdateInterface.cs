@@ -11,7 +11,8 @@ namespace Atlas.Core.Utilities
             JObject dataObj = JObject.Parse(data);
             InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
             {
-                InterfaceHelper.LauncherProgressBar.Value = 100;
+                InterfaceHelper.UpdateProgressBar.Value = 100;
+                InterfaceHelper.UpdateTextBox.Text = "100%";
             }));
             //This to to make sure the update was processed
             System.Threading.Thread.Sleep(1000);
@@ -20,7 +21,8 @@ namespace Atlas.Core.Utilities
 
             InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
             {
-                InterfaceHelper.LauncherProgressBar.Value = 0;
+                InterfaceHelper.UpdateProgressBar.Value = 0;
+                InterfaceHelper.UpdateTextBox.Text = "0%";
                 InterfaceHelper.LauncherTextBox.Text = "Updating Atlas Metadata";
             }));
 
@@ -29,7 +31,8 @@ namespace Atlas.Core.Utilities
 
             InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
             {
-                InterfaceHelper.LauncherProgressBar.Value = 0;
+                InterfaceHelper.UpdateProgressBar.Value = 0;
+                InterfaceHelper.UpdateTextBox.Text = "0%";
                 InterfaceHelper.LauncherTextBox.Text = "Updating F95 Metadata";
             }));
 

@@ -176,7 +176,8 @@ namespace Atlas.Core.Database
                             {
                                 InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                                 {
-                                    InterfaceHelper.LauncherProgressBar.Value = (currentQuery / totalQueries) * 100;
+                                    InterfaceHelper.UpdateProgressBar.Value = (currentQuery / totalQueries) * 100;
+                                    InterfaceHelper.UpdateTextBox.Text = $"{Math.Round((currentQuery / totalQueries) * 100,0)}%";
                                 }));
 
                                 //Logger.Info($"Percent complete {currentQuery} / {totalQueries}");

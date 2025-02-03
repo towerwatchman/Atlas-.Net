@@ -21,7 +21,13 @@ namespace Atlas
             //Assign progressbar to helper
             InterfaceHelper.LauncherWindow = this;
             InterfaceHelper.LauncherProgressBar = LauncherProgressBar;
+            InterfaceHelper.UpdateProgressBar = UpdateProgressBar;
             InterfaceHelper.LauncherTextBox = LauncherTextBox;
+            InterfaceHelper.UpdateTextBox = UpdateTextBox;
+
+            //Hide update progress bar
+            UpdateProgressBar.Visibility = Visibility.Hidden;
+            UpdateTextBox.Visibility = Visibility.Hidden;
 
             //This will be the default dispatcher for all UI elements that need to be updated from another thread
             //This does not include the Launcher. It uses its own thread.
@@ -182,11 +188,11 @@ namespace Atlas
             JArray jsonArray = NetworkInterface.RequestJSON(url);
             if (jsonArray != null)
             {                    
-                int lastDbUpdateVersion = SQLiteInterface.GetLastUpdateVersion();
+
                 foreach (var jsonitem in jsonArray)
                 {
-
-
+                    //This has to be updated so it will not overwrite previous versions
+                    int lastDbUpdateVersion = SQLiteInterface.GetLastUpdateVersion();
                     //Get data for latest update
                     string date = jsonitem["date"].ToString();
                     string name = jsonitem["name"].ToString();
@@ -194,7 +200,7 @@ namespace Atlas
 
 
                     //Run db check to see if latest update is in database
-                    if (Convert.ToInt32(date) > lastDbUpdateVersion && lastDbUpdateVersion != 0)
+                    if (Convert.ToInt32(date) > lastDbUpdateVersion || lastDbUpdateVersion == 0)
                     {
                         //Download latest update
                         try
@@ -206,6 +212,13 @@ namespace Atlas
                             await NetworkInterface.DownloadFile(DownloadUrl, OutputPath);
 
                             string data = Compression.DecodeLZ4Stream(OutputPath);
+
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                UpdateProgressBar.Visibility = System.Windows.Visibility.Visible;
+                                UpdateTextBox.Visibility = System.Windows.Visibility.Visible;
+                            });
+
                             UpdateLauncherText("Processing Update");
                             await UpdateInterface.ParseUpdate(data);
 

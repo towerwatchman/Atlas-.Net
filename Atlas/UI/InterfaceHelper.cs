@@ -12,7 +12,9 @@ namespace Atlas.UI
 
         public static TextBox PotentialGamesTextBox { get; set; }
         public static ProgressBar LauncherProgressBar { get; internal set; }
+        public static ProgressBar UpdateProgressBar { get; internal set; }
         public static double ProgressBarStartValue { get; set; }
+        public static TextBox UpdateTextBox { get; internal set; }
         public static TextBox LauncherTextBox { get; internal set; }
         public static Launcher LauncherWindow { get; internal set; }
         public static TextBlock ImporterScanTextBox { get; set; }
