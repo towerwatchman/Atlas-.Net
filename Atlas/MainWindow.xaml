@@ -449,5 +449,47 @@
                 </Grid>
             </Grid>
         </DockPanel>
+        <!-- ONLY USED FOR UPDATING GAMES-->
+        <Grid Height="20" VerticalAlignment="Bottom" Margin="0,0,0,41" x:Name="GameUpdateBox">
+            <Grid Margin="230,0,0,0" Background="Red" Panel.ZIndex="1500">
+                <Label x:Name="GameUpdateTextBox" Content="TEST" Padding="0" FontSize="10" VerticalContentAlignment="Center"/>
+            </Grid>
+            
+            <!--<ProgressBar Width="300" Height="15" Panel.ZIndex="1000" HorizontalAlignment="Right" Margin="0,0,260,0"/>-->
+            <Polygon Fill="{DynamicResource Primary}"
+                     HorizontalAlignment="Left"
+                     Margin="200,0,0,0"
+                     Stretch="Uniform"
+                     Height="20"
+                     VerticalAlignment="Top">
+                <Polygon.Points>
+                    <Point X="0"
+                           Y="0" />
+                    <Point X="8"
+                           Y="-8" />
+                    <Point X="8"
+                           Y="0" />
+                </Polygon.Points>
+            </Polygon>
+            <!-- Center -->
+            <Rectangle Fill="{DynamicResource Primary}"
+                       Margin="220,0,220,0" />
+            <!-- Right Corner-->
+            <Polygon Fill="{DynamicResource Primary}"
+                     HorizontalAlignment="Right"
+                     Margin="40,0,200,0"
+                     Stretch="Uniform"
+                     Height="20"
+                     VerticalAlignment="Top">
+                <Polygon.Points>
+                    <Point X="0"
+                           Y="0" />
+                    <Point X="8"
+                           Y="0" />
+                    <Point X="0"
+                           Y="-8" />
+                </Polygon.Points>
+            </Polygon>
+        </Grid>
     </Grid>
 </Window>
