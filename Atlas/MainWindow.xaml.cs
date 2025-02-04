@@ -451,7 +451,7 @@ namespace Atlas
                             }
 
                             //Delete file if enabled
-                            if (Atlas.Core.Global.DeleteAfterImport && extStatus)
+                            if (Atlas.Core.Global.DeleteAfterImport && extStatus == true)
                             {
                                 try
                                 {

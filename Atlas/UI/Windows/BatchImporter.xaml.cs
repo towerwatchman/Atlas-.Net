@@ -97,7 +97,7 @@ namespace Atlas.UI.Windows
         {
             var item = (TabItem)tbc_Import.SelectedItem;
 
-            Atlas.Core.Global.DeleteAfterImport = (bool)customImporter.cb_format.IsChecked;
+            Atlas.Core.Global.DeleteAfterImport = (bool)customImporter.cb_DeleteFolder.IsChecked;
 
             if (item.Header.ToString() == "Start")
             {
