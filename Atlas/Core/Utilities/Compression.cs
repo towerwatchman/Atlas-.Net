@@ -79,7 +79,10 @@ namespace Atlas.Core.Utilities
                     }
                 }
             }
-            catch { return false; }
+            catch(Exception ex) {
+                Logger.Error(ex);
+                return false; 
+            }
 
             return true;
         }
