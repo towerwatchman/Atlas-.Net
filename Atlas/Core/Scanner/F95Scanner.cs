@@ -251,6 +251,11 @@ namespace Atlas.Core
 
                 //CHECK IF DATA IS ALREADY IN THE DATBASE. IF IT IS THEN UPDATE THE TABLE
                 bool record_exist = SQLiteInterface.CheckIfRecordExist(title, creator, version);
+                //if no record found, check against game path
+                if (!record_exist)
+                {
+                    record_exist = SQLiteInterface.CheckIfPathExist(t, title);
+                }
 
                 var gd = new GameDetails
                 {
@@ -278,7 +283,10 @@ namespace Atlas.Core
                         {
                             if (!_GameDetailList.Where(x => x.Folder == t).Any())
                             {
-                                _GameDetailList.Add(gd);
+                                if (!record_exist)
+                                {
+                                    _GameDetailList.Add(gd);
+                                }
                             }
                         });
                     }

@@ -325,7 +325,7 @@ namespace Atlas.Core.Database
         public static bool CheckIfRecordExist(string title, string creator, string version)
         {
             int record = -1;
-            string query = $"SELECT games.record_id, games.record_id, games.title, games.creator, versions.version, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title.Replace("'","''")}' AND games.creator = '{creator.Replace("'", "''")}' AND versions.version = '{version.Replace("'", "''")}'";
+            string query = $"SELECT games.record_id, games.title, games.creator, versions.version, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title.Replace("'","''")}' AND games.creator = '{creator.Replace("'", "''")}' AND versions.version = '{version.Replace("'", "''")}'";
             using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
             {
                 connection.Open();
@@ -347,6 +347,35 @@ namespace Atlas.Core.Database
                 return true;
             }
             return false;    
+        }
+
+        public static bool CheckIfPathExist(string gamepath, string title)
+        {
+            int record = -1;
+            title = title.Trim();
+            string query = $"SELECT games.record_id, games.title, versions.game_path, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title.Replace("'", "''")}' AND versions.game_path = REPLACE( '{gamepath.Replace("'", "''")}'," + @"'\\','\')";
+            Console.Out.WriteLine(query);
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        record = Convert.ToInt32(reader["record_id"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            if (record != -1)
+            {
+                return true;
+            }
+            return false;
         }
 
         public static bool CheckIfVersionExist(string record_id, string version)
