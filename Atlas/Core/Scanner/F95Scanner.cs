@@ -111,6 +111,15 @@ namespace Atlas.Core
                 }
             }
 
+            //This is specifically for archives
+            if(isArchive)
+            {
+                foreach (string file in Directory.GetFiles(path))
+                {
+                    FindGame(file, format, extensions, path, 5, potentialGames, true);
+                }
+            }
+
             //if there are no folders, then check for files. 
             //Try to bind item source 
             UpdateBannerView();
@@ -323,10 +332,17 @@ namespace Atlas.Core
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {
-                InterfaceHelper.Datagrid.Items.Clear();
-                InterfaceHelper.Datagrid.ItemsSource = _GameDetailList;
-                InterfaceHelper.Datagrid.Items.Refresh();
-                InterfaceHelper.Datagrid.IsReadOnly = false;
+                /*while (InterfaceHelper.Datagrid.Items.IsInUse)
+                {
+                    Logger.Warn("Wainting on DataGrid to Update");
+                    System.Threading.Thread.Sleep(1000);
+                }*/
+                    InterfaceHelper.Datagrid.Items.Clear();
+                    InterfaceHelper.Datagrid.ItemsSource = _GameDetailList;
+                    InterfaceHelper.Datagrid.Items.Refresh();
+                    InterfaceHelper.Datagrid.IsReadOnly = false;
+                    InterfaceHelper.Datagrid.CanUserResizeRows = true;
+                
             }));
         }
         public static string[] Walk(string path)

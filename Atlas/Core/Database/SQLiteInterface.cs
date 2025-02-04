@@ -354,7 +354,7 @@ namespace Atlas.Core.Database
             int record = -1;
             title = title.Trim();
             string query = $"SELECT games.record_id, games.title, versions.game_path, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title.Replace("'", "''")}' AND versions.game_path = REPLACE( '{gamepath.Replace("'", "''")}'," + @"'\\','\')";
-            Console.Out.WriteLine(query);
+            //Console.Out.WriteLine(query);
             using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
             {
                 connection.Open();
