@@ -429,7 +429,16 @@ namespace Atlas
                     //Check if the file is an archive. 
                     if (archiveExt.Any(GameDetail.Executable[0].Contains))
                     {
-                        string input = $"{GameDetail.Folder}";
+                        string input = "";
+                        if (Directory.Exists(GameDetail.Folder))
+                        {
+                            input = Path.Combine(GameDetail.Folder, GameDetail.Executable[0]);
+                        }
+                        else
+                        {
+                            input = GameDetail.Folder;
+                        }
+                         
                         string output = Atlas.Core.Settings.Config.GamesPath;
                         Logger.Warn(input);
                         if(GameDetail.Creator != string.Empty)
