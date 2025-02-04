@@ -420,6 +420,11 @@ namespace Atlas
 
                 foreach (var GameDetail in F95Scanner.GameDetailList)
                 {
+                    //In some instances the database data will have spaces at the end. We need to remove those. 
+                    GameDetail.Creator = GameDetail.Creator.Trim();
+                    GameDetail.Title = GameDetail.Title.Trim();
+                    GameDetail.Version = GameDetail.Version.Trim();
+
                     string[] archiveExt = Atlas.Core.Settings.Config.ExtractionExt.Split(',');
                     //Check if the file is an archive. 
                     if (archiveExt.Any(GameDetail.Executable[0].Contains))

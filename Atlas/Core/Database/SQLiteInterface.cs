@@ -290,10 +290,10 @@ namespace Atlas.Core.Database
             return record;
         }
 
-        public static int FindF95ID(int record_id)
+        public static string FindF95ID(string record_id)
         {
-            int record = -1;
-            string query = $"SELECT f95_id from f95_zone_data where atlas_id = '{record}";
+            string record = "";
+            string query = $"SELECT f95_id from f95_zone_data where atlas_id = '{record_id}'";
 
             using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
             {
@@ -306,7 +306,15 @@ namespace Atlas.Core.Database
                 {
                     while (reader.Read())
                     {
-                        record = Convert.ToInt32(reader["record_id"].ToString());
+                        try
+                        {
+                            record = reader["f95_id"].ToString();
+                        }
+                        catch(Exception ex)
+                        {
+                            Logger.Error(ex);
+                            record = null;
+                        }
                     }
                     reader.Close();
                 }

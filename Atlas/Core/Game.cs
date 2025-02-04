@@ -37,6 +37,8 @@ namespace Atlas.Core
     public class GameDetails
     {
         public string Id { get; set; }
+
+        public string f95_Id { get; set; }
         public required string Title { set; get; }
         public required string Creator { set; get; }
         public required string Engine { set; get; }

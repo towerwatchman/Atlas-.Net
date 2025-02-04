@@ -180,7 +180,7 @@ namespace Atlas.Core
                 List<string[]> data = new List<string[]>();
                 
                      data = SQLiteInterface.GetAtlasId(title, creator);
-                
+
 
                 List<string> results = new List<string>();
                 string SingleExecutable = string.Empty;
@@ -196,6 +196,7 @@ namespace Atlas.Core
                 }
 
                 string Id = "";
+                string f95_id = "";
                 if (data.Count == 0)
                 {
                     ResultVisibilityState = Visibility.Hidden;
@@ -206,6 +207,7 @@ namespace Atlas.Core
                     title = data[0][1];
                     creator = data[0][2];
                     game_engine = data[0][3];
+                    f95_id = SQLiteInterface.FindF95ID(Id);
                     ResultVisibilityState = Visibility.Hidden;
                 }
                 else
@@ -231,6 +233,7 @@ namespace Atlas.Core
                 var gd = new GameDetails
                 {
                     Id = Id,
+                    f95_Id = f95_id,
                     Title = title.Trim().Replace(" ", ""),
                     Version = version.Trim().Replace(" ", ""),
                     Creator = creator.Trim().Replace(" ", ""),
