@@ -175,9 +175,11 @@ namespace Atlas.UI.Windows
                 //gets extension from textbox
                 string[] extensions = customImporter.OtherDefaultExt.Text.Split(",");
 
+                bool isArchive = (bool)customImporter.cb_compression.IsChecked;
+
                 await Task.Run(async () =>
                 {
-                    await F95Scanner.Start(folder, format, extensions);
+                    await F95Scanner.Start(folder, format, extensions, isArchive);
                 });
 
                 btn_import.IsEnabled = true;

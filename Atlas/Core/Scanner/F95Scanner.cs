@@ -27,7 +27,7 @@ namespace Atlas.Core
         public static int potentialGames = 0;
 
         public static bool isRunning = false;
-        public static Task Start(string path, string format, string[] extensions)
+        public static Task Start(string path, string format, string[] extensions, bool isArchive)
         {
             potentialGames = 0;
             _GameDetailList = new ObservableCollection<GameDetails>();
@@ -84,7 +84,7 @@ namespace Atlas.Core
                             if(!found_executable)
                             {
                                 found_executable = FindGame(t, format, extensions, path, stop_level, potentialGames);
-                                if(found_executable)
+                                if(found_executable && isArchive == false)
                                 {
                                     stop_level = cur_level;
                                 }
@@ -96,17 +96,8 @@ namespace Atlas.Core
                             }                            
                         }
                     }
-
-                    /*if(Directory.GetDirectories(dir).Length <= 0) 
-                    {
-                        foreach (var file in Directory.GetFiles(dir))
-                        {
-                            FindGame(file, format, extensions, path, stop_level, potentialGames, true);
-                        }
-                    }*/
-
-                    //if we cant find any folders, the check for files
-                    if (!found_executable)
+                    //if we cant find any folders, the check for files. If we are searching for archives, this will search the root
+                    if (!found_executable || isArchive)
                     {
                         foreach (string f in Directory.GetFiles(dir))
                         {
