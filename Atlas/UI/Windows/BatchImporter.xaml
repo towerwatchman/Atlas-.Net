@@ -195,6 +195,10 @@
                                                                 Binding="{Binding Path=Id}"
                                                                 Width="50"
                                                                 IsReadOnly="True" />
+                                            <DataGridTextColumn Header="F95 ID"
+                                                                Binding="{Binding Path=f95_Id}"
+                                                                Width="50"
+                                                                IsReadOnly="True" />
                                             <DataGridTextColumn Header="Title"
                                                                 Binding="{Binding Path=Title}"
                                                                 MinWidth="200"

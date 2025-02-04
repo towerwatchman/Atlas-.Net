@@ -230,6 +230,8 @@ namespace Atlas.Core
                     }
                 }
 
+                //CHECK IF DATA IS ALREADY IN THE DATBASE. IF IT IS THEN UPDATE THE TABLE
+
                 var gd = new GameDetails
                 {
                     Id = Id,
