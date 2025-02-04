@@ -130,8 +130,12 @@ namespace Atlas.Core
 
         public static bool FindGame(string t, string format, string[] extensions, string path, int stop_level, int potentialGames, bool isFile = false)
         {
-  
-            List<string> potential_executables = new List<string>();
+            //Reset values
+            title = "";
+            version = "";
+            creator = "";
+            game_engine = "";
+        List<string> potential_executables = new List<string>();
             if(isFile)
             {
                 potential_executables = Executable.DetectExecutable([t], extensions);
