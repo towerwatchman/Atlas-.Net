@@ -54,7 +54,7 @@ namespace Atlas.Core
             //We need to go through each item and find if it is a folder or file
 
             int ittr = 0;
-
+            
             foreach (string dir in directories)
             {
                 game_path = string.Empty;
@@ -62,16 +62,17 @@ namespace Atlas.Core
                 version = string.Empty;
                 creator = string.Empty;
                 game_engine = "Others";
-
+                bool found_executable = false;
                 Logger.Info(dir);
                 
                 //int folder_size = 0;
                 int cur_level = 0;
-                int stop_level = 6; //Set to max of 15 levels. There should not be more than 15 at most
+                int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
 
                 //Update Progressbar
                 ittr++;
                 UpdateProgressBar(ittr, total_dirs);
+
                 try
                 {
                     foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
@@ -79,23 +80,38 @@ namespace Atlas.Core
                         cur_level = t.Split('\\').Length;
                         string[] s = t.Split('\\');
                         if (cur_level <= stop_level)
-                        {
-                            FindGame(t, format, extensions, path, stop_level, potentialGames);
+                        {                             
+                            if(!found_executable)
+                            {
+                                found_executable = FindGame(t, format, extensions, path, stop_level, potentialGames);
+                                if(found_executable)
+                                {
+                                    stop_level = cur_level;
+                                }
+                            }
+                            //conintue checking folders for other versions using the same stop level
+                            else
+                            {
+                                FindGame(t, format, extensions, path, stop_level, potentialGames);
+                            }                            
                         }
                     }
 
-                    if(Directory.GetDirectories(dir).Length <= 0) 
+                    /*if(Directory.GetDirectories(dir).Length <= 0) 
                     {
                         foreach (var file in Directory.GetFiles(dir))
                         {
                             FindGame(file, format, extensions, path, stop_level, potentialGames, true);
                         }
-                    }
+                    }*/
 
                     //if we cant find any folders, the check for files
-                    foreach (string f in Directory.GetFiles(dir))
+                    if (!found_executable)
                     {
-                        FindGame(f, format, extensions, path, stop_level, potentialGames, true);
+                        foreach (string f in Directory.GetFiles(dir))
+                        {
+                            FindGame(f, format, extensions, path, stop_level, potentialGames, true);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -112,7 +128,7 @@ namespace Atlas.Core
             return Task.CompletedTask;
         }
 
-        public static void FindGame(string t, string format, string[] extensions, string path, int stop_level, int potentialGames, bool isFile = false)
+        public static bool FindGame(string t, string format, string[] extensions, string path, int stop_level, int potentialGames, bool isFile = false)
         {
   
             List<string> potential_executables = new List<string>();
@@ -281,6 +297,7 @@ namespace Atlas.Core
                                 Console.Out.WriteLine(_GameDetailList.Count.ToString());
                                 potentialGames = _GameDetailList.Count;
                                 UpdatePotentialGames(potentialGames);
+                                
                             }
                         }
                         catch (Exception ex)
@@ -290,7 +307,9 @@ namespace Atlas.Core
                         //UpdateBannerView();
                     });
                 }
+                return true;
             }
+            return false;
         }
 
         private static void AddGameToBannerView(GameDetails gd)
