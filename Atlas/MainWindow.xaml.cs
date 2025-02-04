@@ -433,7 +433,8 @@ namespace Atlas
                         string output = Atlas.Core.Settings.Config.GamesPath;
                         if(GameDetail.Creator != string.Empty)
                         {
-                            output += $"\\{GameDetail.Creator}\\{GameDetail.Title}\\{GameDetail.Version}";
+                            string creator = GameDetail.Creator.Replace("\\", "&").Replace("/", "&");
+                            output += $"\\{creator}\\{GameDetail.Title}\\{GameDetail.Version}";
                             if (!Directory.Exists(output)) { Directory.CreateDirectory(output); }
                             bool extStatus = Compression.ExtractFile(input, output, GameDetail.Title);
 
