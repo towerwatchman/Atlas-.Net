@@ -44,6 +44,8 @@ namespace Atlas.Core
         public required string Engine { set; get; }
         public required string Version { set; get; }
         public required string Folder { set; get; }
+
+        public required bool RecordExist { set; get; }
         public required Visibility SingleEngineVisible { set; get; }
         public required Visibility MultipleEngineVisible { set; get; }
         public required Visibility ResultVisibilityState { set; get; }

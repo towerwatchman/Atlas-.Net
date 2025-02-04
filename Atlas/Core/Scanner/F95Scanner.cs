@@ -9,6 +9,7 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Shapes;
+using Windows.Devices.Printers;
 
 namespace Atlas.Core
 {
@@ -23,10 +24,12 @@ namespace Atlas.Core
         public static string version = "";
         public static string creator = "";
         public static string game_engine = "Others";
+        public static int potentialGames = 0;
 
         public static bool isRunning = false;
         public static Task Start(string path, string format, string[] extensions)
         {
+            potentialGames = 0;
             _GameDetailList = new ObservableCollection<GameDetails>();
             //Set the item list before we do anything else
 
@@ -51,7 +54,7 @@ namespace Atlas.Core
             //We need to go through each item and find if it is a folder or file
 
             int ittr = 0;
-            int potentialGames = 0;
+
             foreach (string dir in directories)
             {
                 game_path = string.Empty;
@@ -231,6 +234,7 @@ namespace Atlas.Core
                 }
 
                 //CHECK IF DATA IS ALREADY IN THE DATBASE. IF IT IS THEN UPDATE THE TABLE
+                bool record_exist = SQLiteInterface.CheckIfRecordExist(title, creator, version);
 
                 var gd = new GameDetails
                 {
@@ -246,6 +250,7 @@ namespace Atlas.Core
                     MultipleEngineVisible = MultipleEngineVisible,
                     Folder = t,
                     Results = results,
+                    RecordExist= record_exist,
                     ResultVisibilityState = ResultVisibilityState
                 };
 
@@ -258,8 +263,6 @@ namespace Atlas.Core
                             if (!_GameDetailList.Where(x => x.Folder == t).Any())
                             {
                                 _GameDetailList.Add(gd);
-                                potentialGames++;
-                                UpdatePotentialGames(potentialGames);
                             }
                         });
                     }
@@ -271,7 +274,14 @@ namespace Atlas.Core
                     {
                         try
                         {
-                            AddGameToBannerView(gd);
+                            if (!record_exist)
+                            {
+                                AddGameToBannerView(gd);
+
+                                Console.Out.WriteLine(_GameDetailList.Count.ToString());
+                                potentialGames = _GameDetailList.Count;
+                                UpdatePotentialGames(potentialGames);
+                            }
                         }
                         catch (Exception ex)
                         {
