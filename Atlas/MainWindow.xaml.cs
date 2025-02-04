@@ -431,6 +431,7 @@ namespace Atlas
                     {
                         string input = $"{GameDetail.Folder}";
                         string output = Atlas.Core.Settings.Config.GamesPath;
+                        Logger.Warn(input);
                         if(GameDetail.Creator != string.Empty)
                         {
                             string creator = GameDetail.Creator.Replace("\\", "&").Replace("/", "&");
