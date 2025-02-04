@@ -325,7 +325,7 @@ namespace Atlas.Core.Database
         public static bool CheckIfRecordExist(string title, string creator, string version)
         {
             int record = -1;
-            string query = $"SELECT games.record_id, games.record_id, games.title, games.creator, versions.version, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title}' AND games.creator = '{creator}' AND versions.version = '{version}'";
+            string query = $"SELECT games.record_id, games.record_id, games.title, games.creator, versions.version, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title.Replace("'","''")}' AND games.creator = '{creator.Replace("'", "''")}' AND versions.version = '{version.Replace("'", "''")}'";
             using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
             {
                 connection.Open();

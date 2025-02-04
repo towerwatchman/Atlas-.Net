@@ -220,7 +220,7 @@ namespace Atlas.Core
                 {
                     ResultVisibilityState = Visibility.Hidden;
                 }
-                else if (data.Count == 1)
+                else if (data.Count > 0)
                 {
                     Id = data[0][0];
                     title = data[0][1];
@@ -229,16 +229,16 @@ namespace Atlas.Core
                     f95_id = SQLiteInterface.FindF95ID(Id);
                     ResultVisibilityState = Visibility.Hidden;
                 }
-                else
+               
+                if (data.Count > 1)
                 {
-                    if (data.Count > 1)
+                    foreach (var item in data)
                     {
-                        foreach (var item in data)
-                        {
-                            results.Add($"{item[0]} | {item[1]} | {item[2]}");
-                        }
+                        results.Add($"{item[0]} | {item[1]} | {item[2]}");
                     }
+                    ResultVisibilityState = Visibility.Visible;
                 }
+               
 
                 //Make sure version does not include the extension
                 foreach(var ext in extensions)
