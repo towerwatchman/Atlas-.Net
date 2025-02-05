@@ -134,7 +134,8 @@
                                     VerticalAlignment="Stretch"
                                     BorderThickness="0"
                                     Margin="0,10,0,0"
-                                    Padding="0">
+                                    Padding="0"
+                                    >
                             <TabItem Header="Start"
                                      x:Name="tc_start"
                                      Visibility="Hidden">
@@ -154,12 +155,11 @@
                                             <ComboBox DockPanel.Dock="Left"
                                                       x:Name="ImportSourceComboBox"
                                                       Width="200"
-                                                      SelectedIndex="0"
-                                                      SelectionChanged="ImportSourceComboBox_SelectionChanged">
+                                                      SelectedIndex="0">
                                                 <ComboBoxItem  Content="VN &amp; H Games" />
-                                                <ComboBoxItem  Content="Roms" />
+                                                <!--<ComboBoxItem  Content="Roms" />-->
                                             </ComboBox>
-                                            <Label Content="Please select the ..."
+                                            <Label Content="Please select the Import Type"
                                                    Margin="20,0,0,0" />
                                         </DockPanel>
                                         <Separator Opacity=".5"
