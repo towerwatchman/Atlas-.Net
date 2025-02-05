@@ -18,7 +18,7 @@
                            LastChildFill="True"
                            Margin="0,0,0,10">
                     <Label DockPanel.Dock="Left"
-                           Content="Root Path:"
+                           Content="Game Path:"
                            HorizontalAlignment="Left" />
                     <Button x:Name="btn_OpenFolder"
                             DockPanel.Dock="Right"
@@ -55,7 +55,7 @@
                            LastChildFill="True"
                            Margin="0,0,0,10">
                     <Label DockPanel.Dock="Left"
-                           Content="Extensions:"
+                           Content="Game Extensions:"
                            HorizontalAlignment="Left" />
                     <CheckBox x:Name="cb_compression"
                               DockPanel.Dock="Right"
@@ -68,6 +68,21 @@
                              HorizontalAlignment="Stretch" />
                   
                 </DockPanel>
+                <DockPanel Height="30"
+                           Width="Auto"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Stretch"
+                           LastChildFill="True"
+                           Margin="0,0,0,10">
+                    <Label DockPanel.Dock="Left"
+                           Content="Archive formats:"
+                           HorizontalAlignment="Left" />
+                    
+                    <TextBox x:Name="ArchiveExt"
+                             DockPanel.Dock="Left"
+                             Width="Auto"
+                             HorizontalAlignment="Stretch" />
+                </DockPanel>
                 <DockPanel 
                            Width="Auto"
                            VerticalAlignment="Top"
@@ -75,7 +90,7 @@
                            LastChildFill="False">
                     <Label Margin="10,0,0,0"
                            DockPanel.Dock="Left"
-                           Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xA;- Each of the options need to be surrounded by braces {}.&#xA;- Use the examples below for reference. &#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xA;&#xA;Examples&#xA;{engine}/{creator}/{title}/{version}&#xA;{creator}/{title}/{version&#xA;{title}/{version}&#xD;&#xA;{title-version}"
+                           Content="There are 4 valid options you can use for the folder structure: Title, Creator, Engine, and Version&#xA;- Each of the options need to be surrounded by braces {}. Use / for folders. &#xA;- If you have games that are not sorted, use the check box and the program will attempt to parse the title and version&#xA;&#xA;Examples&#xA;{engine}/{creator}/{title}/{version}&#xA;[{engine}] [{title}] [{version}]&#xA;{title-version}"
                            HorizontalAlignment="Left" />
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Left"
@@ -84,13 +99,13 @@
                     <StackPanel>
                         <CheckBox Content="Download Images if match found in Atlas database"
                                   Margin="10,10,0,0"
-                                  Visibility="Hidden" />
+                                  Visibility="Visible" />
                         <CheckBox Content="Move to Atlas game folder"
                                   Margin="10,10,0,0"
-                                  Visibility="Hidden" />
+                                  Visibility="Visible" />
                         <CheckBox Content="Scan folder size duing import"
                                   Margin="10,10,0,0"
-                                  Visibility="Hidden" />
+                                  Visibility="Visible" />
                         <CheckBox x:Name="cb_DeleteFolder" Content="Delete Folder After Extraction"
                                   Margin="10,10,0,0" />
                     </StackPanel>
