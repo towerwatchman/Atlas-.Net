@@ -16,24 +16,24 @@ namespace Atlas.Core
             //Set all inital values here. 
 
             //PATHS
-            Config.EnginesPath = Config.EnginesPath == null ? "data\\engines" : Config.EnginesPath;
+            Config.EnginesPath = Config.EnginesPath == null ? Path.Combine(Directory.GetCurrentDirectory(),"data\\engines") : Config.EnginesPath;
             Config.RootPath = Config.RootPath == null ? Directory.GetCurrentDirectory() : Config.RootPath;
-            Config.DatabasePath = Config.DatabasePath == null ? "data" : Config.DatabasePath;
-            Config.ImagesPath = Config.ImagesPath == null ? "data\\images" : Config.ImagesPath;
-            Config.GamesPath = Config.GamesPath == null ? "data\\games" : Config.GamesPath;
-            Config.ThemesPath = Config.ThemesPath == null ? "themes" : Config.ThemesPath;
+            Config.DatabasePath = Config.DatabasePath == null ? Path.Combine(Directory.GetCurrentDirectory(),"data") : Config.DatabasePath;
+            Config.ImagesPath = Config.ImagesPath == null ? Path.Combine(Directory.GetCurrentDirectory(), "data\\images") : Config.ImagesPath;
+            Config.GamesPath = Config.GamesPath == null ? Path.Combine(Directory.GetCurrentDirectory(), "data\\games") : Config.GamesPath;
+            Config.ThemesPath = Config.ThemesPath == null ? Path.Combine(Directory.GetCurrentDirectory(), "themes") : Config.ThemesPath;
 
             //APP
             Config.Theme = Config.Theme == null ? "Dark.xaml" : Config.Theme;
             Config.ShowListView = Config.FTS != true ? true : Config.ShowListView;
 
             //IMPORTER
-            Config.FolderStructure = Config.FolderStructure == null ? @"{Creator}\{Title}\{Version}" : Config.FolderStructure;
+            Config.FolderStructure = Config.FolderStructure ?? @"{Creator}\{Title}\{Version}";
             Config.ImageRenderHeight = Config.ImageRenderHeight == 0 ? 251 : Config.ImageRenderHeight;
             Config.ImageRenderWidth = Config.ImageRenderWidth == 0 ? 537 : Config.ImageRenderWidth;
-            Config.DefaultPage = Config.DefaultPage == "" ? "VNHGames" : Config.DefaultPage;
-            Config.ExecutableExt = Config.ExecutableExt == "" ? ".zip,.7z,.rar" : Config.ExecutableExt;
-            Config.ExtractionExt = Config.ExtractionExt == "" ? ".exe,.swf,.flv,.f4v,.rag,.cmd,.bat,.jar,.html" : Config.ExtractionExt;
+            Config.DefaultPage = Config.DefaultPage == null ? "VNHGames" : Config.DefaultPage;
+            Config.ExecutableExt = Config.ExecutableExt == null ? ".exe,.swf,.flv,.f4v,.rag,.cmd,.bat,.jar,.html" : Config.ExecutableExt;
+            Config.ExtractionExt = Config.ExtractionExt == null ? ".zip,.7z,.rar" : Config.ExtractionExt;
         }
 
     }
