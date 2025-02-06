@@ -72,23 +72,24 @@ namespace Atlas.Core
 
             foreach (string dir in directories)
             {
-                game_path = string.Empty;
-                title = string.Empty;
-                version = string.Empty;
-                creator = string.Empty;
-                game_engine = "Others";
-                bool found_executable = false;
-                Logger.Info(dir);
-
-                //int folder_size = 0;
-                int cur_level = 0;
-                int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
-
-                //Update Progressbar
-                ittr++;
-                UpdateProgressBar(ittr, total_dirs);
                 //Task.Run(() =>
                 //{
+                    game_path = string.Empty;
+                    title = string.Empty;
+                    version = string.Empty;
+                    creator = string.Empty;
+                    game_engine = "Others";
+                    bool found_executable = false;
+                    Logger.Info(dir);
+
+                    //int folder_size = 0;
+                    int cur_level = 0;
+                    int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
+
+                    //Update Progressbar
+                    ittr++;
+                    UpdateProgressBar(ittr, total_dirs);
+
                     try
                     {
                         foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
@@ -295,13 +296,13 @@ namespace Atlas.Core
                     {
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {
-                            if (!_GameDetailList.Where(x => x.Folder == t).Any())
-                            {
+                         //   if (!_GameDetailList.Where(x => x.Folder == t).Any())
+                           // {
                                 if (!record_exist)
                                 {
                                     _GameDetailList.Add(gd);
                                 }
-                            }
+                            //}
                         });
                     }
                     catch (Exception ex)
