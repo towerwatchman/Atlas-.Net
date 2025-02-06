@@ -511,7 +511,7 @@ namespace Atlas
                        if (recordID == "-1")
                        {
                            recordID = SQLiteInterface.AddGame(GameDetail);
-                           Logger.Info($"Adding game: {GameDetail.Title}");
+                           //Logger.Info($"Adding game: {GameDetail.Title}");
                        }
 
                        if (recordID != string.Empty)
@@ -525,7 +525,7 @@ namespace Atlas
                            {
                                SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
                            }
-                           Logger.Info($"Adding version: {GameDetail.Version}");
+                           Logger.Info($"Adding Game: {GameDetail.Title} | Version: {GameDetail.Version}");
 
 
                        //Make sure there is only one instance of each game type based on title and creator.

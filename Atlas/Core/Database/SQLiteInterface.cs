@@ -211,33 +211,40 @@ namespace Atlas.Core.Database
             string sql = string.Empty;
             List<string> queries = new List<string>();
 
-            foreach (JToken entry in data)
+            try
             {
-                string sqlItems = string.Empty;
-                string sqlValues = string.Empty;
-
-                int itemCount = 1;
-                foreach (JProperty item in entry)
+                foreach (JToken entry in data)
                 {
-                    //skip null or empty values. This will prevent overwritting data that already exist in the database.
-                    if (item.Value.ToString() != "")
+                    string sqlItems = string.Empty;
+                    string sqlValues = string.Empty;
+
+                    int itemCount = 1;
+                    foreach (JProperty item in entry)
                     {
-                        sqlItems += item.Name;
-                        sqlValues += $"'{item.Value.ToString().Replace("\'", "\'\'")}'";
-                        if (itemCount < entry.Count())
+                        //skip null or empty values. This will prevent overwritting data that already exist in the database.
+                        if (item.Value.ToString() != "")
                         {
-                            sqlItems += ",";
-                            sqlValues += ",";
+                            sqlItems += item.Name;
+                            sqlValues += $"'{item.Value.ToString().Replace("\'", "\'\'")}'";
+                            if (itemCount < entry.Count())
+                            {
+                                sqlItems += ",";
+                                sqlValues += ",";
+                            }
                         }
+                        itemCount++;
                     }
-                    itemCount++;
+                    sql = $"INSERT OR REPLACE INTO {table} ({sqlItems}) Values ({sqlValues})";
+                    queries.Add(sql);
                 }
-                sql = $"INSERT OR REPLACE INTO {table} ({sqlItems}) Values ({sqlValues})";
-                queries.Add(sql);
+
+                InsertOrUpdateAsync(queries);
+
             }
-
-            InsertOrUpdateAsync(queries);
-
+            catch(Exception ex)
+            {
+                Logger.Error(ex);
+            }
             return Task.CompletedTask;
         }
 
