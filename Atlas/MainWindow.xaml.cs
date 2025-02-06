@@ -529,7 +529,7 @@ namespace Atlas
                        }
 
                        //Game game = 
-                       Application.Current.Dispatcher.Invoke(async () =>
+                       Application.Current.Dispatcher.Invoke(() =>
                        {
                            ModelData.GameCollection.Add(new GameViewModel(SQLiteInterface.RetrieveGame(recordID).Result));
                        });
@@ -539,14 +539,6 @@ namespace Atlas
                    });
 
                 }
-            });
-            
-            await Application.Current.Dispatcher.Invoke(async () =>
-            {
-                // your code
-                //ModelLoader loader = new ModelLoader();
-                //await loader.CreateGamesList(Atlas.Core.Settings.Config.DefaultPage);
-                //InitListView();
             });
         }
 

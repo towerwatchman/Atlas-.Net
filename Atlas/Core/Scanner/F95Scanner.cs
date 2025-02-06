@@ -297,13 +297,14 @@ namespace Atlas.Core
                     {
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {
-                         //   if (!_GameDetailList.Where(x => x.Folder == t).Any())
-                           // {
+                            //Do not add multiple Instances of the same game. 
+                            if (!_GameDetailList.Where(x => x.Folder == t).Any())
+                            {
                                 if (!record_exist)
                                 {
                                     _GameDetailList.Add(gd);
                                 }
-                            //}
+                            }
                         });
                     }
                     catch (Exception ex)
