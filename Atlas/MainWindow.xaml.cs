@@ -526,13 +526,34 @@ namespace Atlas
                                SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
                            }
                            Logger.Info($"Adding version: {GameDetail.Version}");
+
+
+                       //Make sure there is only one instance of each game type based on title and creator.
+                      
+                           Application.Current.Dispatcher.Invoke(() =>
+                           { 
+                               if (!ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(recordID)).Any())
+                               {
+                                   ModelData.GameCollection.Add(new GameViewModel(SQLiteInterface.RetrieveGame(recordID).Result));
+                               }
+                               //Update the model with new data if it already exist
+                               else
+                               {
+                                   GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(GameDetail.Id)).FirstOrDefault();
+                                   var index = ModelData.GameCollection.IndexOf(gameObj);
+
+                                   if (gameObj != null)
+                                   {
+                                       ModelData.GameCollection[index] = new GameViewModel(SQLiteInterface.RetrieveGame(recordID).Result);
+                                   }
+                               }
+                           });
+                       }
+                       else
+                       {
+                           Logger.Warn($"Unable to add Game: {GameDetail.Title}");
                        }
 
-                       //Game game = 
-                       Application.Current.Dispatcher.Invoke(() =>
-                       {
-                           ModelData.GameCollection.Add(new GameViewModel(SQLiteInterface.RetrieveGame(recordID).Result));
-                       });
 
                        GC.WaitForPendingFinalizers();
                        GC.Collect();
