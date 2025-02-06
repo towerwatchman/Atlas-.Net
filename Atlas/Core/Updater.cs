@@ -34,7 +34,7 @@ namespace Atlas.Core
             }
             else //clear all folders in dir
             {
-                DirectoryInfo di = new DirectoryInfo(UpdateDir);
+               /* DirectoryInfo di = new DirectoryInfo(UpdateDir);
                 foreach (FileInfo file in di.GetFiles())
                 {
                     file.Delete();
@@ -42,7 +42,7 @@ namespace Atlas.Core
                 foreach (DirectoryInfo dir in di.GetDirectories())
                 {
                     dir.Delete(true);
-                }
+                }*/
             }
             //Check GH releases for updates and download if found
             string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
@@ -139,7 +139,7 @@ namespace Atlas.Core
             var startInfo = new ProcessStartInfo()
             {
                 FileName = "powershell.exe",
-                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force ; start {AtlasExe} ",
+                Arguments = $" Start-Sleep -Seconds 3 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force ; start {AtlasExe} ",
                 UseShellExecute = false,
                 CreateNoWindow = true,
             };
