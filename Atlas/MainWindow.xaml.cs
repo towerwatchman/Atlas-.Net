@@ -523,9 +523,15 @@ namespace Atlas
 
                            if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
                            {
+                               //Check if there is an executable
+                               if(GameDetail.Executable.Count == 0)
+                               {
+                                   Logger.Warn($"No valid executables were found for Game: {GameDetail.Title} | Version: {GameDetail.Version}");
+                               }
+
                                SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
                            }
-                           Logger.Info($"Adding Game: {GameDetail.Title} | Version: {GameDetail.Version}");
+                           Logger.Info($"Adding Entry for: {GameDetail.Title} | Version: {GameDetail.Version}");
 
 
                        //Make sure there is only one instance of each game type based on title and creator.
