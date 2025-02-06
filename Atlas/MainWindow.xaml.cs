@@ -63,7 +63,8 @@ namespace Atlas
             InterfaceHelper.BannerView = bvp.BannerView;
 
             //Initalize the BannerViews
-            InitListView();
+            //InitListView();
+            InitBannerView();
 
             //Assign Left click event to BannerView
             bvp.BannerView.MouseLeftButtonUp += BannerView_MouseLeftButtonUp;
@@ -80,6 +81,20 @@ namespace Atlas
             this.atlas_frame.Content = new GameDetailPage((GameViewModel)bvp.BannerView.SelectedItem);
         }
 
+        private void InitBannerView()
+        {
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                this.GameListBox.Items.Clear();
+                this.GameListBox.ItemsSource = null;
+                this.GameListBox.ItemsSource = ModelData.GameCollection;
+                this.GameListBox.Items.Refresh();
+                bvp.BannerView.Items.Clear();
+                bvp.BannerView.ItemsSource = null;
+                bvp.BannerView.ItemsSource = ModelData.GameCollection;
+                bvp.BannerView.Items.Refresh();
+            }));
+        }
         private void InitListView()
         {
             //Reset the list
@@ -410,11 +425,12 @@ namespace Atlas
         {
 
             isBatchImporterOpen = false;
+            //await InitBannerView();
             //List<Game> = ModelData.Games;
             //This will take each game detail that was imported and change it into an actual game.
             //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
             //after adding to database we can import to the BannerView
-
+            
             await Task.Run(async () =>
             {
 
@@ -512,19 +528,25 @@ namespace Atlas
                            Logger.Info($"Adding version: {GameDetail.Version}");
                        }
 
+                       //Game game = 
+                       Application.Current.Dispatcher.Invoke(async () =>
+                       {
+                           ModelData.GameCollection.Add(new GameViewModel(SQLiteInterface.RetrieveGame(recordID).Result));
+                       });
+
                        GC.WaitForPendingFinalizers();
                        GC.Collect();
                    });
 
                 }
             });
-
+            
             await Application.Current.Dispatcher.Invoke(async () =>
             {
                 // your code
-                ModelLoader loader = new ModelLoader();
-                await loader.CreateGamesList(Atlas.Core.Settings.Config.DefaultPage);
-                InitListView();
+                //ModelLoader loader = new ModelLoader();
+                //await loader.CreateGamesList(Atlas.Core.Settings.Config.DefaultPage);
+                //InitListView();
             });
         }
 

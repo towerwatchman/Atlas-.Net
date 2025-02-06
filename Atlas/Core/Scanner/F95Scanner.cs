@@ -65,11 +65,11 @@ namespace Atlas.Core
                 {
                     foreach (string file in Directory.GetFiles(path))
                     {
-                        FindGame(file, format, extensions, path, 5, potentialGames, true);
+                        FindGame(file, format, extensions, path, 5, true);
                     }
                 }
             });
-            UpdateBannerView();
+            InitDataGrid();
             foreach (string dir in directories)
             {
                 //Task.Run(() =>
@@ -100,7 +100,7 @@ namespace Atlas.Core
                             {
                                 if (!found_executable)
                                 {
-                                    found_executable = FindGame(t, format, extensions, path, stop_level, potentialGames);
+                                    found_executable = FindGame(t, format, extensions, path, stop_level);
                                     if (found_executable && isArchive == false)
                                     {
                                         stop_level = cur_level;
@@ -109,7 +109,7 @@ namespace Atlas.Core
                                 //conintue checking folders for other versions using the same stop level
                                 else
                                 {
-                                    FindGame(t, format, extensions, path, stop_level, potentialGames);
+                                    FindGame(t, format, extensions, path, stop_level);
                                 }
                             }
                         }
@@ -118,7 +118,7 @@ namespace Atlas.Core
                         {
                             foreach (string f in Directory.GetFiles(dir))
                             {
-                                FindGame(f, format, extensions, path, stop_level, potentialGames, true);
+                                FindGame(f, format, extensions, path, stop_level, true);
                             }
                         }
                     }
@@ -139,7 +139,7 @@ namespace Atlas.Core
             return Task.CompletedTask;
         }
 
-        public static bool FindGame(string t, string format, string[] extensions, string path, int stop_level, int potentialGames, bool isFile = false)
+        public static bool FindGame(string t, string format, string[] extensions, string path, int stop_level, bool isFile = false)
         {
             //Reset values
             title = "";
@@ -243,6 +243,7 @@ namespace Atlas.Core
                     game_engine = data[0][3];
                     f95_id = SQLiteInterface.FindF95ID(Id);
                     ResultVisibilityState = Visibility.Hidden;
+                    Logger.Info(title);
                 }
 
                 if (data.Count > 1)
@@ -343,15 +344,10 @@ namespace Atlas.Core
                 InterfaceHelper.Datagrid.IsReadOnly = true;
             }));
         }
-        private static void UpdateBannerView()
+        private static void InitDataGrid()
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
-            {
-                /*while (InterfaceHelper.Datagrid.Items.IsInUse)
-                {
-                    Logger.Warn("Wainting on DataGrid to Update");
-                    System.Threading.Thread.Sleep(1000);
-                }*/
+            {                
                 InterfaceHelper.Datagrid.Items.Clear();
                 InterfaceHelper.Datagrid.ItemsSource = _GameDetailList;
                 InterfaceHelper.Datagrid.Items.Refresh();

@@ -124,8 +124,8 @@ namespace Atlas.UI.Windows
             //Check that the Creator column is valid
             if (F95Scanner._GameDetailList.Count > 0)
             {
-                 if (F95Scanner._GameDetailList.Any(x=>x.Creator != string.Empty) &&
-                     F95Scanner._GameDetailList.Any(x => x.Title != string.Empty)
+                 if (F95Scanner._GameDetailList.Any(x=>x.Creator == string.Empty) ||
+                     F95Scanner._GameDetailList.Any(x => x.Title == string.Empty)
                  )
                  {
                     MessageBox.Show("Creator and Title need to be filled out.");

@@ -610,6 +610,79 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
             return Task.CompletedTask;
         }
 
+        public static async Task<Game> RetrieveGame(string atlasID)
+        {
+            //this will need to be modified for more data in the future
+            //Modify to pull banner image and screens
+            string query = @$"SELECT 
+games.record_id as record_id,
+atlas_mappings.atlas_id as atlas_id,	
+games.title as title,
+games.creator as creator,
+games.engine as engine,
+banners.path as image_path,
+f95_zone_data.f95_id as f95_id,
+f95_zone_data.site_url as site_url,
+f95_zone_data.views as views,
+f95_zone_data.likes as likes,
+f95_zone_data.tags as tags,
+f95_zone_data.rating as rating
+
+FROM
+games
+LEFT JOIN atlas_mappings on games.record_id = atlas_mappings.record_id
+LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
+LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id
+WHERE games.record_id = {atlasID}";
+
+            await using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            ImageInterface image = new ImageInterface();
+                            Game game = new Game
+                            {
+                                AtlasID = reader["atlas_id"] == DBNull.Value ? -1 : Convert.ToInt32(reader["atlas_id"]),
+                                RecordID = Convert.ToInt32(reader["record_id"].ToString()),
+                                F95ID = reader["f95_id"] == DBNull.Value ? -1 : Convert.ToInt32(reader["f95_id"]),
+                                Title = reader["title"].ToString(),
+                                Creator = reader["creator"].ToString(),
+                                Engine = reader["engine"].ToString(),
+                                Views = reader["views"].ToString(),
+                                Likes = reader["likes"].ToString(),
+                                Tags = reader["tags"].ToString(),
+                                BannerPath = reader["image_path"].ToString(),
+                                //Versions = null,
+                                Versions = GetVersions(reader["record_id"].ToString()),
+                                ImageUriAnimated = Path.GetExtension(reader["image_path"].ToString()) == ".gif" ?
+                                    new Uri(reader["image_path"].ToString()) :
+                                    null/*,
+                                ImageData = image.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)*/
+                            };
+
+                            return game;
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+                    }
+                    Logger.Warn("Loaded");
+                    reader.Close();
+                }
+            }
+            return null;
+        }
+
 
         public static async Task BuildGameListAsync(List<Game> GameList)
         {
