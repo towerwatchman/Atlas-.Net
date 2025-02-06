@@ -188,19 +188,19 @@ namespace Atlas.Core
                     var engine_index = Array.FindIndex(parseFormat, row => row == "ENGINE");
                     var version_index = Array.FindIndex(parseFormat, row => row == "VERSION");
 
-                    if (title_index > -1)
+                    if (title_index > -1 && title_index < strArr.Length)
                     {
                         title = strArr[title_index].Trim();
                     }
-                    if (creator_index > -1)
+                    if (creator_index > -1 && creator_index < strArr.Length)
                     {
                         creator = strArr[creator_index].Trim();
                     }
-                    if (engine_index > -1)
+                    if (engine_index > -1 && engine_index < strArr.Length)
                     {
                         game_engine = strArr[engine_index].Trim();
                     }
-                    if (version_index > -1)
+                    if (version_index > -1 && version_index < strArr.Length)
                     {
                         version = strArr[version_index].Trim();
                     }
