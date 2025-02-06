@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <AssemblyName>Atlas</AssemblyName>
-	<Version>0.1.67</Version>
+	<Version>0.1.68</Version>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>false</SelfContained>
     <StartupObject>Atlas.App</StartupObject>
