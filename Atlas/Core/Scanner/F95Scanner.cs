@@ -69,7 +69,7 @@ namespace Atlas.Core
                     }
                 }
             });
-
+            UpdateBannerView();
             foreach (string dir in directories)
             {
                 //Task.Run(() =>
@@ -133,7 +133,7 @@ namespace Atlas.Core
 
             //if there are no folders, then check for files. 
             //Try to bind item source 
-            UpdateBannerView();
+            //UpdateBannerView();
             //outputFile.Close();
 
             return Task.CompletedTask;
