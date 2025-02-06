@@ -1,5 +1,6 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
+using NLog;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,8 @@ namespace Atlas.UI.Windows
 
     public partial class BatchImporter : Window
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         #region Event Handler for Sending Import Command to MainWindow
         public event StartImportEventHandler StartImport;
 
@@ -177,11 +180,25 @@ namespace Atlas.UI.Windows
                 string[] GameExtensions = customImporter.GameExt.Text.Split(",");
                 string[] ArchiveExtensions = customImporter.ArchiveExt.Text.Split(",");
 
+                //Store new values in config. do not wait
+                _ = Task.Run(() =>
+                {
+                    Settings.Config.ExecutableExt = customImporter.GameExt.Text;
+                    Settings.Config.ExtractionExt = customImporter.ArchiveExt.Text;
+                    Settings.Config.FolderStructure = customImporter.tb_format.Text;
+                });
+
                 bool isArchive = (bool)customImporter.cb_compression.IsChecked;
 
                 await Task.Run(async () =>
                 {
-                    await F95Scanner.Start(folder, format, GameExtensions, ArchiveExtensions, isArchive);
+                    //This should hopefully catch most errors
+                    try
+                    {
+                        await F95Scanner.Start(folder, format, GameExtensions, ArchiveExtensions, isArchive);
+                    }
+                    catch(Exception ex) { Logger.Error(ex); }
+
                 });
 
                 btn_import.IsEnabled = true;
