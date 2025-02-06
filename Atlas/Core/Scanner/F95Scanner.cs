@@ -29,6 +29,7 @@ namespace Atlas.Core
         public static bool isRunning = false;
         public static Task Start(string path, string format, string[] gameExtensions, string[] archiveExtensions, bool isArchive)
         {
+            string[] extensions = isArchive ? archiveExtensions : gameExtensions;
             potentialGames = 0;
             _GameDetailList = new ObservableCollection<GameDetails>();
             //Set the item list before we do anything else
@@ -46,7 +47,7 @@ namespace Atlas.Core
                 InterfaceHelper.GameScannerProgressBar.Minimum = 0;
                 InterfaceHelper.GameScannerProgressBar.Maximum = total_dirs;
                 InterfaceHelper.ImporterScanTextBox.Text = $"0/{total_dirs} Folders Scanned";
-                InterfaceHelper.PotentialGamesTextBox.Text = "0 Games";
+                InterfaceHelper.PotentialGamesTextBox.Text = "0 Games Found";
             }));
 
 
@@ -55,6 +56,19 @@ namespace Atlas.Core
             //We need to go through each item and find if it is a folder or file
 
             int ittr = 0;
+
+            //Run in a seperate thread to speed up the process.
+            Task.Run(() =>
+            {
+                //This is specifically for archives
+                if (isArchive)
+                {
+                    foreach (string file in Directory.GetFiles(path))
+                    {
+                        FindGame(file, format, extensions, path, 5, potentialGames, true);
+                    }
+                }
+            });
 
             foreach (string dir in directories)
             {
@@ -84,7 +98,7 @@ namespace Atlas.Core
                         {
                             if (!found_executable)
                             {
-                                found_executable = FindGame(t, format, gameExtensions, path, stop_level, potentialGames);
+                                found_executable = FindGame(t, format, extensions, path, stop_level, potentialGames);
                                 if (found_executable && isArchive == false)
                                 {
                                     stop_level = cur_level;
@@ -93,7 +107,7 @@ namespace Atlas.Core
                             //conintue checking folders for other versions using the same stop level
                             else
                             {
-                                FindGame(t, format, gameExtensions, path, stop_level, potentialGames);
+                                FindGame(t, format, extensions, path, stop_level, potentialGames);
                             }
                         }
                     }
@@ -102,7 +116,7 @@ namespace Atlas.Core
                     {
                         foreach (string f in Directory.GetFiles(dir))
                         {
-                            FindGame(f, format, gameExtensions, path, stop_level, potentialGames, true);
+                            FindGame(f, format, extensions, path, stop_level, potentialGames, true);
                         }
                     }
                 }
@@ -112,14 +126,7 @@ namespace Atlas.Core
                 }
             }
 
-            //This is specifically for archives
-            if (isArchive)
-            {
-                foreach (string file in Directory.GetFiles(path))
-                {
-                    FindGame(file, format, archiveExtensions, path, 5, potentialGames, true);
-                }
-            }
+            
 
             //if there are no folders, then check for files. 
             //Try to bind item source 

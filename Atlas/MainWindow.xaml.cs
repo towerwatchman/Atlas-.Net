@@ -357,7 +357,7 @@ namespace Atlas
                 //Check if settings window is null from being closed
                 if (settingsWindow == null || settingsWindow.IsLoaded == false)
                 {
-                    settingsWindow = new SettingsWindow();  
+                    settingsWindow = new SettingsWindow();
                 }
                 if (!settingsWindow.IsVisible)
                 {
@@ -438,10 +438,10 @@ namespace Atlas
                         {
                             input = GameDetail.Folder;
                         }
-                         
+
                         string output = Atlas.Core.Settings.Config.GamesPath;
                         Logger.Warn(input);
-                        if(GameDetail.Creator != string.Empty)
+                        if (GameDetail.Creator != string.Empty)
                         {
                             string creator = GameDetail.Creator.Replace("\\", "&").Replace("/", "&");
                             output += $"\\{creator}\\{GameDetail.Title}\\{GameDetail.Version}";
@@ -466,51 +466,55 @@ namespace Atlas
                                 {
                                     File.Delete(input);
                                 }
-                                catch(Exception ex) { Logger.Error(ex); }
+                                catch (Exception ex) { Logger.Error(ex); }
                             }
 
                         }
 
                         //We now need to find the executable. 
-                        
-                            //F95Scanner.FindGame(file, "", Atlas.Core.Settings.Config.ExecutableExt.Split(","), "", 1, 0, true);
-                            List<string> executables = Executable.DetectExecutable(Directory.GetFiles(output), Atlas.Core.Settings.Config.ExecutableExt.Split(","));
-                            GameDetail.Executable = executables;
-                            if(executables.Count == 1)
-                            {
-                                GameDetail.SingleExecutable = executables[0];
-                            }
-                        
+
+                        //F95Scanner.FindGame(file, "", Atlas.Core.Settings.Config.ExecutableExt.Split(","), "", 1, 0, true);
+                        List<string> executables = Executable.DetectExecutable(Directory.GetFiles(output), Atlas.Core.Settings.Config.ExecutableExt.Split(","));
+                        GameDetail.Executable = executables;
+                        if (executables.Count <= 0)
+                        {
+                            GameDetail.SingleExecutable = "";
+                        }
+                        if (executables.Count == 1)
+                        {
+                            GameDetail.SingleExecutable = executables[0];
+                        }
+
                     }
 
-                     await Task.Run(() =>
-                    {
-                        //We need to insert in to database first then get the id of the new item
-                        string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
+                    await Task.Run(() =>
+                   {
+                       //We need to insert in to database first then get the id of the new item
+                       string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
 
-                        if (recordID == "-1")
-                        {
-                            recordID = SQLiteInterface.AddGame(GameDetail);
-                            Logger.Info($"Adding game: {GameDetail.Title}");
-                        }
+                       if (recordID == "-1")
+                       {
+                           recordID = SQLiteInterface.AddGame(GameDetail);
+                           Logger.Info($"Adding game: {GameDetail.Title}");
+                       }
 
-                        if (recordID != string.Empty)
-                        {
-                            if (GameDetail.Id != "")
-                            {
-                                SQLiteInterface.SetAtlasMapping(recordID, GameDetail.Id);
-                            }
+                       if (recordID != string.Empty)
+                       {
+                           if (GameDetail.Id != "")
+                           {
+                               SQLiteInterface.SetAtlasMapping(recordID, GameDetail.Id);
+                           }
 
-                            if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
-                            {
-                                SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
-                            }
-                            Logger.Info($"Adding version: {GameDetail.Version}");
-                        }
+                           if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
+                           {
+                               SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
+                           }
+                           Logger.Info($"Adding version: {GameDetail.Version}");
+                       }
 
-                        GC.WaitForPendingFinalizers();
-                        GC.Collect();
-                    });
+                       GC.WaitForPendingFinalizers();
+                       GC.Collect();
+                   });
 
                 }
             });
@@ -646,7 +650,7 @@ namespace Atlas
             if (WindowState == WindowState.Maximized)
             {
                 this.BorderThickness = new System.Windows.Thickness(7);
-            }           
+            }
         }
 
         //Show context menu for adding games
