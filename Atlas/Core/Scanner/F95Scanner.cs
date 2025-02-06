@@ -87,43 +87,45 @@ namespace Atlas.Core
                 //Update Progressbar
                 ittr++;
                 UpdateProgressBar(ittr, total_dirs);
-
-                try
-                {
-                    foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
+                //Task.Run(() =>
+                //{
+                    try
                     {
-                        cur_level = t.Split('\\').Length;
-                        string[] s = t.Split('\\');
-                        if (cur_level <= stop_level)
+                        foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
                         {
-                            if (!found_executable)
+                            cur_level = t.Split('\\').Length;
+                            string[] s = t.Split('\\');
+                            if (cur_level <= stop_level)
                             {
-                                found_executable = FindGame(t, format, extensions, path, stop_level, potentialGames);
-                                if (found_executable && isArchive == false)
+                                if (!found_executable)
                                 {
-                                    stop_level = cur_level;
+                                    found_executable = FindGame(t, format, extensions, path, stop_level, potentialGames);
+                                    if (found_executable && isArchive == false)
+                                    {
+                                        stop_level = cur_level;
+                                    }
+                                }
+                                //conintue checking folders for other versions using the same stop level
+                                else
+                                {
+                                    FindGame(t, format, extensions, path, stop_level, potentialGames);
                                 }
                             }
-                            //conintue checking folders for other versions using the same stop level
-                            else
+                        }
+                        //if we cant find any folders, the check for files. If we are searching for archives, this will search the root
+                        if (!found_executable || isArchive)
+                        {
+                            foreach (string f in Directory.GetFiles(dir))
                             {
-                                FindGame(t, format, extensions, path, stop_level, potentialGames);
+                                FindGame(f, format, extensions, path, stop_level, potentialGames, true);
                             }
                         }
                     }
-                    //if we cant find any folders, the check for files. If we are searching for archives, this will search the root
-                    if (!found_executable || isArchive)
+                    catch (Exception ex)
                     {
-                        foreach (string f in Directory.GetFiles(dir))
-                        {
-                            FindGame(f, format, extensions, path, stop_level, potentialGames, true);
-                        }
+                        Logger.Warn(ex);
                     }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Warn(ex);
-                }
+                //});
             }
 
             
@@ -312,7 +314,7 @@ namespace Atlas.Core
                         {
                             if (!record_exist)
                             {
-                                AddGameToBannerView(gd);
+                                //AddGameToBannerView(gd);
 
                                 Console.Out.WriteLine(_GameDetailList.Count.ToString());
                                 potentialGames = _GameDetailList.Count;
