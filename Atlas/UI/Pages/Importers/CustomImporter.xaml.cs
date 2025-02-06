@@ -14,7 +14,8 @@ namespace Atlas.UI.Pages.Importers
         {
             InitializeComponent();
             tb_format.Text = Atlas.Core.Settings.Config.FolderStructure;
-            OtherDefaultExt.Text = $"{Extensions.win_exe},{Extensions.oth_exe}";
+            GameExt.Text = Atlas.Core.Settings.Config.ExecutableExt;//$"{Extensions.win_exe},{Extensions.oth_exe}";
+            ArchiveDockPanel.Visibility = Visibility.Hidden;
         }
         private void btn_OpenFolder_Click(object sender, RoutedEventArgs e)
         {
@@ -22,7 +23,7 @@ namespace Atlas.UI.Pages.Importers
             var result = dialog.ShowDialog();
 
             var folder = dialog.FolderName;
-            if (folder != null)
+            if (folder != null && folder != "")
             {
                 tb_FolderDialog.Text = folder;
             }
@@ -41,7 +42,9 @@ namespace Atlas.UI.Pages.Importers
         private void cb_compression_Click(object sender, RoutedEventArgs e)
         {
             tb_format.IsEnabled = !(bool)cb_compression.IsChecked;
-            OtherDefaultExt.Text = cb_compression.IsChecked == false ? Atlas.Core.Settings.Config.ExecutableExt : Atlas.Core.Settings.Config.ExtractionExt;
+            ArchiveDockPanel.Visibility = (bool)cb_compression.IsChecked? Visibility.Visible : Visibility.Hidden;
+            ArchiveExt.Text = Atlas.Core.Settings.Config.ExtractionExt;
+            //OtherDefaultExt.Text = cb_compression.IsChecked == false ? Atlas.Core.Settings.Config.ExecutableExt : Atlas.Core.Settings.Config.ExtractionExt;
             cb_format.IsChecked = true;
         }
 

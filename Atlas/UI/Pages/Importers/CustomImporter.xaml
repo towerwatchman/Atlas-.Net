@@ -62,13 +62,13 @@
                               Content="Extract Games"
                               Click="cb_compression_Click"
                               Checked="cb_compression_Checked" />
-                    <TextBox x:Name="OtherDefaultExt"
+                    <TextBox x:Name="GameExt"
                              DockPanel.Dock="Left"
                              Width="Auto"
                              HorizontalAlignment="Stretch" />
                   
                 </DockPanel>
-                <DockPanel Height="30"
+                <DockPanel x:Name="ArchiveDockPanel" Height="30"
                            Width="Auto"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Stretch"

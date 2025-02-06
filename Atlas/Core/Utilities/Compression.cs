@@ -70,6 +70,7 @@ namespace Atlas.Core.Utilities
 
                         // extract to file
                         string path = $"{output}{obj}";
+
                         entry.Extract(path);
                         InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                         {

@@ -124,11 +124,12 @@ namespace Atlas.UI.Windows
                 EmitImportSignal();
                 this.Close();
 
-                /* if (F95Scanner._GameDetailList.Any(x=>x.Creator != string.Empty) &&
+                 if (F95Scanner._GameDetailList.Any(x=>x.Creator != string.Empty) &&
                      F95Scanner._GameDetailList.Any(x => x.Title != string.Empty)
                  )
-                 {                   
-                 }*/
+                 {
+                    MessageBox.Show("Creator and Title need to be filled out.");
+                 }
             }
 
         }
@@ -173,13 +174,14 @@ namespace Atlas.UI.Windows
                 btn_import.Width = 70;
 
                 //gets extension from textbox
-                string[] extensions = customImporter.OtherDefaultExt.Text.Split(",");
+                string[] GameExtensions = customImporter.GameExt.Text.Split(",");
+                string[] ArchiveExtensions = customImporter.ArchiveExt.Text.Split(",");
 
                 bool isArchive = (bool)customImporter.cb_compression.IsChecked;
 
                 await Task.Run(async () =>
                 {
-                    await F95Scanner.Start(folder, format, extensions, isArchive);
+                    await F95Scanner.Start(folder, format, GameExtensions, ArchiveExtensions, isArchive);
                 });
 
                 btn_import.IsEnabled = true;

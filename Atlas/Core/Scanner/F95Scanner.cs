@@ -27,7 +27,7 @@ namespace Atlas.Core
         public static int potentialGames = 0;
 
         public static bool isRunning = false;
-        public static Task Start(string path, string format, string[] extensions, bool isArchive)
+        public static Task Start(string path, string format, string[] gameExtensions, string[] archiveExtensions, bool isArchive)
         {
             potentialGames = 0;
             _GameDetailList = new ObservableCollection<GameDetails>();
@@ -46,6 +46,7 @@ namespace Atlas.Core
                 InterfaceHelper.GameScannerProgressBar.Minimum = 0;
                 InterfaceHelper.GameScannerProgressBar.Maximum = total_dirs;
                 InterfaceHelper.ImporterScanTextBox.Text = $"0/{total_dirs} Folders Scanned";
+                InterfaceHelper.PotentialGamesTextBox.Text = "0 Games";
             }));
 
 
@@ -54,7 +55,7 @@ namespace Atlas.Core
             //We need to go through each item and find if it is a folder or file
 
             int ittr = 0;
-            
+
             foreach (string dir in directories)
             {
                 game_path = string.Empty;
@@ -64,7 +65,7 @@ namespace Atlas.Core
                 game_engine = "Others";
                 bool found_executable = false;
                 Logger.Info(dir);
-                
+
                 //int folder_size = 0;
                 int cur_level = 0;
                 int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
@@ -80,11 +81,11 @@ namespace Atlas.Core
                         cur_level = t.Split('\\').Length;
                         string[] s = t.Split('\\');
                         if (cur_level <= stop_level)
-                        {                             
-                            if(!found_executable)
+                        {
+                            if (!found_executable)
                             {
-                                found_executable = FindGame(t, format, extensions, path, stop_level, potentialGames);
-                                if(found_executable && isArchive == false)
+                                found_executable = FindGame(t, format, gameExtensions, path, stop_level, potentialGames);
+                                if (found_executable && isArchive == false)
                                 {
                                     stop_level = cur_level;
                                 }
@@ -92,8 +93,8 @@ namespace Atlas.Core
                             //conintue checking folders for other versions using the same stop level
                             else
                             {
-                                FindGame(t, format, extensions, path, stop_level, potentialGames);
-                            }                            
+                                FindGame(t, format, gameExtensions, path, stop_level, potentialGames);
+                            }
                         }
                     }
                     //if we cant find any folders, the check for files. If we are searching for archives, this will search the root
@@ -101,7 +102,7 @@ namespace Atlas.Core
                     {
                         foreach (string f in Directory.GetFiles(dir))
                         {
-                            FindGame(f, format, extensions, path, stop_level, potentialGames, true);
+                            FindGame(f, format, gameExtensions, path, stop_level, potentialGames, true);
                         }
                     }
                 }
@@ -112,11 +113,11 @@ namespace Atlas.Core
             }
 
             //This is specifically for archives
-            if(isArchive)
+            if (isArchive)
             {
                 foreach (string file in Directory.GetFiles(path))
                 {
-                    FindGame(file, format, extensions, path, 5, potentialGames, true);
+                    FindGame(file, format, archiveExtensions, path, 5, potentialGames, true);
                 }
             }
 
@@ -135,8 +136,8 @@ namespace Atlas.Core
             version = "";
             creator = "";
             game_engine = "";
-        List<string> potential_executables = new List<string>();
-            if(isFile)
+            List<string> potential_executables = new List<string>();
+            if (isFile)
             {
                 potential_executables = Executable.DetectExecutable([t], extensions);
             }
@@ -144,8 +145,8 @@ namespace Atlas.Core
             {
                 potential_executables = Executable.DetectExecutable(Directory.GetFiles(t), extensions);
             }
-                
-                
+
+
             if (potential_executables.Count > 0)
             {
                 //check to see how to parse data
@@ -155,7 +156,7 @@ namespace Atlas.Core
                 game_path = t;
                 string[] file_list = Walk(t);//This is the list we will use to determine the engine
                 game_engine = GameEngine.FindEngine(file_list);
-                string[] game_data = Details.ParseDetails(t.Replace($"{path}\\", "").Replace('-','_'));
+                string[] game_data = Details.ParseDetails(t.Replace($"{path}\\", "").Replace('-', '_'));
                 if (format == "")
                 {
 
@@ -201,8 +202,8 @@ namespace Atlas.Core
 
                 //Check the database to see if we have a match
                 List<string[]> data = new List<string[]>();
-                
-                     data = SQLiteInterface.GetAtlasId(title, creator);
+
+                data = SQLiteInterface.GetAtlasId(title, creator);
 
 
                 List<string> results = new List<string>();
@@ -233,7 +234,7 @@ namespace Atlas.Core
                     f95_id = SQLiteInterface.FindF95ID(Id);
                     ResultVisibilityState = Visibility.Hidden;
                 }
-               
+
                 if (data.Count > 1)
                 {
                     foreach (var item in data)
@@ -242,12 +243,12 @@ namespace Atlas.Core
                     }
                     ResultVisibilityState = Visibility.Visible;
                 }
-               
+
 
                 //Make sure version does not include the extension
-                foreach(var ext in extensions)
+                foreach (var ext in extensions)
                 {
-                    if(version.Contains(ext))
+                    if (version.Contains(ext))
                     {
                         version = version.Replace(ext, "");
                     }
@@ -275,7 +276,7 @@ namespace Atlas.Core
                     MultipleEngineVisible = MultipleEngineVisible,
                     Folder = t,
                     Results = results,
-                    RecordExist= record_exist,
+                    RecordExist = record_exist,
                     ResultVisibilityState = ResultVisibilityState
                 };
 
@@ -309,7 +310,7 @@ namespace Atlas.Core
                                 Console.Out.WriteLine(_GameDetailList.Count.ToString());
                                 potentialGames = _GameDetailList.Count;
                                 UpdatePotentialGames(potentialGames);
-                                
+
                             }
                         }
                         catch (Exception ex)
@@ -341,12 +342,12 @@ namespace Atlas.Core
                     Logger.Warn("Wainting on DataGrid to Update");
                     System.Threading.Thread.Sleep(1000);
                 }*/
-                    InterfaceHelper.Datagrid.Items.Clear();
-                    InterfaceHelper.Datagrid.ItemsSource = _GameDetailList;
-                    InterfaceHelper.Datagrid.Items.Refresh();
-                    InterfaceHelper.Datagrid.IsReadOnly = false;
-                    InterfaceHelper.Datagrid.CanUserResizeRows = true;
-                
+                InterfaceHelper.Datagrid.Items.Clear();
+                InterfaceHelper.Datagrid.ItemsSource = _GameDetailList;
+                InterfaceHelper.Datagrid.Items.Refresh();
+                InterfaceHelper.Datagrid.IsReadOnly = false;
+                InterfaceHelper.Datagrid.CanUserResizeRows = true;
+
             }));
         }
         public static string[] Walk(string path)
