@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Text.RegularExpressions;
+using Windows.Media.AppBroadcasting;
 
 namespace Atlas.Core.Database
 {
@@ -53,6 +54,8 @@ namespace Atlas.Core.Database
 
         public static void AddVersion(GameDetails gameDetail, int RecordID)
         {
+            //Check that there is an executable if not then set it to blank.
+            string executable = gameDetail.Executable.Count > 0 ? gameDetail.Executable[0] : "";
             string cmd = @$"INSERT INTO versions (
                             record_id, 
                             version, 
@@ -67,7 +70,7 @@ namespace Atlas.Core.Database
                                 {RecordID}, 
                                 '{gameDetail.Version.Replace("\'", "\'\'")}',
                                 '{gameDetail.Folder.Replace("\'", "\'\'")}', 
-                                '{System.IO.Path.Combine(gameDetail.Folder, gameDetail.Executable[0]).Replace("\'", "\'\'")}',
+                                '{System.IO.Path.Combine(gameDetail.Folder, executable).Replace("\'", "\'\'")}',
                                 '',
                                 '{DateTime.Now}',
                                 0,

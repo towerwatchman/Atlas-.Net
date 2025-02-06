@@ -58,8 +58,8 @@ namespace Atlas.Core
             int ittr = 0;
 
             //Run in a seperate thread to speed up the process.
-            Task.Run(() =>
-            {
+            //Task.Run(() =>
+            //{
                 //This is specifically for archives
                 if (isArchive)
                 {
@@ -68,7 +68,7 @@ namespace Atlas.Core
                         FindGame(file, format, extensions, path, 5, true);
                     }
                 }
-            });
+            //});
             InitDataGrid();
             foreach (string dir in directories)
             {

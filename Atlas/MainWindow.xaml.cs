@@ -545,6 +545,7 @@ namespace Atlas
                                    if (gameObj != null)
                                    {
                                        ModelData.GameCollection[index] = new GameViewModel(SQLiteInterface.RetrieveGame(recordID).Result);
+                                       bvp.BannerView.Items.Refresh();
                                    }
                                }
                            });
