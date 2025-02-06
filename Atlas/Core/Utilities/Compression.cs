@@ -52,7 +52,19 @@ namespace Atlas.Core.Utilities
                     }));
 
                     index = 0;
-                    foreach (Entry entry in archiveFile.Entries)
+                    archiveFile.Extract(entry => {
+                        if (entry.FileName != null)
+                        {
+                            index++;
+                            InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+                            {
+                                InterfaceHelper.GameImportPB.Value = index;
+                                InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
+                            }));
+                        }
+                        return Path.Combine(output, entry.FileName); // where to put this particular file
+                    });
+                    /*foreach (Entry entry in archiveFile.Entries)
                     {
                         index++;
                         if (entry.FileName.Split('\\').Length > 1)
@@ -77,7 +89,7 @@ namespace Atlas.Core.Utilities
                             InterfaceHelper.GameImportPB.Value = index;
                             InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
                         }));
-                    }
+                    }*/
                 }
             }
             catch(Exception ex) {

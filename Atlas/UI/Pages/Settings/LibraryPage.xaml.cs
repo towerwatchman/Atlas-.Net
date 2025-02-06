@@ -30,10 +30,10 @@ namespace Atlas.UI.Pages.Settings
 
         private void tb_GameFolder_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Task.Run(() =>
-            {
+            //Task.Run(() =>
+            //{
                 Atlas.Core.Settings.Config.GamesPath = tb_GameFolder.Text;
-            });
+            //});
 
         }
     }
