@@ -124,12 +124,12 @@ namespace Atlas.UI.Windows
             //Check that the Creator column is valid
             if (F95Scanner._GameDetailList.Count > 0)
             {
-                 if (F95Scanner._GameDetailList.Any(x=>x.Creator == string.Empty) ||
-                     F95Scanner._GameDetailList.Any(x => x.Title == string.Empty)
-                 )
-                 {
+                if (F95Scanner._GameDetailList.Any(x => x.Creator == string.Empty) ||
+                    F95Scanner._GameDetailList.Any(x => x.Title == string.Empty)
+                )
+                {
                     MessageBox.Show("Creator and Title need to be filled out.");
-                 }
+                }
                 else
                 {
                     EmitImportSignal();
@@ -199,7 +199,7 @@ namespace Atlas.UI.Windows
                     {
                         await F95Scanner.Start(folder, format, GameExtensions, ArchiveExtensions, isArchive);
                     }
-                    catch(Exception ex) { Logger.Error(ex); }
+                    catch (Exception ex) { Logger.Error(ex); }
 
                 });
 
@@ -215,7 +215,7 @@ namespace Atlas.UI.Windows
             int index = 0;
 
             var tempGameDetailsList = F95Scanner._GameDetailList.ToList();
-            foreach(GameDetails game in tempGameDetailsList)
+            foreach (GameDetails game in tempGameDetailsList)
             {
                 var data = SQLiteInterface.GetAtlasId(game.Title, game.Creator);
                 List<string> results = new List<string>();

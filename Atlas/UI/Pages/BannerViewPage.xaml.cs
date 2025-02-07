@@ -2,7 +2,6 @@
 using NLog;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Atlas.UI.Pages
 

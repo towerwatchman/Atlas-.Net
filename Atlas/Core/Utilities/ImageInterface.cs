@@ -1,5 +1,4 @@
-﻿using Atlas.UI.ViewModel;
-using NLog;
+﻿using NLog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
@@ -65,7 +64,7 @@ namespace Atlas.Core.Utilities
                     if (image.Width > image.Height)
                     {
                         double height = (max_size / image.Width) * image.Height;
-                        image.Mutate(x => x.Resize(Convert.ToInt32(max_size), Convert.ToInt32(height) , KnownResamplers.Lanczos3));
+                        image.Mutate(x => x.Resize(Convert.ToInt32(max_size), Convert.ToInt32(height), KnownResamplers.Lanczos3));
                     }
                     else
                     {
@@ -150,7 +149,7 @@ namespace Atlas.Core.Utilities
                     image = new byte[stream.Length];
                     await stream.ReadAsync(image, 0, (int)stream.Length);
                 }
-                    //= await System.IO.File.ReadAllBytes(path);
+                //= await System.IO.File.ReadAllBytes(path);
 
                 bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();

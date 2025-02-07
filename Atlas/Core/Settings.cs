@@ -1,5 +1,4 @@
 ﻿using Config.Net;
-using SQLitePCL;
 using System.IO;
 
 namespace Atlas.Core
@@ -16,9 +15,9 @@ namespace Atlas.Core
             //Set all inital values here. 
 
             //PATHS
-            Config.EnginesPath = Config.EnginesPath == null ? Path.Combine(Directory.GetCurrentDirectory(),"data\\engines") : Config.EnginesPath;
+            Config.EnginesPath = Config.EnginesPath == null ? Path.Combine(Directory.GetCurrentDirectory(), "data\\engines") : Config.EnginesPath;
             Config.RootPath = Config.RootPath == null ? Directory.GetCurrentDirectory() : Config.RootPath;
-            Config.DatabasePath = Config.DatabasePath == null ? Path.Combine(Directory.GetCurrentDirectory(),"data") : Config.DatabasePath;
+            Config.DatabasePath = Config.DatabasePath == null ? Path.Combine(Directory.GetCurrentDirectory(), "data") : Config.DatabasePath;
             Config.ImagesPath = Config.ImagesPath == null ? Path.Combine(Directory.GetCurrentDirectory(), "data\\images") : Config.ImagesPath;
             Config.GamesPath = Config.GamesPath == null ? Path.Combine(Directory.GetCurrentDirectory(), "data\\games") : Config.GamesPath;
             Config.ThemesPath = Config.ThemesPath == null ? Path.Combine(Directory.GetCurrentDirectory(), "themes") : Config.ThemesPath;

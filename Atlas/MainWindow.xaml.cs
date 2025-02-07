@@ -8,7 +8,6 @@ using Atlas.UI.Windows;
 using NLog;
 using System.Diagnostics;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -99,8 +98,8 @@ namespace Atlas
             {
                 //if (bvp.BannerView.Items.Count > 0)
                 //{
-                    CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource);
-                    view.Filter = UserFilter;
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource);
+                view.Filter = UserFilter;
                 //}
                 // the code that's accessing UI properties
                 //sort items in lists
@@ -446,7 +445,7 @@ namespace Atlas
             //This will take each game detail that was imported and change it into an actual game.
             //We have to take this list and put all version in a seperate class. Once this is complete we add to database.
             //after adding to database we can import to the BannerView
-            
+
             await Task.Run(async () =>
             {
 
@@ -543,7 +542,7 @@ namespace Atlas
                            if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
                            {
                                //Check if there is an executable
-                               if(GameDetail.Executable.Count == 0)
+                               if (GameDetail.Executable.Count == 0)
                                {
                                    Logger.Warn($"No valid executables were found for Game: {GameDetail.Title} | Version: {GameDetail.Version}");
                                }
@@ -553,10 +552,10 @@ namespace Atlas
                            Logger.Info($"Adding Entry for: {GameDetail.Title} | Version: {GameDetail.Version}");
 
 
-                       //Make sure there is only one instance of each game type based on title and creator.
-                      
+                           //Make sure there is only one instance of each game type based on title and creator.
+
                            Application.Current.Dispatcher.Invoke(() =>
-                           { 
+                           {
                                if (!ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(recordID)).Any())
                                {
                                    ModelData.GameCollection.Add(new GameViewModel(SQLiteInterface.RetrieveGame(recordID).Result));

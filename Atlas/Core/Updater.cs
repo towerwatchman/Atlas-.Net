@@ -34,15 +34,15 @@ namespace Atlas.Core
             }
             else //clear all folders in dir
             {
-               /*DirectoryInfo di = new DirectoryInfo(UpdateDir);
-                foreach (FileInfo file in di.GetFiles())
-                {
-                    file.Delete();
-                }
-                foreach (DirectoryInfo dir in di.GetDirectories())
-                {
-                    dir.Delete(true);
-                }*/
+                /*DirectoryInfo di = new DirectoryInfo(UpdateDir);
+                 foreach (FileInfo file in di.GetFiles())
+                 {
+                     file.Delete();
+                 }
+                 foreach (DirectoryInfo dir in di.GetDirectories())
+                 {
+                     dir.Delete(true);
+                 }*/
             }
             //Check GH releases for updates and download if found
             string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
@@ -77,7 +77,7 @@ namespace Atlas.Core
                             if (File.Exists(Path.Combine(UpdateDir, $"{data[2]}.zip")))
                             {
                                 string destination = Path.Combine(UpdateDir, $"{data[2]}");
-                                
+
                                 try
                                 {
                                     ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), destination);

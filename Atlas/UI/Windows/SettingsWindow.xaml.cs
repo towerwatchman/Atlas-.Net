@@ -1,6 +1,4 @@
-﻿using Atlas.UI.Pages;
-using Atlas.UI.Pages.Settings;
-using Atlas.UI.ViewModel;
+﻿using Atlas.UI.Pages.Settings;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

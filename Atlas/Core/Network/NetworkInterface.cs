@@ -210,6 +210,6 @@ namespace Atlas.Core.Network
             //If we need to give the downloader a delay, this will help. 
             System.Threading.Thread.Sleep(delay);
             return byteArray;
-        }        
+        }
     }
 }

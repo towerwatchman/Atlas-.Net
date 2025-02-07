@@ -1,9 +1,8 @@
-﻿using K4os.Compression.LZ4.Streams;
+﻿using Atlas.UI;
+using K4os.Compression.LZ4.Streams;
 using NLog;
-using System.IO;
 using SevenZipExtractor;
-using Atlas.UI;
-using Windows.Media.AppBroadcasting;
+using System.IO;
 
 
 namespace Atlas.Core.Utilities
@@ -31,7 +30,7 @@ namespace Atlas.Core.Utilities
 
         public static bool ExtractFile(string input, string output, string gameName)
         {
-            if(!Directory.Exists(output)) Directory.CreateDirectory(output);
+            if (!Directory.Exists(output)) Directory.CreateDirectory(output);
             bool rootFolder = false;
             string root = "";
             int index = 0;
@@ -52,7 +51,8 @@ namespace Atlas.Core.Utilities
                     }));
 
                     index = 0;
-                    archiveFile.Extract(entry => {
+                    archiveFile.Extract(entry =>
+                    {
                         if (entry.FileName != null)
                         {
                             index++;
@@ -92,9 +92,10 @@ namespace Atlas.Core.Utilities
                     }*/
                 }
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
                 Logger.Error(ex);
-                return false; 
+                return false;
             }
 
             return true;

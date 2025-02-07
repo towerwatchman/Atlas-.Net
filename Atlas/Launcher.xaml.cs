@@ -187,7 +187,7 @@ namespace Atlas
             string url = "https://atlas-gamesdb.com/api/updates";
             JArray jsonArray = NetworkInterface.RequestJSON(url);
             if (jsonArray != null)
-            {                    
+            {
 
                 foreach (var jsonitem in jsonArray)
                 {

@@ -32,7 +32,7 @@ namespace Atlas.UI.Pages.Settings
         {
             //Task.Run(() =>
             //{
-                Atlas.Core.Settings.Config.GamesPath = tb_GameFolder.Text;
+            Atlas.Core.Settings.Config.GamesPath = tb_GameFolder.Text;
             //});
 
         }

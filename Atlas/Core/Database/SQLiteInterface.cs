@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Text.RegularExpressions;
-using Windows.Media.AppBroadcasting;
 
 namespace Atlas.Core.Database
 {
@@ -180,7 +179,7 @@ namespace Atlas.Core.Database
                                 InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                                 {
                                     InterfaceHelper.UpdateProgressBar.Value = (currentQuery / totalQueries) * 100;
-                                    InterfaceHelper.UpdateTextBox.Text = $"{Math.Round((currentQuery / totalQueries) * 100,0)}%";
+                                    InterfaceHelper.UpdateTextBox.Text = $"{Math.Round((currentQuery / totalQueries) * 100, 0)}%";
                                 }));
 
                                 //Logger.Info($"Percent complete {currentQuery} / {totalQueries}");
@@ -241,7 +240,7 @@ namespace Atlas.Core.Database
                 InsertOrUpdateAsync(queries);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error(ex);
             }
@@ -320,7 +319,7 @@ namespace Atlas.Core.Database
                         {
                             record = reader["f95_id"].ToString();
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             Logger.Error(ex);
                             record = null;
@@ -335,7 +334,7 @@ namespace Atlas.Core.Database
         public static bool CheckIfRecordExist(string title, string creator, string version)
         {
             int record = -1;
-            string query = $"SELECT games.record_id, games.title, games.creator, versions.version, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title.Replace("'","''")}' AND games.creator = '{creator.Replace("'", "''")}' AND versions.version = '{version.Replace("'", "''")}'";
+            string query = $"SELECT games.record_id, games.title, games.creator, versions.version, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title.Replace("'", "''")}' AND games.creator = '{creator.Replace("'", "''")}' AND versions.version = '{version.Replace("'", "''")}'";
             using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
             {
                 connection.Open();
@@ -347,16 +346,16 @@ namespace Atlas.Core.Database
                 {
                     while (reader.Read())
                     {
-                        record =Convert.ToInt32(reader["record_id"].ToString());
+                        record = Convert.ToInt32(reader["record_id"].ToString());
                     }
                     reader.Close();
                 }
             }
-            if(record != -1)
+            if (record != -1)
             {
                 return true;
             }
-            return false;    
+            return false;
         }
 
         public static bool CheckIfPathExist(string gamepath, string title)
@@ -833,7 +832,7 @@ WHERE games.record_id = {atlasID}";
             InsertOrUpdate(query, 1);
         }
 
-        public  static string[] getScreensUrlList(string record_id)
+        public static string[] getScreensUrlList(string record_id)
         {
             string[] screen_paths = null;
             string query = $"SELECT path from banners where record_id = '{record_id}'";
@@ -849,7 +848,7 @@ WHERE games.record_id = {atlasID}";
                 {
                     while (reader.Read())
                     {
-                     //   banner_path = (reader["path"].ToString());
+                        //   banner_path = (reader["path"].ToString());
                     }
                     reader.Close();
                 }

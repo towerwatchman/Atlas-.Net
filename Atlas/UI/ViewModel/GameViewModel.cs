@@ -2,7 +2,6 @@
 using Atlas.Core.Utilities;
 using NLog;
 using System.ComponentModel;
-using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace Atlas.UI.ViewModel

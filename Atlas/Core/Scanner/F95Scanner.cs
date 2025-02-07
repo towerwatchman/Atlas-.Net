@@ -1,15 +1,9 @@
 ﻿using Atlas.Core.Database;
 using Atlas.UI;
 using NLog;
-using System;
 using System.Collections.ObjectModel;
-using System.DirectoryServices.ActiveDirectory;
-using System.Formats.Tar;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Windows;
-using System.Windows.Shapes;
-using Windows.Devices.Printers;
 
 namespace Atlas.Core
 {
@@ -60,76 +54,76 @@ namespace Atlas.Core
             //Run in a seperate thread to speed up the process.
             //Task.Run(() =>
             //{
-                //This is specifically for archives
-                if (isArchive)
+            //This is specifically for archives
+            if (isArchive)
+            {
+                foreach (string file in Directory.GetFiles(path))
                 {
-                    foreach (string file in Directory.GetFiles(path))
-                    {
-                        FindGame(file, format, extensions, path, 5, true);
-                    }
+                    FindGame(file, format, extensions, path, 5, true);
                 }
+            }
             //});
             InitDataGrid();
             foreach (string dir in directories)
             {
                 //Task.Run(() =>
                 //{
-                    game_path = string.Empty;
-                    title = string.Empty;
-                    version = string.Empty;
-                    creator = string.Empty;
-                    game_engine = "Others";
-                    bool found_executable = false;
-                    Logger.Info(dir);
+                game_path = string.Empty;
+                title = string.Empty;
+                version = string.Empty;
+                creator = string.Empty;
+                game_engine = "Others";
+                bool found_executable = false;
+                Logger.Info(dir);
 
-                    //int folder_size = 0;
-                    int cur_level = 0;
-                    int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
+                //int folder_size = 0;
+                int cur_level = 0;
+                int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
 
-                    //Update Progressbar
-                    ittr++;
-                    UpdateProgressBar(ittr, total_dirs);
+                //Update Progressbar
+                ittr++;
+                UpdateProgressBar(ittr, total_dirs);
 
-                    try
+                try
+                {
+                    foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
                     {
-                        foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
+                        cur_level = t.Split('\\').Length;
+                        string[] s = t.Split('\\');
+                        if (cur_level <= stop_level)
                         {
-                            cur_level = t.Split('\\').Length;
-                            string[] s = t.Split('\\');
-                            if (cur_level <= stop_level)
+                            if (!found_executable)
                             {
-                                if (!found_executable)
+                                found_executable = FindGame(t, format, extensions, path, stop_level);
+                                if (found_executable && isArchive == false)
                                 {
-                                    found_executable = FindGame(t, format, extensions, path, stop_level);
-                                    if (found_executable && isArchive == false)
-                                    {
-                                        stop_level = cur_level;
-                                    }
-                                }
-                                //conintue checking folders for other versions using the same stop level
-                                else
-                                {
-                                    FindGame(t, format, extensions, path, stop_level);
+                                    stop_level = cur_level;
                                 }
                             }
-                        }
-                        //if we cant find any folders, the check for files. If we are searching for archives, this will search the root
-                        if (!found_executable || isArchive)
-                        {
-                            foreach (string f in Directory.GetFiles(dir))
+                            //conintue checking folders for other versions using the same stop level
+                            else
                             {
-                                FindGame(f, format, extensions, path, stop_level, true);
+                                FindGame(t, format, extensions, path, stop_level);
                             }
                         }
                     }
-                    catch (Exception ex)
+                    //if we cant find any folders, the check for files. If we are searching for archives, this will search the root
+                    if (!found_executable || isArchive)
                     {
-                        Logger.Warn(ex);
+                        foreach (string f in Directory.GetFiles(dir))
+                        {
+                            FindGame(f, format, extensions, path, stop_level, true);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Warn(ex);
+                }
                 //});
             }
 
-            
+
 
             //if there are no folders, then check for files. 
             //Try to bind item source 
@@ -348,7 +342,7 @@ namespace Atlas.Core
         private static void InitDataGrid()
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
-            {                
+            {
                 InterfaceHelper.Datagrid.Items.Clear();
                 InterfaceHelper.Datagrid.ItemsSource = _GameDetailList;
                 InterfaceHelper.Datagrid.Items.Refresh();

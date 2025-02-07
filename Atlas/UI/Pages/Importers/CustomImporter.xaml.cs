@@ -1,5 +1,4 @@
-﻿using Atlas.Core;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -42,7 +41,7 @@ namespace Atlas.UI.Pages.Importers
         private void cb_compression_Click(object sender, RoutedEventArgs e)
         {
             tb_format.IsEnabled = !(bool)cb_compression.IsChecked;
-            ArchiveDockPanel.Visibility = (bool)cb_compression.IsChecked? Visibility.Visible : Visibility.Hidden;
+            ArchiveDockPanel.Visibility = (bool)cb_compression.IsChecked ? Visibility.Visible : Visibility.Hidden;
             ArchiveExt.Text = Atlas.Core.Settings.Config.ExtractionExt;
             //OtherDefaultExt.Text = cb_compression.IsChecked == false ? Atlas.Core.Settings.Config.ExecutableExt : Atlas.Core.Settings.Config.ExtractionExt;
             cb_format.IsChecked = true;
