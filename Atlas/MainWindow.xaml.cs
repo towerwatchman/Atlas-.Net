@@ -459,8 +459,11 @@ namespace Atlas
                         Logger.Warn(input);
                         if (GameDetail.Creator != string.Empty)
                         {
-                            string creator = GameDetail.Creator.Replace("\\", "&").Replace("/", "&");
-                            output += $"\\{creator}\\{GameDetail.Title}\\{GameDetail.Version}";
+                            string creator = string.Join(" ", GameDetail.Creator.Replace("\\", "&").Replace("/", "&").Split(Path.GetInvalidFileNameChars()));
+                            string title = string.Join(" ", GameDetail.Title.Split(Path.GetInvalidFileNameChars()));
+                            string version = string.Join(" ", GameDetail.Version.Split(Path.GetInvalidFileNameChars()));
+
+                            output += $"\\{creator}\\{title}\\{version}";
                             if (!Directory.Exists(output)) { Directory.CreateDirectory(output); }
                             bool extStatus = Compression.ExtractFile(input, output, GameDetail.Title);
 

@@ -34,7 +34,7 @@ namespace Atlas.Core
             }
             else //clear all folders in dir
             {
-               /* DirectoryInfo di = new DirectoryInfo(UpdateDir);
+               /*DirectoryInfo di = new DirectoryInfo(UpdateDir);
                 foreach (FileInfo file in di.GetFiles())
                 {
                     file.Delete();
@@ -76,9 +76,11 @@ namespace Atlas.Core
                             //Check if file downloaded correctly
                             if (File.Exists(Path.Combine(UpdateDir, $"{data[2]}.zip")))
                             {
+                                string destination = Path.Combine(UpdateDir, $"{data[2]}");
+                                
                                 try
                                 {
-                                    ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), Path.Combine(UpdateDir, $"{data[2]}"));
+                                    ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), destination);
                                 }
                                 catch (Exception ex)
                                 {
@@ -87,8 +89,8 @@ namespace Atlas.Core
                                 //Check if file directory exist and run powershell
                                 if (Directory.Exists(Path.Combine(UpdateDir, $"{data[2]}")))
                                 {
-                                    string FullUpdateDir = Path.Combine(UpdateDir, data[2]);
-                                    CopyUpdateFiles(FullUpdateDir, AtlasDir, AtlasExe);
+                                    //string FullUpdateDir = Path.Combine(UpdateDir, data[2]);
+                                    CopyUpdateFiles(destination, AtlasDir, AtlasExe);
                                 }
                             }
                         }
@@ -139,7 +141,7 @@ namespace Atlas.Core
             var startInfo = new ProcessStartInfo()
             {
                 FileName = "powershell.exe",
-                Arguments = $" Start-Sleep -Seconds 3 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force ; start {AtlasExe} ",
+                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force ; start {AtlasExe} ",
                 UseShellExecute = false,
                 CreateNoWindow = true,
             };
