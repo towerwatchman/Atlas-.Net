@@ -94,6 +94,22 @@ namespace Atlas
                 bvp.BannerView.ItemsSource = ModelData.GameCollection;
                 bvp.BannerView.Items.Refresh();
             }));
+
+            try
+            {
+                //if (bvp.BannerView.Items.Count > 0)
+                //{
+                    CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource);
+                    view.Filter = UserFilter;
+                //}
+                // the code that's accessing UI properties
+                //sort items in lists
+                GameListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Title", System.ComponentModel.ListSortDirection.Ascending));
+
+                //Set total Versions & games
+                TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
+            }
+            catch (Exception ex) { Logger.Error(ex); }
         }
         private void InitListView()
         {
@@ -563,7 +579,6 @@ namespace Atlas
                        {
                            Logger.Warn($"Unable to add Game: {GameDetail.Title}");
                        }
-
 
                        GC.WaitForPendingFinalizers();
                        GC.Collect();
