@@ -564,7 +564,7 @@ namespace Atlas
                                //Update the model with new data if it already exist
                                else
                                {
-                                   GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(GameDetail.Id)).FirstOrDefault();
+                                   GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(recordID)).FirstOrDefault();
                                    var index = ModelData.GameCollection.IndexOf(gameObj);
 
                                    if (gameObj != null)
@@ -573,6 +573,16 @@ namespace Atlas
                                        bvp.BannerView.Items.Refresh();
                                    }
                                }
+
+                               //Update game data counts
+                               ModelData.TotalGames = ModelData.GameCollection.Count;
+                               int versions = 0;
+                               foreach (var modelData in ModelData.GameCollection)
+                               {
+                                   versions += modelData.Versions.Count;
+                               }
+                               ModelData.TotalVersions = versions;
+                               TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
                            });
                        }
                        else
