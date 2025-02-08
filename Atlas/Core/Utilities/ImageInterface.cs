@@ -1,10 +1,14 @@
-﻿using NLog;
+﻿using Atlas.Core.Database;
+using Atlas.UI.ViewModel;
+using Atlas.UI;
+using NLog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
 using System.Windows.Media.Imaging;
 using Image = SixLabors.ImageSharp.Image;
+using System.Windows;
 
 namespace Atlas.Core.Utilities
 {
@@ -168,6 +172,95 @@ namespace Atlas.Core.Utilities
             {
                 Logger.Error(ex.Message);
                 return null;
+            }
+        }
+
+        public static async Task DownloadImages(GameDetails gameDetail, bool DownloadPreviews = false)
+        {
+            if(gameDetail.AtlasID == null || gameDetail.AtlasID == "") { Logger.Warn("Unable to find Atlas ID to download images"); return; } //exit if no image found
+            try
+            {
+                //Get Banner Path for database
+                //Logger.Info(game.Title);
+                string banner_path = SQLiteInterface.GetBannerPath(gameDetail.RecordID.ToString());
+                //check if banner already exist
+                if ((banner_path == string.Empty && Convert.ToInt32(gameDetail.AtlasID) > -1) || !File.Exists(banner_path))
+                {
+                    Logger.Info($"Downloading images id:{gameDetail.RecordID} name:{gameDetail.Title}");
+
+                    
+                    //Run below in a new task that is awaited
+                    await Task.Run(async () =>
+                    {
+                        string bannerUrl = SQLiteInterface.GetBannerUrl(gameDetail.AtlasID.ToString());
+                        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", gameDetail.RecordID.ToString()));
+                        byte[] ImageArray = null;
+
+                        banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", gameDetail.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+
+                        /*if (Path.GetExtension(bannerUrl) == ".gif")
+                        {*/
+                        //banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                        //await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+                        /*}
+                        else
+                        {*/
+                        //banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
+                        //ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 2000);
+                        //}
+
+                        //Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
+
+                        //will need to implement this later
+                        if (ImageArray != null)
+                        {
+                            //ConvertImage to webp
+                            //ImageInterface image = new ImageInterface();
+                            //banner_path = image.ConvertToWebpAsync(ImageArray, banner_path, false).Result;
+
+                        }
+                        //update banner table
+                        if (File.Exists(banner_path))
+                        {
+                            SQLiteInterface.UpdateBanners(Convert.ToInt32(gameDetail.RecordID), banner_path, "banner");
+
+                            Logger.Info($" Updated Banner Images for: {gameDetail.Title.ToString()}");
+                            //Find Game in gamelist and set the banner to it
+                            BitmapSource img = await ImageInterface.LoadImageAsync(Convert.ToInt32(gameDetail.RecordID),
+                                        bannerUrl == "" ? "" : banner_path,
+                                        Atlas.Core.Settings.Config.ImageRenderWidth,
+                                        Atlas.Core.Settings.Config.ImageRenderHeight);
+                            //Freeze Image so it can update main UI thread
+                            img.Freeze();
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(gameDetail.RecordID)).FirstOrDefault();
+                                var index = ModelData.GameCollection.IndexOf(gameObj);
+
+                                if (gameObj != null)
+                                {
+                                    ModelData.GameCollection[index].BannerImage = img;
+                                    ModelData.GameCollection[index].BannerPath = banner_path;
+                                    gameObj.OnPropertyChanged("BannerImage");
+                                }
+                            });
+                        }
+
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+
+                    });
+                    //Set a default waiting period for downloading images between 200ms and 1s
+                    Random random = new Random();
+                    System.Threading.Thread.Sleep(random.Next(1000, 2000));
+                }
+
+                string[] screens = SQLiteInterface.getScreensUrlList(gameDetail.RecordID.ToString());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
             }
         }
     }

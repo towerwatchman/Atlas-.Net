@@ -223,7 +223,7 @@ namespace Atlas.Core
                     SingleExecutable = potential_executables[0].Trim();
                 }
 
-                string Id = "";
+                string AtlasID = "";
                 string f95_id = "";
                 if (data.Count == 0)
                 {
@@ -231,11 +231,11 @@ namespace Atlas.Core
                 }
                 else if (data.Count > 0)
                 {
-                    Id = data[0][0];
+                    AtlasID = data[0][0];
                     title = data[0][1];
                     creator = data[0][2];
                     game_engine = data[0][3];
-                    f95_id = SQLiteInterface.FindF95ID(Id);
+                    f95_id = SQLiteInterface.FindF95ID(AtlasID);
                     ResultVisibilityState = Visibility.Hidden;
                     Logger.Info(title);
                 }
@@ -269,8 +269,8 @@ namespace Atlas.Core
 
                 var gd = new GameDetails
                 {
-                    Id = Id,
-                    f95_Id = f95_id,
+                    AtlasID = AtlasID,
+                    F95ID = f95_id,
                     Title = title.Trim(),
                     Version = version.Trim(),
                     Creator = creator.Trim(),

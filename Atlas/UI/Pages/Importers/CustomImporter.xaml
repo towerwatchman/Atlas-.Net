@@ -97,17 +97,21 @@
                            Height="Auto"
                            Width="Auto">
                     <StackPanel>
-                        <CheckBox Content="Download Images if match found in Atlas database"
+                        <CheckBox x:Name="cbDownloadImages" Content="Download Images"
                                   Margin="10,10,0,0"
-                                  Visibility="Visible" />
-                        <CheckBox Content="Move to Atlas game folder"
+                                  Visibility="Visible"
+                                  Checked="cbDownloadImages_Checked" />
+                        <CheckBox x:Name="cbMoveGame" Content="Move to Atlas game folder"
                                   Margin="10,10,0,0"
-                                  Visibility="Visible" />
-                        <CheckBox Content="Scan folder size duing import"
+                                  Visibility="Visible"
+                                  Checked="cbMoveGame_Checked" />
+                        <CheckBox x:Name="cbScanFolderSize" Content="Scan folder size duing import"
                                   Margin="10,10,0,0"
-                                  Visibility="Visible" />
+                                  Visibility="Visible"
+                                  Checked="cbScanFolderSize_Checked" />
                         <CheckBox x:Name="cb_DeleteFolder" Content="Delete Folder After Extraction"
-                                  Margin="10,10,0,0" />
+                                  Margin="10,10,0,0"
+                                  Checked="cb_DeleteFolder_Checked" />
                     </StackPanel>
                 </DockPanel>
             </StackPanel>

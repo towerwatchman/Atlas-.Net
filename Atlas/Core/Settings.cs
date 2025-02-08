@@ -35,6 +35,12 @@ namespace Atlas.Core
             Config.ExtractionExt = Config.ExtractionExt == null ? ".zip,.7z,.rar" : Config.ExtractionExt;
         }
 
+        //Global vars stored at runtime currently
+        public static bool DownloadImages {  get; set; }
+        public static bool MoveGameOnImport { get; set; }
+        public static bool ScanFolderSize { get; set; }
+        public static bool DeleteFolderAfterExtraction { get; set; }
+
     }
     public interface SettingInterface
     {

@@ -448,8 +448,10 @@ namespace Atlas
 
         private async void BatchImporter_StartImport(object sender, EventArgs e)
         {
-
             isBatchImporterOpen = false;
+            //Show Game Import Box
+            GameImportBox.Visibility = Visibility.Visible;
+
             //await InitBannerView();
             //List<Game> = ModelData.Games;
             //This will take each game detail that was imported and change it into an actual game.
@@ -469,9 +471,12 @@ namespace Atlas
                     notification.ProgressBarValue = 40;
                     notification.Status = "Running Update";
 
-                    NotificationCollection.Add(new NotificationViewModel(notification));
-                    Logger.Info(GameDetail.Title);
-                    /*
+                    //NotificationCollection.Add(new NotificationViewModel(notification));
+                    // Logger.Info(GameDetail.Title);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        GameImportTextBox.Content = $"Adding Game: {GameDetail.Title} | Version: {GameDetail.Version}";
+                    });
                     //In some instances the database data will have spaces at the end. We need to remove those. 
                     GameDetail.Creator = GameDetail.Creator.Trim();
                     GameDetail.Title = GameDetail.Title.Trim();
@@ -542,25 +547,25 @@ namespace Atlas
 
                     }
 
-                    await Task.Run(() =>
+                    await Task.Run(async () =>
                    {
                        //We need to insert in to database first then get the id of the new item
-                       string recordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
+                       GameDetail.RecordID = SQLiteInterface.FindRecordID(GameDetail.Title, GameDetail.Creator).ToString();
 
-                       if (recordID == "-1")
+                       if (GameDetail.RecordID == "-1")
                        {
-                           recordID = SQLiteInterface.AddGame(GameDetail);
+                           GameDetail.RecordID = SQLiteInterface.AddGame(GameDetail);
                            //Logger.Info($"Adding game: {GameDetail.Title}");
                        }
 
-                       if (recordID != string.Empty)
+                       if (GameDetail.RecordID != string.Empty)
                        {
-                           if (GameDetail.Id != "")
+                           if (GameDetail.RecordID != "")
                            {
-                               SQLiteInterface.SetAtlasMapping(recordID, GameDetail.Id);
+                               SQLiteInterface.SetAtlasMapping(GameDetail.RecordID, GameDetail.AtlasID);
                            }
 
-                           if (SQLiteInterface.CheckIfVersionExist(recordID, GameDetail.Version) == false)
+                           if (SQLiteInterface.CheckIfVersionExist(GameDetail.RecordID, GameDetail.Version) == false)
                            {
                                //Check if there is an executable
                                if (GameDetail.Executable.Count == 0)
@@ -568,8 +573,14 @@ namespace Atlas
                                    Logger.Warn($"No valid executables were found for Game: {GameDetail.Title} | Version: {GameDetail.Version}");
                                }
 
-                               SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(recordID));
+                               SQLiteInterface.AddVersion(GameDetail, Convert.ToInt32(GameDetail.RecordID));
                            }
+                           //Check if we need to download images before adding the gamemodel
+                           if (Atlas.Core.Settings.DownloadImages)
+                           {
+                               await ImageInterface.DownloadImages(GameDetail);
+                           }
+
                            Logger.Info($"Adding Entry for: {GameDetail.Title} | Version: {GameDetail.Version}");
 
 
@@ -577,19 +588,19 @@ namespace Atlas
 
                            Application.Current.Dispatcher.Invoke(() =>
                            {
-                               if (!ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(recordID)).Any())
+                               if (!ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(GameDetail.RecordID)).Any())
                                {
-                                   ModelData.GameCollection.Add(new GameViewModel(SQLiteInterface.RetrieveGame(recordID).Result));
+                                   ModelData.GameCollection.Add(new GameViewModel(SQLiteInterface.RetrieveGame(GameDetail.RecordID).Result));
                                }
                                //Update the model with new data if it already exist
                                else
                                {
-                                   GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(recordID)).FirstOrDefault();
+                                   GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(GameDetail.RecordID)).FirstOrDefault();
                                    var index = ModelData.GameCollection.IndexOf(gameObj);
 
                                    if (gameObj != null)
                                    {
-                                       ModelData.GameCollection[index] = new GameViewModel(SQLiteInterface.RetrieveGame(recordID).Result);
+                                       ModelData.GameCollection[index] = new GameViewModel(SQLiteInterface.RetrieveGame(GameDetail.RecordID).Result);
                                        bvp.BannerView.Items.Refresh();
                                    }
                                }
@@ -613,7 +624,7 @@ namespace Atlas
                        GC.WaitForPendingFinalizers();
                        GC.Collect();
                    });
-                    */
+                    
                 }
                 ModelData.NotificationCollection = NotificationCollection;
                 Application.Current.Dispatcher.Invoke((Action)(() =>
@@ -626,6 +637,8 @@ namespace Atlas
                     notificationsPage.NotificationsList.Items.Refresh();
                 }));
             });
+
+            GameImportBox.Visibility = Visibility.Hidden;
         }
 
         private void AtlasSearchBox_MouseEnter(object sender, MouseEventArgs e)
@@ -754,7 +767,7 @@ namespace Atlas
         }
         private void OpenNotifications_Click(object sender, RoutedEventArgs e)
         {
-            atlas_frame.Content = notificationsPage;
+            //atlas_frame.Content = notificationsPage;
         }
 
         private void Window_StateChanged(object sender, EventArgs e)

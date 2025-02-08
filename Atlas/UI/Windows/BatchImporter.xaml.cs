@@ -234,7 +234,7 @@ namespace Atlas.UI.Windows
 
                 if (data.Count == 1)
                 {
-                    game.Id = data[0][0];
+                    game.RecordID = data[0][0];
                     game.Title = data[0][1];
                     game.Creator = data[0][2];
                     game.Engine = data[0][3];

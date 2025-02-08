@@ -193,11 +193,11 @@
                                               >
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Atlas ID"
-                                                                Binding="{Binding Path=Id}"
+                                                                Binding="{Binding Path=RecordID}"
                                                                 Width="50"
                                                                 IsReadOnly="True" />
                                             <DataGridTextColumn Header="F95 ID"
-                                                                Binding="{Binding Path=f95_Id}"
+                                                                Binding="{Binding Path=F95ID}"
                                                                 Width="50"
                                                                 IsReadOnly="True" />
                                             <DataGridTextColumn Header="Title"

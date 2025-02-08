@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Atlas.Core;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -49,7 +50,32 @@ namespace Atlas.UI.Pages.Importers
 
         private void cb_compression_Checked(object sender, RoutedEventArgs e)
         {
+            
+        }
 
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbDownloadImages_Checked(object sender, RoutedEventArgs e)
+        {
+            Atlas.Core.Settings.DownloadImages = (bool)cbDownloadImages.IsChecked;
+        }
+
+        private void cbMoveGame_Checked(object sender, RoutedEventArgs e)
+        {
+            Atlas.Core.Settings.MoveGameOnImport = (bool)cbMoveGame.IsChecked;
+        }
+
+        private void cbScanFolderSize_Checked(object sender, RoutedEventArgs e)
+        {
+            Atlas.Core.Settings.ScanFolderSize = (bool)cbScanFolderSize.IsChecked;
+        }
+
+        private void cb_DeleteFolder_Checked(object sender, RoutedEventArgs e)
+        {
+            Atlas.Core.Settings.DeleteFolderAfterExtraction = (bool)cb_DeleteFolder.IsChecked;
         }
     }
 }
