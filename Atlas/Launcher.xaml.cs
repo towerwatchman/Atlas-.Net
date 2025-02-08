@@ -68,7 +68,7 @@ namespace Atlas
 
         public async Task Init()
         {
-            UpdateLauncherText("Check For Updates");
+            UpdateLauncherText("Checking For Updates");
             //Check for Program updates
             await Task.Run(async () =>
             {

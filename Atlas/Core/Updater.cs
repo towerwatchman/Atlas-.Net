@@ -1,4 +1,5 @@
 ﻿using Atlas.Core.Network;
+using Atlas.UI;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System.Diagnostics;
@@ -34,7 +35,7 @@ namespace Atlas.Core
             }
             else //clear all folders in dir
             {
-                /*DirectoryInfo di = new DirectoryInfo(UpdateDir);
+                DirectoryInfo di = new DirectoryInfo(UpdateDir);
                  foreach (FileInfo file in di.GetFiles())
                  {
                      file.Delete();
@@ -42,7 +43,8 @@ namespace Atlas.Core
                  foreach (DirectoryInfo dir in di.GetDirectories())
                  {
                      dir.Delete(true);
-                 }*/
+                 }
+                 System.Threading.Thread.Sleep(500); //Wait half a second to make sure files are deleted
             }
             //Check GH releases for updates and download if found
             string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
@@ -80,7 +82,7 @@ namespace Atlas.Core
 
                                 try
                                 {
-                                    ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), destination);
+                                    ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), destination,true);
                                 }
                                 catch (Exception ex)
                                 {
@@ -89,12 +91,19 @@ namespace Atlas.Core
                                 //Check if file directory exist and run powershell
                                 if (Directory.Exists(Path.Combine(UpdateDir, $"{data[2]}")))
                                 {
+                                    Application.Current.Dispatcher.Invoke((Action)delegate
+                                    {
+                                        InterfaceHelper.LauncherTextBox.Text = "Running Update";
+                                        InterfaceHelper.LauncherProgressBar.Value = 100;
+                                    });
+                                    System.Threading.Thread.Sleep(1000);
                                     //string FullUpdateDir = Path.Combine(UpdateDir, data[2]);
                                     CopyUpdateFiles(destination, AtlasDir, AtlasExe);
                                 }
                             }
                         }
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -141,7 +150,7 @@ namespace Atlas.Core
             var startInfo = new ProcessStartInfo()
             {
                 FileName = "powershell.exe",
-                Arguments = $" Start-Sleep -Seconds 1 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force ; start {AtlasExe} ",
+                Arguments = $" Start-Sleep -Seconds 3 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force ; Start-Sleep -Seconds 2 ; start {AtlasExe} ",
                 UseShellExecute = false,
                 CreateNoWindow = true,
             };
