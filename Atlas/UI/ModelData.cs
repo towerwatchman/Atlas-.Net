@@ -11,6 +11,8 @@ namespace Atlas.UI
 
         public static ObservableCollection<GameViewModel> GameCollection { get; set; }
 
+        public static ObservableCollection<NotificationViewModel> NotificationCollection { get; set; }
+
         public static int TotalGames { get; set; }
         public static int TotalVersions { get; set; }
     }

@@ -6,6 +6,7 @@ using Atlas.UI.Pages;
 using Atlas.UI.ViewModel;
 using Atlas.UI.Windows;
 using NLog;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -27,6 +28,7 @@ namespace Atlas
 
         //Create private members for each page
         BannerViewPage bvp = new BannerViewPage();
+        NotificationsPage notificationsPage = new NotificationsPage();
         private SettingsWindow settingsWindow = new SettingsWindow();
         public MainWindow()
         {
@@ -60,6 +62,7 @@ namespace Atlas
             tbVersion.Text = $"Version: {Assembly.GetExecutingAssembly().GetName().Version!.ToString()}";
 
             InterfaceHelper.BannerView = bvp.BannerView;
+            InterfaceHelper.NotificationsPage = notificationsPage.NotificationsList;
 
             //Initalize the BannerViews
             //InitListView();
@@ -92,6 +95,13 @@ namespace Atlas
                 bvp.BannerView.ItemsSource = null;
                 bvp.BannerView.ItemsSource = ModelData.GameCollection;
                 bvp.BannerView.Items.Refresh();
+
+                //Bind notifications
+                notificationsPage.NotificationsList.Items.Clear();
+                notificationsPage.NotificationsList.ItemsSource = null;
+                notificationsPage.NotificationsList.ItemsSource = ModelData.NotificationCollection;
+                notificationsPage.NotificationsList.Items.Refresh();
+
             }));
 
             try
@@ -448,9 +458,20 @@ namespace Atlas
 
             await Task.Run(async () =>
             {
-
+                ObservableCollection<NotificationViewModel> NotificationCollection = new ObservableCollection<NotificationViewModel>();
                 foreach (var GameDetail in F95Scanner.GameDetailList)
                 {
+
+                    //This is to test that we can make notifications
+                    Notification notification = new Notification();
+                    notification.Title = GameDetail.Title;
+                    notification.Version = GameDetail.Version;
+                    notification.ProgressBarValue = 40;
+                    notification.Status = "Running Update";
+
+                    NotificationCollection.Add(new NotificationViewModel(notification));
+                    Logger.Info(GameDetail.Title);
+                    /*
                     //In some instances the database data will have spaces at the end. We need to remove those. 
                     GameDetail.Creator = GameDetail.Creator.Trim();
                     GameDetail.Title = GameDetail.Title.Trim();
@@ -592,8 +613,18 @@ namespace Atlas
                        GC.WaitForPendingFinalizers();
                        GC.Collect();
                    });
-
+                    */
                 }
+                ModelData.NotificationCollection = NotificationCollection;
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    notificationsPage.NotificationsList.Items.Clear();
+                    notificationsPage.NotificationsList.ItemsSource = null;
+                    notificationsPage.NotificationsList.ItemsSource = ModelData.NotificationCollection;
+                    notificationsPage.NotificationsList.Items.Refresh();
+
+                    notificationsPage.NotificationsList.Items.Refresh();
+                }));
             });
         }
 
@@ -723,8 +754,8 @@ namespace Atlas
         }
         private void OpenNotifications_Click(object sender, RoutedEventArgs e)
         {
-           
-        }        
+            atlas_frame.Content = notificationsPage;
+        }
 
         private void Window_StateChanged(object sender, EventArgs e)
         {

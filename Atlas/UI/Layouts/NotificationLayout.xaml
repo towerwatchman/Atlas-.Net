@@ -1,21 +1,38 @@
 ﻿<UserControl x:Class="Atlas.UI.Layouts.NotificationLayout"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Atlas.UI.Layouts"
-             mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="600">
-
+             mc:Ignorable="d"
+             MinWidth="600"
+             MinHeight="100">
     <Grid>
         <DockPanel LastChildFill="True">
-            <Grid Width="250" DockPanel.Dock="Left" Background="Orange">
-                
-                <TextBlock Text="GAME TITLE" Margin="10,10,0,0"></TextBlock>
-                
+            <Grid Width="250"
+                  DockPanel.Dock="Left"
+                  Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Title}"
+                               FontSize="14"
+                               Foreground="{DynamicResource Text}"></TextBlock>
+                    <TextBlock Text="{Binding Version}"
+                               Foreground="{DynamicResource Text}"></TextBlock>
+                </StackPanel>
             </Grid>
-            <Grid DockPanel.Dock="Right" Background="Green">
-                
+            <Grid DockPanel.Dock="Right"
+                  Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding PercentComplete}"
+                               FontSize="10"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource Text}"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Right"></TextBlock>
+                    <ProgressBar x:Name="nfProgressBar" Height="15"
+                                 VerticalAlignment="Top"></ProgressBar>
+                    <TextBlock x:Name="tbUpdate" Text="N/A" HorizontalAlignment="Left" Foreground="{DynamicResource Text}"></TextBlock>
+                </StackPanel>
             </Grid>
         </DockPanel>
     </Grid>

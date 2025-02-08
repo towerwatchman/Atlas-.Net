@@ -4,6 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Atlas.UI.Pages"
+      xmlns:vm="clr-namespace:Atlas.UI.ViewModel"
+      xmlns:custom="clr-namespace:Atlas.UI.Layouts"
       mc:Ignorable="d"
       d:DesignHeight="720"
       d:DesignWidth="1280"
@@ -15,8 +17,28 @@
             <Grid DockPanel.Dock="Top" Background="Blue" Height="200">
                 
             </Grid>
-            <ListView DockPanel.Dock="Bottom" Background="red" x:Name="NotificationsList">
-                
+            <ListView MaxHeight="10000"
+                      x:Name="NotificationsList"
+                      Margin="0,2,0,0"
+                      Background="{DynamicResource Primary}"
+                      Foreground="{DynamicResource Text}"
+                      BorderThickness="0"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      HorizontalAlignment="Stretch"
+                      ScrollViewer.CanContentScroll="True"
+                      VirtualizingPanel.ScrollUnit="Pixel"
+                      VirtualizingPanel.VirtualizationMode="Recycling">
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:NotificationViewModel}">
+                        <VirtualizingStackPanel Orientation="Vertical"
+                                                VirtualizingStackPanel.IsVirtualizing="True"
+                                                VirtualizingStackPanel.VirtualizationMode="Recycling">
+                            <Grid Margin="4">
+                                <custom:NotificationLayout x:Name="NotificationItem" />
+                            </Grid>
+                        </VirtualizingStackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>            
         </DockPanel>
     </Grid>
