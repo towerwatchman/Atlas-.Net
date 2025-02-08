@@ -165,6 +165,7 @@ namespace Atlas.UI.Windows
                 //GameScanner gameScanner = new GameScanner();
                 //GameList.ItemsSource = F95Scanner.GameDetailList;
                 InterfaceHelper.Datagrid = GameList;
+                GameList.ColumnWidth = DataGridLength.Auto;
 
                 string folder = customImporter.tb_FolderDialog.Text;
 
@@ -202,6 +203,17 @@ namespace Atlas.UI.Windows
                     catch (Exception ex) { Logger.Error(ex); }
 
                 });
+
+                //Resize columns so the data fits
+                foreach (DataGridColumn column in GameList.Columns)
+                {
+                    //if you want to size your column as per the cell content
+                    column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToCells);
+                    //if you want to size your column as per the column header
+                    column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
+                    //if you want to size your column as per both header and cell content
+                    column.Width = new DataGridLength(1.0, DataGridLengthUnitType.Auto);
+                }
 
                 btn_import.IsEnabled = true;
             }
