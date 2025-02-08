@@ -39,7 +39,12 @@
                                     Margin="20,0,0,0">
                             <Path Data="{DynamicResource games_icon}"
                                   Fill="{DynamicResource Accent}"
-                                  VerticalAlignment="Top" />
+                                  VerticalAlignment="Top" RenderTransformOrigin="0.5, 0.5">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX=".75"
+                                                    ScaleY=".75" />
+                                </Path.RenderTransform>
+                            </Path>
                             <TextBox x:Name="TotalGames"
                                      HorizontalAlignment="Center"
                                      VerticalContentAlignment="Center"
@@ -57,12 +62,12 @@
                             Click="AddGameButton_Click"
                             Style="{StaticResource TransparentButton}">
                         <Grid IsEnabled="False">
-                            <Path Style="{StaticResource PathHover}"
+                            <Path x:Name="pAddGame" Style="{StaticResource PathHover}"
                                   Data="{DynamicResource add_icon}"
                                   Fill="{DynamicResource Accent}"
                                   VerticalAlignment="Center"
                                   IsEnabled="False"></Path>
-                            <TextBlock x:Name="Version"
+                            <TextBlock x:Name="tbAddGame"
                                        Margin="30,0,0,0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -70,20 +75,46 @@
                                        MinHeight="20" />
                         </Grid>
                     </Button>
-                    <StackPanel Orientation="Horizontal"
-                                Margin="0,0,20,0"
-                                HorizontalAlignment="Right">
-                        <Path Data="{DynamicResource import_icon}"
-                              Fill="{DynamicResource Accent}"
-                              VerticalAlignment="Center" />
-                        <TextBox x:Name="Downloads"
-                                 HorizontalAlignment="Center"
-                                 VerticalContentAlignment="Center"
-                                 Text="Downloads"
-                                 MinHeight="20"
-                                 BorderThickness="0"
-                                 Background="Transparent" />
-                    </StackPanel>
+                    <Button x:Name="spNotifications"
+                            Width="125"
+                            Margin="0,0,20,0"
+                            HorizontalAlignment="Right"
+                            Click="OpenNotifications_Click"
+                            Style="{StaticResource TransparentButton}">
+                        <Grid IsEnabled="False">
+                            <Path x:Name="pNotifications"
+                                  Data="{DynamicResource notification_icon}"
+                                  Fill="{DynamicResource Accent}"
+                                  VerticalAlignment="Center"
+                                  RenderTransformOrigin="0.5, 0.5">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX=".90"
+                                                    ScaleY=".90" />
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock 
+                                       Margin="30,0,20,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="Notifications"
+                                       MinHeight="20" />
+                           
+                            <Grid Width="17" Height="17" HorizontalAlignment="Right" >
+                                <Border BorderBrush="{DynamicResource Border}"
+                                        CornerRadius="4"
+                                        Background="{DynamicResource Border}">
+                                    <Label Foreground="{DynamicResource Text}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Content="999"
+                                           FontSize="8"
+                                           Padding="0"></Label>
+                                </Border>
+                            </Grid>
+
+                            
+                        </Grid>
+                    </Button>
                 </Grid>
             </Border>
             <!--#endregion-->

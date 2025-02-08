@@ -683,7 +683,8 @@ namespace Atlas
         {
 
             //AddGameButton.ContextMenu.Items.Add("test");
-            ContextMenu contextMenu = new ContextMenu();
+
+            /*ContextMenu contextMenu = new ContextMenu();
             MenuItem menuItem = new MenuItem();
 
             menuItem.Header = "Add Game";
@@ -697,7 +698,15 @@ namespace Atlas
 
             AddGameButton.ContextMenu = contextMenu;
             //this will open for right and left click
-            AddGameButton.ContextMenu.IsOpen = true;
+            AddGameButton.ContextMenu.IsOpen = true;*/
+            isBatchImporterOpen = true;
+            BatchImporter batchImporter = new BatchImporter();
+            //Set event handler to start parsing games once 
+            batchImporter.StartImport += BatchImporter_StartImport; ;
+            batchImporter.Closed += BatchImporter_Closed;
+
+            batchImporter.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            batchImporter.Show();
 
         }
 
@@ -712,6 +721,10 @@ namespace Atlas
             ClearSearchBox.Visibility = Visibility.Hidden;
             CollectionViewSource.GetDefaultView(bvp.BannerView.ItemsSource).Refresh();
         }
+        private void OpenNotifications_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }        
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
