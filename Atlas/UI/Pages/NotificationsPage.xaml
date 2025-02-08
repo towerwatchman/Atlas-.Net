@@ -1,0 +1,22 @@
+﻿<Page x:Class="Atlas.UI.Pages.NotificationsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Atlas.UI.Pages"
+      d:DesignHeight="720"
+      d:DesignWidth="1280"
+      Background="{DynamicResource Primary}"
+      Title="NotificationsPage">
+
+    <Grid>
+        <DockPanel LastChildFill="True">
+            <Grid DockPanel.Dock="Top" Background="Blue" Height="200">
+                
+            </Grid>
+            <ListView DockPanel.Dock="Bottom" Background="red" x:Name="NotificationsList">
+                
+            </ListView>            
+        </DockPanel>
+    </Grid>
+</Page>
