@@ -148,7 +148,7 @@ namespace Atlas.Core
         //Run powershell and moce files to current folder
         public static void CopyUpdateFiles(string UpdateDir, string AtlasDir, string AtlasExe)
         {
-            string test = $" Start-Sleep -Seconds 3 ; try {{ Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force;Start-Sleep -Seconds 2 ; start \"{AtlasExe}\";  }} catch {{  [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, \"Error\", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)}}";
+            //string test = $" Start-Sleep -Seconds 3 ; try {{ Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force;Start-Sleep -Seconds 2 ; start \"{AtlasExe}\";  }} catch {{  [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, \"Error\", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)}}";
             //Console.WriteLine(test);
             var startInfo = new ProcessStartInfo()
             {
