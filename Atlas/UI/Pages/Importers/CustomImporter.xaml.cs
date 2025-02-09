@@ -1,5 +1,4 @@
-﻿using Atlas.Core;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -50,7 +49,7 @@ namespace Atlas.UI.Pages.Importers
 
         private void cb_compression_Checked(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)

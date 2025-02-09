@@ -8,7 +8,6 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Reflection;
 using System.Windows;
-using Windows.Devices.Printers;
 
 
 namespace Atlas.Core
@@ -37,15 +36,15 @@ namespace Atlas.Core
             else //clear all folders in dir
             {
                 DirectoryInfo di = new DirectoryInfo(UpdateDir);
-                 foreach (FileInfo file in di.GetFiles())
-                 {
-                     file.Delete();
-                 }
-                 foreach (DirectoryInfo dir in di.GetDirectories())
-                 {
-                     dir.Delete(true);
-                 }
-                 System.Threading.Thread.Sleep(500); //Wait half a second to make sure files are deleted
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    file.Delete();
+                }
+                foreach (DirectoryInfo dir in di.GetDirectories())
+                {
+                    dir.Delete(true);
+                }
+                System.Threading.Thread.Sleep(500); //Wait half a second to make sure files are deleted
             }
             //Check GH releases for updates and download if found
             string url = "https://api.github.com/repos/towerwatchman/Atlas/releases";
@@ -83,7 +82,7 @@ namespace Atlas.Core
 
                                 try
                                 {
-                                    ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), destination,true);
+                                    ZipFile.ExtractToDirectory(Path.Combine(UpdateDir, $"{data[2]}.zip"), destination, true);
                                 }
                                 catch (Exception ex)
                                 {
@@ -148,8 +147,6 @@ namespace Atlas.Core
         //Run powershell and moce files to current folder
         public static void CopyUpdateFiles(string UpdateDir, string AtlasDir, string AtlasExe)
         {
-            //string test = $" Start-Sleep -Seconds 3 ; try {{ Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force;Start-Sleep -Seconds 2 ; start \"{AtlasExe}\";  }} catch {{  [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, \"Error\", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)}}";
-            //Console.WriteLine(test);
             var startInfo = new ProcessStartInfo()
             {
                 Verb = "runas",

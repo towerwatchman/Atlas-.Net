@@ -1,14 +1,14 @@
 ﻿using Atlas.Core.Database;
-using Atlas.UI.ViewModel;
 using Atlas.UI;
+using Atlas.UI.ViewModel;
 using NLog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using Image = SixLabors.ImageSharp.Image;
-using System.Windows;
 
 namespace Atlas.Core.Utilities
 {
@@ -177,7 +177,7 @@ namespace Atlas.Core.Utilities
 
         public static async Task DownloadImages(GameDetails gameDetail, bool DownloadPreviews = false)
         {
-            if(gameDetail.AtlasID == null || gameDetail.AtlasID == "") { Logger.Warn("Unable to find Atlas ID to download images"); return; } //exit if no image found
+            if (gameDetail.AtlasID == null || gameDetail.AtlasID == "") { Logger.Warn("Unable to find Atlas ID to download images"); return; } //exit if no image found
             try
             {
                 //Get Banner Path for database
@@ -188,7 +188,7 @@ namespace Atlas.Core.Utilities
                 {
                     Logger.Info($"Downloading images id:{gameDetail.RecordID} name:{gameDetail.Title}");
 
-                    
+
                     //Run below in a new task that is awaited
                     await Task.Run(async () =>
                     {

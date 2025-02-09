@@ -1,10 +1,5 @@
 ﻿using NLog;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Atlas.UI.ViewModel
 {
@@ -12,7 +7,7 @@ namespace Atlas.UI.ViewModel
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public NotificationViewModel(Notification notification) 
+        public NotificationViewModel(Notification notification)
         {
             Title = notification.Title;
             Version = notification.Version;

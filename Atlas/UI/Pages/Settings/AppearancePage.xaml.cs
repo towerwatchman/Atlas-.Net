@@ -1,20 +1,7 @@
 ﻿using NLog;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Atlas.Core;
 
 namespace Atlas.UI.Pages.Settings
 {
@@ -29,7 +16,7 @@ namespace Atlas.UI.Pages.Settings
             InitializeComponent();
             foreach (var item in Directory.GetFiles(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes")))
             {
-                if(System.IO.Path.GetExtension(item) == ".xaml")
+                if (System.IO.Path.GetExtension(item) == ".xaml")
                 {
                     cbThemes.Items.Add(System.IO.Path.GetFileNameWithoutExtension(item));
                 }

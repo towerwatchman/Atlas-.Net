@@ -1,7 +1,6 @@
 ﻿using Atlas.UI;
 using Newtonsoft.Json.Linq;
 using NLog;
-using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -162,7 +161,7 @@ namespace Atlas.Core.Network
                         using (var fileStream = new FileStream(filename, FileMode.Create))
                         {
                             //var relativeProgress = new Progress<long>(totalBytes => progress.Report((float)totalBytes / contentLength.Value));
-                            await stream.CopyToAsync(fileStream);                           
+                            await stream.CopyToAsync(fileStream);
                         }
 
                         Logger.Info("File downloaded successfully: " + filename);

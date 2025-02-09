@@ -624,7 +624,7 @@ namespace Atlas
                        GC.WaitForPendingFinalizers();
                        GC.Collect();
                    });
-                    
+
                 }
                 ModelData.NotificationCollection = NotificationCollection;
                 Application.Current.Dispatcher.Invoke((Action)(() =>
