@@ -52,9 +52,9 @@ MouseDown="Window_MouseDown"
             </StackPanel>
             <!--#endregion-->
             <DockPanel LastChildFill="True">
-                <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Background="{DynamicResource Tertiary}">
+                <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Background="{DynamicResource Primary}">
                     <Label Content="Atlas Settings" Foreground="{DynamicResource Accent}" HorizontalContentAlignment="Center" Margin="0,0,0,5" FontWeight="DemiBold"/>
-                    <ListBox Width="180" BorderThickness="0" Background="{DynamicResource Tertiary}">
+                    <ListBox Width="180" BorderThickness="0" Background="Transparent">
                         <ListBoxItem x:Name="Interface" MouseUp="OnListBoxNavButtonUp">
                             <StackPanel Orientation="Horizontal" >
                                 <Path Data="{DynamicResource interface_icon}"
@@ -195,12 +195,12 @@ MouseDown="Window_MouseDown"
                 </StackPanel>
                 <DockPanel DockPanel.Dock="Right"
                            LastChildFill="True"
-                           Background="{DynamicResource Primary}" >
+                           Background="{DynamicResource Secondary}" >
                     <Label x:Name="SettingsLabel" Content="Settings"
                            Foreground="AliceBlue"
                            Height="45" FontSize="25" FontWeight="Bold" VerticalAlignment="Top" Margin="25,10,0,10" DockPanel.Dock="Top" />
                     <Frame x:Name="SettingsFrame"
-                           Background="{DynamicResource Primary}"
+                           Background="Transparent"
                            DockPanel.Dock="Bottom"
                            NavigationUIVisibility="Hidden" />
                 </DockPanel>
