@@ -8,6 +8,7 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Reflection;
 using System.Windows;
+using Windows.Devices.Printers;
 
 
 namespace Atlas.Core
@@ -147,11 +148,15 @@ namespace Atlas.Core
         //Run powershell and moce files to current folder
         public static void CopyUpdateFiles(string UpdateDir, string AtlasDir, string AtlasExe)
         {
+            string test = $" Start-Sleep -Seconds 3 ; try {{ Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force;Start-Sleep -Seconds 2 ; start \"{AtlasExe}\";  }} catch {{  [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, \"Error\", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)}}";
+            //Console.WriteLine(test);
             var startInfo = new ProcessStartInfo()
             {
+                Verb = "runas",
+                LoadUserProfile = true,
                 FileName = "powershell.exe",
-                Arguments = $" Start-Sleep -Seconds 3 ;  Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force ; Start-Sleep -Seconds 2 ; start {AtlasExe} ",
-                UseShellExecute = false,
+                Arguments = $" Start-Sleep -Seconds 3 ; try {{ Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force;Start-Sleep -Seconds 2 ; start \"{AtlasExe}\";  }} catch {{  [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, \'Atlas Updater Error\', [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)}}",
+                UseShellExecute = true,
                 CreateNoWindow = true,
             };
             Process.Start(startInfo);
