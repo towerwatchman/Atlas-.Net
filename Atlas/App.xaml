@@ -46,7 +46,7 @@
 
             <!--#region x:Type Button -->
             <Style TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="{DynamicResource Secondary}"/>
+                <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
                 <Setter Property="Foreground" Value="{DynamicResource Text}"/>
                 <Setter Property="Width" Value="70"/>
                 <Setter Property="Height" Value="25"/>
@@ -145,9 +145,9 @@
                 <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
                 <Setter Property="Margin" Value="8,0,8,0"/>
-                <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
                 <Setter Property="Height" Value="20" />
-                <Setter Property="CaretBrush" Value="{DynamicResource Accent}"/>
+                <Setter Property="CaretBrush" Value="{DynamicResource Text}"/>
                 <Style.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="4"/>
@@ -182,7 +182,7 @@
 
             <!--#region Checkbox -->
             <Style TargetType="{x:Type CheckBox}">
-                <Setter Property="Background" Value="{DynamicResource Text}" />
+                <Setter Property="Background" Value="{DynamicResource Tertiary}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
                 <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
                 <Setter Property="BorderThickness" Value="1"/>

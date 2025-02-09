@@ -24,7 +24,7 @@
             <!--region Footer-->
             <Border DockPanel.Dock="Bottom"
                     Panel.ZIndex="4"
-                    BorderBrush="{DynamicResource Border}"
+                    BorderBrush="{DynamicResource WindowAccent}"
                     BorderThickness="0,1,0,0">
                 <Grid x:Name="Footer"
                       DockPanel.Dock="Bottom"
@@ -157,7 +157,7 @@
                     </Grid.RowDefinitions>
                     <!--#region Header-->
                     <!-- Left Corner-->
-                    <Polygon Fill="{DynamicResource AccentBar}"
+                    <Polygon Fill="{DynamicResource WindowAccent}"
                              HorizontalAlignment="Left"
                              Margin="40,0,100,0"
                              Stretch="Uniform"
@@ -173,10 +173,10 @@
                         </Polygon.Points>
                     </Polygon>
                     <!-- Center -->
-                    <Rectangle Fill="{DynamicResource AccentBar}"
+                    <Rectangle Fill="{DynamicResource WindowAccent}"
                                Margin="50,0,110,0" />
                     <!-- Right Corner-->
-                    <Polygon Fill="{DynamicResource AccentBar}"
+                    <Polygon Fill="{DynamicResource WindowAccent}"
                              HorizontalAlignment="Right"
                              Margin="40,0,100,0"
                              Stretch="Uniform"

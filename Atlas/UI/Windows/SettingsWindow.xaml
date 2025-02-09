@@ -12,7 +12,7 @@ WindowStyle="None"
 MouseDown="Window_MouseDown"
         WindowStartupLocation="CenterScreen"
         Title="SettingsWindow" Height="600" Width="850">
-    <Border BorderBrush="{DynamicResource Border}" BorderThickness="1" CornerRadius="6" RenderOptions.BitmapScalingMode="HighQuality">
+    <Border BorderBrush="{DynamicResource WindowAccent}" BorderThickness="1" CornerRadius="6" RenderOptions.BitmapScalingMode="HighQuality">
         <Grid>
             <Grid.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=Border1}" />

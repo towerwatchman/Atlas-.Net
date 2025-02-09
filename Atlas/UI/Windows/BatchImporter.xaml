@@ -15,7 +15,7 @@
         Title="BatchImporter"
         Height="720"
         Width="1280">
-    <Border BorderBrush="{DynamicResource Border}"
+    <Border BorderBrush="{DynamicResource WindowAccent}"
             BorderThickness="1"
             CornerRadius="6"
             RenderOptions.BitmapScalingMode="HighQuality">
