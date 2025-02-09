@@ -155,7 +155,7 @@ namespace Atlas.Core
                 Verb = "runas",
                 LoadUserProfile = true,
                 FileName = "powershell.exe",
-                Arguments = $" Start-Sleep -Seconds 3 ; try {{ Copy-item \"{UpdateDir}\\*\" -Destination \"{AtlasDir}\" -Recurse -force;Start-Sleep -Seconds 2 ; start \"{AtlasExe}\";  }} catch {{  [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, \'Atlas Updater Error\', [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)}}",
+                Arguments = $" Start-Sleep -Seconds 2 ; try {{ Copy-item \'{UpdateDir}\\*\' -Destination \'{AtlasDir}\' -Recurse -force;Start-Sleep -Seconds 1 ; start \'{AtlasExe}\';  }} catch {{  [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, \'Atlas Updater Error\', [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)}}",
                 UseShellExecute = true,
                 CreateNoWindow = true,
             };
