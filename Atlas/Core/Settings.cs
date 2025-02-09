@@ -23,16 +23,16 @@ namespace Atlas.Core
             Config.ThemesPath = Config.ThemesPath == null ? Path.Combine(Directory.GetCurrentDirectory(), "themes") : Config.ThemesPath;
 
             //APP
-            Config.Theme = Config.Theme == null ? "Dark.xaml" : Config.Theme;
+            Config.Theme = Config.Theme == "" ? "Dark.xaml" : Config.Theme;
             Config.ShowListView = Config.FTS != true ? true : Config.ShowListView;
 
             //IMPORTER
             Config.FolderStructure = Config.FolderStructure ?? @"{Creator}\{Title}\{Version}";
             Config.ImageRenderHeight = Config.ImageRenderHeight == 0 ? 251 : Config.ImageRenderHeight;
             Config.ImageRenderWidth = Config.ImageRenderWidth == 0 ? 537 : Config.ImageRenderWidth;
-            Config.DefaultPage = Config.DefaultPage == null ? "VNHGames" : Config.DefaultPage;
-            Config.ExecutableExt = Config.ExecutableExt == null ? ".exe,.swf,.flv,.f4v,.rag,.cmd,.bat,.jar,.html" : Config.ExecutableExt;
-            Config.ExtractionExt = Config.ExtractionExt == null ? ".zip,.7z,.rar" : Config.ExtractionExt;
+            Config.DefaultPage = Config.DefaultPage == "" ? "VNHGames" : Config.DefaultPage;
+            Config.ExecutableExt = Config.ExecutableExt == "" ? ".exe,.swf,.flv,.f4v,.rag,.cmd,.bat,.jar,.html" : Config.ExecutableExt;
+            Config.ExtractionExt = Config.ExtractionExt == "" ? ".zip,.7z,.rar" : Config.ExtractionExt;
         }
 
         //Global vars stored at runtime currently

@@ -77,6 +77,12 @@ namespace Atlas.UI.Windows
             {
                 this.SettingsFrame.Content = new LibraryPage();
             }
+
+
+            if (Item.Name.ToString() == "Appearance")
+            {
+                this.SettingsFrame.Content = new AppearancePage();
+            }
         }
     }
 }

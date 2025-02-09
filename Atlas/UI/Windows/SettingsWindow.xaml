@@ -110,7 +110,7 @@ MouseDown="Window_MouseDown"
                             </StackPanel>
                         </ListBoxItem>
                         <Separator/>
-                        <ListBoxItem>
+                        <ListBoxItem x:Name="Appearance" MouseUp="OnListBoxNavButtonUp">
                             <StackPanel Orientation="Horizontal">
                                 <Path Data="{DynamicResource appearance_icon}"
                                       Fill="{DynamicResource Text}"

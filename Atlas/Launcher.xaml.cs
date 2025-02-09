@@ -105,7 +105,7 @@ namespace Atlas
 
             try
             {
-                string theme = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes", Settings.Config.Theme);
+                string theme = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes", $"{ Settings.Config.Theme}.xaml");
                 var themeUri = new Uri(theme, UriKind.RelativeOrAbsolute);
                 if (System.IO.File.Exists(theme))
                 {
