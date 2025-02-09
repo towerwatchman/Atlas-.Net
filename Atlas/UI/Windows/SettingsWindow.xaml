@@ -56,50 +56,51 @@ MouseDown="Window_MouseDown"
                     <Label Content="Atlas Settings" Foreground="{DynamicResource Accent}" HorizontalContentAlignment="Center" Margin="0,0,0,5" FontWeight="DemiBold"/>
                     <ListBox Width="180" BorderThickness="0" Background="{DynamicResource Tertiary}">
                         <ListBoxItem x:Name="Interface" MouseUp="OnListBoxNavButtonUp">
-                            <StackPanel Orientation="Horizontal">
-                                <Path Data="{DynamicResource settings_icon}"
+                            <StackPanel Orientation="Horizontal" >
+                                <Path Data="{DynamicResource interface_icon}"
                                       Fill="{DynamicResource Text}"
-                                      VerticalAlignment="Bottom">
+                                      RenderTransformOrigin="0.1, 0.5" Margin="0">
                                     <Path.RenderTransform>
-                                        <ScaleTransform ScaleX="0.75"
-                                                        ScaleY="0.75" />
+                                        <ScaleTransform ScaleX="0.50"
+                                                        ScaleY="0.50" />
                                     </Path.RenderTransform>
                                 </Path>
-                                <Label Content="Interface"/>
+                                <Label Content="Interface" Margin="-10,0,0,0"/>
                             </StackPanel>
                         </ListBoxItem>
                         <ListBoxItem x:Name="Library"
                                      MouseUp="OnListBoxNavButtonUp">
                             <StackPanel Orientation="Horizontal">
-                                <Path Data="{DynamicResource settings_icon}"
+                                <Path Data="{DynamicResource library_icon}"
                                       Fill="{DynamicResource Text}"
-                                      VerticalAlignment="Bottom">
+                                      VerticalAlignment="Bottom"
+                                      RenderTransformOrigin="0.1, 0.4">
                                     <Path.RenderTransform>
-                                        <ScaleTransform ScaleX="0.75"
-                                                        ScaleY="0.75" />
+                                        <ScaleTransform ScaleX="0.40"
+                                                        ScaleY="0.40" />
                                     </Path.RenderTransform>
                                 </Path>
-                                <Label Content="Library"/>
+                                <Label Content="Library" Margin="-10,0,0,0"/>
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem>
+                        <ListBoxItem Opacity=".5">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{DynamicResource platforms_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      RenderTransformOrigin="0.1, 0.4">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.50"
+                                                        ScaleY="0.50" />
+                                    </Path.RenderTransform>
+                                </Path>
+                                <Label Content="Platforms" Margin="-10,0,0,0"/>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem Opacity=".5">
                             <StackPanel Orientation="Horizontal">
                                 <Path Data="{DynamicResource settings_icon}"
                                       Fill="{DynamicResource Text}"
-                                      VerticalAlignment="Bottom">
-                                    <Path.RenderTransform>
-                                        <ScaleTransform ScaleX="0.75"
-                                                        ScaleY="0.75" />
-                                    </Path.RenderTransform>
-                                </Path>
-                                <Label Content="Platforms" />
-                            </StackPanel>
-                        </ListBoxItem>
-                        <ListBoxItem>
-                            <StackPanel Orientation="Horizontal">
-                                <Path Data="{DynamicResource settings_icon}"
-                                      Fill="{DynamicResource Text}"
-                                      VerticalAlignment="Bottom">
+                                      VerticalAlignment="Center" Width="25" Height="25">
                                     <Path.RenderTransform>
                                         <ScaleTransform ScaleX="0.75"
                                                         ScaleY="0.75" />
@@ -111,31 +112,33 @@ MouseDown="Window_MouseDown"
                         <Separator/>
                         <ListBoxItem>
                             <StackPanel Orientation="Horizontal">
-                                <Path Data="{DynamicResource settings_icon}"
+                                <Path Data="{DynamicResource appearance_icon}"
                                       Fill="{DynamicResource Text}"
-                                      VerticalAlignment="Bottom">
+                                      VerticalAlignment="Bottom"
+                                      RenderTransformOrigin="0.1, 0.4">
                                     <Path.RenderTransform>
-                                        <ScaleTransform ScaleX="0.75"
-                                                        ScaleY="0.75" />
+                                        <ScaleTransform ScaleX="0.55"
+                                                        ScaleY="0.55" />
                                     </Path.RenderTransform>
                                 </Path>
-                                <Label Content="Appearance"/>
+                                <Label Content="Appearance" Margin="-10,0,0,0"/>
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem>
+                        <ListBoxItem Opacity=".5">
                             <StackPanel Orientation="Horizontal">
-                                <Path Data="{DynamicResource settings_icon}"
+                                <Path Data="{DynamicResource metadata_icon}"
                                       Fill="{DynamicResource Text}"
-                                      VerticalAlignment="Bottom">
+                                      RenderTransformOrigin="0.1, 0.4"
+                                      Margin="0">
                                     <Path.RenderTransform>
-                                        <ScaleTransform ScaleX="0.75"
-                                                        ScaleY="0.75" />
+                                        <ScaleTransform ScaleX="0.50"
+                                                        ScaleY="0.50" />
                                     </Path.RenderTransform>
                                 </Path>
-                                <Label Content="Metadata"/>
+                                <Label Content="Metadata" Margin="-10,0,0,0"/>
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem>
+                        <ListBoxItem Opacity=".5">
                             <StackPanel Orientation="Horizontal">
                                 <Path Data="{DynamicResource settings_icon}"
                                       Fill="{DynamicResource Text}"
@@ -148,7 +151,7 @@ MouseDown="Window_MouseDown"
                                 <Label Content="Search" />
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem>
+                        <ListBoxItem Opacity=".5">
                             <StackPanel Orientation="Horizontal">
                                 <Path Data="{DynamicResource settings_icon}"
                                       Fill="{DynamicResource Text}"
@@ -161,20 +164,21 @@ MouseDown="Window_MouseDown"
                                 <Label Content="Downloads"/>
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem>
+                        <ListBoxItem Opacity=".5">
                             <StackPanel Orientation="Horizontal">
-                                <Path Data="{DynamicResource settings_icon}"
+                                <Path Data="{DynamicResource notification_icon}"
                                       Fill="{DynamicResource Text}"
-                                      VerticalAlignment="Bottom">
+                                      RenderTransformOrigin="0.1, 0.6"
+                                      Margin="0">
                                     <Path.RenderTransform>
-                                        <ScaleTransform ScaleX="0.75"
-                                                        ScaleY="0.75" />
+                                        <ScaleTransform ScaleX="0.60"
+                                                        ScaleY="0.60" />
                                     </Path.RenderTransform>
                                 </Path>
-                                <Label Content="Notifications"/>
+                                <Label Content="Notifications" />
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem>
+                        <ListBoxItem Opacity=".5">
                             <StackPanel Orientation="Horizontal">
                                 <Path Data="{DynamicResource settings_icon}"
                                       Fill="{DynamicResource Text}"

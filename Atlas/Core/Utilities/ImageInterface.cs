@@ -257,6 +257,8 @@ namespace Atlas.Core.Utilities
                 }
 
                 string[] screens = SQLiteInterface.getScreensUrlList(gameDetail.RecordID.ToString());
+
+                //if()
             }
             catch (Exception ex)
             {

@@ -104,6 +104,8 @@
                         <CheckBox x:Name="cbMoveGame" Content="Move to Atlas game folder"
                                   Margin="10,10,0,0"
                                   Visibility="Visible"
+                                  Opacity=".5"
+                                  IsEnabled="False"
                                   Checked="cbMoveGame_Checked" />
                         <CheckBox x:Name="cbScanFolderSize" Content="Scan folder size duing import"
                                   Margin="10,10,0,0"
