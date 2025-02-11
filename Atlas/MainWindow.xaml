@@ -62,7 +62,7 @@
                             Click="AddGameButton_Click"
                             Style="{StaticResource TransparentButton}">
                         <Grid IsEnabled="False">
-                            <Path x:Name="pAddGame" Style="{StaticResource PathHover}"
+                            <Path x:Name="pAddGame"
                                   Data="{DynamicResource add_icon}"
                                   Fill="{DynamicResource Element_Normal}"
                                   VerticalAlignment="Center"
