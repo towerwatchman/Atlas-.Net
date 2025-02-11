@@ -35,7 +35,9 @@
     <SolidColorBrush x:Key="Accent"
                      Color="#FF2C8EA9" />
     <SolidColorBrush x:Key="WindowAccent"
-                     Color="#FF2C8EA9" />    
+                     Color="#FF2C8EA9" />
+    <SolidColorBrush x:Key="AccentBar"
+                     Color="#FF2C8EA9" />
     <!-- ELEMENT COLORS -->
     <SolidColorBrush x:Key="Border"
                      Color="#51535A" />
