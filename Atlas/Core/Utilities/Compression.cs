@@ -33,6 +33,8 @@ namespace Atlas.Core.Utilities
         public static bool ExtractFile(string input, string output, string gameName)
         {
             if (!Directory.Exists(output)) Directory.CreateDirectory(output);
+
+            bool isComplete = false;
             //bool rootFolder = false;
             //string root = "";
             int index = 0;
@@ -63,7 +65,7 @@ namespace Atlas.Core.Utilities
                             {
                                 string path =  Path.Combine(output, entry.FileName);
 
-                                while (true)
+                                while (true || isComplete)
                                 {
                                     if (Path.HasExtension(path))
                                     {
@@ -75,6 +77,7 @@ namespace Atlas.Core.Utilities
                                                 InterfaceHelper.GameImportPB.Value = index;
                                                 InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
                                             }));
+                                            break;
                                         }
                                     }
                                     else
@@ -87,6 +90,7 @@ namespace Atlas.Core.Utilities
                                                 InterfaceHelper.GameImportPB.Value = index;
                                                 InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
                                             }));
+                                            break;
                                         }
                                     }
                                     System.Threading.Thread.Sleep(50);
@@ -105,8 +109,11 @@ namespace Atlas.Core.Utilities
                     while(index < entries)
                     {
                         System.Threading.Thread.Sleep(50);
+                        if(isComplete) { break; }
                     }
 
+                    //Extraction is complete
+                    isComplete = true;
                     Logger.Info("Extraction Complete");
                 }
                 InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
@@ -139,6 +146,7 @@ namespace Atlas.Core.Utilities
             }
             catch (Exception ex)
             {
+                isComplete = true; //Make sure to exit out of all loops
                 Logger.Error(ex);
                 return false;
             }
