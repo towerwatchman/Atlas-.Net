@@ -3,17 +3,23 @@
     <!--
     This theme file will change all colors in the app.
     Canvas: This is the background color of the app. 
+    Primary: Header, Title Bar, Footer, Nav Bar
+    Secondary: All window backgrounds / List Box / SearchBox
+    Tertiary: Background for all UI elements
+    
+    AltasLogo_Foreground: Logo color
+    AltasLogo_Background" Logo Background
+    
+    
     Shadow: This is the shadow for any object that has one
-    Primary: Header, Footer, Nav Bar
-    Secondary: Buttons, ListBox
-    Tertiary: All Grids, Panels, ListViews
-    Accent:Nav Buttons Hover, Top Left logo backgrond, All hover effects
+    WindowAccent:Border around windows. Any location on a window that is used as a spacer or divider
     AccentBar: Bar at top of program. This is the only thing it will change
-    AtlasLogo: Logo Color
-    Border: Any border used in the program
-    Selected: button selected
-    Text: All text in program. Does not include banners.
-    Highlight: Text Hover Effect color
+
+    Element_Normal: Normal color for all interactable UI elements. Buttons, Checkbox, combobox etc..,
+    Element_Selected: Same as above but when they are either hovered over or selected.
+    Border: Any border used in the program (Except the Main Windows)
+    Border_Hover: When any element is hovered over it will change the border if it has one
+    Text: All text in program. Does not include banners. This will be changed at a later date
     -->
     <!-- PRIMARY COLORS -->
     <SolidColorBrush x:Key="Canvas"
@@ -48,6 +54,7 @@
                      Color="#19191c" />
     <SolidColorBrush x:Key="Text"
                      Color="#d2d2d2" />
+    <!-- NOT IMPLEMENTED -->
     <SolidColorBrush x:Key="Text_Hover"
                      Color="yellow" />
 </ResourceDictionary>
