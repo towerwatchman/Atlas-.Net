@@ -53,7 +53,7 @@ MouseDown="Window_MouseDown"
             <!--#endregion-->
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Background="{DynamicResource Primary}">
-                    <Label Content="Atlas Settings" Foreground="{DynamicResource Accent}" HorizontalContentAlignment="Center" Margin="0,0,0,5" FontWeight="DemiBold"/>
+                    <Label Content="Atlas Settings" Foreground="{DynamicResource Text}" HorizontalContentAlignment="Center" Margin="0,0,0,5" FontWeight="DemiBold"/>
                     <ListBox Width="180" BorderThickness="0" Background="Transparent">
                         <ListBoxItem x:Name="Interface" MouseUp="OnListBoxNavButtonUp">
                             <StackPanel Orientation="Horizontal" >
