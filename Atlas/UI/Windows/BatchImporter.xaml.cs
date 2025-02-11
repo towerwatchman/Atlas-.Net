@@ -186,9 +186,12 @@ namespace Atlas.UI.Windows
                 //Store new values in config. do not wait
                 _ = Task.Run(() =>
                 {
-                    Settings.Config.ExecutableExt = customImporter.GameExt.Text;
-                    Settings.Config.ExtractionExt = customImporter.ArchiveExt.Text;
-                    Settings.Config.FolderStructure = customImporter.tb_format.Text;
+                    Application.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        Settings.Config.ExecutableExt = customImporter.GameExt.Text;
+                        Settings.Config.ExtractionExt = customImporter.ArchiveExt.Text;
+                        Settings.Config.FolderStructure = customImporter.tb_format.Text;
+                    });
                 });
 
                 bool isArchive = (bool)customImporter.cb_compression.IsChecked;
@@ -208,11 +211,11 @@ namespace Atlas.UI.Windows
                 foreach (DataGridColumn column in GameList.Columns)
                 {
                     //if you want to size your column as per the cell content
-                    column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToCells);
+                    //column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToCells);
                     //if you want to size your column as per the column header
-                    column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
+                    //column.Width = new DataGridLength(1.0, DataGridLengthUnitType.SizeToHeader);
                     //if you want to size your column as per both header and cell content
-                    column.Width = new DataGridLength(1.0, DataGridLengthUnitType.Auto);
+                    //column.Width = new DataGridLength(1.0, DataGridLengthUnitType.Auto);
                 }
 
                 btn_import.IsEnabled = true;

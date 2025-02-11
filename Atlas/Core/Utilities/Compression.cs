@@ -2,6 +2,7 @@
 using K4os.Compression.LZ4.Streams;
 using NLog;
 using SevenZipExtractor;
+using System.Data.OleDb;
 using System.IO;
 
 
@@ -61,35 +62,35 @@ namespace Atlas.Core.Utilities
                                 InterfaceHelper.GameImportPB.Value = index;
                                 InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
                             }));
+                            return Path.Combine(output, entry.FileName); // where to put this particular file
                         }
-                        return Path.Combine(output, entry.FileName); // where to put this particular file
-                    });
-                    /*foreach (Entry entry in archiveFile.Entries)
+                        else
+                        {
+                            return Path.Combine(output, entry.FileName); // where to put this particular file
+                        }
+
+                    });                   
+                }
+                //After extracting file, check to see if there was a folder at root.
+                if(Directory.GetFiles(output).Count() <= 0)
+                {
+                    InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                     {
-                        index++;
-                        if (entry.FileName.Split('\\').Length > 1)
-                        {
-                            rootFolder = true;
-                            root = entry.FileName.Split('\\')[0];
-                        }
-
-                        string obj = root != "" ? entry.FileName.Replace(root, "") : entry.FileName;
-                        if(!obj.Contains('\\'))
-                        {
-                            obj = '\\' + obj;
-                        }
-                        //Console.WriteLine(obj);
-
-                        // extract to file
-                        string path = $"{output}{obj}";
-
-                        entry.Extract(path);
-                        InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
-                        {
-                            InterfaceHelper.GameImportPB.Value = index;
-                            InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
-                        }));
-                    }*/
+                        //InterfaceHelper.up
+                        InterfaceHelper.GameImportTextBox.Content = $"Moving Folder";
+                    }));
+                    //Get extracted director
+                    string extractionDirectory = Directory.GetDirectories(output).First();
+                    //move files to correct directory
+                    try
+                    {
+                        MoveDirectory(extractionDirectory, output);
+                    }
+                    catch(Exception ex)
+                    {
+                        Logger.Error(ex);
+                    }
+                    //delete old directory 
                 }
             }
             catch (Exception ex)
@@ -100,5 +101,26 @@ namespace Atlas.Core.Utilities
 
             return true;
         }
+
+        public static void MoveDirectory(string source, string target)
+        {
+            var sourcePath = source.TrimEnd('\\', ' ');
+            var targetPath = target.TrimEnd('\\', ' ');
+            var files = Directory.EnumerateFiles(sourcePath, "*", SearchOption.AllDirectories)
+                                 .GroupBy(s => Path.GetDirectoryName(s));
+            foreach (var folder in files)
+            {
+                var targetFolder = folder.Key.Replace(sourcePath, targetPath);
+                Directory.CreateDirectory(targetFolder);
+                foreach (var file in folder)
+                {
+                    var targetFile = Path.Combine(targetFolder, Path.GetFileName(file));
+                    if (File.Exists(targetFile)) File.Delete(targetFile);
+                    File.Move(file, targetFile,true);
+                }
+            }
+            Directory.Delete(source,true);
+        }
+
     }
 }
