@@ -19,28 +19,32 @@
     <SolidColorBrush x:Key="Canvas"
                      Color="#000000" />
     <SolidColorBrush x:Key="Primary"
-                     Color="#19191c" />
+                     Color="Gray" />
     <SolidColorBrush x:Key="Secondary"
-                     Color="#242629" />
+                     Color="SaddleBrown" />
     <SolidColorBrush x:Key="Tertiary"
-                     Color="#313338" />
+                     Color="Green" />
     <!-- LOGO -->
     <SolidColorBrush x:Key="AltasLogo_Foreground"
-                     Color="#FFFFFF" />
+                     Color="DarkGreen" />
     <SolidColorBrush x:Key="AltasLogo_Background"
-                     Color="#FF2C8EA9" />
-    <!-- UI MODS -->    
+                     Color="Magenta" />
+    <!-- UI MODS -->
     <SolidColorBrush x:Key="Shadow"
                      Color="#000000" />
-    <SolidColorBrush x:Key="Accent"
-                     Color="#FF2C8EA9" />
     <SolidColorBrush x:Key="WindowAccent"
-                     Color="#FF2C8EA9" />
+                     Color="DarkBlue" />
     <SolidColorBrush x:Key="AccentBar"
-                     Color="#FF2C8EA9" />
+                     Color="OrangeRed" />
+    
+    <!-- BUTTONS -->
+    <SolidColorBrush x:Key="Element_Normal"
+                     Color="Orange" />
+    <SolidColorBrush x:Key="Element_Selected"
+                     Color="DarkSeaGreen" />
     <!-- ELEMENT COLORS -->
     <SolidColorBrush x:Key="Border"
-                     Color="#51535A" />
+                     Color="red" />
     <SolidColorBrush x:Key="Border_Hover"
                      Color="yellow" />
     <SolidColorBrush x:Key="Selected"

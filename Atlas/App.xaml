@@ -34,7 +34,8 @@
                                     <Setter Property="FontWeight" Value="SemiBold"/>
                                 </Trigger>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource Element_Normal}"/>
                                     <Setter Property="FontWeight" Value="SemiBold"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
@@ -71,7 +72,8 @@
 
             <Style x:Key="TransparentButton" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                <Setter Property="Foreground"
+                        Value="{DynamicResource Element_Normal}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -83,11 +85,13 @@
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource Element_Selected}"/>
                     </Trigger>
                     <Trigger Property="IsEnabled" Value="False">
                         <Setter Property="Opacity" Value="1"/>
-                        <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource Element_Normal}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -158,14 +162,16 @@
             <Style x:Key="TextBoxSimple" TargetType="{x:Type TextBox}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                <Setter Property="Foreground"
+                        Value="{DynamicResource Element_Normal}"/>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Foreground" Value="{DynamicResource Text}"/>
                         <Setter Property="Opacity" Value="1"/>
                     </Trigger>
                     <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource Element_Normal}"/>
                         <Setter Property="Opacity" Value="1"/>
                     </Trigger>
                 </Style.Triggers>
@@ -184,7 +190,8 @@
             <Style TargetType="{x:Type CheckBox}">
                 <Setter Property="Background" Value="{DynamicResource Tertiary}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
-                <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+                <Setter Property="Foreground"
+                        Value="{DynamicResource Element_Normal}"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="Template">
                     <Setter.Value>
@@ -364,7 +371,8 @@
             <!-- Progress Bar -->
             <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
                 <Setter Property="Background" Value="{StaticResource Secondary}"/>
-                <Setter Property="Foreground" Value="{StaticResource Accent}"/>
+                <Setter Property="Foreground"
+                        Value="{StaticResource Element_Normal}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ProgressBar}">
@@ -407,10 +415,11 @@
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                                                    <Setter Property="Background" Value="{DynamicResource Selected}"/>
+                                                    <Setter Property="Background" Value="{DynamicResource Element_Selected}"/>
                                                 </Trigger>
                                                 <Trigger Property="ToggleButton.IsChecked" Value="true">
-                                                    <Setter Property="Background" Value="{DynamicResource Selected}"/>
+                                                    <Setter Property="Background"
+                                                            Value="{DynamicResource Element_Selected}"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -459,7 +468,7 @@
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" 
-                            Value="{DynamicResource Selected}"/>
+                            Value="{DynamicResource Element_Selected}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -505,7 +514,8 @@
 
             <!--#region PathHover -->
             <Style x:Key="PathHover" TargetType="{x:Type Path}">
-                <Setter Property="Fill" Value="{DynamicResource Accent}"/>
+                <Setter Property="Fill"
+                        Value="{DynamicResource Element_Selected}"/>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Fill" Value="{DynamicResource Text}"/>

@@ -64,7 +64,7 @@
                         <Grid IsEnabled="False">
                             <Path x:Name="pAddGame" Style="{StaticResource PathHover}"
                                   Data="{DynamicResource add_icon}"
-                                  Fill="{DynamicResource Accent}"
+                                  Fill="{DynamicResource Element_Normal}"
                                   VerticalAlignment="Center"
                                   IsEnabled="False"></Path>
                             <TextBlock x:Name="tbAddGame"
@@ -84,7 +84,7 @@
                         <Grid IsEnabled="False">
                             <Path x:Name="pNotifications"
                                   Data="{DynamicResource notification_icon}"
-                                  Fill="{DynamicResource Accent}"
+                                  Fill="{DynamicResource Element_Normal}"
                                   VerticalAlignment="Center"
                                   RenderTransformOrigin="0.5, 0.5">
                                 <Path.RenderTransform>
@@ -333,7 +333,7 @@
                                                            Width="4" />
                                                 <Path x:Name="icon"
                                                       Data="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"
-                                                      Fill="{DynamicResource Text}"
+                                                      Fill="{DynamicResource Element_Normal}"
                                                       HorizontalAlignment="Center"
                                                       VerticalAlignment="Center" />
                                             </Grid>
@@ -342,13 +342,13 @@
                                                          Value="True">
                                                     <Setter TargetName="icon"
                                                             Property="Fill"
-                                                            Value="{DynamicResource Accent}" />
+                                                            Value="{DynamicResource Element_Selected}" />
                                                 </Trigger>
                                                 <Trigger Property="IsMouseOver"
                                                          Value="True">
                                                     <Setter TargetName="indicator"
                                                             Property="Fill"
-                                                            Value="{DynamicResource Accent}" />
+                                                            Value="{DynamicResource Element_Selected}" />
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
