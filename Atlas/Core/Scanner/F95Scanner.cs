@@ -234,15 +234,15 @@ namespace Atlas.Core
                     AtlasID = data[0][0];
                     if (data[0][1] != "")
                     {
-                        title = data[0][1];
+                        title = data[0][1].Trim();
                     }
                     if (data[0][2] != "")
                     {
-                        creator = data[0][2];
+                        creator = data[0][2].Trim();
                     }
                     if (data[0][3] != "")
                     {
-                        game_engine = data[0][3];
+                        game_engine = data[0][3].Trim();
                     }
                     f95_id = SQLiteInterface.FindF95ID(AtlasID);
                     ResultVisibilityState = Visibility.Hidden;
