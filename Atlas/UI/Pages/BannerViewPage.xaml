@@ -89,12 +89,12 @@
             <ListView.Resources></ListView.Resources>
             <ListView.ContextMenu>
                 <ContextMenu x:Name="cmGame"
-                             DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                             DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}" >
                     <MenuItem x:Name="miPlay"
                               Header="Play"
                               FontSize="14"
                               FontWeight="Bold"
-                              HorizontalContentAlignment="Center">
+                              HorizontalContentAlignment="Center" Style="{DynamicResource PlayMenuItem}">
                         <MenuItem.Background>
                             <LinearGradientBrush EndPoint="0.5,1"
                                                  StartPoint="0.5,0">

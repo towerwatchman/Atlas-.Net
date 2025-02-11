@@ -54,9 +54,12 @@
                      Color="#FF2C8EA9" />
     <SolidColorBrush x:Key="Text"
                      Color="#d2d2d2" />
-    <!-- NOT IMPLEMENTED -->
     <SolidColorBrush x:Key="Button_Hover"
                      Color="#51535A" />
+    <!-- USED FOR CONTEXT MENU -->
     <SolidColorBrush x:Key="Text_Hover"
-                     Color="yellow" />
+                     Color="#d2d2d2" />
+
+
+
 </ResourceDictionary>

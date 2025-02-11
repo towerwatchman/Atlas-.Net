@@ -639,8 +639,8 @@
                         Value="30" />
                 <Setter Property="HorizontalContentAlignment"
                         Value="Center" />
-                <Setter Property="Padding"
-                        Value="5" />
+                <Setter Property="Margin"
+                        Value="5,5,5,0" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type MenuItem}">
@@ -664,9 +664,9 @@
                                 <Trigger Property="IsHighlighted"
                                          Value="True">
                                     <Setter Property="Background"
-                                            Value="{DynamicResource Element_Selected }" />
+                                            Value="{DynamicResource Button_Hover }" />
                                     <Setter Property="Foreground"
-                                            Value="{DynamicResource Tertiary}" />
+                                            Value="{DynamicResource Text_Hover}" />
                                     <Setter Property="BorderBrush"
                                             Value="{DynamicResource Border}" />
                                 </Trigger>
@@ -689,8 +689,10 @@
                         Value="30" />
                 <Setter Property="HorizontalContentAlignment"
                         Value="Center" />
-                <Setter Property="Padding"
-                        Value="5" />
+                <Setter Property="VerticalContentAlignment"
+                        Value="Center" />
+                <Setter Property="Margin"
+                        Value="5,0,5,0" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type MenuItem}">
