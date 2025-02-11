@@ -16,14 +16,14 @@ namespace Atlas.Core.Database
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static void Init()
         {
-            string DatabasePath = Path.Combine(Directory.GetCurrentDirectory(), Settings.Config.DatabasePath);
+            string DatabasePath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, Settings.Config.DatabasePath);
             //check if database already exist
             if (Path.Exists(DatabasePath))
             {
                 try
                 {
                     //Create db file
-                    using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+                    using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
                     {
                         connection.Open();
                     }
@@ -82,7 +82,7 @@ namespace Atlas.Core.Database
         public static List<string> SelectData(string query)
         {
             List<string> data = new List<string>();
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -105,7 +105,7 @@ namespace Atlas.Core.Database
             try
             {
 
-                using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+                using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
                 {
                     connection.Open();
                     using (var transaction = connection.BeginTransaction())
@@ -158,7 +158,7 @@ namespace Atlas.Core.Database
             string data = string.Empty;
             try
             {
-                using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+                using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
                 {
                     connection.Open();
                     using (var transaction = connection.BeginTransaction())
@@ -280,7 +280,7 @@ namespace Atlas.Core.Database
 
             string query = $"SELECT record_id from games where title = '{title.Replace("\'", "\'\'")}' AND creator ='{creator.Replace("\'", "\'\'")}'";
 
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -304,7 +304,7 @@ namespace Atlas.Core.Database
             string record = "";
             string query = $"SELECT f95_id from f95_zone_data where atlas_id = '{record_id}'";
 
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -335,7 +335,7 @@ namespace Atlas.Core.Database
         {
             int record = -1;
             string query = $"SELECT games.record_id, games.title, games.creator, versions.version, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title.Replace("'", "''")}' AND games.creator = '{creator.Replace("'", "''")}' AND versions.version = '{version.Replace("'", "''")}'";
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -364,7 +364,7 @@ namespace Atlas.Core.Database
             title = title.Trim();
             string query = $"SELECT games.record_id, games.title, versions.game_path, versions.record_id from games LEFT JOIN versions on games.record_id = versions.record_id where games.title = '{title.Replace("'", "''")}' AND versions.game_path = REPLACE( '{gamepath.Replace("'", "''")}'," + @"'\\','\')";
             //Console.Out.WriteLine(query);
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -393,7 +393,7 @@ namespace Atlas.Core.Database
 
             string query = $"SELECT record_id from versions where record_id = '{record_id}' AND version ='{version.Replace("\'", "\'\'")}'";
 
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -448,7 +448,7 @@ FROM data_0
 WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_name}')";
 
             List<string[]> data = new List<string[]>();
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -508,7 +508,7 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
             string query = $"SELECT * FROM versions where record_id = '{record_id}'";
 
 
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -568,7 +568,7 @@ LEFT JOIN atlas_mappings on games.record_id = atlas_mappings.record_id
 LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
 LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
 
-            await using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            await using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -644,7 +644,7 @@ LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
 LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id
 WHERE games.record_id = {atlasID}";
 
-            await using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            await using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -697,7 +697,7 @@ WHERE games.record_id = {atlasID}";
         {
             List<Game> data = new List<Game>();
             string query = "SELECT * FROM games";
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -759,7 +759,7 @@ WHERE games.record_id = {atlasID}";
             string atlasId = string.Empty;
             string query = $"SELECT atlas_id from atlas_mappings where record_id = '{record_id}'";
 
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -783,7 +783,7 @@ WHERE games.record_id = {atlasID}";
             string banner = string.Empty;
             string query = $"SELECT banner_url from f95_zone_data where atlas_id = '{AtlasId}'";
 
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -807,7 +807,7 @@ WHERE games.record_id = {atlasID}";
             string banner_path = string.Empty;
             string query = $"SELECT path from banners where record_id = '{record_id}'";
 
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -837,7 +837,7 @@ WHERE games.record_id = {atlasID}";
             string[] screen_paths = null;
             string query = $"SELECT path from banners where record_id = '{record_id}'";
 
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();

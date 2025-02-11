@@ -21,7 +21,7 @@ namespace Atlas.Core.Utilities
                 decoder.CopyTo(target);
                 var decoded = target.ToArray();
                 data = System.Text.Encoding.Default.GetString(decoded);
-                //File.WriteAllText(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "test.txt"), data);
+                //File.WriteAllText(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "test.txt"), data);
             }
             catch (Exception ex) { Logger.Error(ex); }
 
@@ -31,8 +31,8 @@ namespace Atlas.Core.Utilities
         public static bool ExtractFile(string input, string output, string gameName)
         {
             if (!Directory.Exists(output)) Directory.CreateDirectory(output);
-            bool rootFolder = false;
-            string root = "";
+            //bool rootFolder = false;
+            //string root = "";
             int index = 0;
 
             try

@@ -7,7 +7,7 @@ namespace Atlas.Core.Database
     {
         public static void Run()
         {
-            using (var connection = new SqliteConnection($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "data", "data.db")}"))
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
                 connection.Open();
                 using (var transaction = connection.BeginTransaction())

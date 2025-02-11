@@ -87,12 +87,12 @@ namespace Atlas
             //Set folders
             try
             {
-                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data"));
-                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "games"));
-                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "images"));
-                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "logs"));
-                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "data", "updates"));
-                Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes"));
+                Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data"));
+                Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "games"));
+                Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "images"));
+                Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "logs"));
+                Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "updates"));
+                Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes"));
             }
             catch (Exception ex) { Logger.Error(ex); }
             UpdateLauncherProgressBar(10);
@@ -105,7 +105,7 @@ namespace Atlas
 
             try
             {
-                string theme = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes", $"{Settings.Config.Theme}.xaml");
+                string theme = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", $"{Settings.Config.Theme}.xaml");
                 var themeUri = new Uri(theme, UriKind.RelativeOrAbsolute);
                 if (System.IO.File.Exists(theme))
                 {
@@ -207,7 +207,7 @@ namespace Atlas
                         {
                             UpdateLauncherText("Downloading Update");
                             string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
-                            string OutputPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "updates", name);
+                            string OutputPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "updates", name);
 
                             await NetworkInterface.DownloadFile(DownloadUrl, OutputPath);
 

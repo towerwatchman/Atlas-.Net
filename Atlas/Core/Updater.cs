@@ -25,8 +25,8 @@ namespace Atlas.Core
         {
             //Set folders
             UpdateDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Atlas");
-            AtlasDir = Directory.GetCurrentDirectory();
-            AtlasExe = Path.Combine(Directory.GetCurrentDirectory(), "Atlas.exe");
+            AtlasDir = System.AppDomain.CurrentDomain.BaseDirectory;
+            AtlasExe = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "Atlas.exe");
 
             //Before we do anything, make sure the temp folder is created
             if (!Directory.Exists(UpdateDir))

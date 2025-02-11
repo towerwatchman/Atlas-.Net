@@ -10,17 +10,17 @@ namespace Atlas.Core
         public static void Init()
         {
             //Add link to config
-            Console.WriteLine(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "config.ini"));
-            Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "config.ini")).Build();
+            Console.WriteLine(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini"));
+            Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini")).Build();
             //Set all inital values here. 
 
             //PATHS
-            Config.EnginesPath = Config.EnginesPath == null || Config.EnginesPath == "" ? Path.Combine(Directory.GetCurrentDirectory(), "data\\engines") : Config.EnginesPath;
-            Config.RootPath = Config.RootPath == null || Config.RootPath == "" ? Directory.GetCurrentDirectory() : Config.RootPath;
-            Config.DatabasePath = Config.DatabasePath == null || Config.DatabasePath == "" ? Path.Combine(Directory.GetCurrentDirectory(), "data") : Config.DatabasePath;
-            Config.ImagesPath = Config.ImagesPath == null || Config.ImagesPath == "" ? Path.Combine(Directory.GetCurrentDirectory(), "data\\images") : Config.ImagesPath;
-            Config.GamesPath = Config.GamesPath == null || Config.GamesPath == "" ? Path.Combine(Directory.GetCurrentDirectory(), "data\\games") : Config.GamesPath;
-            Config.ThemesPath = Config.ThemesPath == null || Config.ThemesPath == "" ? Path.Combine(Directory.GetCurrentDirectory(), "themes") : Config.ThemesPath;
+            Config.EnginesPath = Config.EnginesPath == null || Config.EnginesPath == "" ? Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\engines") : Config.EnginesPath;
+            Config.RootPath = Config.RootPath == null || Config.RootPath == "" ? System.AppDomain.CurrentDomain.BaseDirectory : Config.RootPath;
+            Config.DatabasePath = Config.DatabasePath == null || Config.DatabasePath == "" ? Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data") : Config.DatabasePath;
+            Config.ImagesPath = Config.ImagesPath == null || Config.ImagesPath == "" ? Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images") : Config.ImagesPath;
+            Config.GamesPath = Config.GamesPath == null || Config.GamesPath == "" ? Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\games") : Config.GamesPath;
+            Config.ThemesPath = Config.ThemesPath == null || Config.ThemesPath == "" ? Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes") : Config.ThemesPath;
 
             //APP
             Config.Theme = Config.Theme == null || Config.Theme == "" ? "Dark.xaml" : Config.Theme;

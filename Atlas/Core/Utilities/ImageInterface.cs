@@ -193,20 +193,20 @@ namespace Atlas.Core.Utilities
                     await Task.Run(async () =>
                     {
                         string bannerUrl = SQLiteInterface.GetBannerUrl(gameDetail.AtlasID.ToString());
-                        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data\\images", gameDetail.RecordID.ToString()));
+                        Directory.CreateDirectory(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", gameDetail.RecordID.ToString()));
                         byte[] ImageArray = null;
 
-                        banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", gameDetail.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                        banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", gameDetail.RecordID.ToString(), Path.GetFileName(bannerUrl));
                         await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
 
                         /*if (Path.GetExtension(bannerUrl) == ".gif")
                         {*/
-                        //banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                        //banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
                         //await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
                         /*}
                         else
                         {*/
-                        //banner_path = Path.Combine(Directory.GetCurrentDirectory(), "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
+                        //banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
                         //ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 2000);
                         //}
 

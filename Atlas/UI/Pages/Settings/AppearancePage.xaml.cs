@@ -14,7 +14,7 @@ namespace Atlas.UI.Pages.Settings
         public AppearancePage()
         {
             InitializeComponent();
-            foreach (var item in Directory.GetFiles(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes")))
+            foreach (var item in Directory.GetFiles(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes")))
             {
                 if (System.IO.Path.GetExtension(item) == ".xaml")
                 {
@@ -30,7 +30,7 @@ namespace Atlas.UI.Pages.Settings
             string ThemeName = cbThemes.Text;
             try
             {
-                string theme = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "themes", $"{ThemeName}.xaml");
+                string theme = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", $"{ThemeName}.xaml");
                 var themeUri = new Uri(theme, UriKind.RelativeOrAbsolute);
                 if (System.IO.File.Exists(theme))
                 {
