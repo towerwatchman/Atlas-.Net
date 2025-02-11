@@ -19,40 +19,35 @@
     <SolidColorBrush x:Key="Canvas"
                      Color="#000000" />
     <SolidColorBrush x:Key="Primary"
-                     Color="Gray" />
+                     Color="#19191c" />
     <SolidColorBrush x:Key="Secondary"
-                     Color="SaddleBrown" />
+                     Color="#242629" />
     <SolidColorBrush x:Key="Tertiary"
-                     Color="Green" />
+                     Color="#313338" />
     <!-- LOGO -->
     <SolidColorBrush x:Key="AltasLogo_Foreground"
-                     Color="DarkGreen" />
+                     Color="#FFFFFF" />
     <SolidColorBrush x:Key="AltasLogo_Background"
-                     Color="Magenta" />
+                     Color="#FF2C8EA9" />
     <!-- UI MODS -->
     <SolidColorBrush x:Key="Shadow"
                      Color="#000000" />
     <SolidColorBrush x:Key="WindowAccent"
-                     Color="DarkBlue" />
+                     Color="#FF2C8EA9" />
     <SolidColorBrush x:Key="AccentBar"
-                     Color="OrangeRed" />
-    
-    <!-- BUTTONS -->
-    <SolidColorBrush x:Key="Element_Normal"
-                     Color="Orange" />
-    <SolidColorBrush x:Key="Element_Selected"
-                     Color="DarkSeaGreen" />
+                     Color="#FF2C8EA9" />
     <!-- ELEMENT COLORS -->
+    <SolidColorBrush x:Key="Element_Normal"
+                     Color="#404249" />
+    <SolidColorBrush x:Key="Element_Selected"
+                     Color="#FF2C8EA9" />
+
     <SolidColorBrush x:Key="Border"
-                     Color="red" />
+                     Color="#51535A" />
     <SolidColorBrush x:Key="Border_Hover"
                      Color="yellow" />
-    <SolidColorBrush x:Key="Selected"
-                     Color="#404249" />    
     <SolidColorBrush x:Key="Text"
                      Color="#d2d2d2" />
-    <SolidColorBrush x:Key="Highlight"
-                     Color="#FFFFFF" />
     <SolidColorBrush x:Key="Text_Hover"
                      Color="yellow" />
 </ResourceDictionary>

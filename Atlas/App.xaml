@@ -21,7 +21,7 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Width" Value="80"/>
-                <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Element_Normal}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type RadioButton}">
@@ -30,12 +30,12 @@
                             </Grid>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource Highlight}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource Element_Selected}"/>
                                     <Setter Property="FontWeight" Value="SemiBold"/>
                                 </Trigger>
                                 <Trigger Property="IsChecked" Value="True">
                                     <Setter Property="Foreground"
-                                            Value="{DynamicResource Element_Normal}"/>
+                                            Value="{DynamicResource Element_Selected}"/>
                                     <Setter Property="FontWeight" Value="SemiBold"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
@@ -62,7 +62,8 @@
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{DynamicResource Selected}"/>
+                        <Setter Property="Background"
+                                Value="{DynamicResource Element_Selected}"/>
                     </Trigger>
                     <Trigger Property="IsEnabled" Value="False">
                         <Setter Property="Opacity" Value=".5"/>
@@ -152,11 +153,48 @@
                 <Setter Property="Foreground" Value="{DynamicResource Text}"/>
                 <Setter Property="Height" Value="20" />
                 <Setter Property="CaretBrush" Value="{DynamicResource Text}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <Border x:Name="border"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="{TemplateBinding Background}"
+                                    SnapsToDevicePixels="True">
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                              Focusable="false"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              VerticalScrollBarVisibility="Hidden" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled"
+                                         Value="false">
+                                    <Setter Property="Opacity"
+                                            TargetName="border"
+                                            Value="0.56" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver"
+                                         Value="true">
+                                    <Setter Property="BorderBrush"
+                                            TargetName="border"
+                                            Value="{DynamicResource ResourceKey=Border_Hover}" />
+                                </Trigger>
+                                <Trigger Property="IsFocused"
+                                         Value="true">
+                                    <Setter Property="BorderBrush"
+                                            TargetName="border"
+                                            Value="{DynamicResource ResourceKey=Border_Hover}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
                 <Style.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="4"/>
                     </Style>
                 </Style.Resources>
+                
             </Style>
 
             <Style x:Key="TextBoxSimple" TargetType="{x:Type TextBox}">
@@ -186,7 +224,7 @@
             </Style>
             <!--#endregion-->
 
-            <!--#region Checkbox -->
+            <!--#region X:Type Checkbox -->
             <Style TargetType="{x:Type CheckBox}">
                 <Setter Property="Background" Value="{DynamicResource Tertiary}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
@@ -372,7 +410,7 @@
             <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
                 <Setter Property="Background" Value="{StaticResource Secondary}"/>
                 <Setter Property="Foreground"
-                        Value="{StaticResource Element_Normal}"/>
+                        Value="{StaticResource Element_Selected}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ProgressBar}">
