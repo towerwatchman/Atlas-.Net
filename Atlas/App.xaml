@@ -288,13 +288,13 @@
                 ShadowDepth="3"
                 Softness=".2"
                 Direction="-59"
-                Color="#0c0d12"/>
+                Color="{DynamicResource ResourceKey=Shadow}"/>
             <DropShadowBitmapEffect
                 x:Key="RightShadowEffect"
                 ShadowDepth="3"
                 Softness=".2"
                 Direction="-59"
-                Color="#0c0d12"/>
+                Color="{DynamicResource ResourceKey=Shadow}"/>
 
             <!--#region Scroll Bar -->
             <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
