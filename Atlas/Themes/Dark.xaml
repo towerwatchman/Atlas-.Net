@@ -40,7 +40,7 @@
     <SolidColorBrush x:Key="Border"
                      Color="#51535A" />
     <SolidColorBrush x:Key="Border_Hover"
-                     Color="magenta" />
+                     Color="yellow" />
     <SolidColorBrush x:Key="Selected"
                      Color="#404249" />    
     <SolidColorBrush x:Key="Text"
