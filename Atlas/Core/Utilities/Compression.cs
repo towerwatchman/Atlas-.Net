@@ -4,6 +4,7 @@ using NLog;
 using SevenZipExtractor;
 using System.Data.OleDb;
 using System.IO;
+using Windows.UI.Core.Preview;
 
 
 namespace Atlas.Core.Utilities
@@ -52,27 +53,70 @@ namespace Atlas.Core.Utilities
                     }));
 
                     index = 0;
+
                     archiveFile.Extract(entry =>
                     {
                         if (entry.FileName != null)
                         {
-                            index++;
-                            InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+                            //Span a new task for each file until all are complete
+                            Task.Run(() =>
                             {
-                                InterfaceHelper.GameImportPB.Value = index;
-                                InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
-                            }));
-                            return Path.Combine(output, entry.FileName); // where to put this particular file
+                                string path =  Path.Combine(output, entry.FileName);
+
+                                while (true)
+                                {
+                                    if (Path.HasExtension(path))
+                                    {
+                                        if (File.Exists(path))
+                                        {
+                                            InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+                                            {
+                                                index++;
+                                                InterfaceHelper.GameImportPB.Value = index;
+                                                InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
+                                            }));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (Directory.Exists(path))
+                                        {
+                                            InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+                                            {
+                                                index++;
+                                                InterfaceHelper.GameImportPB.Value = index;
+                                                InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
+                                            }));
+                                        }
+                                    }
+                                    System.Threading.Thread.Sleep(50);
+                                }
+                               
+                            });
+                          
+                           return Path.Combine(output, entry.FileName); // where to put this particular file
                         }
                         else
                         {
-                            return Path.Combine(output, entry.FileName); // where to put this particular file
-                        }
+                            return Path.Combine(output, entry.FileName);
+                        }     
+                    });
 
-                    });                   
+                    while(index < entries)
+                    {
+                        System.Threading.Thread.Sleep(50);
+                    }
+
+                    Logger.Info("Extraction Complete");
                 }
+                InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+                {
+                    InterfaceHelper.GameImportPB.Value = 100;
+                    InterfaceHelper.GameImportPBStatus.Content = $"Extraction Complete";
+                }));
+
                 //After extracting file, check to see if there was a folder at root.
-                if(Directory.GetFiles(output).Count() <= 0)
+                if (Directory.GetFiles(output).Count() <= 0)
                 {
                     InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                     {
