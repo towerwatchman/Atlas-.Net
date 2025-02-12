@@ -65,19 +65,25 @@ namespace Atlas.Core.Utilities
                             {
                                 string path =  Path.Combine(output, entry.FileName);
 
-                                while (true || isComplete)
+                                while (true)
                                 {
                                     if (Path.HasExtension(path))
                                     {
+                                        //If we find a file. Check that it is > 0kb
                                         if (File.Exists(path))
                                         {
-                                            InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+                                            FileInfo file = new FileInfo(path);
+                                            if (file.Length > 0)
                                             {
-                                                index++;
-                                                InterfaceHelper.GameImportPB.Value = index;
-                                                InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
-                                            }));
-                                            break;
+                                                InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+                                                {
+                                                    index++;
+                                                    InterfaceHelper.GameImportPB.Value = index;
+                                                    InterfaceHelper.GameImportPBStatus.Content = $"Extracting File: {Path.GetFileName(path)}";
+                                                }));
+                                                break;
+                                            }
+                                           
                                         }
                                     }
                                     else
@@ -88,12 +94,14 @@ namespace Atlas.Core.Utilities
                                             {
                                                 index++;
                                                 InterfaceHelper.GameImportPB.Value = index;
-                                                InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
+                                                //InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
                                             }));
                                             break;
                                         }
                                     }
                                     System.Threading.Thread.Sleep(50);
+                                    if(isComplete)
+                                    { break; }
                                 }
                                
                             });
@@ -106,12 +114,12 @@ namespace Atlas.Core.Utilities
                         }     
                     });
 
-                    while(index < entries)
+                    //If we made it here then we are complete. 
+                    InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                     {
-                        System.Threading.Thread.Sleep(50);
-                        if(isComplete) { break; }
-                    }
-
+                        InterfaceHelper.GameImportPB.Value = entries;
+                        InterfaceHelper.GameImportPBStatus.Content = $"File: {entries}\\{entries}";
+                    }));
                     //Extraction is complete
                     isComplete = true;
                     Logger.Info("Extraction Complete");
