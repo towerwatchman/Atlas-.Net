@@ -60,6 +60,8 @@ namespace Atlas.Core
             string[] data = RequestJSON(url);
             if (data != null)
             {
+                //TODO: parse and store data in seperate vars
+
                 try
                 {
                     //App versions has 4 values, we only need 3

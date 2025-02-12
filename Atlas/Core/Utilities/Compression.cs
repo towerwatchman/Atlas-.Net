@@ -51,7 +51,7 @@ namespace Atlas.Core.Utilities
                         InterfaceHelper.GameImportTextBox.Content = $"Extrating Game: {gameName}";
                         InterfaceHelper.GameImportPB.Value = 0;
                         InterfaceHelper.GameImportPB.Maximum = entries;
-                        InterfaceHelper.GameImportPBStatus.Content = $"File: 0\\{entries}";
+                        //InterfaceHelper.GameImportPBStatus.Content = $"File: 0\\{entries}";
                     }));
 
                     index = 0;
