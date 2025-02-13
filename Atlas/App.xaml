@@ -379,7 +379,7 @@
             <!--#region X:Type Scroll Bar -->
             <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>
-                <Setter Property="Background" Value="{StaticResource Primary}"/>
+                <Setter Property="Background" Value="{DynamicResource Primary}"/>
                 <Setter Property="Focusable" Value="false"/>
                 <Setter Property="IsTabStop" Value="false"/>
                 <Setter Property="Template">
@@ -393,18 +393,18 @@
             <Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>
                 <!--<Setter Property="Margin" Value="3"/>-->
-                <Setter Property="Background" Value="{StaticResource Tertiary}"/>
+                <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
                 <Setter Property="IsTabStop" Value="false"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Thumb}">
-                            <Border x:Name="rectangle" Background="{StaticResource Tertiary}" Height="{TemplateBinding Height}" SnapsToDevicePixels="True" Width="10" CornerRadius="4"/>
+                            <Border x:Name="rectangle" Background="{DynamicResource Tertiary}" Height="{TemplateBinding Height}" SnapsToDevicePixels="True" Width="10" CornerRadius="4"/>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" TargetName="rectangle" Value="{StaticResource Tertiary}"/>
+                                    <Setter Property="Background" TargetName="rectangle" Value="{DynamicResource Tertiary}"/>
                                 </Trigger>
                                 <Trigger Property="IsDragging" Value="true">
-                                    <Setter Property="Background" TargetName="rectangle" Value="{StaticResource Tertiary}"/>
+                                    <Setter Property="Background" TargetName="rectangle" Value="{DynamicResource Tertiary}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -415,18 +415,18 @@
             <Style x:Key="ScrollBarThumbHorizontal" TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>
                 <!--<Setter Property="Margin" Value="3"/>-->
-                <Setter Property="Background" Value="{StaticResource Tertiary}"/>
+                <Setter Property="Background" Value="{DynamicResource Tertiary}"/>
                 <Setter Property="IsTabStop" Value="false"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Thumb}">
-                            <Border x:Name="rectangle" Background="{StaticResource Tertiary}" Width="{TemplateBinding Width}" SnapsToDevicePixels="True" Height="10" CornerRadius="4"/>
+                            <Border x:Name="rectangle" Background="{DynamicResource Tertiary}" Width="{TemplateBinding Width}" SnapsToDevicePixels="True" Height="10" CornerRadius="4"/>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" TargetName="rectangle" Value="{StaticResource Tertiary}"/>
+                                    <Setter Property="Background" TargetName="rectangle" Value="{DynamicResource Tertiary}"/>
                                 </Trigger>
                                 <Trigger Property="IsDragging" Value="true">
-                                    <Setter Property="Background" TargetName="rectangle" Value="{StaticResource Tertiary}"/>
+                                    <Setter Property="Background" TargetName="rectangle" Value="{DynamicResource Tertiary}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -438,8 +438,8 @@
             <Style TargetType="{x:Type ScrollBar}">
                 <Style.Triggers>
                     <Trigger Property="Orientation" Value="Vertical">
-                        <Setter Property="Background" Value="{StaticResource Primary}"/>
-                        <Setter Property="BorderBrush" Value="{StaticResource Primary}"/>
+                        <Setter Property="Background" Value="{DynamicResource Primary}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource Primary}"/>
                         <Setter Property="Width" Value="10"/>
                         <Setter Property="Template">
                             <Setter.Value>
@@ -468,8 +468,8 @@
                         </Setter>
                     </Trigger>
                     <Trigger Property="Orientation" Value="Horizontal">
-                        <Setter Property="Background" Value="{StaticResource Primary}"/>
-                        <Setter Property="BorderBrush" Value="{StaticResource Primary}"/>
+                        <Setter Property="Background" Value="{DynamicResource Primary}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource Primary}"/>
                         <Setter Property="Height" Value="10"/>
                         <Setter Property="Template">
                             <Setter.Value>
@@ -505,13 +505,13 @@
 
             <!--#region X:Type Progress Bar -->
             <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
-                <Setter Property="Background" Value="{StaticResource Secondary}"/>
+                <Setter Property="Background" Value="{DynamicResource Secondary}"/>
                 <Setter Property="Foreground"
-                        Value="{StaticResource Element_Selected}"/>
+                        Value="{DynamicResource Element_Selected}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ProgressBar}">
-                            <Border CornerRadius="6" BorderThickness="1" BorderBrush="Transparent" Background="{StaticResource Secondary}">
+                            <Border CornerRadius="6" BorderThickness="1" BorderBrush="Transparent" Background="{DynamicResource Secondary}">
                                 <Grid MinHeight="14" MinWidth="200" Background="Transparent">
                                     <Border x:Name="PART_Track" CornerRadius="6" BorderThickness="1" BorderBrush="Transparent"/>
                                     <Border x:Name="PART_Indicator"
@@ -682,7 +682,7 @@
                 <Setter Property="Foreground"
                         Value="{DynamicResource Text}" />
                 <Setter Property="ItemsPanel"
-                        Value="{StaticResource MenuItemPanelTemplate}" />
+                        Value="{DynamicResource MenuItemPanelTemplate}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ContextMenu}">
@@ -712,7 +712,7 @@
                 <Setter Property="Background"
                         Value="{DynamicResource Secondary}" />
                 <Setter Property="ItemsPanel"
-                        Value="{StaticResource MenuItemPanelTemplate}" />
+                        Value="{DynamicResource MenuItemPanelTemplate}" />
                 <Setter Property="Height"
                         Value="30" />
                 <Setter Property="HorizontalContentAlignment"
@@ -762,7 +762,7 @@
                 <Setter Property="SnapsToDevicePixels"
                         Value="True" />
                 <Setter Property="ItemsPanel"
-                        Value="{StaticResource MenuItemPanelTemplate}" />
+                        Value="{DynamicResource MenuItemPanelTemplate}" />
                 <Setter Property="Height"
                         Value="30" />
                 <Setter Property="HorizontalContentAlignment"
