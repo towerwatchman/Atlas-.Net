@@ -283,6 +283,84 @@
             </Style>
             <!--#endregion-->
             
+            <!--#region X:Type ListBox-->
+            <Style TargetType="ListBoxItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border BorderThickness="{TemplateBinding Border.BorderThickness}"
+                                    Padding="{TemplateBinding Control.Padding}"
+                                    BorderBrush="{TemplateBinding Border.BorderBrush}"
+                                    Background="{TemplateBinding Panel.Background}"
+                                    Name="Bd"
+                                    SnapsToDevicePixels="True">
+                                <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
+                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                                  ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="Selector.IsSelectionActive"
+                                                   Value="False" />
+                                        <Condition Property="Selector.IsSelected"
+                                                   Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Panel.Background"
+                                            TargetName="Bd"
+                                            Value="Transparent" />
+                                    <Setter Property="Border.BorderBrush"
+                                            TargetName="Bd">
+                                        <Setter.Value>
+                                            <SolidColorBrush>#FFDADADA</SolidColorBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="Selector.IsSelectionActive"
+                                                   Value="True" />
+                                        <Condition Property="Selector.IsSelected"
+                                                   Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Panel.Background"
+                                            TargetName="Bd"
+                                            Value="{DynamicResource Element_Selected}" />
+                                    <Setter Property="Border.BorderBrush"
+                                            TargetName="Bd" Value="{DynamicResource Element_Selected}">                                       
+                                    </Setter>
+                                    <Setter Property="TextElement.Foreground"
+                                            TargetName="Bd"
+                                            Value="{DynamicResource Text_Hover}"></Setter>
+                                </MultiTrigger>
+                                <Trigger Property="UIElement.IsMouseOver"
+                                         Value="True">
+                                    <Setter Property="Panel.Background"
+                                            TargetName="Bd"
+                                            Value="{DynamicResource Element_Selected}" />
+                                    <Setter Property="Border.BorderBrush"
+                                            TargetName="Bd" Value="{DynamicResource Element_Selected}">                                        
+                                    </Setter>
+                                    <Setter Property="TextElement.Foreground"
+                                            TargetName="Bd"
+                                            Value="{DynamicResource Text_Hover}"></Setter>
+                                </Trigger>
+                                <Trigger Property="UIElement.IsEnabled"
+                                         Value="False">
+                                    <Setter Property="TextElement.Foreground"
+                                            TargetName="Bd" Value="{DynamicResource Text_Hover}">                                        
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!--#endregion-->
+            
             <!--#region Bitmap Effects -->
             <DropShadowBitmapEffect
                 x:Key="BottomShadowEffect"
