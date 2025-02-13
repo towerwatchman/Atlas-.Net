@@ -156,6 +156,7 @@ namespace Atlas.Core.Database
         public static string InsertOrUpdateAsync(List<string> queries)
         {
             string data = string.Empty;
+            string query_for_error = string.Empty;
             try
             {
                 using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
@@ -164,7 +165,6 @@ namespace Atlas.Core.Database
                     using (var transaction = connection.BeginTransaction())
                     {
                         // Transaction may include additional statements before the savepoint
-
                         var updated = false;
                         do
                         {
@@ -176,6 +176,7 @@ namespace Atlas.Core.Database
                             double currentQuery = 0;
                             foreach (var query in queries)
                             {
+                                query_for_error = query.ToString();
                                 InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                                 {
                                     InterfaceHelper.UpdateProgressBar.Value = (currentQuery / totalQueries) * 100;
@@ -195,12 +196,11 @@ namespace Atlas.Core.Database
                         while (!updated);
                         transaction.Commit();
                     }
-
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error($"{ex.Message}");
+                Logger.Error($"{ex.Message} Error with query:{query_for_error}");
             }
             return data;
         }

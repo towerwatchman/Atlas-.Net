@@ -11,6 +11,7 @@ namespace Atlas.Core.Utilities
             JObject dataObj = JObject.Parse(data);
             InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
             {
+                InterfaceHelper.LauncherProgressBar.Value += 3;
                 InterfaceHelper.UpdateProgressBar.Value = 100;
                 InterfaceHelper.UpdateTextBox.Text = "100%";
             }));
@@ -31,6 +32,8 @@ namespace Atlas.Core.Utilities
 
             InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
             {
+                //Increase percentage
+                InterfaceHelper.LauncherProgressBar.Value += 3;
                 InterfaceHelper.UpdateProgressBar.Value = 0;
                 InterfaceHelper.UpdateTextBox.Text = "0%";
                 InterfaceHelper.LauncherTextBox.Text = "Updating F95 Metadata";
@@ -40,6 +43,13 @@ namespace Atlas.Core.Utilities
             var sqlcmd = Database.SQLiteInterface.InsertJsonData(f95_data, "f95_zone_data");
 
             UpdateCompleted = true;
+
+            InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+            {
+                //Increase percentage
+                InterfaceHelper.LauncherProgressBar.Value += 3;
+            }));
+
             return Task.CompletedTask;
         }
 

@@ -205,7 +205,7 @@ namespace Atlas
                         //Download latest update
                         try
                         {
-                            UpdateLauncherText("Downloading Update");
+                            UpdateLauncherText("Downloading Database Update");
                             string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
                             string OutputPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "updates", name);
 
