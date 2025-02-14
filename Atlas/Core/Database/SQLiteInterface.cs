@@ -235,22 +235,23 @@ namespace Atlas.Core.Database
                                 sqlValues += ",";
                             }
 
-                            //If we are at the end but the last item is null then we need to remove the last comman
-                            if(itemCount == entry.Count())
-                            {
-                                if (sqlItems[sqlItems.Length - 1] == ',')
-                                {
-                                    sqlItems.Remove(sqlItems.Length - 1);
-                                }
 
-                                if (sqlValues[sqlValues.Length - 1] == ',')
-                                {
-                                    sqlValues.Remove(sqlValues.Length - 1);
-                                }
-                            }
+
 
                         }
-                       
+                        //If we are at the end but the last item is null then we need to remove the last comman
+                        if (itemCount == entry.Count())
+                        {
+                            if (sqlItems[sqlItems.Length - 1] == ',')
+                            {
+                                sqlItems= sqlItems.Remove(sqlItems.Length - 1);
+                            }
+
+                            if (sqlValues[sqlValues.Length - 1] == ',')
+                            {
+                                sqlValues = sqlValues.Remove(sqlValues.Length - 1);
+                            }
+                        }
                         itemCount++;
                     }
                     sql = $"INSERT OR REPLACE INTO {table} ({sqlItems}) Values ({sqlValues})";
