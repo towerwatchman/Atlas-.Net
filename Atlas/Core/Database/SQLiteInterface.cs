@@ -1,4 +1,5 @@
-﻿using Atlas.Core.Utilities;
+﻿using ABI.Windows.Storage.Streams;
+using Atlas.Core.Utilities;
 using Atlas.UI;
 using Atlas.UI.ViewModel;
 using Microsoft.Data.Sqlite;
@@ -221,16 +222,35 @@ namespace Atlas.Core.Database
                     foreach (JProperty item in entry)
                     {
                         //skip null or empty values. This will prevent overwritting data that already exist in the database.
-                        if (item.Value.ToString() != "")
+                        if (item.Value.ToString() != "" && item.Value != null)
                         {
                             sqlItems += item.Name;
+                            if (item.Value.ToString() == "99804" && item.Name.ToString() == "f95_id")
+                            { }
                             sqlValues += $"'{item.Value.ToString().Replace("\'", "\'\'")}'";
                             if (itemCount < entry.Count())
                             {
+
                                 sqlItems += ",";
                                 sqlValues += ",";
                             }
+
+                            //If we are at the end but the last item is null then we need to remove the last comman
+                            if(itemCount == entry.Count())
+                            {
+                                if (sqlItems[sqlItems.Length - 1] == ',')
+                                {
+                                    sqlItems.Remove(sqlItems.Length - 1);
+                                }
+
+                                if (sqlValues[sqlValues.Length - 1] == ',')
+                                {
+                                    sqlValues.Remove(sqlValues.Length - 1);
+                                }
+                            }
+
                         }
+                       
                         itemCount++;
                     }
                     sql = $"INSERT OR REPLACE INTO {table} ({sqlItems}) Values ({sqlValues})";
