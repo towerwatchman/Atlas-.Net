@@ -188,9 +188,19 @@ namespace Atlas.UI.Windows
                 {
                     Application.Current.Dispatcher.BeginInvoke(() =>
                     {
-                        Settings.Config.ExecutableExt = customImporter.GameExt.Text;
-                        Settings.Config.ExtractionExt = customImporter.ArchiveExt.Text;
-                        Settings.Config.FolderStructure = customImporter.tb_format.Text;
+                        //Verify the values are not null before adding
+                        if (customImporter.GameExt.Text != "")
+                        {
+                            Settings.Config.ExecutableExt = customImporter.GameExt.Text;
+                        }
+                        if (customImporter.ArchiveExt.Text != "")
+                        {
+                            Settings.Config.ExtractionExt = customImporter.ArchiveExt.Text;
+                        }
+                        if (customImporter.tb_format.Text != "")
+                        {
+                            Settings.Config.FolderStructure = customImporter.tb_format.Text;
+                        }
                     });
                 });
 
