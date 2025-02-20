@@ -32,7 +32,7 @@
                                        HorizontalAlignment="Stretch"
                                        VerticalAlignment="Stretch"
                                        Background="{DynamicResource Primary}">
-                        <vwp:VirtualizingWrapPanel Background="{DynamicResource Tertiary}"
+                        <vwp:VirtualizingWrapPanel Background="{DynamicResource Panel}"
                                                    VirtualizingPanel.IsVirtualizing="True"
                                                    VirtualizingPanel.VirtualizationMode="Recycling"
                                                    IsItemsHost="True"/>

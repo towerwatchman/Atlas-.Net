@@ -14,6 +14,10 @@
     Shadow: This is the shadow for any object that has one
     WindowAccent:Border around windows. Any location on a window that is used as a spacer or divider
     AccentBar: Bar at top of program. This is the only thing it will change
+    AccentBarL: Right triangle of accent bar
+    AccentBarR: Left triangle of accent bar
+    ScrollBar: Scroll bar color
+    Panel: Background for all game list views. BannerView etc..,
 
     Element_Normal: Normal color for all interactable UI elements. Buttons, Checkbox, combobox etc..,
     Element_Selected: Same as above but when they are either hovered over or selected.
@@ -48,6 +52,8 @@
                      Color="#FF2C8EA9" />
     <SolidColorBrush x:Key="ScrollBar"
                      Color="#242629" />
+    <SolidColorBrush x:Key="Panel"
+                     Color="#313338" />
     <!-- ELEMENT COLORS -->
     <SolidColorBrush x:Key="Element_Normal"
                      Color="#404249" />
