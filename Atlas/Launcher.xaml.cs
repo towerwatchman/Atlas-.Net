@@ -32,7 +32,7 @@ namespace Atlas
                 ConsoleManager.Show();
             }
 
-            Logger.Info($"Loaded settings from: { System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini")}");
+            Logger.Info($"Loaded settings from: {System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini")}");
 
             //Assign progressbar to helper
             InterfaceHelper.LauncherWindow = this;
@@ -84,13 +84,9 @@ namespace Atlas
 
         public async Task Init()
         {
-            //Load settings first
-            //Add Settings
+            Logger.Info("Checking for Updates");
 
-
-
-
-        UpdateLauncherText("Checking For Updates");
+            UpdateLauncherText("Checking For Updates");
             //Check for Program updates
             await Task.Run(async () =>
             {
@@ -105,6 +101,7 @@ namespace Atlas
             });
             UpdateLauncherProgressBar(5);
 
+            Logger.Info("Updating Folders");
             UpdateLauncherText("Updating Folders");
             //Set folders
             try
@@ -119,6 +116,7 @@ namespace Atlas
             catch (Exception ex) { Logger.Error(ex); }
             UpdateLauncherProgressBar(10);
 
+            Logger.Info("Updating xaml Dependencies");
             UpdateLauncherText("Updating xaml Dependencies");
 
             //Set the default theme file
@@ -141,6 +139,7 @@ namespace Atlas
             }
             UpdateLauncherProgressBar(20);
 
+            Logger.Info("Running DB Migrations");
             UpdateLauncherText("Running DB Migrations");
             SQLiteInterface.Init();
             UpdateLauncherProgressBar(30);
@@ -148,6 +147,7 @@ namespace Atlas
             //Set progress before calling for update
             InterfaceHelper.ProgressBarStartValue = 40;
 
+            Logger.Info("Checking for DB Updates");
             UpdateLauncherText("Checking for DB Updates");
             //Check for database update
             await Task.Run(async () =>
@@ -166,6 +166,7 @@ namespace Atlas
             UpdateLauncherProgressBar(100);
 
             //Reset and load UI assets
+            Logger.Info("Loading Assets");
             UpdateLauncherText("Loading Assets");
 
             //Load all games in whatever the default view is
@@ -186,9 +187,6 @@ namespace Atlas
                         ModelData.TotalVersions = versions;
                     });
                     //Load the entire GameList before binding it to the view
-
-                    //Pass the default pageview
-
                 }
                 catch (Exception ex)
                 {
@@ -196,6 +194,7 @@ namespace Atlas
                 }
             });
 
+            Logger.Info("Launching Atlas");
             UpdateLauncherText("Launching Atlas");
             //System.Threading.Thread.Sleep(1000);
         }
@@ -225,6 +224,7 @@ namespace Atlas
                         //Download latest update
                         try
                         {
+                            Logger.Info("Downloading Database Update");
                             UpdateLauncherText("Downloading Database Update");
                             string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
                             string OutputPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "updates", name);
@@ -239,6 +239,7 @@ namespace Atlas
                                 UpdateTextBox.Visibility = System.Windows.Visibility.Visible;
                             });
 
+                            Logger.Info("Processing Update");
                             UpdateLauncherText("Processing Update");
                             await UpdateInterface.ParseUpdate(data);
 

@@ -10,7 +10,6 @@ namespace Atlas.Core
         public static void Init()
         {
             //Add link to config
-            //Console.WriteLine(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini"));
             Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini")).Build();
             //Set all inital values here. 
 
