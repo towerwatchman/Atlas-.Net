@@ -585,7 +585,8 @@
                    TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle"
                         Value="true" />
-                <!--<Setter Property="Margin" Value="3"/>-->
+                <Setter Property="Margin"
+                        Value="0,5,0,5" />
                 <Setter Property="Background"
                         Value="{DynamicResource Tertiary}" />
                 <Setter Property="IsTabStop"
@@ -658,6 +659,8 @@
                 <Style.Triggers>
                     <Trigger Property="Orientation"
                              Value="Vertical">
+                        <Setter Property="Margin"
+                                Value="0,-17,0,-17" />
                         <Setter Property="Background"
                                 Value="{DynamicResource Primary}" />
                         <Setter Property="BorderBrush"
@@ -678,7 +681,7 @@
                                                 BorderThickness="{TemplateBinding BorderThickness}"
                                                 Background="{TemplateBinding Background}"
                                                 Grid.Row="1"
-                                                CornerRadius="5" />
+                                                CornerRadius="0" />
                                         <Track x:Name="PART_Track"
                                                IsDirectionReversed="true"
                                                IsEnabled="{TemplateBinding IsMouseOver}"

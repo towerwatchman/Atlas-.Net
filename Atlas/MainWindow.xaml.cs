@@ -496,7 +496,7 @@ namespace Atlas
 
                     string[] archiveExt = Atlas.Core.Settings.Config.ExtractionExt.Split(',');
                     //Check if the file is an archive. 
-                    if (archiveExt.Any(GameDetail.Executable[0].Contains))
+                    if (archiveExt.Length > 0 && archiveExt.Any(GameDetail.Executable[0].Contains))
                     {
                         string input = "";
                         if (Directory.Exists(GameDetail.Folder))
@@ -646,7 +646,6 @@ namespace Atlas
                     notificationsPage.NotificationsList.ItemsSource = ModelData.NotificationCollection;
                     notificationsPage.NotificationsList.Items.Refresh();
 
-                    notificationsPage.NotificationsList.Items.Refresh();
                 }));
             });
 
