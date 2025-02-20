@@ -257,7 +257,7 @@ namespace Atlas
         }
         #endregion
 
-        private async void OnListBoxNavButtonUp(object sender, RoutedEventArgs e)
+        private void OnListBoxNavButtonUp(object sender, RoutedEventArgs e)
         {
             var Item = (ListBoxItem)sender;
             //Console.WriteLine(Item.Name);

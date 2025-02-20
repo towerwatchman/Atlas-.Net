@@ -13,41 +13,70 @@
                       HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical"
                         Margin="20">
-                <StackPanel Orientation="Horizontal">
+                <DockPanel>
                     <Label Content="Language:"
-                           Margin="0,0,10,0" />
+                           Margin="0,0,10,0"
+                           MinWidth="120"
+                           HorizontalAlignment="Right" />
                     <ComboBox x:Name="AtlasLanguage"
                               MinWidth="100"
-                              SelectedIndex="0">
+                              SelectedIndex="0"
+                              HorizontalAlignment="Right">
                         <ComboBoxItem Content="English" />
                     </ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal"
-                            Margin="0,10,0,0">
+                </DockPanel>
+                <Label Content="Changing the system language will require a restart"
+                       FontSize="10"
+                       Opacity=".50" />
+                <Separator Margin="5,2,5,0" Background="{DynamicResource Text}" Height="1" Opacity=".25"/>
+                <DockPanel Margin="0,10,0,0">
                     <Label Content="When Atlas Starts:"
-                           Margin="0,0,10,0" />
+                           Margin="0,0,10,0"
+                           MinWidth="120" />
                     <ComboBox x:Name="AtlasStartup"
-                              MinWidth="170"
-                              SelectedIndex="1">
+                              MinWidth="180"
+                              SelectedIndex="0"
+                              HorizontalAlignment="Right">
                         <ComboBoxItem Content="Do Nothing" />
-                        <ComboBoxItem Content="Minimize To System Tray" />
+                        <!--<ComboBoxItem Content="Minimize To System Tray" />-->
                     </ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal"
-                            Margin="0,10,0,0">
+                </DockPanel>
+                <Label Content="Select default Altas behavior"
+                       FontSize="10"
+                       Opacity=".50" />
+                <Separator Margin="5,2,5,0"
+                           Background="{DynamicResource Text}"
+                           Height="1"
+                           Opacity=".25" />
+                <DockPanel Margin="0,10,0,0">
                     <Label Content="When Game Starts:"
-                           Margin="0,0,10,0" />
+                           Margin="0,0,10,0"
+                           MinWidth="120" />
                     <ComboBox x:Name="GamesStartup"
                               MinWidth="100"
-                              SelectedIndex="0">
+                              SelectedIndex="0"
+                              HorizontalAlignment="Right">
                         <ComboBoxItem Content="Do Nothing" />
-                        <ComboBoxItem Content="Minimize" />
-                        <ComboBoxItem Content="Close" />
+                        <!--<ComboBoxItem Content="Minimize" />
+                        <ComboBoxItem Content="Close" />-->
                     </ComboBox>
-                </StackPanel>
-                <!--<StackPanel Orientation="Vertical">
-                    <CheckBox Content="Minimize Atlas to system tray when the aplication window is closed"
-                              Margin="0,10,0,0" />
+                </DockPanel>
+                <Label Content="This will only take effect once game has fully launched"
+                       FontSize="10"
+                       Opacity=".50" />
+                <Separator Margin="5,2,5,0"
+                           Background="{DynamicResource Text}"
+                           Height="1"
+                           Opacity=".25" />
+                <StackPanel Orientation="Vertical" IsEnabled="False" Opacity=".5">
+                    <DockPanel>
+                        <Label Content="Minimize Atlas to system tray when the aplication window is closed" />
+                        <CheckBox Margin="0,0,20,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </DockPanel>
+                    <Separator Margin="5,2,5,0"
+                               Background="{DynamicResource Text}"
+                               Height="1"
+                               Opacity=".25" />
                     <CheckBox Content="Download metadata during game import"
                               Margin="0,10,0,0" />
                     <CheckBox Content="Launch Atlas Maximized"
@@ -56,7 +85,7 @@
                               Margin="0,10,0,0" />
                     <CheckBox Content="Update game install size on library update"
                               Margin="0,10,0,0" />
-                </StackPanel>-->
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
