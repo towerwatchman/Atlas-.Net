@@ -142,7 +142,7 @@
                     </Grid.RowDefinitions>
                     <!--#region Header-->
                     <!-- Left Corner-->
-                    <Polygon Fill="{DynamicResource AccentBar}"
+                    <Polygon Fill="{DynamicResource AccentBarL}"
                              HorizontalAlignment="Left"
                              Margin="40,0,100,0"
                              Stretch="Uniform"
@@ -161,7 +161,7 @@
                     <Rectangle Fill="{DynamicResource AccentBar}"
                                Margin="50,0,110,0" />
                     <!-- Right Corner-->
-                    <Polygon Fill="{DynamicResource AccentBar}"
+                    <Polygon Fill="{DynamicResource AccentBarR}"
                              HorizontalAlignment="Right"
                              Margin="40,0,100,0"
                              Stretch="Uniform"

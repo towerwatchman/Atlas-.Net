@@ -634,7 +634,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Thumb}">
                             <Border x:Name="rectangle"
-                                    Background="{DynamicResource Tertiary}"
+                                    Background="{DynamicResource ScrollBar}"
                                     Width="{TemplateBinding Width}"
                                     SnapsToDevicePixels="True"
                                     Height="10"

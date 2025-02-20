@@ -42,6 +42,12 @@
                      Color="#FF2C8EA9" />
     <SolidColorBrush x:Key="AccentBar"
                      Color="#FF2C8EA9" />
+    <SolidColorBrush x:Key="AccentBarL"
+                     Color="#FF2C8EA9" />
+    <SolidColorBrush x:Key="AccentBarR"
+                     Color="#FF2C8EA9" />
+    <SolidColorBrush x:Key="ScrollBar"
+                     Color="#242629" />
     <!-- ELEMENT COLORS -->
     <SolidColorBrush x:Key="Element_Normal"
                      Color="#404249" />
