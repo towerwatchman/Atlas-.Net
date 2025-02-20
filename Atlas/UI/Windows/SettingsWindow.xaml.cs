@@ -66,7 +66,7 @@ namespace Atlas.UI.Windows
         {
             var Item = (ListBoxItem)sender;
             //Console.WriteLine(Item.Name);
-            Console.Out.WriteLine(Item.Name);
+            //Console.Out.WriteLine(Item.Name);
 
             if (Item.Name.ToString() == "Interface")
             {

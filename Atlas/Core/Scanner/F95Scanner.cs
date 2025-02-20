@@ -322,7 +322,7 @@ namespace Atlas.Core
                             {
                                 //AddGameToBannerView(gd);
 
-                                Console.Out.WriteLine(_GameDetailList.Count.ToString());
+                                Logger.Info($"{_GameDetailList.Count.ToString()} Total Games");
                                 potentialGames = _GameDetailList.Count;
                                 UpdatePotentialGames(potentialGames);
 

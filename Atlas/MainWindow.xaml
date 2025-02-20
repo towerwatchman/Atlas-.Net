@@ -338,15 +338,22 @@
                                                       VerticalAlignment="Center" />
                                             </Grid>
                                             <ControlTemplate.Triggers>
+
                                                 <Trigger Property="IsSelected"
                                                          Value="True">
                                                     <Setter TargetName="icon"
                                                             Property="Fill"
                                                             Value="{DynamicResource Element_Selected}" />
+                                                    <Setter TargetName="icon"
+                                                            Property="Opacity"
+                                                            Value="1" />
                                                 </Trigger>
                                                 <Trigger Property="IsMouseOver"
                                                          Value="True">
                                                     <Setter TargetName="indicator"
+                                                            Property="Fill"
+                                                            Value="{DynamicResource Element_Selected}" />
+                                                    <Setter TargetName="icon"
                                                             Property="Fill"
                                                             Value="{DynamicResource Element_Selected}" />
                                                 </Trigger>
@@ -371,9 +378,6 @@
                         <ListBoxItem x:Name="Settings"
                                      Content="{DynamicResource settings_icon}"
                                      IsSelected="False" />
-                        <ListBoxItem x:Name="ConsoleToggle"
-                                     Content="{DynamicResource console_icon}"
-                                     IsSelected="False"/>
                     </ListBox>
                 </Grid>
                 <!--#endregion-->
