@@ -296,9 +296,9 @@ namespace Atlas
             if (Item.Name.ToString() == "Refresh")
             {
                 //Keep user from pressing refresh more than once
-
                 if (isRefreshRunning == false)
                 {
+                    Logger.Info("Running metadata refresh for all game objects");
                     //Disable List box
                     isRefreshRunning = true;
                     //sort list by title
@@ -391,7 +391,13 @@ namespace Atlas
                         }
                     });
                     isRefreshRunning = false;
+                    Logger.Info("Game metadata refresh complete");
                 }
+                else
+                {
+                    Logger.Warn("Game metadata refresh is already running");
+                }
+                Home.IsSelected = true;
             }
             if (Item.Name.ToString() == "Settings")
             {
