@@ -10,7 +10,7 @@ namespace Atlas.Core
         public static void Init()
         {
             //Add link to config
-            Console.WriteLine(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini"));
+            //Console.WriteLine(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini"));
             Config = new ConfigurationBuilder<SettingInterface>().UseIniFile(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini")).Build();
             //Set all inital values here. 
 
@@ -33,6 +33,9 @@ namespace Atlas.Core
             Config.DefaultPage = Config.DefaultPage == null || Config.DefaultPage == ""? "VNHGames" : Config.DefaultPage;
             Config.ExecutableExt = Config.ExecutableExt == null || Config.ExecutableExt == "" ? ".exe,.swf,.flv,.f4v,.rag,.cmd,.bat,.jar,.html" : Config.ExecutableExt;
             Config.ExtractionExt = Config.ExtractionExt == null || Config.ExtractionExt == "" ? ".zip,.7z,.rar" : Config.ExtractionExt;
+
+            //DEV
+            Config.ShowDebugWindow = Config.ShowDebugWindow == true ? true : Config.ShowDebugWindow;
         }
 
         //Global vars stored at runtime currently
@@ -84,8 +87,14 @@ namespace Atlas.Core
         double ImageRenderWidth { get; set; }
         [Option(Alias = "ui.DefaultPage")]
         string DefaultPage { get; set; }
-
         #endregion
+
+        #region DEV
+        [Option(Alias = "dev.ShowDebugWindow")]
+        bool ShowDebugWindow { get; set; }
+        #endregion
+
+
     }
 
     public static class Global

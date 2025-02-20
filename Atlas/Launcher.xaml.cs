@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using NLog;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace Atlas
@@ -14,9 +15,24 @@ namespace Atlas
     public partial class Launcher : Window
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public Launcher()
         {
             InitializeComponent();
+            //Load Settings First
+            Settings.Init();
+
+            //Show debug console if it is enabled
+            if (Atlas.Core.Settings.Config.ShowDebugWindow == false)
+            {
+                ConsoleManager.Hide();
+            }
+            else
+            {
+                ConsoleManager.Show();
+            }
+
+            Logger.Info($"Loaded settings from: { System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "config.ini")}");
 
             //Assign progressbar to helper
             InterfaceHelper.LauncherWindow = this;
@@ -68,7 +84,13 @@ namespace Atlas
 
         public async Task Init()
         {
-            UpdateLauncherText("Checking For Updates");
+            //Load settings first
+            //Add Settings
+
+
+
+
+        UpdateLauncherText("Checking For Updates");
             //Check for Program updates
             await Task.Run(async () =>
             {
@@ -98,8 +120,6 @@ namespace Atlas
             UpdateLauncherProgressBar(10);
 
             UpdateLauncherText("Updating xaml Dependencies");
-            //Add Settings
-            Settings.Init();
 
             //Set the default theme file
 

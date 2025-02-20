@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -403,7 +404,6 @@ namespace Atlas
                 {
                     settingsWindow.Show();
                 }
-
             }
         }
         #region Game ListView Visibility
@@ -674,7 +674,7 @@ namespace Atlas
 
         private void AtlasSearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Logger.Warn(AtlasSearchBox.Text.ToString());
+            //Logger.Warn(AtlasSearchBox.Text.ToString());
             if (AtlasSearchBox.Text != "" && AtlasSearchBox.Text != "Search Atlas")
             {
                 if (ClearSearchBox != null)

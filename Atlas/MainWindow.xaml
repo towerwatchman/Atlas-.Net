@@ -371,7 +371,7 @@
                         <ListBoxItem x:Name="Settings"
                                      Content="{DynamicResource settings_icon}"
                                      IsSelected="False" />
-                        <ListBoxItem x:Name="Console"
+                        <ListBoxItem x:Name="ConsoleToggle"
                                      Content="{DynamicResource console_icon}"
                                      IsSelected="False"/>
                     </ListBox>

@@ -225,8 +225,7 @@ namespace Atlas.Core.Database
                         if (item.Value.ToString() != "" && item.Value != null)
                         {
                             sqlItems += item.Name;
-                            if (item.Value.ToString() == "99804" && item.Name.ToString() == "f95_id")
-                            { }
+                           
                             sqlValues += $"'{item.Value.ToString().Replace("\'", "\'\'")}'";
                             if (itemCount < entry.Count())
                             {
