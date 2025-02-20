@@ -51,7 +51,7 @@
     <SolidColorBrush x:Key="AccentBarR"
                      Color="#FF2C8EA9" />
     <SolidColorBrush x:Key="ScrollBar"
-                     Color="#242629" />
+                     Color="#313338" />
     <SolidColorBrush x:Key="Panel"
                      Color="#313338" />
     <!-- ELEMENT COLORS -->
