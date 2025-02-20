@@ -167,7 +167,7 @@ namespace Atlas
                             MenuItem menuItem = new MenuItem();
                             menuItem.Tag = version.ExePath;
                             menuItem.Header = version.Version;
-                            menuItem.Click += MenuItem_Click;
+                            menuItem.Click += PlayVersion_Click;
                             menuitems.Add(menuItem);
                         }
                     }
@@ -180,7 +180,7 @@ namespace Atlas
         #region Banner Play Version Click
         //The launcher needs to move to a seperate class. 
         //We need to track time spent in game and game status
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void PlayVersion_Click(object sender, RoutedEventArgs e)
         {
             MenuItem obMenuItem = e.OriginalSource as MenuItem;
 
