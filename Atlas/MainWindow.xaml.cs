@@ -272,7 +272,7 @@ namespace Atlas
                 isBatchImporterOpen = true;
                 BatchImporter batchImporter = new BatchImporter();
                 //Set event handler to start parsing games once 
-                batchImporter.StartImport += BatchImporter_StartImport; ;
+                batchImporter.StartImport += BatchImporter_StartImport;
                 batchImporter.Closed += BatchImporter_Closed;
 
                 batchImporter.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -399,12 +399,18 @@ namespace Atlas
                 if (settingsWindow == null || settingsWindow.IsLoaded == false)
                 {
                     settingsWindow = new SettingsWindow();
+                    settingsWindow.Closed += SettingsWindow_Closed;
                 }
                 if (!settingsWindow.IsVisible)
                 {
                     settingsWindow.Show();
                 }
             }
+        }
+
+        private void SettingsWindow_Closed(object sender, EventArgs e)
+        {
+            Home.IsSelected = true;
         }
         #region Game ListView Visibility
         private void ShowListView()
