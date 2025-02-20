@@ -565,22 +565,25 @@
                 <Setter Property="OverridesDefaultStyle"
                         Value="true" />
                 <Setter Property="Background"
-                        Value="{DynamicResource Primary}" />
+                        Value="{DynamicResource Primary}" />                
                 <Setter Property="Focusable"
                         Value="false" />
                 <Setter Property="IsTabStop"
                         Value="false" />
+                <Setter Property="Visibility"
+                        Value="Hidden" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type RepeatButton}">
                             <Border Background="{TemplateBinding Background}"
                                     Height="{TemplateBinding Height}"
                                     Width="{TemplateBinding Width}"
-                                    CornerRadius="10" />
+                                    CornerRadius="0" />
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
+            
             <Style x:Key="ScrollBarThumbVertical"
                    TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle"
@@ -622,9 +625,9 @@
                    TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle"
                         Value="true" />
-                <!--<Setter Property="Margin" Value="3"/>-->
+                <Setter Property="Margin" Value="-15,0,5,0"/>
                 <Setter Property="Background"
-                        Value="{DynamicResource Tertiary}" />
+                        Value="{DynamicResource Text}" />
                 <Setter Property="IsTabStop"
                         Value="false" />
                 <Setter Property="Template">
@@ -705,8 +708,11 @@
                             </Setter.Value>
                         </Setter>
                     </Trigger>
+                    
                     <Trigger Property="Orientation"
                              Value="Horizontal">
+                        <Setter Property="Margin"
+                                Value="0,0,-18,0" />
                         <Setter Property="Background"
                                 Value="{DynamicResource Primary}" />
                         <Setter Property="BorderBrush"
@@ -723,11 +729,11 @@
                                             <ColumnDefinition Width="0.00001*" />
                                             <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}" />
                                         </Grid.ColumnDefinitions>
-                                        <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                Background="{TemplateBinding Background}"
-                                                Grid.Row="1"
-                                                CornerRadius="5" />
+                                        <Border BorderBrush="{DynamicResource Primary}"
+                                                BorderThickness="1"
+                                                Background="{DynamicResource Primary}"
+                                                Grid.ColumnSpan="3"
+                                                CornerRadius="0" />
                                         <Track x:Name="PART_Track"
                                                IsDirectionReversed="False"
                                                IsEnabled="{TemplateBinding IsMouseOver}"

@@ -572,7 +572,7 @@ namespace Atlas
 
                        if (GameDetail.RecordID != string.Empty)
                        {
-                           if (GameDetail.RecordID != "")
+                           if (GameDetail.RecordID != "" && GameDetail.AtlasID != "")
                            {
                                SQLiteInterface.SetAtlasMapping(GameDetail.RecordID, GameDetail.AtlasID);
                            }

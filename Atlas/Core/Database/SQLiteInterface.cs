@@ -629,7 +629,7 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                             Logger.Error(ex);
                         }
                     }
-                    Logger.Warn("Loaded");
+                    Logger.Info("Loaded");
                     reader.Close();
                 }
             }
