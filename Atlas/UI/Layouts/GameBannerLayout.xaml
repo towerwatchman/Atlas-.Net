@@ -55,7 +55,7 @@
         <!-- Text for Layout-->
         <TextBlock VerticalAlignment="Bottom"
                    HorizontalAlignment="Center"
-                   Text="{Binding Title}"
+                   Text="{Binding Title, FallbackValue=test}"
                    Foreground="White"
                    Margin="3,3,3,3"
                    Padding="2"
