@@ -84,7 +84,7 @@
                                        Text="Notifications"
                                        MinHeight="20" />
                            
-                            <Grid Width="17" Height="17" HorizontalAlignment="Right" >
+                            <Grid Width="17" Height="17" HorizontalAlignment="Right" Visibility="Hidden" >
                                 <Border BorderBrush="{DynamicResource Border}"
                                         CornerRadius="4"
                                         Background="{DynamicResource Border}">
