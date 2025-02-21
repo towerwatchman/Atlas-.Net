@@ -21,7 +21,9 @@ namespace Atlas.UI.Pages.Settings
                     cbThemes.Items.Add(System.IO.Path.GetFileNameWithoutExtension(item));
                 }
             }
-            cbThemes.SelectedIndex = 0;
+            //Try to change theme to config file theme
+            int index = cbThemes.Items.IndexOf(Atlas.Core.Settings.Config.Theme);            
+            cbThemes.SelectedIndex = index;
 
         }
 
