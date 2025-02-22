@@ -8,7 +8,7 @@
             <!-- #region ResourceDictionary.MergedDictionaries [Loaded at Runtime]-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Assets/Images/icons.xaml" />
-                <ResourceDictionary Source="/UI/Dictionaries/GameBanner.xaml" />
+                <!--<ResourceDictionary Source="/UI/Dictionaries/GameBanner.xaml" />-->
                 <ResourceDictionary Source="/UI/Dictionaries/DefaultControls.xaml" />
                 <!-- Default theme -->
                 <ResourceDictionary x:Name="rdTheme"
