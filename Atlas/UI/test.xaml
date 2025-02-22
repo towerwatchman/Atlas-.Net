@@ -5,11 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Atlas.UI"
       mc:Ignorable="d" 
-      d:DesignHeight="50" d:DesignWidth="200"
+      d:DesignHeight="150" d:DesignWidth="200"
       Title="test">
 
     <Grid>
         <ScrollViewer>
+            <Grid>
             <ListBox Background="{DynamicResource Primary}" Foreground="{DynamicResource Text}">
                 <ListBoxItem Content="222222222222222222222222222222222222222222222222" />
                 <ListBoxItem Content="222222222222222222222222222222222222222222222222" />
@@ -78,6 +79,7 @@
                 <ListBoxItem Content="222222222222222222222222222222222222222222222222" />
                 <ListBoxItem Content="222222222222222222222222222222222222222222222222" />
             </ListBox>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </Page>

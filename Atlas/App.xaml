@@ -588,8 +588,6 @@
                    TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle"
                         Value="true" />
-                <Setter Property="Margin"
-                        Value="0,5,0,5" />
                 <Setter Property="Background"
                         Value="{DynamicResource Tertiary}" />
                 <Setter Property="IsTabStop"
@@ -663,7 +661,7 @@
                     <Trigger Property="Orientation"
                              Value="Vertical">
                         <Setter Property="Margin"
-                                Value="0,-17,0,-17" />
+                                Value="0,-17,0,0" />
                         <Setter Property="Background"
                                 Value="{DynamicResource Primary}" />
                         <Setter Property="BorderBrush"
