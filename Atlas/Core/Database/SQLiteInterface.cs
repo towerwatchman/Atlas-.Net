@@ -580,13 +580,15 @@ f95_zone_data.site_url as site_url,
 f95_zone_data.views as views,
 f95_zone_data.likes as likes,
 f95_zone_data.tags as tags,
-f95_zone_data.rating as rating
+f95_zone_data.rating as rating,
+atlas_data.status
 
 FROM
 games
 LEFT JOIN atlas_mappings on games.record_id = atlas_mappings.record_id
 LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
-LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
+LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id
+LEFT JOIN atlas_data on atlas_mappings.atlas_id = atlas_data.atlas_id";
 
             await using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
             {
@@ -611,6 +613,7 @@ LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id";
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
                                 Views = reader["views"].ToString(),
+                                Status = reader["status"].ToString(),
                                 Likes = reader["likes"].ToString(),
                                 Tags = reader["tags"].ToString(),
                                 BannerPath = reader["image_path"].ToString(),
@@ -655,13 +658,15 @@ f95_zone_data.site_url as site_url,
 f95_zone_data.views as views,
 f95_zone_data.likes as likes,
 f95_zone_data.tags as tags,
-f95_zone_data.rating as rating
+f95_zone_data.rating as rating,
+atlas_data.status
 
 FROM
 games
 LEFT JOIN atlas_mappings on games.record_id = atlas_mappings.record_id
 LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
 LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id
+LEFT JOIN atlas_data on atlas_mappings.atlas_id = atlas_data.atlas_id
 WHERE games.record_id = {atlasID}";
 
             await using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
@@ -687,6 +692,7 @@ WHERE games.record_id = {atlasID}";
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
                                 Views = reader["views"].ToString(),
+                                Status = reader["status"].ToString(),
                                 Likes = reader["likes"].ToString(),
                                 Tags = reader["tags"].ToString(),
                                 BannerPath = reader["image_path"].ToString(),

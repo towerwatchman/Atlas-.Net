@@ -116,7 +116,7 @@
                  Padding="2"
                  Background="Transparent"
                  FontSize="12"
-                 BorderThickness="0" />
+                 BorderThickness="0" />-->
         <TextBox VerticalAlignment="Bottom"
                  HorizontalAlignment="Right"
                  Text="{Binding Status}"
@@ -125,6 +125,6 @@
                  Padding="2"
                  Background="Transparent"
                  FontSize="12"
-                 BorderThickness="0" />-->
+                 BorderThickness="0" />
     </Grid>
 </UserControl>
