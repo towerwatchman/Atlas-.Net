@@ -2,30 +2,76 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--
     This theme file will change all colors in the app.
-    Canvas: This is the background color of the app. In mose cases this is the shadows or pop between areas
-    Primary: Header, Footer, Nav Bar
-    Secondary: Buttons, ListBox
-    Tertiary: All Grids, Panels, ListViews
-    Accent:Nav Buttons Hover, Top Left logo backgrond, All hover effects
+    Canvas: This is the background color of the app. 
+    Primary: Header, Title Bar, Footer, Nav Bar
+    Secondary: All window backgrounds / List Box / SearchBox
+    Tertiary: Background for all UI elements
+    
+    AltasLogo_Foreground: Logo color
+    AltasLogo_Background" Logo Background
+    
+    
+    Shadow: This is the shadow for any object that has one
+    WindowAccent:Border around windows. Any location on a window that is used as a spacer or divider
     AccentBar: Bar at top of program. This is the only thing it will change
-    AtlasLogo: Logo Color
-    Border: Any border used in the program
-    Selected: button selected
-    Text: All text in program. Does not include banners.
-    Highlight: Text Hover Effect color
+    AccentBarL: Right triangle of accent bar
+    AccentBarR: Left triangle of accent bar
+    ScrollBar: Scroll bar color
+    Panel: Background for all game list views. BannerView etc..,
+
+    Element_Normal: Normal color for all interactable UI elements. Buttons, Checkbox, combobox etc..,
+    Element_Selected: Same as above but when they are either hovered over or selected.
+    Border: Any border used in the program (Except the Main Windows)
+    Border_Hover: When any element is hovered over it will change the border if it has one
+    Text: All text in program. Does not include banners. This will be changed at a later date
     -->
-    <SolidColorBrush x:Key="Canvas" Color="#000000"/>
-    <SolidColorBrush x:Key="Primary" Color="#202020"/>
-    <SolidColorBrush x:Key="Secondary" Color="#e5a00d"/>
-    <LinearGradientBrush x:Key="Tertiary">
-        <GradientStop Color="#282a2d" Offset="0"/>
-        <GradientStop Color="#000000" Offset="3"/>
-    </LinearGradientBrush>
-    <SolidColorBrush x:Key="Accent" Color="#e5a00d"/>
-    <SolidColorBrush x:Key="AccentBar" Color="#282a2d"/>
-    <SolidColorBrush x:Key="AtlasLogo" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="Border" Color="#000000"/>
-    <SolidColorBrush x:Key="Selected" Color="#be0101"/>
-    <SolidColorBrush x:Key="Text" Color="#d2d2d2"/>
-    <SolidColorBrush x:Key="Highlight" Color="#FFFFFF"/>
+    <!-- PRIMARY COLORS -->
+    <SolidColorBrush x:Key="Canvas"
+                     Color="#000000" />
+    <SolidColorBrush x:Key="Primary"
+                     Color="#202020" />
+    <SolidColorBrush x:Key="Secondary"
+                     Color="#282a2d" />
+    <SolidColorBrush x:Key="Tertiary"
+                     Color="#313338" />
+    <!-- LOGO -->
+    <SolidColorBrush x:Key="AltasLogo_Foreground"
+                     Color="#FFFFFF" />
+    <SolidColorBrush x:Key="AltasLogo_Background"
+                     Color="#e5a00d" />
+    <!-- UI MODS -->
+    <SolidColorBrush x:Key="Shadow"
+                     Color="#000000" />
+    <SolidColorBrush x:Key="WindowAccent"
+                     Color="#e5a00d" />
+    <SolidColorBrush x:Key="AccentBar"
+                     Color="#e5a00d" />
+    <SolidColorBrush x:Key="AccentBarL"
+                     Color="#e5a00d" />
+    <SolidColorBrush x:Key="AccentBarR"
+                     Color="#e5a00d" />
+    <SolidColorBrush x:Key="ScrollBar"
+                     Color="#e5a00d" />
+    <SolidColorBrush x:Key="Panel"
+                     Color="#101010" />
+    <!-- ELEMENT COLORS -->
+    <SolidColorBrush x:Key="Element_Normal"
+                     Color="#404249" />
+    <SolidColorBrush x:Key="Element_Selected"
+                     Color="#e5a00d" />
+
+    <SolidColorBrush x:Key="Border"
+                     Color="#51535A" />
+    <SolidColorBrush x:Key="Border_Hover"
+                     Color="#e5a00d" />
+    <SolidColorBrush x:Key="Text"
+                     Color="#d2d2d2" />
+    <SolidColorBrush x:Key="Button_Hover"
+                     Color="#51535A" />
+    <!-- USED FOR CONTEXT MENU -->
+    <SolidColorBrush x:Key="Text_Hover"
+                     Color="#d2d2d2" />
+
+
+
 </ResourceDictionary>

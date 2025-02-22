@@ -14,10 +14,6 @@
     Shadow: This is the shadow for any object that has one
     WindowAccent:Border around windows. Any location on a window that is used as a spacer or divider
     AccentBar: Bar at top of program. This is the only thing it will change
-    AccentBarL: Right triangle of accent bar
-    AccentBarR: Left triangle of accent bar
-    ScrollBar: Scroll bar color
-    Panel: Background for all game list views. BannerView etc..,
 
     Element_Normal: Normal color for all interactable UI elements. Buttons, Checkbox, combobox etc..,
     Element_Selected: Same as above but when they are either hovered over or selected.
@@ -29,49 +25,49 @@
     <SolidColorBrush x:Key="Canvas"
                      Color="#000000" />
     <SolidColorBrush x:Key="Primary"
-                     Color="#000000" />
+                     Color="#151715" />
     <SolidColorBrush x:Key="Secondary"
-                     Color="#101010" />
+                     Color="#202220" />
     <SolidColorBrush x:Key="Tertiary"
-                     Color="#050505" />
+                     Color="#101010" />
     <!-- LOGO -->
     <SolidColorBrush x:Key="AltasLogo_Foreground"
-                     Color="#FFFFFF" />
+                     Color="#EEEEEE" />
     <SolidColorBrush x:Key="AltasLogo_Background"
-                     Color="#560202" />
-    <!-- UI MODS -->
-    <SolidColorBrush x:Key="Shadow"
-                     Color="#000000" />
-    <SolidColorBrush x:Key="WindowAccent"
-                     Color="#560202" />
-    <SolidColorBrush x:Key="AccentBar"
-                     Color="#050505" />
-    <SolidColorBrush x:Key="AccentBarL"
-                     Color="#050505" />
-    <SolidColorBrush x:Key="AccentBarR"
-                     Color="#050505" />
-    <SolidColorBrush x:Key="ScrollBar"
-                     Color="#050505" />
-    <SolidColorBrush x:Key="Panel"
-                     Color="#050505" />
+                     Color="DarkOliveGreen" /> 
+	<!-- UI MODS -->
+	<SolidColorBrush x:Key="Shadow"
+					Color="#000000" />
+	<SolidColorBrush x:Key="WindowAccent"
+					Color="DarkOliveGreen" />
+	<SolidColorBrush x:Key="AccentBar"
+					Color="DarkOliveGreen" />
+	<SolidColorBrush x:Key="AccentBarL"
+					Color="DarkOliveGreen" />
+	<SolidColorBrush x:Key="AccentBarR"
+					Color="DarkOliveGreen" />
+	<SolidColorBrush x:Key="ScrollBar"
+					Color="OliveDrab" />
+	<SolidColorBrush x:Key="Panel"
+					Color="#101210" />
     <!-- ELEMENT COLORS -->
     <SolidColorBrush x:Key="Element_Normal"
-                     Color="#560202" />
+                     Color="DarkOliveGreen" />
     <SolidColorBrush x:Key="Element_Selected"
-                     Color="#be0101" />
+                     Color="OliveDrab" />
 
     <SolidColorBrush x:Key="Border"
-                     Color="#000000" />
+                     Color="DarkOliveGreen" />
     <SolidColorBrush x:Key="Border_Hover"
-                     Color="#560202" />
+                     Color="OliveDrab" />
     <SolidColorBrush x:Key="Text"
-                     Color="#FFFFFF" />
+                     Color="#EEEEEE" />
     <SolidColorBrush x:Key="Button_Hover"
                      Color="#51535A" />
     <!-- USED FOR CONTEXT MENU -->
     <SolidColorBrush x:Key="Text_Hover"
                      Color="#d2d2d2" />
-
-
-
+					 
+					 
+					 
 </ResourceDictionary>
