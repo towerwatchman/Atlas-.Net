@@ -30,11 +30,26 @@
                                Foreground="{DynamicResource Text}"
                                VerticalAlignment="Top"
                                HorizontalAlignment="Right"></TextBlock>
-                    <ProgressBar x:Name="nfProgressBar" Height="15"
-                                 VerticalAlignment="Top"
-                                 Value="{Binding ProgressBarValue}"
-                                 Maximum="{Binding ProgressBarMaximum}"></ProgressBar>
-                    <TextBlock x:Name="tbUpdate" HorizontalAlignment="Left" Foreground="{DynamicResource Text}" Text="{Binding Status}"></TextBlock>
+                    <Grid>
+                        <ProgressBar x:Name="nfProgressBar"
+                                     Height="15"
+                                     VerticalAlignment="Top"
+                                     Value="{Binding ProgressBarValue}"
+                                     Maximum="{Binding ProgressBarMaximum}"></ProgressBar>
+                        <TextBlock Text="{Binding ProgressBarValue%}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource Text}" />
+                    </Grid>
+                           
+                    <TextBlock Margin="10,0,0,0"
+                               HorizontalAlignment="Left"
+                               Foreground="{DynamicResource Text}"
+                               Text="{Binding StatusUpdate}"></TextBlock>
+                    <TextBlock Margin="10,0,0,0"
+                               HorizontalAlignment="Left"
+                               Foreground="{DynamicResource Text}"
+                               Text="{Binding Status}"></TextBlock>
                     <ProgressBar Height="15"
                                  VerticalAlignment="Top"
                                  Value="{Binding FileProgressBarValue}"
