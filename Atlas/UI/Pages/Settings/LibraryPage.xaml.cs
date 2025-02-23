@@ -22,7 +22,7 @@ namespace Atlas.UI.Pages.Settings
             var result = dialog.ShowDialog();
 
             var folder = dialog.FolderName;
-            if (folder != null)
+            if (folder != null && folder.ToString() != "")
             {
                 tb_GameFolder.Text = folder;
             }

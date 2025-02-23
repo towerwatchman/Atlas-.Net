@@ -15,23 +15,27 @@
                        Width="Auto"
                        VerticalAlignment="Top"
                        HorizontalAlignment="Stretch"
-                       LastChildFill="True"
-                       Margin="0,0,0,10">
+                       LastChildFill="True">
                 <Label DockPanel.Dock="Left"
                        Content="Root Path:"
-                       HorizontalAlignment="Left" />
-               
+                       HorizontalAlignment="Left" />               
                 <TextBox x:Name="tb_AtlasRoot"
                          DockPanel.Dock="Left"
                          Width="Auto"
-                         HorizontalAlignment="Stretch" />
+                         HorizontalAlignment="Stretch" IsEnabled="False" Opacity=".75"/>
             </DockPanel>
+            <Label Content="Atlas local path. This is dynamic and will change if you move the program."
+                   FontSize="10"
+                   Opacity=".50" />
+            <Separator Margin="5,2,5,0"
+                       Background="{DynamicResource Text}"
+                       Height="1"
+                       Opacity=".25" />
             <DockPanel Height="30"
                        Width="Auto"
                        VerticalAlignment="Top"
                        HorizontalAlignment="Stretch"
-                       LastChildFill="True"
-                       Margin="0,0,0,10">
+                       LastChildFill="True" Margin="0,10,0,0">
                 <Label DockPanel.Dock="Left"
                        Content="Game Folder:"
                        HorizontalAlignment="Left" />
@@ -46,8 +50,13 @@
                          HorizontalAlignment="Stretch"
                          TextChanged="tb_GameFolder_TextChanged" />
             </DockPanel>
-           
-            
+            <Label Content="All extracted or moved games will go here"
+                   FontSize="10"
+                   Opacity=".50" />
+            <Separator Margin="5,2,5,0"
+                       Background="{DynamicResource Text}"
+                       Height="1"
+                       Opacity=".25" />
         </StackPanel>
     </Grid>
 </Page>
