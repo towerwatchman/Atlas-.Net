@@ -8,7 +8,8 @@
              MinWidth="600"
              MinHeight="100">
     <Grid>
-        <DockPanel LastChildFill="True">
+        <DockPanel LastChildFill="True"
+                   Background="{DynamicResource Tertiary}">
             <Grid Width="250"
                   DockPanel.Dock="Left"
                   Margin="10">

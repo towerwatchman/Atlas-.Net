@@ -84,7 +84,7 @@ namespace Atlas.Core.Utilities
                                                     index++;
                                                     //InterfaceHelper.GameImportPB.Value = index;
                                                     //InterfaceHelper.GameImportPBStatus.Content = $"Extracting File: {Path.GetFileName(path)}";
-                                                    Notifications.UpdateNotification(notificationId, entries, index, $"Extracting File: {Path.GetFileName(path)})");
+                                                    Notifications.UpdateNotification(notificationId, entries, index, $"Extracting File: {Path.GetFileName(path)}");
                                                     Notifications.UpdateFileNotification(notificationId, 1,0);
                                                     Logger.Info($"{index}/{entries} - Extracting File: {Path.GetFileName(path)}");
                                                 }));
@@ -94,8 +94,8 @@ namespace Atlas.Core.Utilities
                                             if(file.Length > 0)
                                             {
                                                 double pct = (filesize / (ulong)file.Length)*100;
-                                                Notifications.UpdateFileNotification(notificationId, (int)pct, 100);
-
+                                                Notifications.UpdateFileNotification(notificationId, (int)Math.Round(pct,0), 100);
+                                                System.Threading.Thread.Sleep(150);
                                                 //Notifications.UpdateNotification(notificationId, entries, index, file.Length.ToString());
                                                 //Logger.Warn($"{(ulong)file.Length}/{filesize}");
                                             }
@@ -108,6 +108,8 @@ namespace Atlas.Core.Utilities
                                         {
                                             InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                                             {
+                                                Notifications.UpdateNotification(notificationId, entries, index, $"Extracting File: {Path.GetFileName(path)})");
+                                                Notifications.UpdateFileNotification(notificationId, 1, 0);
                                                 index++;
                                                 //InterfaceHelper.GameImportPB.Value = index;
                                                 //InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
@@ -133,8 +135,8 @@ namespace Atlas.Core.Utilities
                     //If we made it here then we are complete. 
                     InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                     {
-                        InterfaceHelper.GameImportPB.Value = entries;
-                        InterfaceHelper.GameImportPBStatus.Content = $"File: {entries}\\{entries}";
+                        //InterfaceHelper.GameImportPB.Value = entries;
+                        //InterfaceHelper.GameImportPBStatus.Content = $"File: {entries}\\{entries}";
                     }));
                     //Extraction is complete
                     isComplete = true;
