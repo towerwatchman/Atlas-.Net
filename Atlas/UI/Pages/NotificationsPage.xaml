@@ -14,7 +14,7 @@
 
     <Grid>
         <DockPanel LastChildFill="True">
-            <Grid DockPanel.Dock="Top" Background="Blue" Height="200">
+            <Grid DockPanel.Dock="Top" Background="{DynamicResource Tertiary}" Height="200">
                 
             </Grid>
             <ListView MaxHeight="10000"

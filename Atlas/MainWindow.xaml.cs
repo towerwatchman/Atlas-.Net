@@ -24,6 +24,7 @@ namespace Atlas
     public partial class MainWindow : Window
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public ObservableCollection<NotificationViewModel> NotificationCollection = new ObservableCollection<NotificationViewModel>();
         private bool isBatchImporterOpen = false;
         private bool isRefreshRunning = false;
 
@@ -77,6 +78,16 @@ namespace Atlas
 
             //Set First time setup as complete
             Atlas.Core.Settings.Config.FTS = true;
+
+            ModelData.NotificationCollection = NotificationCollection;
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                notificationsPage.NotificationsList.Items.Clear();
+                notificationsPage.NotificationsList.ItemsSource = null;
+                notificationsPage.NotificationsList.ItemsSource = ModelData.NotificationCollection;
+                notificationsPage.NotificationsList.Items.Refresh();
+
+            }));
         }
 
         private void BannerView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -472,7 +483,7 @@ namespace Atlas
 
             await Task.Run(async () =>
             {
-                ObservableCollection<NotificationViewModel> NotificationCollection = new ObservableCollection<NotificationViewModel>();
+
                 foreach (var GameDetail in F95Scanner.GameDetailList)
                 {
 
@@ -482,11 +493,12 @@ namespace Atlas
                     notification.Version = GameDetail.Version;
                     notification.ProgressBarValue = 40;
                     notification.Status = "Running Update";
+                    notification.Id = Notifications.currentId != 0 ? Notifications.currentId++ : 1;
 
-                    //NotificationCollection.Add(new NotificationViewModel(notification));
                     // Logger.Info(GameDetail.Title);
                     Application.Current.Dispatcher.Invoke(() =>
                     {
+                        NotificationCollection.Add(new NotificationViewModel(notification));
                         GameImportTextBox.Content = $"Adding Game: {GameDetail.Title} | Version: {GameDetail.Version}";
                     });
                     //In some instances the database data will have spaces at the end. We need to remove those. 
@@ -518,7 +530,7 @@ namespace Atlas
 
                             output += $"\\{creator}\\{title}\\{version}";
                             if (!Directory.Exists(output)) { Directory.CreateDirectory(output); }
-                            bool extStatus = Compression.ExtractFile(input, output, GameDetail.Title);
+                            bool extStatus = Compression.ExtractFile(input, output, GameDetail.Title, notification.Id);
 
                             if (extStatus == false)
                             {
@@ -638,15 +650,6 @@ namespace Atlas
                    });
 
                 }
-                ModelData.NotificationCollection = NotificationCollection;
-                Application.Current.Dispatcher.Invoke((Action)(() =>
-                {
-                    notificationsPage.NotificationsList.Items.Clear();
-                    notificationsPage.NotificationsList.ItemsSource = null;
-                    notificationsPage.NotificationsList.ItemsSource = ModelData.NotificationCollection;
-                    notificationsPage.NotificationsList.Items.Refresh();
-
-                }));
             });
 
             GameImportBox.Visibility = Visibility.Hidden;
@@ -778,7 +781,7 @@ namespace Atlas
         }
         private void OpenNotifications_Click(object sender, RoutedEventArgs e)
         {
-            //atlas_frame.Content = notificationsPage;
+            atlas_frame.Content = notificationsPage;
         }
 
         private void Window_StateChanged(object sender, EventArgs e)

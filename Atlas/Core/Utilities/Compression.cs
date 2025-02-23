@@ -1,4 +1,5 @@
 ﻿using Atlas.UI;
+using Atlas.UI.ViewModel;
 using K4os.Compression.LZ4.Streams;
 using NLog;
 using SevenZipExtractor;
@@ -30,7 +31,7 @@ namespace Atlas.Core.Utilities
             return data;
         }
 
-        public static bool ExtractFile(string input, string output, string gameName)
+        public static bool ExtractFile(string input, string output, string gameName, int notificationId)
         {
             if (!Directory.Exists(output)) Directory.CreateDirectory(output);
 
@@ -44,7 +45,9 @@ namespace Atlas.Core.Utilities
                 using (ArchiveFile archiveFile = new ArchiveFile(input))
                 {
                     int entries = archiveFile.Entries.Count;
-                    InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
+
+
+                    /*InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                     {
                         //InterfaceHelper.up
                         InterfaceHelper.GameImportBox.Visibility = System.Windows.Visibility.Visible;
@@ -52,10 +55,10 @@ namespace Atlas.Core.Utilities
                         InterfaceHelper.GameImportPB.Value = 0;
                         InterfaceHelper.GameImportPB.Maximum = entries;
                         //InterfaceHelper.GameImportPBStatus.Content = $"File: 0\\{entries}";
-                    }));
+                    }));*/
 
                     index = 0;
-
+                    Notifications.UpdateNotification(notificationId, entries, 0, "Starting Extraction");
                     archiveFile.Extract(entry =>
                     {
                         if (entry.FileName != null)
@@ -64,6 +67,7 @@ namespace Atlas.Core.Utilities
                             Task.Run(() =>
                             {
                                 string path =  Path.Combine(output, entry.FileName);
+                                ulong filesize = entry.Size;
 
                                 while (true)
                                 {
@@ -73,17 +77,29 @@ namespace Atlas.Core.Utilities
                                         if (File.Exists(path))
                                         {
                                             FileInfo file = new FileInfo(path);
-                                            if (file.Length > 0)
+                                            if ((ulong)file.Length == filesize)
                                             {
                                                 InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                                                 {
                                                     index++;
-                                                    InterfaceHelper.GameImportPB.Value = index;
-                                                    InterfaceHelper.GameImportPBStatus.Content = $"Extracting File: {Path.GetFileName(path)}";
+                                                    //InterfaceHelper.GameImportPB.Value = index;
+                                                    //InterfaceHelper.GameImportPBStatus.Content = $"Extracting File: {Path.GetFileName(path)}";
+                                                    Notifications.UpdateNotification(notificationId, entries, index, $"Extracting File: {Path.GetFileName(path)})");
+                                                    Notifications.UpdateFileNotification(notificationId, 1,0);
+                                                    Logger.Info($"{index}/{entries} - Extracting File: {Path.GetFileName(path)}");
                                                 }));
                                                 break;
                                             }
-                                           
+                                            
+                                            if(file.Length > 0)
+                                            {
+                                                double pct = (filesize / (ulong)file.Length)*100;
+                                                Notifications.UpdateFileNotification(notificationId, (int)pct, 100);
+
+                                                //Notifications.UpdateNotification(notificationId, entries, index, file.Length.ToString());
+                                                //Logger.Warn($"{(ulong)file.Length}/{filesize}");
+                                            }
+
                                         }
                                     }
                                     else
@@ -93,7 +109,7 @@ namespace Atlas.Core.Utilities
                                             InterfaceHelper.LauncherWindow.Dispatcher.Invoke((Action)(() =>
                                             {
                                                 index++;
-                                                InterfaceHelper.GameImportPB.Value = index;
+                                                //InterfaceHelper.GameImportPB.Value = index;
                                                 //InterfaceHelper.GameImportPBStatus.Content = $"File: {index}\\{entries}";
                                             }));
                                             break;

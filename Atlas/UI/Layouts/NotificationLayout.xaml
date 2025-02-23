@@ -30,8 +30,14 @@
                                VerticalAlignment="Top"
                                HorizontalAlignment="Right"></TextBlock>
                     <ProgressBar x:Name="nfProgressBar" Height="15"
-                                 VerticalAlignment="Top"></ProgressBar>
-                    <TextBlock x:Name="tbUpdate" Text="N/A" HorizontalAlignment="Left" Foreground="{DynamicResource Text}"></TextBlock>
+                                 VerticalAlignment="Top"
+                                 Value="{Binding ProgressBarValue}"
+                                 Maximum="{Binding ProgressBarMaximum}"></ProgressBar>
+                    <TextBlock x:Name="tbUpdate" HorizontalAlignment="Left" Foreground="{DynamicResource Text}" Text="{Binding Status}"></TextBlock>
+                    <ProgressBar Height="15"
+                                 VerticalAlignment="Top"
+                                 Value="{Binding FileProgressBarValue}"
+                                 Maximum="{Binding FileProgressBarMaximum}"></ProgressBar>
                 </StackPanel>
             </Grid>
         </DockPanel>
