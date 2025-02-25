@@ -236,6 +236,49 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+            <Style x:Key="VersionButton"
+                   TargetType="{x:Type Button}">
+                <Setter Property="Background"
+                        Value="Transparent" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource Text}" />
+                <Setter Property="Height"
+                        Value="20" />
+                <Setter Property="Width"
+                        Value="180" />
+                <Setter Property="Margin"
+                        Value="4,0,4,0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderThickness="0"
+                                        CornerRadius="0">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver"
+                             Value="True">
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource Tertiary}" />
+                        <Setter Property="Background"
+                                Value="{DynamicResource Text}" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled"
+                             Value="False">
+                        <Setter Property="Opacity"
+                                Value="1" />
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource Element_Normal}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
             <!--#endregion-->
             <!-- #region Min Max and Exit Buttons -->
             <Style x:Key="MinMaxStyle"

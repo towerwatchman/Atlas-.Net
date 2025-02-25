@@ -3,6 +3,7 @@ using Atlas.Core.Utilities;
 using Atlas.UI.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using XamlAnimatedGif;
@@ -51,12 +52,20 @@ namespace Atlas.UI.Pages
                 //banner_left.Source = ImageData;
                 //banner_right.Source = ImageData;
                 //banner_background.Source = ImageData;
-                CurrentVersion.Content = $"{CurrentGame.Versions[0].Version}";
+
+                //CHeck if there is a current selected version, if not then we will need to change it
+                if (CurrentGame.CurrentSelectedVersion != null)
+                {
+                    CurrentVersion.Content = $"{CurrentGame.CurrentSelectedVersion}";
+                }
+                else
+                {
+                    CurrentVersion.Content = $"{CurrentGame.Versions[0].Version}";
+                }
                 if (CurrentGame.Versions.Count > 1)
                 {
                     ShowVersions.Visibility = Visibility.Visible;
                 }
-
             }
         }
 
@@ -78,10 +87,9 @@ namespace Atlas.UI.Pages
                     {
                         Button button = new Button();
                         button.Content = version.Version;
-                        button.Width = 180;                        
-                        button.Height = 20;
                         button.HorizontalContentAlignment = HorizontalAlignment.Center;
-                        button.Style = new Style();
+                        button.Style = FindResource("VersionButton") as Style;
+                        button.Click += VersionChange_Click;
                         Grid.SetColumn(button, index);
                         Grid.SetRow(button, index);
                         VersionsList.Children.Add(button);
@@ -95,6 +103,27 @@ namespace Atlas.UI.Pages
                 }
                 //bvp.miPlay.ItemsSource = menuitems;
             }
+        }
+
+        private void VersionChange_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            CurrentVersion.Content = button.Content.ToString();
+
+            //We need to update the game in model data so it will stick
+            if (CurrentGame != null)
+            {
+                GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == CurrentGame.RecordID).FirstOrDefault();
+                var index = ModelData.GameCollection.IndexOf(gameObj);
+
+                if (gameObj != null)
+                {
+                    //Assign data to model
+                    ModelData.GameCollection[index].CurrentSelectedVersion = button.Content.ToString();
+                    //Update database
+                }
+            }
+                            
         }
 
         private void ShowVersions_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)

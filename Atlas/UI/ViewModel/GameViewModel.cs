@@ -31,6 +31,7 @@ namespace Atlas.UI.ViewModel
             Screens = game.Screens;
             Tags = game.Tags;
             Collection = game.Collection;
+            CurrentSelectedVersion = game.CurrentSelectedVersion;
 
         }
         public int RecordID { get; private set; }
@@ -54,6 +55,7 @@ namespace Atlas.UI.ViewModel
         public string[] Screens { get; private set; }
         public string Tags { get; private set; }
         public string Collection { get; private set; }
+        public string CurrentSelectedVersion { get; set; }
 
         public BitmapSource BannerImage
         {
