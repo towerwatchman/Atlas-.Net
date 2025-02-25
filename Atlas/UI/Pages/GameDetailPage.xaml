@@ -178,7 +178,7 @@
                                     VerticalAlignment="Top"
                                     BorderBrush="Transparent"
                                     BorderThickness="0"
-                                    Width="140"
+                                    Width="150"
                                     Height="38">
                                 <Button.Background>
                                     <LinearGradientBrush EndPoint="0.5,.5"
@@ -208,7 +208,7 @@
                                 </Grid>
                      
                             </Button>
-                            <Grid x:Name="VersionsList" MaxHeight="500" MaxWidth="250" Margin="-170,38,0,0" Background="{DynamicResource Tertiary}"
+                            <Grid x:Name="VersionsList" MaxHeight="500" Width="180" Margin="-180,38,0,0" Background="{DynamicResource Tertiary}"
                                   MouseEnter="VersionsList_MouseEnter"
                                   MouseLeave="VersionsList_MouseLeave">
                                 <StackPanel Orientation="Vertical">

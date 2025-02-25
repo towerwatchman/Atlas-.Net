@@ -3,6 +3,7 @@ using Atlas.Core.Utilities;
 using Atlas.UI.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using XamlAnimatedGif;
 
@@ -77,8 +78,10 @@ namespace Atlas.UI.Pages
                     {
                         Button button = new Button();
                         button.Content = version.Version;
-                        button.Width = 250;                        
+                        button.Width = 180;                        
                         button.Height = 20;
+                        button.HorizontalContentAlignment = HorizontalAlignment.Center;
+                        button.BorderBrush = Brushes.Transparent;
                         button.BorderThickness = new Thickness(0);
                         Grid.SetColumn(button, index);
                         Grid.SetRow(button, index);
