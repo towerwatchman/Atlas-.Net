@@ -662,7 +662,7 @@ namespace Atlas
                 AtlasSearchBox.Text = string.Empty;
             }
             //SearchBarBorder.BorderThickness = new Thickness(1);
-            SearchBarBorder.SetResourceReference(Control.BorderBrushProperty, "Accent");
+            SearchBarBorder.SetResourceReference(Control.BorderBrushProperty, "WindowAccent");
         }
 
         private void AtlasSearchBox_MouseLeave(object sender, MouseEventArgs e)

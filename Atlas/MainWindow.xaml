@@ -240,11 +240,18 @@
                                         Height="40"
                                         MinWidth="400"
                                         Orientation="Horizontal">
-                                <Image Source="{DynamicResource search_icon}"
-                                       Stretch="Uniform"
-                                       Height="15"
-                                       Width="15"
-                                       Margin="10,0,0,0" />
+                                <Path Data="{DynamicResource search_icon}"
+                                      Fill="{DynamicResource Text}"
+                                      RenderTransformOrigin=".5,.5"                                      
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Stretch="Uniform"
+                                      Margin="10,0,0,0">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX=".50"
+                                                        ScaleY=".50" />
+                                    </Path.RenderTransform>
+                                </Path>
                                 <!-- Search Text-->
                                 <TextBox x:Name="AtlasSearchBox"
                                          Grid.Column="1"

@@ -58,7 +58,7 @@
         <!--#region Current Version Selected -->
         <StackPanel Orientation="Horizontal"
                     Panel.ZIndex="6">
-            <Border  BorderBrush="{DynamicResource AccentBar}"
+            <Border  BorderBrush="{DynamicResource WindowAccent}"
                      BorderThickness="0,0,0,1"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top">
@@ -83,7 +83,7 @@
                                Padding="0"
                                VerticalAlignment="Center"
                                FontWeight="Bold"
-                               Foreground="{DynamicResource AccentBar}" />
+                               Foreground="{DynamicResource WindowAccent}" />
                         <Label x:Name="GameTitle"
                                Content="None"
                                HorizontalAlignment="Left"
@@ -99,7 +99,7 @@
                                Padding="0"
                                VerticalAlignment="Center"
                                FontWeight="Bold"
-                               Foreground="{DynamicResource AccentBar}" />
+                               Foreground="{DynamicResource WindowAccent}" />
                         <!-- Add padding to last element so its not touching object-->
                         <Label x:Name="CurrentVersion"
                                Content="None"
@@ -114,7 +114,7 @@
             </Border>
             <!-- Right Corner-->
             <Grid Margin="-1,0,0,0">
-                <Polygon Fill="{DynamicResource AccentBar}"
+                <Polygon Fill="{DynamicResource WindowAccent}"
                          Stretch="Uniform"
                          Height="25"
                          VerticalAlignment="Top"
