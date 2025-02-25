@@ -574,6 +574,7 @@ atlas_mappings.atlas_id as atlas_id,
 games.title as title,
 games.creator as creator,
 games.engine as engine,
+games.last_played_version,
 banners.path as image_path,
 f95_zone_data.f95_id as f95_id,
 f95_zone_data.site_url as site_url,
@@ -581,7 +582,17 @@ f95_zone_data.views as views,
 f95_zone_data.likes as likes,
 f95_zone_data.tags as tags,
 f95_zone_data.rating as rating,
-atlas_data.status
+atlas_data.status,
+atlas_data.version,
+atlas_data.category,
+atlas_data.censored,
+atlas_data.genre,
+atlas_data.language,
+atlas_data.os,
+atlas_data.overview,
+atlas_data.translations,
+atlas_data.release_date,
+atlas_data.voice
 
 FROM
 games
@@ -612,16 +623,27 @@ LEFT JOIN atlas_data on atlas_mappings.atlas_id = atlas_data.atlas_id";
                                 Title = reader["title"].ToString(),
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
+                                CurrentSelectedVersion = reader["last_played_version"].ToString(),
+                                SiteUrl = reader["site_url"].ToString(),
                                 Views = reader["views"].ToString(),
                                 Status = reader["status"].ToString(),
                                 Likes = reader["likes"].ToString(),
                                 Tags = reader["tags"].ToString(),
+                                Rating = reader["rating"].ToString(),
+                                LatestVersion = reader["version"].ToString(),
+                                Category = reader["category"].ToString(),
+                                Censored = reader["censored"].ToString(),
+                                Genre = reader["genre"].ToString(),
+                                Language = reader["language"].ToString(),
+                                OS = reader["os"].ToString(),
+                                Overview = reader["overview"].ToString(),
+                                ReleaseDate = reader["release_Date"].ToString(),
                                 BannerPath = reader["image_path"].ToString(),
                                 //Versions = null,
                                 Versions = GetVersions(reader["record_id"].ToString()),
                                 ImageUriAnimated = Path.GetExtension(reader["image_path"].ToString()) == ".gif" ?
-                                    new Uri(reader["image_path"].ToString()) :
-                                    null/*,
+                                     new Uri(reader["image_path"].ToString()) :
+                                     null/*,
                                 ImageData = image.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)*/
                             };
 
@@ -652,6 +674,7 @@ atlas_mappings.atlas_id as atlas_id,
 games.title as title,
 games.creator as creator,
 games.engine as engine,
+games.last_played_version,
 banners.path as image_path,
 f95_zone_data.f95_id as f95_id,
 f95_zone_data.site_url as site_url,
@@ -659,7 +682,17 @@ f95_zone_data.views as views,
 f95_zone_data.likes as likes,
 f95_zone_data.tags as tags,
 f95_zone_data.rating as rating,
-atlas_data.status
+atlas_data.status,
+atlas_data.version,
+atlas_data.category,
+atlas_data.censored,
+atlas_data.genre,
+atlas_data.language,
+atlas_data.os,
+atlas_data.overview,
+atlas_data.translations,
+atlas_data.release_date,
+atlas_data.voice
 
 FROM
 games
@@ -691,10 +724,21 @@ WHERE games.record_id = {atlasID}";
                                 Title = reader["title"].ToString(),
                                 Creator = reader["creator"].ToString(),
                                 Engine = reader["engine"].ToString(),
+                                CurrentSelectedVersion = reader["last_played_version"].ToString(),
+                                SiteUrl = reader["site_url"].ToString(),
                                 Views = reader["views"].ToString(),
                                 Status = reader["status"].ToString(),
                                 Likes = reader["likes"].ToString(),
                                 Tags = reader["tags"].ToString(),
+                                Rating = reader["rating"].ToString(),
+                                LatestVersion = reader["version"].ToString(),
+                                Category = reader["category"].ToString(),
+                                Censored = reader["censored"].ToString(),
+                                Genre = reader["genre"].ToString(),
+                                Language = reader["language"].ToString(),
+                                OS = reader["os"].ToString(),
+                                Overview = reader["overview"].ToString(),
+                                ReleaseDate = reader["release_Date"].ToString(),
                                 BannerPath = reader["image_path"].ToString(),
                                 //Versions = null,
                                 Versions = GetVersions(reader["record_id"].ToString()),
@@ -855,6 +899,12 @@ WHERE games.record_id = {atlasID}";
         public static void UpdateBanners(int recordID, string banner_path, string type)
         {
             string query = $"INSERT OR REPLACE INTO banners (record_id, path, type) VALUES('{recordID}','{banner_path}','{type}')";
+            InsertOrUpdate(query, 1);
+        }
+
+        public static void UpdateLastPlayedGame(int recordID, string creator, string title, string version)
+        {
+            string query = $"INSERT OR REPLACE INTO games (record_id, title, creator, last_played_version) VALUES('{recordID}','{title}','{creator}','{version}')";
             InsertOrUpdate(query, 1);
         }
 

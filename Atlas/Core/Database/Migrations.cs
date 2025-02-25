@@ -53,6 +53,7 @@ namespace Atlas.Core.Database
                 last_played_r   DATE    DEFAULT 0,
                 total_playtime  INTEGER DEFAULT 0,
                 description     TEXT,
+				last_played_version TEXT,
                 UNIQUE (title, creator, engine)
             );",
             @"CREATE TABLE IF NOT EXISTS versions

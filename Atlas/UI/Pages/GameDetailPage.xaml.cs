@@ -7,6 +7,7 @@ using System.Windows.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using XamlAnimatedGif;
+using Atlas.Core.Database;
 
 namespace Atlas.UI.Pages
 {
@@ -120,10 +121,11 @@ namespace Atlas.UI.Pages
                 {
                     //Assign data to model
                     ModelData.GameCollection[index].CurrentSelectedVersion = button.Content.ToString();
+                    SQLiteInterface.UpdateLastPlayedGame(gameObj.RecordID, gameObj.Title, gameObj.Creator, button.Content.ToString());
                     //Update database
                 }
             }
-                            
+            VersionsList.Visibility = Visibility.Hidden;                     
         }
 
         private void ShowVersions_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)

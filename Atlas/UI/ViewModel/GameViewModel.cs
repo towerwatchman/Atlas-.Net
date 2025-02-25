@@ -3,6 +3,7 @@ using Atlas.Core.Utilities;
 using NLog;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
+using Windows.Services.Maps.LocalSearch;
 
 namespace Atlas.UI.ViewModel
 {
@@ -32,6 +33,12 @@ namespace Atlas.UI.ViewModel
             Tags = game.Tags;
             Collection = game.Collection;
             CurrentSelectedVersion = game.CurrentSelectedVersion;
+            Rating = game.Rating;
+            LatestVersion = game.LatestVersion;
+            Censored = game.Censored;
+            Language = game.Language;
+            Genre = game.Genre;
+            ReleaseDate = game.ReleaseDate;
 
         }
         public int RecordID { get; private set; }
@@ -56,6 +63,10 @@ namespace Atlas.UI.ViewModel
         public string Tags { get; private set; }
         public string Collection { get; private set; }
         public string CurrentSelectedVersion { get; set; }
+        public string Rating { get; set; }
+        public string LatestVersion { get; set; }
+        public string Censored { get; set; }
+        public string Language { get; set; }
 
         public BitmapSource BannerImage
         {
@@ -89,6 +100,9 @@ namespace Atlas.UI.ViewModel
             }
             set { _bannerImage = value; }
         }
+
+        public string Genre { get; }
+        public string ReleaseDate { get; }
 
         BitmapSource _bannerImage;
 

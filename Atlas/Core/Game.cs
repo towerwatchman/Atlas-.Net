@@ -27,6 +27,12 @@ namespace Atlas.Core
         public string Tags { get; set; }
         public string Collection { get; set; }
         public string CurrentSelectedVersion { get; internal set; }
+        public string Rating { get; set; }
+        public string LatestVersion { get; set; }
+        public string Censored { get; internal set; }
+        public string Language { get; internal set; }
+        public string Genre { get; internal set; }
+        public string ReleaseDate { get; internal set; }
     }
 
     public class BannerImage
