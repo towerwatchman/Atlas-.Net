@@ -1,4 +1,5 @@
-﻿using Atlas.Core.Utilities;
+﻿using Atlas.Core;
+using Atlas.Core.Utilities;
 using Atlas.UI.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,8 +19,10 @@ namespace Atlas.UI.Pages
         {
             CurrentGame = game;
             InitializeComponent();
-            BuildGameDetailAsync();
             ShowVersions.Visibility = Visibility.Hidden;
+            VersionsList.Visibility = Visibility.Hidden;
+            _ = BuildGameDetailAsync();
+
         }
 
         private async Task BuildGameDetailAsync()
@@ -43,10 +46,6 @@ namespace Atlas.UI.Pages
                     banner_background.Source = ImageData;
                 }
 
-
-
-
-
                 GameTitle.Content = CurrentGame.Title;
                 //banner_left.Source = ImageData;
                 //banner_right.Source = ImageData;
@@ -58,6 +57,57 @@ namespace Atlas.UI.Pages
                 }
 
             }
+        }
+
+        private void ShowVersions_Click(object sender, RoutedEventArgs e)
+        {
+            var game = CurrentGame;
+            int buttonHeight = 20;
+            if (game != null)
+            {
+                //List<Button> menuitems = new List<Button>();
+                if (game.Versions != null)
+                {
+                    VersionsList.Visibility = Visibility.Visible;
+                    int index = 1;
+                    var rowDefinition = new RowDefinition();
+                    rowDefinition.Height = GridLength.Auto;
+                    VersionsList.RowDefinitions.Add(rowDefinition);
+                    foreach (GameVersion version in game.Versions)
+                    {
+                        Button button = new Button();
+                        button.Content = version.Version;
+                        button.Width = 250;                        
+                        button.Height = 20;
+                        button.BorderThickness = new Thickness(0);
+                        Grid.SetColumn(button, index);
+                        Grid.SetRow(button, index);
+                        VersionsList.Children.Add(button);
+                        index++;
+                        rowDefinition = new RowDefinition();
+                        rowDefinition.Height = GridLength.Auto;
+                        VersionsList.RowDefinitions.Add(rowDefinition);
+                    }
+
+                    VersionsList.Height = (buttonHeight * index) +20;
+                }
+                //bvp.miPlay.ItemsSource = menuitems;
+            }
+        }
+
+        private void ShowVersions_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            VersionsList.Visibility = Visibility.Hidden;
+        }
+
+        private void VersionsList_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            VersionsList.Visibility = Visibility.Visible;
+        }
+
+        private void VersionsList_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            VersionsList.Visibility = Visibility.Hidden;
         }
     }
 }

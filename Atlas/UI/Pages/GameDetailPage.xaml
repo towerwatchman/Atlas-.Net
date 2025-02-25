@@ -58,7 +58,7 @@
         <!--#region Current Version Selected -->
         <StackPanel Orientation="Horizontal"
                     Panel.ZIndex="6">
-            <Border  BorderBrush="{DynamicResource Accent}"
+            <Border  BorderBrush="{DynamicResource AccentBar}"
                      BorderThickness="0,0,0,1"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top">
@@ -83,7 +83,7 @@
                                Padding="0"
                                VerticalAlignment="Center"
                                FontWeight="Bold"
-                               Foreground="{DynamicResource Accent}" />
+                               Foreground="{DynamicResource AccentBar}" />
                         <Label x:Name="GameTitle"
                                Content="None"
                                HorizontalAlignment="Left"
@@ -99,7 +99,7 @@
                                Padding="0"
                                VerticalAlignment="Center"
                                FontWeight="Bold"
-                               Foreground="{DynamicResource Accent}" />
+                               Foreground="{DynamicResource AccentBar}" />
                         <!-- Add padding to last element so its not touching object-->
                         <Label x:Name="CurrentVersion"
                                Content="None"
@@ -114,7 +114,7 @@
             </Border>
             <!-- Right Corner-->
             <Grid Margin="-1,0,0,0">
-                <Polygon Fill="{DynamicResource Accent}"
+                <Polygon Fill="{DynamicResource AccentBar}"
                          Stretch="Uniform"
                          Height="25"
                          VerticalAlignment="Top"
@@ -164,10 +164,10 @@
                       Panel.ZIndex="3"
                       Background="{DynamicResource Secondary}">
                     <!-- All content goes in this Grid-->
+                    <Grid Height="60" VerticalAlignment="Top" Background="{DynamicResource Canvas}"></Grid>
                     <Grid Panel.ZIndex="3"
-                          Background="{DynamicResource Canvas}"
+                          Background="Transparent"
                           Opacity=".95"
-                          Height="60"
                           VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal"
                                     Margin="20,10,0,0"
@@ -198,13 +198,30 @@
                                     Style="{StaticResource TransparentButton}"
                                     Width="20"
                                     Height="38"
-                                    Background="#58C000">
+                                    Background="#58C000"
+                                    Click="ShowVersions_Click"
+                                    MouseLeave="ShowVersions_MouseLeave">
                                 <Grid>
                                     <Image Source="{svgc:SvgImage Source=/Assets/Icons/down_arrow_wide.svg, AppName=Atlas}"
                                            Width="15"
                                            Height="20" />
                                 </Grid>
+                     
                             </Button>
+                            <Grid x:Name="VersionsList" MaxHeight="500" MaxWidth="250" Margin="-170,38,0,0" Background="{DynamicResource Tertiary}"
+                                  MouseEnter="VersionsList_MouseEnter"
+                                  MouseLeave="VersionsList_MouseLeave">
+                                <StackPanel Orientation="Vertical">
+                                <Label Content="Select Version Below:" HorizontalContentAlignment="Center"/>
+                                <Separator Opacity=".50" Margin="5,0,5,0" Height="10"/>
+                                </StackPanel>
+                                <Grid.Effect>
+                                    <DropShadowEffect Color="Black"
+                                                      Direction="270"
+                                                      ShadowDepth="2"
+                                                      BlurRadius="10" />
+                                    </Grid.Effect> 
+                                </Grid>
                             <!-- Last Played -->
                             <StackPanel Margin="30,0,0,0"
                                         Orientation="Vertical">
