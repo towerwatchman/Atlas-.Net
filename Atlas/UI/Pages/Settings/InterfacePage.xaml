@@ -68,7 +68,23 @@
                            Background="{DynamicResource Text}"
                            Height="1"
                            Opacity=".25" />
+                <DockPanel>
+                    <Label Content="Show debug console window" />
+                    <CheckBox x:Name="ShowDebugConsole"
+                              Margin="0,0,20,0"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              Click="ShowDebugConsole_Click" />
+                </DockPanel>
+                <Label Content="Enabling or Disabling the debug console will require a restart"
+                       FontSize="10"
+                       Opacity=".50" />
+                <Separator Margin="5,2,5,0"
+                           Background="{DynamicResource Text}"
+                           Height="1"
+                           Opacity=".25" />
                 <StackPanel Orientation="Vertical" IsEnabled="False" Opacity=".5">
+                  
                     <DockPanel>
                         <Label Content="Minimize Atlas to system tray when the aplication window is closed" />
                         <CheckBox Margin="0,0,20,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
@@ -77,14 +93,22 @@
                                Background="{DynamicResource Text}"
                                Height="1"
                                Opacity=".25" />
+                    <!--<DockPanel>
+                        <Label Content="Download metadata during game import" />
+                        <CheckBox Margin="0,0,20,0"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center" />
+                    </DockPanel>
+                    <Separator Margin="5,2,5,0"
+                               Background="{DynamicResource Text}"
+                               Height="1"
+                               Opacity=".25" />
                     <CheckBox Content="Download metadata during game import"
-                              Margin="0,10,0,0" />
-                    <CheckBox Content="Launch Atlas Maximized"
                               Margin="0,10,0,0" />
                     <CheckBox Content="Launch Atlas when you start your computer"
                               Margin="0,10,0,0" />
                     <CheckBox Content="Update game install size on library update"
-                              Margin="0,10,0,0" />
+                              Margin="0,10,0,0" />-->
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
