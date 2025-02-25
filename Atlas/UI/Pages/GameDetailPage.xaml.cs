@@ -81,8 +81,7 @@ namespace Atlas.UI.Pages
                         button.Width = 180;                        
                         button.Height = 20;
                         button.HorizontalContentAlignment = HorizontalAlignment.Center;
-                        button.BorderBrush = Brushes.Transparent;
-                        button.BorderThickness = new Thickness(0);
+                        button.Style = new Style();
                         Grid.SetColumn(button, index);
                         Grid.SetRow(button, index);
                         VersionsList.Children.Add(button);
