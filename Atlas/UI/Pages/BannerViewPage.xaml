@@ -112,8 +112,7 @@
                         <MenuItem Header="Browse local files" />
                         <MenuItem Header="Set custom artwork" />
                     </MenuItem>
-                    <MenuItem x:Name="GameProperties" Header="Properties"
-                              Click="GameProperties_Click" />
+                   
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>

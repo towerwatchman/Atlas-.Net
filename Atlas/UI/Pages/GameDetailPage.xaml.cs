@@ -55,12 +55,13 @@ namespace Atlas.UI.Pages
                 //banner_background.Source = ImageData;
 
                 //CHeck if there is a current selected version, if not then we will need to change it
-                if (CurrentGame.CurrentSelectedVersion != null)
+                if (CurrentGame.CurrentSelectedVersion.ToString() != "")
                 {
                     CurrentVersion.Content = $"{CurrentGame.CurrentSelectedVersion}";
                 }
                 else
                 {
+
                     CurrentVersion.Content = $"{CurrentGame.Versions[0].Version}";
                 }
                 if (CurrentGame.Versions.Count > 1)

@@ -27,6 +27,7 @@ namespace Atlas
         public ObservableCollection<NotificationViewModel> NotificationCollection = new ObservableCollection<NotificationViewModel>();
         private bool isBatchImporterOpen = false;
         private bool isRefreshRunning = false;
+        private bool isGameDetailShown = false;
 
         //Create private members for each page
         BannerViewPage bvp = new BannerViewPage();
@@ -183,6 +184,18 @@ namespace Atlas
                         }
                     }
                     bvp.miPlay.ItemsSource = menuitems;
+
+                    MenuItem oldMenuItem = bvp.cmGame.Items.OfType<MenuItem>().FirstOrDefault(item => item.Header.ToString() == "Properties");
+                    if (oldMenuItem != null)
+                    {
+                        bvp.cmGame.Items.Remove(oldMenuItem);
+                    }
+                    //Check if properties has already been added
+                    MenuItem PropertyItem = new MenuItem();
+                    PropertyItem.Tag = game.RecordID.ToString();
+                    PropertyItem.Header = "Properties";
+                    PropertyItem.Click += GameProperties_Click;
+                    bvp.cmGame.Items.Add(PropertyItem);
                 }
             }
         }
@@ -793,7 +806,21 @@ namespace Atlas
             }
         }
 
-        //Show context menu for adding games
+        private void GameProperties_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = (MenuItem)sender;
+
+
+            string RecordID = menuItem.Tag.ToString();
+
+            GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(RecordID)).FirstOrDefault();
+
+            if (!isGameDetailShown)
+            {
+                GameDetailWindow gameDetailWindow = new GameDetailWindow(gameObj);
+                gameDetailWindow.Show();
+            }
+        }
 
     }
 }

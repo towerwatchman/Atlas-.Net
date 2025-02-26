@@ -39,6 +39,9 @@ namespace Atlas.UI.ViewModel
             Language = game.Language;
             Genre = game.Genre;
             ReleaseDate = game.ReleaseDate;
+            Translations = game.Translations;
+            Voice = game.Voice;
+            ShortName = game.ShortName;
 
         }
         public int RecordID { get; private set; }
@@ -101,8 +104,11 @@ namespace Atlas.UI.ViewModel
             set { _bannerImage = value; }
         }
 
-        public string Genre { get; }
-        public string ReleaseDate { get; }
+        public string Genre { get; set; }
+        public string ReleaseDate { get; set; }
+        public string Translations { get;  set; }
+        public string Voice { get; internal set; }
+        public string ShortName { get; internal set; }
 
         BitmapSource _bannerImage;
 

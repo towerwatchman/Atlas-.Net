@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ABI.System;
+using Atlas.UI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,28 @@ namespace Atlas.UI.Windows
     /// </summary>
     public partial class GameDetailWindow : Window
     {
-        public GameDetailWindow()
+        public GameDetailWindow(GameViewModel game)
         {
             InitializeComponent();
+            title.Text = game.Title;
+            short_name.Text = game.ShortName;
+            platform.Text = game.OS;
+            engine.Text = game.Engine;
+            developer.Text = game.Creator;
+            release_date.Text = System.DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt32(game.ReleaseDate)).DateTime.ToString("yyyy-MM-dd");
+            status.Text = game.Status;
+            tags.Text = game.Tags.Replace(",", " , ");
+            description.Text = game.Overview;
+            category.Text = game.Category;
+            latest_version.Text = game.LatestVersion;
+            censored.Text = game.Censored;
+            language.Text = game.Language;
+            translations.Text = game.Translations;
+            genre.Text = game.Genre;
+            voice.Text = game.Voice;
+            rating.Text = game.Rating;
+
+
         }
 
 

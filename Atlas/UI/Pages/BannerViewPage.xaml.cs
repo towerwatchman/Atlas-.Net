@@ -1,4 +1,5 @@
-﻿using Atlas.UI.ViewModel;
+﻿using Atlas.Core;
+using Atlas.UI.ViewModel;
 using Atlas.UI.Windows;
 using NLog;
 using System.Windows;
@@ -16,15 +17,6 @@ namespace Atlas.UI.Pages
         public BannerViewPage()
         {
             InitializeComponent();
-        }
-
-        private void GameProperties_Click(object sender, RoutedEventArgs e)
-        {
-            if(!isGameDetailShown)
-            {
-                GameDetailWindow gameDetailWindow = new GameDetailWindow();
-                gameDetailWindow.Show();
-            }
         }
     }
     public sealed class MyScrollViewer : ScrollViewer

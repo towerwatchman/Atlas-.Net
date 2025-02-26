@@ -90,7 +90,7 @@
                         </DockPanel>
                     </Grid>
                     <Grid DockPanel.Dock="Top">
-                        <TabControl Background="{DynamicResource Secondary}">
+                        <TabControl x:Name="GameDetail" Background="{DynamicResource Secondary}">
                             <TabItem Header="Record">
                                 <ScrollViewer Margin="-2">
                                 <StackPanel Orientation="Vertical">
@@ -103,93 +103,95 @@
                                             <DockPanel>
                                                 <Label Content="Title"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="title"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Short Name" MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="short_name"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Platform"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="platform"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Engine"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="engine"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Developer"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="developer"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Publisher"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="publisher"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Release Date"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="release_date"></TextBox>
                                             </DockPanel>
                                         <DockPanel>
                                                 <Label Content="Status"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="status"></TextBox>
                                             </DockPanel>
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Grid.Column="1">
                                             <DockPanel>
                                                 <Label Content="Category"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="category"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
-                                                <Label Content="Latest Version"
+                                                <Label Content="Last Update"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="latest_version"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Censored"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="censored"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Language"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="language"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Translations"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="translations"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Genre"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="genre"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Voice"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="voice"></TextBox>
                                             </DockPanel>
                                             <DockPanel>
                                                 <Label Content="Rating"
                                                        MinWidth="100" />
-                                                <TextBox></TextBox>
+                                                <TextBox x:Name="rating"></TextBox>
                                             </DockPanel>
                                         </StackPanel>
                                     </Grid>
                                     <DockPanel Margin="0,10,0,0">
                                         <Label Content="Tags" MinWidth="100" />
-                                        <TextBox MinHeight="100" />
+                                        <TextBox x:Name="tags" MinHeight="100"
+                                                     TextWrapping="Wrap" />
                                     </DockPanel>
                                     <DockPanel Margin="0,10,0,0">
                                         <Label Content="Description" MinWidth="100"/>
-                                        <TextBox MinHeight="200"/>
+                                        <TextBox x:Name="description" MinHeight="200"
+                                                     TextWrapping="Wrap" />
                                     </DockPanel>
                                     
                                     <Grid>

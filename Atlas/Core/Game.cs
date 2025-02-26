@@ -33,6 +33,9 @@ namespace Atlas.Core
         public string Language { get; internal set; }
         public string Genre { get; internal set; }
         public string ReleaseDate { get; internal set; }
+        public string Translations { get; internal set; }
+        public string Voice { get; internal set; }
+        public string ShortName { get; internal set; }
     }
 
     public class BannerImage

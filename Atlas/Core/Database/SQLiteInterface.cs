@@ -592,7 +592,8 @@ atlas_data.os,
 atlas_data.overview,
 atlas_data.translations,
 atlas_data.release_date,
-atlas_data.voice
+atlas_data.voice,
+atlas_data.short_name
 
 FROM
 games
@@ -639,6 +640,9 @@ LEFT JOIN atlas_data on atlas_mappings.atlas_id = atlas_data.atlas_id";
                                 Overview = reader["overview"].ToString(),
                                 ReleaseDate = reader["release_Date"].ToString(),
                                 BannerPath = reader["image_path"].ToString(),
+                                Translations = reader["translations"].ToString(),
+                                Voice = reader["voice"].ToString(),
+                                ShortName = reader["short_name"].ToString(),
                                 //Versions = null,
                                 Versions = GetVersions(reader["record_id"].ToString()),
                                 ImageUriAnimated = Path.GetExtension(reader["image_path"].ToString()) == ".gif" ?
@@ -692,7 +696,8 @@ atlas_data.os,
 atlas_data.overview,
 atlas_data.translations,
 atlas_data.release_date,
-atlas_data.voice
+atlas_data.voice,
+atlas_data.short_name
 
 FROM
 games
@@ -740,6 +745,9 @@ WHERE games.record_id = {atlasID}";
                                 Overview = reader["overview"].ToString(),
                                 ReleaseDate = reader["release_Date"].ToString(),
                                 BannerPath = reader["image_path"].ToString(),
+                                Translations = reader["translations"].ToString(),
+                                Voice = reader["voice"].ToString(),
+                                ShortName = reader["short_name"].ToString(),
                                 //Versions = null,
                                 Versions = GetVersions(reader["record_id"].ToString()),
                                 ImageUriAnimated = Path.GetExtension(reader["image_path"].ToString()) == ".gif" ?
