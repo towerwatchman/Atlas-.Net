@@ -1,7 +1,9 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Utilities;
 using NLog;
+using System;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
 using Windows.Services.Maps.LocalSearch;
 
@@ -44,6 +46,7 @@ namespace Atlas.UI.ViewModel
             ShortName = game.ShortName;
 
         }
+        private bool _isUpdateAvailable;
         public int RecordID { get; private set; }
         public int AtlasID { get; private set; }
         public int F95ID { get; private set; }
@@ -71,6 +74,52 @@ namespace Atlas.UI.ViewModel
         public string Censored { get; set; }
         public string Language { get; set; }
 
+        public bool IsUpdateAvailable
+        {
+            get
+            {
+                Task.Run(async () =>
+                {
+                    bool isUpdateAvailable = false;
+                    int latest = 0;
+                    try
+                    {
+                        latest = Convert.ToInt32(Regex.Replace(LatestVersion, "[^0-9]", ""));
+                    }
+                    catch
+                    {
+
+                    }
+                    foreach (var version in Versions)
+                    {
+                        int current = 0;
+                        try
+                        {
+                            current = Convert.ToInt32(Regex.Replace(version.Version, "[^0-9]", ""));
+                        }
+                        catch { }
+                        if (latest > current)
+                        {
+                            isUpdateAvailable = true;
+                        }
+                        else
+                        {
+                            isUpdateAvailable = false;
+                            break;
+                        }
+                    }
+                    _isUpdateAvailable = isUpdateAvailable;
+                    OnPropertyChanged(nameof(IsUpdateAvailable));
+                });
+
+                return _isUpdateAvailable;
+            }
+            set
+            {
+                _isUpdateAvailable = value;
+                OnPropertyChanged(nameof(IsUpdateAvailable));
+            }
+        }
         public BitmapSource BannerImage
         {
             get
@@ -106,7 +155,7 @@ namespace Atlas.UI.ViewModel
 
         public string Genre { get; set; }
         public string ReleaseDate { get; set; }
-        public string Translations { get;  set; }
+        public string Translations { get; set; }
         public string Voice { get; internal set; }
         public string ShortName { get; internal set; }
 

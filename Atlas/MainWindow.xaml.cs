@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -168,8 +169,40 @@ namespace Atlas
                 if (game != null)
                 {
                     bvp.cmGame.Visibility = Visibility.Visible;
-                    bvp.miPlay.ItemsSource = null;
-                    bvp.miPlay.Items.Clear();
+                    //Clear all menu items
+                    bvp.cmGame.Items.Clear();
+
+                    MenuItem playItem = new MenuItem();
+                    playItem.FontSize = 14;
+                    playItem.FontWeight = FontWeights.Bold;
+                    //playItem.Style = FindResource("PlayMenuItem") as Style;
+                    playItem.Header = "Play";
+
+                    /*                    <MenuItem x:Name="miPlay"
+                              Header="Play"
+                              FontSize="14"
+                              FontWeight="Bold"
+                              HorizontalContentAlignment="Center" Style="{DynamicResource PlayMenuItem}">
+                        <MenuItem.Background>
+                            <LinearGradientBrush EndPoint="0.5,1"
+                                                 StartPoint="0.5,0">
+                                <GradientStop Color="#72CF00" />
+                                <GradientStop Color="#56B628"
+                                              Offset="0" />
+                            </LinearGradientBrush>
+                        </MenuItem.Background>
+                        <MenuItem x:Name="miVersions"
+                                  Header="Versions" />
+                    </MenuItem>
+                    <MenuItem Header="Add to favorites" />
+                    <MenuItem Header="Manage">
+                        <MenuItem Header="Add desktop icon" />
+                        <MenuItem Header="Browse local files" />
+                        <MenuItem Header="Set custom artwork" />
+                    </MenuItem>*/
+
+                    //bvp.miPlay.ItemsSource = null;
+                    //bvp.miPlay.Items.Clear();
 
                     List<MenuItem> menuitems = new List<MenuItem>();
                     if (game.Versions != null)
@@ -183,14 +216,25 @@ namespace Atlas
                             menuitems.Add(menuItem);
                         }
                     }
-                    bvp.miPlay.ItemsSource = menuitems;
+                    playItem.ItemsSource = menuitems;
+                    bvp.cmGame.Items.Add(playItem);
 
-                    MenuItem oldMenuItem = bvp.cmGame.Items.OfType<MenuItem>().FirstOrDefault(item => item.Header.ToString() == "Properties");
-                    if (oldMenuItem != null)
-                    {
-                        bvp.cmGame.Items.Remove(oldMenuItem);
-                    }
-                    //Check if properties has already been added
+                    //Open Intall Directory
+                    MenuItem IntallItem = new MenuItem();
+                    IntallItem.Tag = game.Versions[0].GamePath.ToString();
+                    IntallItem.Header = "Open Game Folder";
+                    IntallItem.Click += InstallLocation_Click;
+                    bvp.cmGame.Items.Add(IntallItem);
+
+                    //Open Intall Directory
+                    MenuItem urlItem = new MenuItem();
+                    urlItem.Tag = game.SiteUrl.ToString();
+                    urlItem.Header = "Open Web Link";
+                    urlItem.Click += Url_Click;
+                    bvp.cmGame.Items.Add(urlItem);
+
+
+                    //Properties
                     MenuItem PropertyItem = new MenuItem();
                     PropertyItem.Tag = game.RecordID.ToString();
                     PropertyItem.Header = "Properties";
@@ -198,6 +242,24 @@ namespace Atlas
                     bvp.cmGame.Items.Add(PropertyItem);
                 }
             }
+        }
+
+        private void Url_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem obMenuItem = e.OriginalSource as MenuItem;
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = obMenuItem.Tag.ToString(),
+                UseShellExecute = true
+            });
+        }
+
+        private void InstallLocation_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem obMenuItem = e.OriginalSource as MenuItem;
+
+            LaunchExeProcess(obMenuItem.Tag.ToString());
         }
         #endregion
 
@@ -269,9 +331,9 @@ namespace Atlas
 
             Application.Current.Resources["Rows"] = (int)rows;
             Console.WriteLine(Application.Current.Resources["Rows"]);*/
-        }
+                }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+                private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
                 Application.Current.Dispatcher.InvokeAsync(new Action(() =>
