@@ -541,13 +541,16 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                     {
                         try
                         {
+                            int VersionNumer = 0;
                             GameVersion gameVersion = new GameVersion
                             {
                                 RecordId = Convert.ToInt32(record_id),
                                 Version = reader["version"].ToString(),
                                 GamePath = reader["game_path"].ToString(),
                                 ExePath = reader["exec_path"].ToString(),
-                                DateAdded = DateTime.Parse(reader["date_added"].ToString())
+                                DateAdded = DateTime.Parse(reader["date_added"].ToString()),
+                                VersionNumber = 0
+                                
                             };
                             gameVersions.Add(gameVersion);
                         }

@@ -11,5 +11,6 @@
         public int Playtime { get; set; } //In Minutes
         public double FolderSize { get; set; }
         public DateTime LastPlayed { get; set; }
+        public required int VersionNumber { get; set; }
     }
 }
