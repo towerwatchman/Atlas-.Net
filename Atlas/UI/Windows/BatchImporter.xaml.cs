@@ -247,7 +247,8 @@ namespace Atlas.UI.Windows
 
                 if (data.Count == 1)
                 {
-                    game.RecordID = data[0][0];
+                    game.AtlasID = data[0][0];
+                    game.F95ID = SQLiteInterface.FindF95ID(game.AtlasID);
                     game.Title = data[0][1];
                     game.Creator = data[0][2];
                     game.Engine = data[0][3];
@@ -261,7 +262,15 @@ namespace Atlas.UI.Windows
                             results.Add($"{item[0]} | {item[1]} | {item[2]}");
                         }
                     }
+                    else
+                    {
+                        game.AtlasID = "";
+                        game.F95ID = "";
+                        game.Creator = "";
+                        game.Engine = "";
+                    }
                 }
+
 
                 F95Scanner._GameDetailList[index] = game;
                 GameList.Items.Refresh();

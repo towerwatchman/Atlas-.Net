@@ -104,7 +104,7 @@
                                    VerticalAlignment="Center"
                                    Margin="10">
                             <Button x:Name="btn_matches"
-                                    Content="Find Matches"
+                                    Content="Update"
                                     Margin="4"
                                     Visibility="Hidden"
                                     Width="0"
