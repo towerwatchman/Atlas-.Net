@@ -1,8 +1,10 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Utilities;
 using NLog;
+using NLog.LayoutRenderers;
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
 using Windows.Services.Maps.LocalSearch;
@@ -78,7 +80,7 @@ namespace Atlas.UI.ViewModel
         {
             get
             {
-                Task.Run(async () =>
+                Task.Run(() =>
                 {
                     bool isUpdateAvailable = false;
                     int latest = 0;
@@ -108,8 +110,11 @@ namespace Atlas.UI.ViewModel
                             break;
                         }
                     }
-                    _isUpdateAvailable = isUpdateAvailable;
-                    OnPropertyChanged(nameof(IsUpdateAvailable));
+                    if (isUpdateAvailable != _isUpdateAvailable)
+                    {
+                        _isUpdateAvailable = isUpdateAvailable;
+                        OnPropertyChanged(nameof(IsUpdateAvailable));
+                    }
                 });
 
                 return _isUpdateAvailable;
@@ -124,8 +129,6 @@ namespace Atlas.UI.ViewModel
         {
             get
             {
-
-
                 if (_bannerImage == null)
                 {
                     //BannersInView.Add(RecordID);
@@ -164,10 +167,10 @@ namespace Atlas.UI.ViewModel
         public static List<int> BannersInView = new List<int>();
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string propertyName)
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            //Logger.Warn($"Property Changed: {propertyName}");
+            Logger.Warn("Property Changed");
         }
     }
 }
