@@ -5,6 +5,7 @@ using Atlas.UI.ViewModel;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
 using NLog;
+using SharpVectors.Dom;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
@@ -541,7 +542,8 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                     {
                         try
                         {
-                            int VersionNumer = 0;
+                            string strippedVersion = Regex.Replace(reader["version"].ToString(), "[^0-9]", "");
+                            int VersionNumer = Int32.TryParse(strippedVersion, out var value) ? Convert.ToInt32(strippedVersion):0;    
                             GameVersion gameVersion = new GameVersion
                             {
                                 RecordId = Convert.ToInt32(record_id),
@@ -549,8 +551,8 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                                 GamePath = reader["game_path"].ToString(),
                                 ExePath = reader["exec_path"].ToString(),
                                 DateAdded = DateTime.Parse(reader["date_added"].ToString()),
-                                VersionNumber = 0
-                                
+                                VersionNumber = VersionNumer
+
                             };
                             gameVersions.Add(gameVersion);
                         }
@@ -561,6 +563,9 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
                     }
                     reader.Close();
                 }
+
+                //sort version
+                gameVersions = gameVersions.OrderByDescending(item => item.VersionNumber).ToList();
             }
             return gameVersions;
         }
