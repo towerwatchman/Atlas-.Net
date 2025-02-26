@@ -32,7 +32,7 @@
             <sys:Int32 x:Key="Columns">0</sys:Int32>
             <BitmapImage x:Key="config_image"
                          UriSource="/Assets/Images/config_image.webp" />
-             <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -109,18 +109,21 @@
                  Background="Transparent"
                  FontSize="12"
                  BorderThickness="0" />
-        <TextBox x:Name="UpdateAvailable"
-                 VerticalAlignment="Top"
-                 HorizontalAlignment="Right"
-                 Text="Update Available!"
-                 Foreground="{DynamicResource updateColor}"
-                 Margin="3,3,3,3"
-                 Padding="2"
-                 Background="Transparent"
-                 FontSize="10"
-                 BorderThickness="1"
-                 BorderBrush="{DynamicResource updateColor}"
-                 Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BoolToVisConverter},Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}" />
+        <Button x:Name="UpdateAvailable"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Content="Update Available!"
+                Width="90"
+                Height="20"
+                Foreground="{DynamicResource updateColor}"
+                Margin="3,3,3,0"
+                Background="Transparent"
+                Tag="{Binding SiteUrl}"
+                FontSize="10"
+                BorderThickness="3"
+                BorderBrush="{DynamicResource updateColor}"
+                Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BoolToVisConverter},Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
+                Click="UpdateAvailable_Click" />
         <!--<TextBox VerticalAlignment="Top"
                  HorizontalAlignment="Right"
                  Text="{Binding Version}"
