@@ -13,11 +13,6 @@ namespace Atlas.Core
         public static ObservableCollection<GameDetails> _GameDetailList;
         public static IEnumerable<GameDetails> GameDetailList { get { return _GameDetailList; } }
 
-        public static string game_path = "";
-        public static string title = "";
-        public static string version = "";
-        public static string creator = "";
-        public static string game_engine = "Others";
         public static int potentialGames = 0;
 
         public static bool isRunning = false;
@@ -66,61 +61,56 @@ namespace Atlas.Core
             InitDataGrid();
             foreach (string dir in directories)
             {
-                //Task.Run(() =>
-                //{
-                game_path = string.Empty;
-                title = string.Empty;
-                version = string.Empty;
-                creator = string.Empty;
-                game_engine = "Others";
-                bool found_executable = false;
-                Logger.Info(dir);
-
-                //int folder_size = 0;
-                int cur_level = 0;
-                int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
-
-                //Update Progressbar
-                ittr++;
-                UpdateProgressBar(ittr, total_dirs);
-
-                try
+                Task.Run(() =>
                 {
-                    foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
+                    bool found_executable = false;
+                    Logger.Info(dir);
+
+                    //int folder_size = 0;
+                    int cur_level = 0;
+                    int stop_level = 15; //Set to max of 15 levels. There should not be more than 15 at most
+
+                    //Update Progressbar
+                    ittr++;
+                    UpdateProgressBar(ittr, total_dirs);
+
+                    try
                     {
-                        cur_level = t.Split('\\').Length;
-                        string[] s = t.Split('\\');
-                        if (cur_level <= stop_level)
+                        foreach (string t in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
                         {
-                            if (!found_executable)
+                            cur_level = t.Split('\\').Length;
+                            string[] s = t.Split('\\');
+                            if (cur_level <= stop_level)
                             {
-                                found_executable = FindGame(t, format, extensions, path, stop_level);
-                                if (found_executable && isArchive == false)
+                                if (!found_executable)
                                 {
-                                    stop_level = cur_level;
+                                    found_executable = FindGame(t, format, extensions, path, stop_level);
+                                    if (found_executable && isArchive == false)
+                                    {
+                                        stop_level = cur_level;
+                                    }
+                                }
+                                //conintue checking folders for other versions using the same stop level
+                                else
+                                {
+                                    FindGame(t, format, extensions, path, stop_level);
                                 }
                             }
-                            //conintue checking folders for other versions using the same stop level
-                            else
+                        }
+                        //if we cant find any folders, the check for files. If we are searching for archives, this will search the root
+                        if (!found_executable || isArchive)
+                        {
+                            foreach (string f in Directory.GetFiles(dir))
                             {
-                                FindGame(t, format, extensions, path, stop_level);
+                                FindGame(f, format, extensions, path, stop_level, true);
                             }
                         }
                     }
-                    //if we cant find any folders, the check for files. If we are searching for archives, this will search the root
-                    if (!found_executable || isArchive)
+                    catch (Exception ex)
                     {
-                        foreach (string f in Directory.GetFiles(dir))
-                        {
-                            FindGame(f, format, extensions, path, stop_level, true);
-                        }
+                        Logger.Warn(ex);
                     }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Warn(ex);
-                }
-                //});
+                });
             }
 
 
@@ -136,10 +126,11 @@ namespace Atlas.Core
         public static bool FindGame(string t, string format, string[] extensions, string path, int stop_level, bool isFile = false)
         {
             //Reset values
-            title = "";
-            version = "";
-            creator = "";
-            game_engine = "";
+            string game_path = "";
+            string title = "";
+            string version = "";
+            string creator = "";
+            string game_engine = "Others";
             List<string> potential_executables = new List<string>();
             if (isFile)
             {
