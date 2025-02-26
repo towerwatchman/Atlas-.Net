@@ -112,7 +112,7 @@
         <TextBox x:Name="UpdateAvailable"
                  VerticalAlignment="Top"
                  HorizontalAlignment="Right"
-                 Text="{Binding Creator, FallbackValue=Update Available!}"
+                 Text="Update Available!"
                  Foreground="{DynamicResource updateColor}"
                  Margin="3,3,3,3"
                  Padding="2"
