@@ -63,142 +63,211 @@
                 <Grid Height="32"
                       DockPanel.Dock="Top"
                       Background="{DynamicResource Primary}">
-                    <Label Margin="10,0,0,0" Content="Edit Game Details"
+                    <Label Margin="10,0,0,0"
+                           Content="Edit Game Details"
                            Foreground="{DynamicResource Text}" />
                 </Grid>
-                    <DockPanel  DockPanel.Dock="Top"
+                <DockPanel  DockPanel.Dock="Top"
                             Width="Auto"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            Background="{DynamicResource Secondary}">
+                            Background="{DynamicResource Primary}">
                     <Grid DockPanel.Dock="Bottom"
                           Height="60"
                           Background="{DynamicResource Primary}"
-                          VerticalAlignment="Stretch">                        
-                      
+                          VerticalAlignment="Stretch">
                         <DockPanel HorizontalAlignment="Right"
                                    VerticalAlignment="Center"
                                    Margin="10">
                             <Button x:Name="btn_next"
                                     Content="Save"
-                                    Margin="4"
-                                     />
+                                    Margin="4" />
                             <Button x:Name="btn_cancel"
                                     Content="Cancel"
-                                    Margin="4"
-                                     />
+                                    Margin="4" />
                         </DockPanel>
                     </Grid>
                     <Grid DockPanel.Dock="Top">
-                        <TabControl x:Name="GameDetail" Background="{DynamicResource Secondary}">
+                        <TabControl x:Name="GameDetail"
+                                    Background="{DynamicResource Secondary}">
                             <TabItem Header="Record">
                                 <ScrollViewer Margin="-2">
-                                <StackPanel Orientation="Vertical">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Orientation="Vertical" Grid.Column="0">
-                                            <DockPanel>
-                                                <Label Content="Title"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="title"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Short Name" MinWidth="100" />
-                                                <TextBox x:Name="short_name"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Platform"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="platform"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Engine"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="engine"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Developer"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="developer"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Publisher"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="publisher"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Release Date"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="release_date"></TextBox>
-                                            </DockPanel>
-                                        <DockPanel>
-                                                <Label Content="Status"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="status"></TextBox>
-                                            </DockPanel>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Vertical" Grid.Column="1">
-                                            <DockPanel>
-                                                <Label Content="Category"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="category"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Last Update"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="latest_version"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Censored"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="censored"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Language"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="language"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Translations"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="translations"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Genre"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="genre"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Voice"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="voice"></TextBox>
-                                            </DockPanel>
-                                            <DockPanel>
-                                                <Label Content="Rating"
-                                                       MinWidth="100" />
-                                                <TextBox x:Name="rating"></TextBox>
-                                            </DockPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                    <DockPanel Margin="0,10,0,0">
-                                        <Label Content="Tags" MinWidth="100" />
-                                        <TextBox x:Name="tags" MinHeight="100"
+                                    <StackPanel Orientation="Vertical">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Vertical"
+                                                        Grid.Column="0">
+                                                <DockPanel>
+                                                    <Label Content="Title"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="title"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Short Name"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="short_name"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Platform"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="platform"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Engine"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="engine"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Developer"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="developer"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Publisher"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="publisher"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Release Date"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="release_date"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Status"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="status"></TextBox>
+                                                </DockPanel>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical"
+                                                        Grid.Column="1">
+                                                <DockPanel>
+                                                    <Label Content="Category"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="category"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Last Update"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="latest_version"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Censored"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="censored"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Language"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="language"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Translations"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="translations"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Genre"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="genre"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Voice"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="voice"></TextBox>
+                                                </DockPanel>
+                                                <DockPanel>
+                                                    <Label Content="Rating"
+                                                           MinWidth="100" />
+                                                    <TextBox x:Name="rating"></TextBox>
+                                                </DockPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                        <DockPanel Margin="0,10,0,0">
+                                            <Label Content="Tags"
+                                                   MinWidth="100" />
+                                            <TextBox x:Name="tags"
+                                                     MinHeight="100"
                                                      TextWrapping="Wrap" />
-                                    </DockPanel>
-                                    <DockPanel Margin="0,10,0,0">
-                                        <Label Content="Description" MinWidth="100"/>
-                                        <TextBox x:Name="description" MinHeight="200"
+                                        </DockPanel>
+                                        <DockPanel Margin="0,10,0,0">
+                                            <Label Content="Description"
+                                                   MinWidth="100" />
+                                            <TextBox x:Name="description"
+                                                     MinHeight="200"
                                                      TextWrapping="Wrap" />
-                                    </DockPanel>
-                                    
-                                    <Grid>
-                                        
-                                    </Grid>
-                                </StackPanel>
+                                        </DockPanel>
+                                        <Grid></Grid>
+                                    </StackPanel>
                                 </ScrollViewer>
+                            </TabItem>
+                            <TabItem Header="Versions">
+                                <DockPanel>
+                                    <DockPanel Background="{DynamicResource Primary}">
+                                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                                            <Button Content="Add"  Margin="2"/>
+                                            <Button Content="Remove"  Margin="2" x:Name="VersionRemove"
+                                                    Click="VersionRemove_Click" />
+                                        </StackPanel>
+                                    <ListBox x:Name="VersionListBox"
+                                             DockPanel.Dock="Left"
+                                             MinWidth="150"
+                                             SelectionChanged="VersionListBox_SelectionChanged" />
+                                    </DockPanel>
+                                    <Grid MinWidth="300">
+                                        <StackPanel Orientation="Vertical"
+                                                    Grid.Column="0" Margin="10">
+                                            <DockPanel Margin="0,5,0,5">
+                                                <Label Content="Version"
+                                                       MinWidth="100" />                                               
+                                                <TextBox x:Name="game_version"></TextBox>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,5,0,5">
+                                                <Label Content="Game Path"
+                                                       MinWidth="100" />
+                                                <Button Content="Set Path" DockPanel.Dock="Right" Margin="0,0,10,0"/>
+                                                <TextBox x:Name="game_path"></TextBox>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,5,0,5">
+                                                <Label Content="Executable"
+                                                       MinWidth="100" />
+                                                <Button Content="Change" DockPanel.Dock="Right" Margin="0,0,10,0"/>
+                                                <TextBox x:Name="executable"></TextBox>
+                                                
+                                            </DockPanel>
+                                            <DockPanel  IsEnabled="False"
+                                                        Opacity=".75"
+                                                        Margin="0,5,0,5">
+                                                <Label Content="Last Played"
+                                                       MinWidth="100" />
+                                                <TextBox x:Name="last_played"></TextBox>
+                                            </DockPanel>
+                                            <DockPanel  IsEnabled="False"
+                                                        Opacity=".75"
+                                                        Margin="0,5,0,5">
+                                                <Label Content="Playtime"
+                                                       MinWidth="100" />
+                                                <TextBox x:Name="playtime"></TextBox>
+                                            </DockPanel>
+                                            <DockPanel  IsEnabled="False"
+                                                        Opacity=".75"
+                                                        Margin="0,5,0,5">
+                                                <Label Content="Version Size"
+                                                       MinWidth="100" />
+                                                <TextBox x:Name="version_size"></TextBox>
+                                            </DockPanel>
+                                            <DockPanel  IsEnabled="False"
+                                                        Opacity=".75"
+                                                        Margin="0,5,0,5">
+                                                <Label Content="Date Added"
+                                                       MinWidth="100" />
+                                                <TextBox x:Name="date_added"></TextBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </DockPanel>
                             </TabItem>
                             <TabItem Header="Advanced" />
                             <TabItem Header="Media" />

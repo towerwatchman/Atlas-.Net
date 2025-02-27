@@ -947,5 +947,20 @@ WHERE games.record_id = {atlasID}";
             }
             return [];
         }
+
+        public static bool RemoveVersion(object recordID, string version)
+        {
+            string sql = $"DELETE FROM versions WHERE record_id ={recordID} AND version =\"{version }\"";
+            try
+            {
+                InsertOrUpdate(sql, 1);
+                return true;    
+            }
+            catch(Exception ex)
+            {
+                Logger.Error(ex);
+                return false;
+            }
+        }
     }
 }
