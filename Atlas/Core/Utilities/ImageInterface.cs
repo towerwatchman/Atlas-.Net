@@ -7,7 +7,6 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
 using System.Windows.Media.Imaging;
 using System.Windows;
@@ -15,6 +14,9 @@ using Windows.Media.Protection.PlayReady;
 using Windows.Graphics.Imaging;
 using SixLabors.ImageSharp.PixelFormats;
 using SkiaSharp;
+using System.Drawing;
+using Image = SixLabors.ImageSharp.Image;
+using System.Drawing.Imaging;
 
 namespace Atlas.Core.Utilities
 {
@@ -85,7 +87,7 @@ namespace Atlas.Core.Utilities
                     // Save the image in WebP format
                     using (FileStream output = File.OpenWrite($"{outputPath}.webp"))
                     {
-                        image.Save(output, new WebpEncoder());
+                       // image.Save(output, new WebpEncoder());
                     }
                     path = $"{outputPath}.webp";
                 }
@@ -296,17 +298,46 @@ namespace Atlas.Core.Utilities
             {
                 Logger.Error(ex.ToString());
             }
-        }
-        public static void ShrinkAndConvertToWebP(SKBitmap bitmap, int width, int height, string outputPath)
+        }       
+
+        public static async Task<bool> ResizeAndSaveAsWebP(Bitmap originalImage, string outputPath,
+     int max_size = 660, int? newHeight = null)
         {
-            using (var resizedBitmap = bitmap.Resize(new SKImageInfo(width, height), SKFilterQuality.High))
-            using (var image = SKImage.FromBitmap(resizedBitmap))
-            using (var data = image.Encode(SKEncodedImageFormat.Webp, 100))
-            using (var stream = File.OpenWrite(outputPath))
+            try
             {
-                data.SaveTo(stream);
+                // ... (dimension calculation remains the same)
+
+                using (var ms = new MemoryStream())
+                {
+                    originalImage.Save(ms, ImageFormat.Bmp);
+                    ms.Position = 0;
+
+                    using (var image = await Image.LoadAsync(ms))
+                    {
+                        if (image.Width > image.Height)
+                        {
+                            double height = (max_size / image.Width) * image.Height;
+                            image.Mutate(x => x.Resize(Convert.ToInt32(max_size), Convert.ToInt32(height), KnownResamplers.Lanczos3));
+                        }
+                        else
+                        {
+                            double width = (max_size / image.Height) * image.Width;
+                            image.Mutate(x => x.Resize(Convert.ToInt32(width), Convert.ToInt32(max_size), KnownResamplers.Lanczos3));
+                        }
+                        await image.SaveAsWebpAsync(outputPath);
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error: {ex.Message}");
+                return false;
+            }
+            finally
+            {
+                originalImage.Dispose();
             }
         }
-
     }
 }

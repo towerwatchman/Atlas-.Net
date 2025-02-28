@@ -418,8 +418,8 @@ namespace Atlas
 
                                         try
                                         {
-                                            var image = NetworkHelper.DownloadImage(bannerUrl);
-                                            ImageInterface.ShrinkAndConvertToWebP(image, 100, 100, banner_path);
+                                            Bitmap image = await NetworkHelper.DownloadImageAsync(bannerUrl);
+                                            bool success = await ImageInterface.ResizeAndSaveAsWebP(image, banner_path, 660);
                                         }
                                         catch (Exception ex) { Logger.Error(ex); }
 
