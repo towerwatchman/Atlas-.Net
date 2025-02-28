@@ -1,13 +1,21 @@
 ﻿using Atlas.UI;
 using Newtonsoft.Json.Linq;
 using NLog;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Gif;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Security.Policy;
 
 namespace Atlas.Core.Network
 {
-    public class NetworkInterface
+    public class NetworkHelper
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly HttpClient _httpClient = new HttpClient();
@@ -162,6 +170,7 @@ namespace Atlas.Core.Network
                         {
                             //var relativeProgress = new Progress<long>(totalBytes => progress.Report((float)totalBytes / contentLength.Value));
                             await stream.CopyToAsync(fileStream);
+
                         }
 
                         Logger.Info("File downloaded successfully: " + filename);
@@ -214,6 +223,22 @@ namespace Atlas.Core.Network
             //If we need to give the downloader a delay, this will help. 
             System.Threading.Thread.Sleep(delay);
             return byteArray;
+        }
+        public async Task<byte[]> DownloadImageAsync(string imageUrl)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                byte[] imageBytes = await client.GetByteArrayAsync(imageUrl);
+                return imageBytes;
+            }
+        }
+        public static SKBitmap DownloadImage(string url)
+        {
+            using (WebClient webClient = new WebClient())
+            {
+                byte[] imageData = webClient.DownloadData(url);
+                return SKBitmap.Decode(imageData);
+            }
         }
     }
 }

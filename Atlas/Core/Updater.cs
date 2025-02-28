@@ -75,7 +75,7 @@ namespace Atlas.Core
                         var result = MessageBox.Show(message, caption, buttons);
                         if (result == MessageBoxResult.Yes)
                         {
-                            await NetworkInterface.DownloadFileAsync(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"), 0);
+                            await NetworkHelper.DownloadFileAsync(data[1], Path.Combine(UpdateDir, $"{data[2]}.zip"), 0);
 
                             //Check if file downloaded correctly
                             if (File.Exists(Path.Combine(UpdateDir, $"{data[2]}.zip")))

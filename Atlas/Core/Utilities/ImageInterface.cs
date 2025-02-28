@@ -2,13 +2,19 @@
 using Atlas.UI;
 using Atlas.UI.ViewModel;
 using NLog;
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
-using System.IO;
-using System.Windows;
 using System.Windows.Media.Imaging;
-using Image = SixLabors.ImageSharp.Image;
+using System.Windows;
+using Windows.Media.Protection.PlayReady;
+using Windows.Graphics.Imaging;
+using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace Atlas.Core.Utilities
 {
@@ -52,12 +58,38 @@ namespace Atlas.Core.Utilities
             }
         }
 
-        public async Task<string> ConvertToWebpAsync(byte[] imageArray, string imagePath, bool createThumb)
+        public async Task<string> ConvertToWebpAsync(byte[] imageBytes, string outputPath, int maxWidth, bool createThumb = false)
         {
             string path = "";
             try
             {
-                using var inStream = new MemoryStream(imageArray);
+                System.Drawing.Image _image = null;
+                using (MemoryStream memoryStream = new MemoryStream(imageBytes))
+                {
+                    _image = System.Drawing.Image.FromStream(memoryStream);
+                }
+                MemoryStream ms = new MemoryStream();
+                _image.Save(ms, _image.RawFormat);
+                ms.Position = 0; // Reset the stream position to the beginning
+
+                using (Image image = Image.Load(ms))
+                {
+                    //imageStream.Position = 0; // Ensure the stream position is set to 0 before reading
+
+                    // Resize the image to a max width of 600px while maintaining aspect ratio
+                    if (image.Width > maxWidth)
+                    {
+                        image.Mutate(x => x.Resize(maxWidth, 0));
+                    }
+
+                    // Save the image in WebP format
+                    using (FileStream output = File.OpenWrite($"{outputPath}.webp"))
+                    {
+                        image.Save(output, new WebpEncoder());
+                    }
+                    path = $"{outputPath}.webp";
+                }
+                /*using var inStream = new MemoryStream(imageArray);
                 inStream.Position = 0;
 
                 using (Image image = await Image.LoadAsync(inStream))
@@ -86,9 +118,9 @@ namespace Atlas.Core.Utilities
                     {
                         await CreateThumb(image, imagePath);
                     }
-                }
+                }*/
             }
-            catch (Exception ex) { Logger.Error(ex); }
+            catch (Exception ex) { Logger.Error(ex); return null; }
 
             return path;
         }
@@ -197,7 +229,7 @@ namespace Atlas.Core.Utilities
                         byte[] ImageArray = null;
 
                         banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", gameDetail.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
+                        await Core.Network.NetworkHelper.DownloadFileAsync(bannerUrl, banner_path, 200);
 
                         /*if (Path.GetExtension(bannerUrl) == ".gif")
                         {*/
@@ -265,5 +297,16 @@ namespace Atlas.Core.Utilities
                 Logger.Error(ex.ToString());
             }
         }
+        public static void ShrinkAndConvertToWebP(SKBitmap bitmap, int width, int height, string outputPath)
+        {
+            using (var resizedBitmap = bitmap.Resize(new SKImageInfo(width, height), SKFilterQuality.High))
+            using (var image = SKImage.FromBitmap(resizedBitmap))
+            using (var data = image.Encode(SKEncodedImageFormat.Webp, 100))
+            using (var stream = File.OpenWrite(outputPath))
+            {
+                data.SaveTo(stream);
+            }
+        }
+
     }
 }

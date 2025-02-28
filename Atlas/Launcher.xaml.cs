@@ -204,7 +204,7 @@ namespace Atlas
             //https://atlas-gamesdb.com/updates/1715651134.update
 
             string url = "https://atlas-gamesdb.com/api/updates";
-            JArray jsonArray = NetworkInterface.RequestJSON(url);
+            JArray jsonArray = NetworkHelper.RequestJSON(url);
             if (jsonArray != null)
             {
 
@@ -229,7 +229,7 @@ namespace Atlas
                             string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
                             string OutputPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "updates", name);
 
-                            await NetworkInterface.DownloadFile(DownloadUrl, OutputPath);
+                            await NetworkHelper.DownloadFile(DownloadUrl, OutputPath);
 
                             string data = Compression.DecodeLZ4Stream(OutputPath);
 

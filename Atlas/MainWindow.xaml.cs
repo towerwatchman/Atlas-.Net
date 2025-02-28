@@ -1,14 +1,18 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
+using Atlas.Core.Network;
 using Atlas.Core.Utilities;
 using Atlas.UI;
 using Atlas.UI.Pages;
 using Atlas.UI.ViewModel;
 using Atlas.UI.Windows;
 using NLog;
+using SixLabors.ImageSharp.Formats.Tga;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Policy;
@@ -18,6 +22,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Windows.Networking.NetworkOperators;
 //using System.Windows.Shapes;
 
 namespace Atlas
@@ -404,60 +409,19 @@ namespace Atlas
                                 {
                                     Logger.Info($"Downloading images id:{game.RecordID} name:{game.Title}");
                                     //Run below in a new task that is awaited
-                                    _ = Task.Run(async () =>
+                                    Task.Run(async () =>
                                     {
                                         string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID.ToString());
                                         Directory.CreateDirectory(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString()));
-                                        byte[] ImageArray = null;
 
                                         banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                        await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
 
-                                        /*if (Path.GetExtension(bannerUrl) == ".gif")
-                                        {*/
-                                        //banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                                        //await Core.Network.NetworkInterface.DownloadFileAsync(bannerUrl, banner_path, 200);
-                                        /*}
-                                        else
-                                        {*/
-                                        //banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
-                                        //ImageArray = await Core.Network.NetworkInterface.DownloadBytesAsync(bannerUrl, banner_path, 2000);
-                                        //}
-
-                                        //Atlas.Core.Network.NetworkInterface networkInterface = new Core.Network.NetworkInterface();
-
-
-                                        if (ImageArray != null)
+                                        try
                                         {
-                                            //ConvertImage to webp
-                                            ImageInterface image = new ImageInterface();
-                                            banner_path = image.ConvertToWebpAsync(ImageArray, banner_path, false).Result;
-
+                                            var image = NetworkHelper.DownloadImage(bannerUrl);
+                                            ImageInterface.ShrinkAndConvertToWebP(image, 100, 100, banner_path);
                                         }
-                                        //update banner table
-                                        if (File.Exists(banner_path))
-                                        {
-                                            SQLiteInterface.UpdateBanners(game.RecordID, banner_path, "banner");
-
-                                            Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
-                                            //Find Game in gamelist and set the banner to it
-                                            BitmapSource img = await ImageInterface.LoadImageAsync(game.RecordID,
-                                                        bannerUrl == "" ? "" : banner_path,
-                                                        Atlas.Core.Settings.Config.ImageRenderWidth,
-                                                        Atlas.Core.Settings.Config.ImageRenderHeight);
-                                            //Freeze Image so it can update main UI thread
-                                            img.Freeze();
-
-                                            GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
-                                            var index = ModelData.GameCollection.IndexOf(gameObj);
-
-                                            if (gameObj != null)
-                                            {
-                                                ModelData.GameCollection[index].BannerImage = img;
-                                                ModelData.GameCollection[index].BannerPath = banner_path;
-                                                gameObj.OnPropertyChanged("BannerImage");
-                                            }
-                                        }
+                                        catch (Exception ex) { Logger.Error(ex); }
 
                                         GC.Collect();
                                         GC.WaitForPendingFinalizers();

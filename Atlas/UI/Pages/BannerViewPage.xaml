@@ -19,44 +19,28 @@
                   BorderThickness="0"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   HorizontalAlignment="Stretch"
-                  ScrollViewer.CanContentScroll="True"
-                  VirtualizingPanel.ScrollUnit="Pixel"
-                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  ScrollViewer.IsDeferredScrollingEnabled="True"
                   MaxHeight="10000">
             <ListView.Template>
                 <ControlTemplate>
-                    <my:MyScrollViewer CanContentScroll="True"
-                                       Focusable="False"
-                                       HorizontalScrollBarVisibility="Auto"
-                                       VerticalScrollBarVisibility="Auto"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Stretch"
-                                       Background="{DynamicResource Primary}">
+                    <ScrollViewer Background="{DynamicResource Primary}">
                         <vwp:VirtualizingWrapPanel Background="{DynamicResource Panel}"
-                                                   VirtualizingPanel.IsVirtualizing="True"
-                                                   VirtualizingPanel.VirtualizationMode="Recycling"
+                                                   
                                                    IsItemsHost="True" />
-                    </my:MyScrollViewer>
+                    </ScrollViewer>
                 </ControlTemplate>
             </ListView.Template>
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:GameViewModel}">
-                    <VirtualizingStackPanel Orientation="Vertical"
-                                            VirtualizingStackPanel.IsVirtualizing="True"
-                                            VirtualizingStackPanel.VirtualizationMode="Recycling">
-                        <Grid Margin="4">
-                            <!-- <Image x:Name="BannerImage"/>-->
-                            <custom:GameBanner x:Name="GameBannerItem" />
-                        </Grid>
-                    </VirtualizingStackPanel>
-                    <!--<DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Path=(my:MyScrollViewer.IsInViewport), RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
-                                     Value="True">
-                           <Setter TargetName="BannerImage"
-                                    Property="Source"
-                                    Value="{Binding BannerImage}" />
-                        </DataTrigger>
-                    </DataTemplate.Triggers>-->
+                    <Grid Margin="4">
+                        <!--<Image Source="{Binding BannerImage, IsAsync=True}"
+                               Stretch="Uniform"
+                               Height="251"
+                               Width="537" />-->
+                        <custom:GameBanner x:Name="GameBannerItem" />
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
