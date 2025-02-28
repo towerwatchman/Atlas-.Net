@@ -339,5 +339,42 @@ namespace Atlas.Core.Utilities
                 originalImage.Dispose();
             }
         }
+        public static async Task<Bitmap> DownloadFileAsync(string url)
+        {
+            if (url != "")
+            {
+
+                using (var client = new HttpClient())
+                {
+                    try
+                    {
+                        var response = await client.GetAsync(url);
+                        response.EnsureSuccessStatusCode();
+
+                        var contentLength = response.Content.Headers.ContentLength;
+
+                        using (var stream = await response.Content.ReadAsStreamAsync())
+                        using (var ms = new MemoryStream())
+                        {
+                            //var relativeProgress = new Progress<long>(totalBytes => progress.Report((float)totalBytes / contentLength.Value));
+                            await stream.CopyToAsync(ms);
+                            return( new Bitmap(ms));
+                        }
+
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        Logger.Error("Failed to download File: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                Logger.Warn("Unable to get a valid image URL");
+            }
+
+            //If we need to give the downloader a delay, this will help. 
+            return null;
+        }
     }
 }

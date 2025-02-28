@@ -2,13 +2,9 @@
 using Newtonsoft.Json.Linq;
 using NLog;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Bmp;
-using SixLabors.ImageSharp.Formats.Gif;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Formats.Webp;
+using SixLabors.ImageSharp.Processing;
 using SkiaSharp;
-using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -19,7 +15,12 @@ namespace Atlas.Core.Network
     public class NetworkHelper
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly HttpClient _httpClient = new HttpClient()
+        {
+            Timeout = TimeSpan.FromSeconds(30)
+        };
+
+
 
         private static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
@@ -225,69 +226,140 @@ namespace Atlas.Core.Network
             System.Threading.Thread.Sleep(delay);
             return byteArray;
         }
-        public static async Task<Bitmap> DownloadImageAsync(string imageUrl)
+
+        public static async Task<Image> DownloadImageAsync(string imageUrl)
         {
             if (string.IsNullOrEmpty(imageUrl))
                 throw new ArgumentException("Image URL cannot be null or empty");
 
+            Console.WriteLine($"Starting download from: {imageUrl}");
+
             try
             {
-                // Configure HttpClient with a timeout and user agent
-                using (var request = new HttpRequestMessage(HttpMethod.Get, imageUrl))
+                using (var response = await _httpClient.GetAsync(imageUrl))
                 {
-                    // Add a user agent to mimic browser request
-                    request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+                    Console.WriteLine($"Response status: {response.StatusCode}");
+                    response.EnsureSuccessStatusCode();
 
-                    using (var response = await _httpClient.SendAsync(request))
+                    string contentType = response.Content.Headers.ContentType?.MediaType ?? "";
+                    Console.WriteLine($"Content-Type: {contentType}");
+
+                    if (!contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
                     {
-                        // Ensure we got a successful response
-                        response.EnsureSuccessStatusCode();
+                        throw new Exception($"Invalid content type: {contentType}");
+                    }
 
-                        // Check if the content type is actually an image
-                        string contentType = response.Content.Headers.ContentType?.MediaType ?? "";
-                        if (!contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
-                        {
-                            throw new Exception($"URL does not contain image content. Content-Type: {contentType}");
-                        }
+                    byte[] imageBytes = await response.Content.ReadAsByteArrayAsync();
+                    Console.WriteLine($"Downloaded {imageBytes.Length} bytes");
 
-                        // Download image bytes
-                        byte[] imageBytes = await response.Content.ReadAsByteArrayAsync();
+                    if (imageBytes.Length == 0)
+                    {
+                        throw new Exception("Empty image data received");
+                    }
 
-                        // Verify we have actual data
-                        if (imageBytes == null || imageBytes.Length == 0)
-                        {
-                            throw new Exception("No image data was downloaded");
-                        }
-
-                        // Attempt to create bitmap
+                    try
+                    {
                         using (var ms = new MemoryStream(imageBytes))
                         {
-                            Bitmap bitmap = new Bitmap(ms);
-
-                            // Verify the bitmap is valid
-                            if (bitmap.Width <= 0 || bitmap.Height <= 0)
-                            {
-                                throw new Exception("Invalid image dimensions");
-                            }
-
-                            // Return a copy to ensure the stream can be disposed
-                            return new Bitmap(bitmap);
+                            var image = await Image.LoadAsync(ms);
+                            Console.WriteLine($"Image loaded: {image.Width}x{image.Height}");
+                            return image; // Return the image directly
                         }
+                    }
+                    catch (Exception formatEx)
+                    {
+                        Console.WriteLine($"Format detection error: {formatEx.Message}");
+                        throw new Exception("Failed to decode image format", formatEx);
                     }
                 }
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
-                throw new Exception($"Network error downloading image: {ex.Message}", ex);
+                throw new Exception($"Image download failed: {ex.Message}", ex);
             }
-            catch (ArgumentException ex)
+        }
+        public static async Task DownloadAndConvertAvifToWebpAsync(string imageUrl,
+        string outputPath, int maxWidth = 660, int quality = 75)
+        {
+            if (string.IsNullOrEmpty(imageUrl))
+                throw new ArgumentException("Image URL cannot be null or empty");
+            if (string.IsNullOrEmpty(outputPath))
+                throw new ArgumentException("Output path cannot be empty");
+
+            Console.WriteLine($"Starting process for: {imageUrl}");
+
+            try
             {
-                throw new Exception($"Invalid image format: {ex.Message}", ex);
+                // Download the image
+                using (var response = await _httpClient.GetAsync(imageUrl))
+                {
+                    Console.WriteLine($"Response status: {response.StatusCode}");
+                    response.EnsureSuccessStatusCode();
+
+                    string contentType = response.Content.Headers.ContentType?.MediaType ?? "";
+                    Console.WriteLine($"Content-Type: {contentType}");
+
+                    if (!contentType.Contains("avif", StringComparison.OrdinalIgnoreCase) &&
+                        !contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new Exception($"Unexpected content type: {contentType}");
+                    }
+
+                    byte[] imageBytes = await response.Content.ReadAsByteArrayAsync();
+                    Console.WriteLine($"Downloaded {imageBytes.Length} bytes");
+
+                    if (imageBytes.Length == 0)
+                        throw new Exception("Empty image data received");
+
+                    // Process and convert the image
+                    using (var ms = new MemoryStream(imageBytes))
+                    using (var image = await Image.LoadAsync(ms))
+                    {
+                        Console.WriteLine($"Original size: {image.Width}x{image.Height}");
+
+                        // Calculate new dimensions
+                        int newWidth = image.Width;
+                        int newHeight = image.Height;
+                        if (newWidth > maxWidth)
+                        {
+                            float aspectRatio = (float)image.Width / image.Height;
+                            newWidth = maxWidth;
+                            newHeight = (int)(maxWidth / aspectRatio);
+                        }
+
+                        // Resize if needed
+                        if (newWidth != image.Width || newHeight != image.Height)
+                        {
+                            Console.WriteLine($"Resizing to: {newWidth}x{newHeight}");
+                            image.Mutate(x => x.Resize(newWidth, newHeight));
+                        }
+
+                        // Configure WebP encoder
+                        var webpEncoder = new WebpEncoder
+                        {
+                            Quality = quality,
+                            Method = WebpEncodingMethod.Level6,
+                            FileFormat = WebpFileFormatType.Lossy
+                        };
+
+                        // Save as WebP
+                        Console.WriteLine($"Saving to: {outputPath}");
+                        await image.SaveAsync(outputPath, webpEncoder);
+
+                        Console.WriteLine("Conversion completed successfully");
+                    }
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to process image: {ex.Message}", ex);
+                Console.WriteLine($"Processing failed: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner error: {ex.InnerException.Message}");
+                }
+                throw;
             }
         }
+
     }
 }
