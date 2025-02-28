@@ -419,10 +419,20 @@ namespace Atlas
                                         {
                                             //Download base image in bytes we will be
                                             byte[] imageBytes = await NetworkHelper.DownloadImageBytesAsync(bannerUrl);
+                                            //Small Capsule
                                             bool isScCreated = await ImageInterface.ConvertToWebpAsync(imageBytes, 90, 600, $"{banner_path}_sc.webp");
+                                            if (isScCreated)
+                                            {
+                                                //add to database as relative path
 
+                                            }
+
+                                            //Main Capsule
                                             bool isMcCreater = await ImageInterface.ConvertToWebpAsync(imageBytes, 90, 1260, $"{banner_path}_mc.webp");
+                                            if (isScCreated)
+                                            {
 
+                                            }
 
 
                                         }
