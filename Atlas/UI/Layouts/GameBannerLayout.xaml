@@ -56,13 +56,14 @@
                 </LinearGradientBrush>
             </Image.OpacityMask>
         </Image>-->
+       
+        <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
+               Stretch="Uniform"
+               Height="{DynamicResource bannerY}"
+               gif:AnimationBehavior.RepeatBehavior="Forever" />
         <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay, FallbackValue={StaticResource config_image}}"
                Stretch="Uniform"
                Height="{DynamicResource bannerY}" />
-        <!--<Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
-               Stretch="Uniform"
-               Height="{DynamicResource bannerY}"
-               gif:AnimationBehavior.RepeatBehavior="Forever" />-->
         <Grid VerticalAlignment="Top"
               x:Name="OverlayTop"
               Height="{DynamicResource overlayTopH}"

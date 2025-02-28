@@ -31,7 +31,8 @@ namespace Atlas.UI.ViewModel
             Overview = game.Overview;
             OS = game.OS;
             IsFavorite = game.IsFavorite;
-            BannerPath = game.BannerPath;
+            SmallCapsule = game.SmallCapsule;
+            MainCapsule = game.MainCapsule;
             SiteUrl = game.SiteUrl;
             Screens = game.Screens;
             Tags = game.Tags;
@@ -64,7 +65,8 @@ namespace Atlas.UI.ViewModel
         public string Overview { get; private set; }
         public string OS { get; private set; }
         public bool IsFavorite { get; private set; }
-        public string BannerPath { get; set; }
+        public string SmallCapsule { get; set; }
+        public string MainCapsule { get; set; }
         public string ImageUriAnimated { get; set; }
         public string SiteUrl { get; private set; }
         public string[] Screens { get; private set; }
@@ -135,7 +137,7 @@ namespace Atlas.UI.ViewModel
                     //return _bannerImage;
                     Task.Run(async () =>
                     {
-                        BitmapSource bi = await ImageInterface.LoadImageAsync(RecordID, BannerPath, Atlas.Core.Settings.Config.ImageRenderWidth);
+                        BitmapSource bi = await ImageInterface.LoadImageAsync(RecordID, SmallCapsule, Atlas.Core.Settings.Config.ImageRenderWidth);
                         if (bi != null)
                         {
 

@@ -184,7 +184,7 @@ namespace Atlas.Core.Utilities
                                 if (gameObj != null)
                                 {
                                     ModelData.GameCollection[index].BannerImage = img;
-                                    ModelData.GameCollection[index].BannerPath = banner_path;
+                                    ModelData.GameCollection[index].SmallCapsule = banner_path;
                                     gameObj.OnPropertyChanged("BannerImage");
                                 }
                             });
@@ -229,7 +229,12 @@ namespace Atlas.Core.Utilities
                     //Check for a valid image format
                     if (type != "")
                     {
-
+                        //Save gif if available
+                        if (type == "gif")
+                        {
+                            byte[] gifBytes = image.ToByteArray();
+                            await File.WriteAllBytesAsync(outFile.Replace(".webp", ".gif"), gifBytes);
+                        }
                         // Resize if necessary
                         if ((width > maxDimension || height > maxDimension) && maxDimension > 0)
                         {
@@ -258,7 +263,6 @@ namespace Atlas.Core.Utilities
 
                         await File.WriteAllBytesAsync(outFile, webpBytes);
                         Logger.Info($"Saved as: {outFile}");
-                        Logger.Info("Image downloaded, converted to WebP, and saved successfully!");
                         return true;
                     }
                     else

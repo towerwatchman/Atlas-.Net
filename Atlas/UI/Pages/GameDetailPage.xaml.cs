@@ -33,13 +33,13 @@ namespace Atlas.UI.Pages
             if (CurrentGame != null)
             {
 
-                BitmapSource ImageData = await ImageInterface.LoadImageAsync(CurrentGame.RecordID, CurrentGame.BannerPath, 1000, 250);
+                BitmapSource ImageData = await ImageInterface.LoadImageAsync(CurrentGame.RecordID, CurrentGame.MainCapsule, 1000, 250);
                 if (ImageData != null)
                 {
                     ImageData.Freeze();
-                    if (System.IO.Path.GetExtension(CurrentGame.BannerPath) == ".gif")
+                    if (System.IO.Path.GetExtension(CurrentGame.MainCapsule) == ".gif")
                     {
-                        AnimationBehavior.SetSourceUri(AnimatedBanner, new System.Uri(CurrentGame.BannerPath));
+                        AnimationBehavior.SetSourceUri(AnimatedBanner, new System.Uri(CurrentGame.MainCapsule));
                     }
                     else
                     {

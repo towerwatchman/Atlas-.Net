@@ -402,42 +402,66 @@ namespace Atlas
                             try
                             {
                                 //Get Banner Path for database. This will be relative and the root path will need to be added. 
-                                string banner_path = SQLiteInterface.GetBannerPath(game.RecordID.ToString());
+                                string banner_relative_path = SQLiteInterface.GetBannerPath(game.RecordID.ToString());
+                                string banner_full_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, banner_relative_path);
                                 //Check if banner already exist
-                                if ((banner_path == string.Empty && game.AtlasID > -1) || !File.Exists(banner_path))
+                                if ((banner_relative_path == string.Empty && game.AtlasID > -1) || !File.Exists(banner_full_path))
                                 {
-                                    Logger.Info($"Downloading images id:{game.RecordID} name:{game.Title}");
                                     //Run below in a new task that is awaited
                                     Task.Run(async () =>
                                     {
                                         string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID.ToString());
-                                        Directory.CreateDirectory(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString()));
-
-                                        banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
-
-                                        try
+                                        if (bannerUrl != string.Empty)
                                         {
-                                            //Download base image in bytes we will be
-                                            byte[] imageBytes = await NetworkHelper.DownloadImageBytesAsync(bannerUrl);
-                                            //Small Capsule
-                                            bool isScCreated = await ImageInterface.ConvertToWebpAsync(imageBytes, 90, 600, $"{banner_path}_sc.webp");
-                                            if (isScCreated)
+                                            Logger.Info($"Downloading images id:{game.RecordID} name:{game.Title}");
+                                            Directory.CreateDirectory(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString()));
+
+                                            banner_full_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
+                                            banner_relative_path = Path.Combine("data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
+
+                                            try
                                             {
-                                                //add to database as relative path
+                                                //Download base image in bytes we will be
+                                                byte[] imageBytes = await NetworkHelper.DownloadImageBytesAsync(bannerUrl);
+                                                //Small Capsule
+                                                bool isScCreated = await ImageInterface.ConvertToWebpAsync(imageBytes, 90, 600, $"{banner_full_path}_sc.webp");
+
+                                                //Main Capsule
+                                                bool isMcCreater = await ImageInterface.ConvertToWebpAsync(imageBytes, 90, 1260, $"{banner_full_path}_mc.webp");
+
+                                                if (isScCreated && isScCreated)
+                                                {
+                                                    //update banner table
+                                                    if (File.Exists($"{banner_full_path}_sc.webp"))
+                                                    {
+                                                        SQLiteInterface.UpdateBanners(game.RecordID, $"{banner_relative_path}_sc.webp", "banner");
+
+                                                        Logger.Info($" Updated Banner Images for: {game.Title.ToString()}");
+                                                        //Find Game in gamelist and set the banner to it
+                                                        BitmapSource img = await ImageInterface.LoadImageAsync(game.RecordID,
+                                                                    bannerUrl == "" ? "" : $"{banner_full_path}_sc.webp",
+                                                                    Atlas.Core.Settings.Config.ImageRenderWidth,
+                                                                    Atlas.Core.Settings.Config.ImageRenderHeight);
+                                                        //Freeze Image so it can update main UI thread
+                                                        img.Freeze();
+
+                                                        GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == game.RecordID).FirstOrDefault();
+                                                        var index = ModelData.GameCollection.IndexOf(gameObj);
+
+                                                        if (gameObj != null)
+                                                        {
+                                                            ModelData.GameCollection[index].BannerImage = img;
+                                                            ModelData.GameCollection[index].SmallCapsule = $"{banner_full_path}_sc.webp";
+                                                            ModelData.GameCollection[index].MainCapsule = $"{banner_full_path}_mc.webp";
+                                                            gameObj.OnPropertyChanged("BannerImage");
+                                                        }
+                                                    }
+                                                }
+
 
                                             }
-
-                                            //Main Capsule
-                                            bool isMcCreater = await ImageInterface.ConvertToWebpAsync(imageBytes, 90, 1260, $"{banner_path}_mc.webp");
-                                            if (isScCreated)
-                                            {
-
-                                            }
-
-
+                                            catch (Exception ex) { Logger.Error(ex); }
                                         }
-                                        catch (Exception ex) { Logger.Error(ex); }
-
                                         GC.Collect();
                                         GC.WaitForPendingFinalizers();
 
