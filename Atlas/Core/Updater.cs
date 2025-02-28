@@ -1,4 +1,4 @@
-﻿using Atlas.Core.Network;
+﻿using Atlas.Core.Networking;
 using Atlas.UI;
 using Newtonsoft.Json.Linq;
 using NLog;

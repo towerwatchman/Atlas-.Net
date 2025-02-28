@@ -1,6 +1,6 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
-using Atlas.Core.Network;
+using Atlas.Core.Networking;
 using Atlas.Core.Utilities;
 using Atlas.UI;
 using Atlas.UI.Pages;
@@ -401,10 +401,9 @@ namespace Atlas
                         {
                             try
                             {
-                                //Get Banner Path for database
-                                //Logger.Info(game.Title);
+                                //Get Banner Path for database. This will be relative and the root path will need to be added. 
                                 string banner_path = SQLiteInterface.GetBannerPath(game.RecordID.ToString());
-                                //check if banner already exist
+                                //Check if banner already exist
                                 if ((banner_path == string.Empty && game.AtlasID > -1) || !File.Exists(banner_path))
                                 {
                                     Logger.Info($"Downloading images id:{game.RecordID} name:{game.Title}");
@@ -414,12 +413,18 @@ namespace Atlas
                                         string bannerUrl = SQLiteInterface.GetBannerUrl(game.AtlasID.ToString());
                                         Directory.CreateDirectory(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString()));
 
-                                        banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString(), Path.GetFileName(bannerUrl));
+                                        banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", game.RecordID.ToString(), Path.GetFileNameWithoutExtension(bannerUrl));
 
                                         try
                                         {
-                                            await NetworkHelper.DownloadAndConvertAvifToWebpAsync(bannerUrl,banner_path);  //await NetworkHelper.DownloadImageAsync(bannerUrl);
-                                            //bool success = await ImageInterface.ResizeAndSaveAsWebP(image, banner_path, 660);
+                                            //Download base image in bytes we will be
+                                            byte[] imageBytes = await NetworkHelper.DownloadImageBytesAsync(bannerUrl);
+                                            bool isScCreated = await ImageInterface.ConvertToWebpAsync(imageBytes, 90, 600, $"{banner_path}_sc.webp");
+
+                                            bool isMcCreater = await ImageInterface.ConvertToWebpAsync(imageBytes, 90, 1260, $"{banner_path}_mc.webp");
+
+
+
                                         }
                                         catch (Exception ex) { Logger.Error(ex); }
 

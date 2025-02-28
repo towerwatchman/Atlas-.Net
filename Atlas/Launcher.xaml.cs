@@ -1,6 +1,6 @@
 ﻿using Atlas.Core;
 using Atlas.Core.Database;
-using Atlas.Core.Network;
+using Atlas.Core.Networking;
 using Atlas.Core.Utilities;
 using Atlas.UI;
 using Newtonsoft.Json.Linq;
@@ -229,7 +229,7 @@ namespace Atlas
                             string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
                             string OutputPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "updates", name);
 
-                            await NetworkHelper.DownloadFile(DownloadUrl, OutputPath);
+                            await NetworkHelper.DownloadFileWithProgress(DownloadUrl, OutputPath);
 
                             string data = Compression.DecodeLZ4Stream(OutputPath);
 

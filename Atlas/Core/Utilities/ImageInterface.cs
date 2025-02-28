@@ -17,6 +17,8 @@ using SkiaSharp;
 using System.Drawing;
 using Image = SixLabors.ImageSharp.Image;
 using System.Drawing.Imaging;
+using ImageMagick;
+using NLog.Config;
 
 namespace Atlas.Core.Utilities
 {
@@ -58,99 +60,6 @@ namespace Atlas.Core.Utilities
                     return image;
                 }
             }
-        }
-
-        public async Task<string> ConvertToWebpAsync(byte[] imageBytes, string outputPath, int maxWidth, bool createThumb = false)
-        {
-            string path = "";
-            try
-            {
-                System.Drawing.Image _image = null;
-                using (MemoryStream memoryStream = new MemoryStream(imageBytes))
-                {
-                    _image = System.Drawing.Image.FromStream(memoryStream);
-                }
-                MemoryStream ms = new MemoryStream();
-                _image.Save(ms, _image.RawFormat);
-                ms.Position = 0; // Reset the stream position to the beginning
-
-                using (Image image = Image.Load(ms))
-                {
-                    //imageStream.Position = 0; // Ensure the stream position is set to 0 before reading
-
-                    // Resize the image to a max width of 600px while maintaining aspect ratio
-                    if (image.Width > maxWidth)
-                    {
-                        image.Mutate(x => x.Resize(maxWidth, 0));
-                    }
-
-                    // Save the image in WebP format
-                    using (FileStream output = File.OpenWrite($"{outputPath}.webp"))
-                    {
-                       // image.Save(output, new WebpEncoder());
-                    }
-                    path = $"{outputPath}.webp";
-                }
-                /*using var inStream = new MemoryStream(imageArray);
-                inStream.Position = 0;
-
-                using (Image image = await Image.LoadAsync(inStream))
-                {
-
-                    double max_size = 616;
-
-                    if (image.Width > image.Height)
-                    {
-                        double height = (max_size / image.Width) * image.Height;
-                        image.Mutate(x => x.Resize(Convert.ToInt32(max_size), Convert.ToInt32(height), KnownResamplers.Lanczos3));
-                    }
-                    else
-                    {
-                        double width = (max_size / image.Height) * image.Width;
-                        image.Mutate(x => x.Resize(Convert.ToInt32(width), Convert.ToInt32(max_size), KnownResamplers.Lanczos3));
-                    }
-
-                    using var outStream = new MemoryStream();
-
-                    await image.SaveAsync(outStream, new WebpEncoder());
-                    await image.SaveAsWebpAsync($"{imagePath}.webp");
-                    path = $"{imagePath}.webp";
-
-                    if (createThumb)
-                    {
-                        await CreateThumb(image, imagePath);
-                    }
-                }*/
-            }
-            catch (Exception ex) { Logger.Error(ex); return null; }
-
-            return path;
-        }
-
-        public async Task<Task> CreateThumb(Image image, string imagePath)
-        {
-            double max_size = 20;
-            try
-            {
-                if (image.Width > image.Height)
-                {
-                    double height = (max_size / image.Width) * image.Height;
-                    image.Mutate(x => x.Resize(Convert.ToInt32(max_size), Convert.ToInt32(height), KnownResamplers.Lanczos3));
-                }
-                else
-                {
-                    double width = (max_size / image.Height) * image.Width;
-                    image.Mutate(x => x.Resize(Convert.ToInt32(width), Convert.ToInt32(max_size), KnownResamplers.Lanczos3));
-                }
-
-                //using var outStream = new MemoryStream();
-                //await image.SaveAsync(outStream, new WebpEncoder());
-
-                await image.SaveAsWebpAsync($"{imagePath}_thumb.webp");
-            }
-            catch (Exception ex) { Logger.Error(ex); }
-
-            return Task.CompletedTask;
         }
 
         public static async Task<BitmapSource> LoadImageAsync(int id, string bannerPath, double imageRenderWidth, double imageRenderHeight = 0)
@@ -231,7 +140,7 @@ namespace Atlas.Core.Utilities
                         byte[] ImageArray = null;
 
                         banner_path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data\\images", gameDetail.RecordID.ToString(), Path.GetFileName(bannerUrl));
-                        await Core.Network.NetworkHelper.DownloadFileAsync(bannerUrl, banner_path, 200);
+                        await Core.Networking.NetworkHelper.DownloadFileAsync(bannerUrl, banner_path, 200);
 
                         /*if (Path.GetExtension(bannerUrl) == ".gif")
                         {*/
@@ -298,83 +207,135 @@ namespace Atlas.Core.Utilities
             {
                 Logger.Error(ex.ToString());
             }
-        }       
+        }
 
-        public static async Task<bool> ResizeAndSaveAsWebP(Bitmap originalImage, string outputPath,
-     int max_size = 660, int? newHeight = null)
+        public static void CreateAtlasAssets(string path, string filename)
         {
-            try
+
+        }
+
+        public static async Task<bool> ConvertToWebpAsync(byte[] imageBytes, uint quality, uint maxDimension, string outFile)
+        {
+            using (var image = new MagickImage(imageBytes))
             {
-                // ... (dimension calculation remains the same)
-
-                using (var ms = new MemoryStream())
+                try
                 {
-                    originalImage.Save(ms, ImageFormat.Bmp);
-                    ms.Position = 0;
-
-                    using (var image = await Image.LoadAsync(ms))
+                    //Check if file type before continueing
+                    string type = DetectImageFormat(imageBytes);
+                    Logger.Info($"{type} image format detected");
+                    // Get original dimensions
+                    int width = (int)image.Width;
+                    int height = (int)image.Height;
+                    //Check for a valid image format
+                    if (type != "")
                     {
-                        if (image.Width > image.Height)
+
+                        // Resize if necessary
+                        if ((width > maxDimension || height > maxDimension) && maxDimension > 0)
                         {
-                            double height = (max_size / image.Width) * image.Height;
-                            image.Mutate(x => x.Resize(Convert.ToInt32(max_size), Convert.ToInt32(height), KnownResamplers.Lanczos3));
+                            if (width > height)
+                            {
+                                // Scale based on width
+                                image.Resize(maxDimension, 0); // Height will scale proportionally, 0 maintains aspect ratio
+                            }
+                            else
+                            {
+                                // Scale based on height
+                                image.Resize(0, maxDimension); // Width will scale proportionally, 0 maintains aspect ratio
+                            }
                         }
-                        else
-                        {
-                            double width = (max_size / image.Height) * image.Width;
-                            image.Mutate(x => x.Resize(Convert.ToInt32(width), Convert.ToInt32(max_size), KnownResamplers.Lanczos3));
-                        }
-                        await image.SaveAsWebpAsync(outputPath);
+
+                        // Set WebP format and quality
+                        image.Format = MagickFormat.WebP;
+                        image.Quality = quality;
+
+                        // Optionally configure WebP-specific settings
+                        image.Settings.SetDefine("webp:lossless", "false"); // Use "true" for lossless
+                                                                            // image.Settings.SetDefine("webp:compression-level", "6"); // 0-6, higher = better compression
+
+                        // Convert to WebP and return bytes
+                        byte[] webpBytes = image.ToByteArray();
+
+                        await File.WriteAllBytesAsync(outFile, webpBytes);
+                        Logger.Info($"Saved as: {outFile}");
+                        Logger.Info("Image downloaded, converted to WebP, and saved successfully!");
+                        return true;
+                    }
+                    else
+                    {
+                        Logger.Warn("Image Type was not in expected format");
+                        return false;
                     }
                 }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Error: {ex.Message}");
-                return false;
-            }
-            finally
-            {
-                originalImage.Dispose();
-            }
-        }
-        public static async Task<Bitmap> DownloadFileAsync(string url)
-        {
-            if (url != "")
-            {
-
-                using (var client = new HttpClient())
+                catch (Exception e)
                 {
-                    try
-                    {
-                        var response = await client.GetAsync(url);
-                        response.EnsureSuccessStatusCode();
-
-                        var contentLength = response.Content.Headers.ContentLength;
-
-                        using (var stream = await response.Content.ReadAsStreamAsync())
-                        using (var ms = new MemoryStream())
-                        {
-                            //var relativeProgress = new Progress<long>(totalBytes => progress.Report((float)totalBytes / contentLength.Value));
-                            await stream.CopyToAsync(ms);
-                            return( new Bitmap(ms));
-                        }
-
-                    }
-                    catch (HttpRequestException ex)
-                    {
-                        Logger.Error("Failed to download File: " + ex.Message);
-                    }
+                    Logger.Error(e);
+                    return false;
                 }
             }
-            else
-            {
-                Logger.Warn("Unable to get a valid image URL");
-            }
-
-            //If we need to give the downloader a delay, this will help. 
-            return null;
         }
+
+        static string DetectImageFormat(byte[] imageBytes)
+        {
+            // Check if we have enough bytes to analyze (increased to 14 for TGA)
+            if (imageBytes.Length < 14)
+                return string.Empty;
+
+            // JPEG: FF D8 FF
+            if (imageBytes[0] == 0xFF && imageBytes[1] == 0xD8 && imageBytes[2] == 0xFF)
+                return "jpg";
+
+            // PNG: 89 50 4E 47
+            if (imageBytes[0] == 0x89 && imageBytes[1] == 0x50 &&
+                imageBytes[2] == 0x4E && imageBytes[3] == 0x47)
+                return "png";
+
+            // GIF: 47 49 46 38
+            if (imageBytes[0] == 0x47 && imageBytes[1] == 0x49 &&
+                imageBytes[2] == 0x46 && imageBytes[3] == 0x38)
+                return "gif";
+
+            // BMP: 42 4D
+            if (imageBytes[0] == 0x42 && imageBytes[1] == 0x4D)
+                return "bmp";
+
+            // WebP: 52 49 46 46 (RIFF) ... 57 45 42 50 (WEBP)
+            if (imageBytes[0] == 0x52 && imageBytes[1] == 0x49 &&
+                imageBytes[2] == 0x46 && imageBytes[3] == 0x46 &&
+                imageBytes[8] == 0x57 && imageBytes[9] == 0x45 &&
+                imageBytes[10] == 0x42 && imageBytes[11] == 0x50)
+                return "webp";
+
+            // AVIF: Usually starts with ftypavif in bytes 4-11
+            if (imageBytes[4] == 0x66 && imageBytes[5] == 0x74 &&
+                imageBytes[6] == 0x79 && imageBytes[7] == 0x70 &&
+                imageBytes[8] == 0x61 && imageBytes[9] == 0x76 &&
+                imageBytes[10] == 0x69 && imageBytes[11] == 0x66)
+                return "avif";
+
+            // PBM (Portable Bitmap, ASCII): 50 31 (P1)
+            if (imageBytes[0] == 0x50 && imageBytes[1] == 0x31)
+                return "pbm";
+
+            // TIFF: 49 49 2A 00 (little-endian) or 4D 4D 00 2A (big-endian)
+            if ((imageBytes[0] == 0x49 && imageBytes[1] == 0x49 && imageBytes[2] == 0x2A && imageBytes[3] == 0x00) ||
+                (imageBytes[0] == 0x4D && imageBytes[1] == 0x4D && imageBytes[2] == 0x00 && imageBytes[3] == 0x2A))
+                return "tiff";
+
+            // TGA (Truevision TGA): Basic header check
+            if (imageBytes[0] <= 0x01 && imageBytes[1] <= 0x0D &&
+                (imageBytes[2] == 0x01 || imageBytes[2] == 0x02 || imageBytes[2] == 0x03 ||
+                 imageBytes[2] == 0x09 || imageBytes[2] == 0x0A || imageBytes[2] == 0x0B))
+                return "tga";
+
+            // QOI (Quite OK Image): 71 6F 69 66 (qoif)
+            if (imageBytes[0] == 0x71 && imageBytes[1] == 0x6F &&
+                imageBytes[2] == 0x69 && imageBytes[3] == 0x66)
+                return "qoi";
+
+            // Default to .jpg if unknown
+            return "unknown";
+        }
+
     }
 }
