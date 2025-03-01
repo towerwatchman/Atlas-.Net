@@ -204,19 +204,20 @@ namespace Atlas
             //https://atlas-gamesdb.com/updates/1715651134.update
 
             string url = "https://atlas-gamesdb.com/api/updates";
+            int total = 0;
+            int index = 0;
             JArray jsonArray = NetworkHelper.RequestJSON(url);
             if (jsonArray != null)
             {
-
+                //This has to be updated so it will not overwrite previous versions
+                int lastDbUpdateVersion = SQLiteInterface.GetLastUpdateVersion();
+                total = jsonArray.Count;
                 foreach (var jsonitem in jsonArray)
                 {
-                    //This has to be updated so it will not overwrite previous versions
-                    int lastDbUpdateVersion = SQLiteInterface.GetLastUpdateVersion();
                     //Get data for latest update
                     string date = jsonitem["date"].ToString();
                     string name = jsonitem["name"].ToString();
                     string md5 = jsonitem["md5"].ToString();
-
 
                     //Run db check to see if latest update is in database
                     if (Convert.ToInt32(date) > lastDbUpdateVersion || lastDbUpdateVersion == 0)
@@ -224,8 +225,8 @@ namespace Atlas
                         //Download latest update
                         try
                         {
-                            Logger.Info("Downloading Database Update");
-                            UpdateLauncherText("Downloading Database Update");
+                            Logger.Info($"Downloading Database Update {index}/{total}");
+                            UpdateLauncherText($"Downloading Database Update {index}/{total}");
                             string DownloadUrl = $"https://atlas-gamesdb.com/packages/{name}";
                             string OutputPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "updates", name);
 
@@ -239,8 +240,8 @@ namespace Atlas
                                 UpdateTextBox.Visibility = System.Windows.Visibility.Visible;
                             });
 
-                            Logger.Info("Processing Update");
-                            UpdateLauncherText("Processing Update");
+                            Logger.Info($"Processing Update {index}/{total}");
+                            UpdateLauncherText($"Processing Update {index}/{total}");
                             await UpdateInterface.ParseUpdate(data);
 
                             if (UpdateInterface.UpdateCompleted)
