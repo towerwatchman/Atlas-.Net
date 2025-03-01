@@ -10,6 +10,7 @@ namespace Atlas.UI.Pages.Settings
         public InterfacePage()
         {
             InitializeComponent();
+            ShowDebugConsole.IsChecked = Atlas.Core.Settings.Config.ShowDebugWindow;
         }
 
         private void ShowDebugConsole_Click(object sender, System.Windows.RoutedEventArgs e)
