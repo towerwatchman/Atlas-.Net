@@ -1,10 +1,12 @@
 ﻿using Microsoft.Data.Sqlite;
+using NLog;
 using System.IO;
 
 namespace Atlas.Core.Database
 {
     static class Migrations
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static void Run()
         {
             using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
@@ -20,6 +22,15 @@ namespace Atlas.Core.Database
                         // Begin savepoint
                         transaction.Save("Migrations Update");
 
+                        foreach (var cmd in migrations)
+                        {
+                            var updateCommand = connection.CreateCommand();
+                            updateCommand.CommandText = cmd;
+
+                            var recordsAffected = updateCommand.ExecuteNonQuery();
+                        }
+
+                        //Run database mods
                         foreach (var cmd in migrations)
                         {
                             var updateCommand = connection.CreateCommand();
@@ -103,7 +114,7 @@ namespace Atlas.Core.Database
 				    logo           STRING,
 				    wallpaper      STRING,
 				    previews       STRING,
-				    last_db_update STRING
+				    last_record_update STRING
 			    );",
                 @"CREATE TABLE IF NOT EXISTS atlas_previews
                     (
@@ -191,6 +202,52 @@ namespace Atlas.Core.Database
 					f95_id INTEGER REFERENCES f95_zone_data(f95_id)
 				);"
         };
+    }
+    static class Updates
+    {
 
+        //Need to make this so it will work with any column and table
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public static void Run()
+        {
+            using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
+            {
+                connection.Open();
+
+                // Check if column exists
+                using (var command = new SqliteCommand("PRAGMA table_info(atlas_data)", connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        bool columnExists = false;
+                        while (reader.Read())
+                        {
+                            string columnName = reader["name"].ToString();
+                            if (columnName == "last_db_update")
+                            {
+                                columnExists = true;
+                                break;
+                            }
+                        }
+
+                        if (columnExists)
+                        {
+                            // Rename the column if it exists
+                            using (var renameCommand = new SqliteCommand(
+                                "ALTER TABLE atlas_data RENAME COLUMN last_db_update TO last_record_update",
+                                connection))
+                            {
+                                renameCommand.ExecuteNonQuery();
+                                Logger.Warn("Column last_db_update renamed TO last_record_update successfully");
+                            }
+                        }
+                        else
+                        {
+                            //Console.WriteLine("Column 'last_db_update' not found in atlas_data table");
+                        }
+                    }
+                }
+            }
+        }
     }
 }

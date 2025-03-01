@@ -30,6 +30,8 @@ namespace Atlas.Core.Database
                         connection.Open();
                     }
                     Migrations.Run();
+                    Logger.Info("Running Database Updates");
+                    Updates.Run();
                 }
                 catch (Exception ex)
                 {
