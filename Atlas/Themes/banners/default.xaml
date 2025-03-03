@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
              xmlns:local="clr-namespace:Atlas.UI"
              mc:Ignorable="d"
              d:DesignHeight="{DynamicResource bannerY}"
@@ -31,7 +30,7 @@
             <sys:Int32 x:Key="Rows">0</sys:Int32>
             <sys:Int32 x:Key="Columns">0</sys:Int32>
             <BitmapImage x:Key="config_image"
-                         UriSource="/Assets/Images/config_image.webp" />
+                         UriSource="pack://application:,,,/Assets/Images/config_image.webp" />
             <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
@@ -56,11 +55,6 @@
                 </LinearGradientBrush>
             </Image.OpacityMask>
         </Image>-->
-       
-        <Image gif:AnimationBehavior.SourceUri="{Binding ImageUriAnimated}"
-               Stretch="Uniform"
-               Height="{DynamicResource bannerY}"
-               gif:AnimationBehavior.RepeatBehavior="Forever" />
         <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay, FallbackValue={StaticResource config_image}}"
                Stretch="Uniform"
                Height="{DynamicResource bannerY}" />
@@ -136,7 +130,7 @@
                  BorderThickness="0" />-->
         <TextBox VerticalAlignment="Bottom"
                  HorizontalAlignment="Right"
-                 Text="{Binding Status}"
+                 Text="{Binding Status, FallbackValue=Complete}"
                  Foreground="White"
                  Margin="3,3,3,3"
                  Padding="2"

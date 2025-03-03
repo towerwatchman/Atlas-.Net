@@ -112,6 +112,8 @@ namespace Atlas
                 Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "logs"));
                 Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "updates"));
                 Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes"));
+                Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "ui"));
+                Directory.CreateDirectory(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners"));
             }
             catch (Exception ex) { Logger.Error(ex); }
             UpdateLauncherProgressBar(10);

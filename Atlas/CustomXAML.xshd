@@ -1,0 +1,18 @@
+﻿<!-- CustomXAML.xshd -->
+<SyntaxDefinition name="CustomXAML" extensions=".xaml"
+                  xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Element" foreground="#FF0000FF" /> <!-- Blue for elements -->
+  <Color name="Attribute" foreground="#FFFF00FF" /> <!-- Purple for attributes -->
+  <Color name="Value" foreground="#FF008000" /> <!-- Green for values -->
+  <Color name="Text" foreground="#FF000000" /> <!-- Black for text -->
+  <Color name="Comment" foreground="#FF008080" /> <!-- Teal for comments -->
+
+  <RuleSet>
+    <Rule color="Comment">&lt;!--[\s\S]*?--&gt;</Rule>
+    <Rule color="Element">&lt;[a-zA-Z][\w:.-]*</Rule>
+    <Rule color="Element">&lt;/[a-zA-Z][\w:.-]*&gt;</Rule>
+    <Rule color="Attribute">\s[a-zA-Z][\w:.-]*=</Rule>
+    <Rule color="Value">"[^"]*"</Rule>
+	<Rule color="Text">[^&lt;]+</Rule> <!-- Changed to [^&lt;]+ with HTML entity -->
+  </RuleSet>
+</SyntaxDefinition>

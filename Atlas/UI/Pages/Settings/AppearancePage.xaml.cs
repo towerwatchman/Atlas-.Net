@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Atlas.UI.Windows;
+using NLog;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,17 +15,27 @@ namespace Atlas.UI.Pages.Settings
         public AppearancePage()
         {
             InitializeComponent();
-            foreach (var item in Directory.GetFiles(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes")))
+            foreach (var item in Directory.GetFiles(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "ui")))
             {
                 if (System.IO.Path.GetExtension(item) == ".xaml")
                 {
                     cbThemes.Items.Add(System.IO.Path.GetFileNameWithoutExtension(item));
                 }
             }
+
+            foreach (var item in Directory.GetFiles(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners")))
+            {
+                if (System.IO.Path.GetExtension(item) == ".xaml")
+                {
+                    cbBanners.Items.Add(System.IO.Path.GetFileNameWithoutExtension(item));
+                }
+            }
             //Try to change theme to config file theme
             int index = cbThemes.Items.IndexOf(Atlas.Core.Settings.Config.Theme);            
             cbThemes.SelectedIndex = index;
 
+            index = cbBanners.Items.IndexOf(Atlas.Core.Settings.Config.BannerTheme);
+            cbBanners.SelectedIndex = index;
         }
 
         private void bLoadTheme_Click(object sender, RoutedEventArgs e)
@@ -48,6 +59,17 @@ namespace Atlas.UI.Pages.Settings
                 //Default to regular theme
                 Logger.Error(ex);
             }
+
+        }
+
+        private void bOpenXamlEditor_Click(object sender, RoutedEventArgs e)
+        {
+            XamlEditor editor =  new XamlEditor();
+            editor.Show();
+        }
+
+        private void cbBanners_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
 
         }
     }

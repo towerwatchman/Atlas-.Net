@@ -370,6 +370,7 @@
                         <ListBoxItem x:Name="Settings"
                                      Content="{DynamicResource settings_icon}"
                                      IsSelected="False" />
+                        
                     </ListBox>
                 </Grid>
                 <!--#endregion-->

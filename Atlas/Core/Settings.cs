@@ -23,6 +23,7 @@ namespace Atlas.Core
 
             //APP
             Config.Theme = Config.Theme == null || Config.Theme == "" ? "Dark.xaml" : Config.Theme;
+            Config.BannerTheme = Config.BannerTheme == null || Config.BannerTheme == "" ? "Default.xaml" : Config.Theme;
             Config.ShowListView = Config.FTS != true ? true : Config.ShowListView;
 
             //IMPORTER
@@ -66,6 +67,8 @@ namespace Atlas.Core
         bool FTS { get; set; }
         [Option(Alias = "app.Theme")]
         string Theme { get; set; }
+        [Option(Alias = "app.BannerTheme")]
+        string BannerTheme { get; set; }
         [Option(Alias = "app.ShowListView")]
         bool ShowListView { get; set; }
         #endregion

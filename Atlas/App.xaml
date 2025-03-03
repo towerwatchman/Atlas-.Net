@@ -13,7 +13,7 @@
                 <ResourceDictionary Source="/UI/Dictionaries/DefaultControls.xaml" />
                 <!-- Default theme -->
                 <ResourceDictionary x:Name="rdTheme"
-                                    Source="/Themes/dark.xaml" />
+                                    Source="/Themes/ui/dark.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!--#endregion-->
             <!-- #region x:Type Radio Button -->

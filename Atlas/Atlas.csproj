@@ -48,6 +48,7 @@
     <None Remove="Assets\Icons\settings.svg" />
     <None Remove="Assets\Images\config_image.webp" />
     <None Remove="Assets\Images\default.jpg" />
+    <None Remove="CustomXAML.xshd" />
     <None Remove="UI\config_image.webp" />
   </ItemGroup>
 
@@ -60,12 +61,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Themes\test.xaml">
+    <None Include="Themes\ui\test.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
     <PackageReference Include="Config.Net" Version="5.2.1" />
     <PackageReference Include="K4os.Compression.LZ4" Version="1.3.8" />
     <PackageReference Include="K4os.Compression.LZ4.Legacy" Version="1.3.8" />
@@ -94,8 +96,9 @@
     <Resource Include="Assets\Icons\play_normal.svg" />
     <Resource Include="Assets\Icons\rating_icon.svg" />
     <Resource Include="Assets\Icons\settings.svg" />
-    <EmbeddedResource Include="Assets\Images\config_image.webp" />
+    <Resource Include="Assets\Images\config_image.webp" />
     <EmbeddedResource Include="Assets\Images\default.jpg" />
+    <EmbeddedResource Include="CustomXAML.xshd" />
   </ItemGroup>
 
   <ItemGroup>
@@ -114,7 +117,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="mkdir &quot;$(TargetDir)\themes&quot;&#xD;&#xA;copy /Y &quot;$(SolutionDir)$(ProjectName)\Themes&quot; &quot;$(TargetDir)themes&quot;" />
+    <Exec Command="mkdir &quot;$(TargetDir)\themes\ui&quot;&#xD;&#xA;mkdir &quot;$(TargetDir)\themes\banners&quot;&#xD;&#xA;copy /Y &quot;$(SolutionDir)$(ProjectName)\Themes\ui\*.xaml&quot; &quot;$(TargetDir)themes\ui&quot;&#xD;&#xA;copy /Y &quot;$(SolutionDir)$(ProjectName)\Themes\banners\*.xaml&quot; &quot;$(TargetDir)themes\banners&quot;" />
   </Target>
 
 </Project>
