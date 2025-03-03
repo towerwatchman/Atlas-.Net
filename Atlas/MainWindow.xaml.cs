@@ -253,11 +253,18 @@ namespace Atlas
         {
             MenuItem obMenuItem = e.OriginalSource as MenuItem;
 
-            Process.Start(new ProcessStartInfo
+            try
             {
-                FileName = obMenuItem.Tag.ToString(),
-                UseShellExecute = true
-            });
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = obMenuItem.Tag.ToString(),
+                    UseShellExecute = true
+                });
+            }
+            catch(Exception ex)
+            {
+                Logger.Error(ex);   
+            }
         }
 
         private void InstallLocation_Click(object sender, RoutedEventArgs e)

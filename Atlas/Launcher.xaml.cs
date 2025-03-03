@@ -205,7 +205,7 @@ namespace Atlas
 
             string url = "https://atlas-gamesdb.com/api/updates";
             int total = 0;
-            int index = 0;
+            int index = 1;
             JArray jsonArray = NetworkHelper.RequestJSON(url);
             if (jsonArray != null)
             {
@@ -257,6 +257,7 @@ namespace Atlas
                             Logger.Error(ex);
                         }
                     }
+                    index++;
                 }
             }
         }
