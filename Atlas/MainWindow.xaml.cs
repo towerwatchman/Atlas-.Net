@@ -139,6 +139,7 @@ namespace Atlas
                 notificationsPage.NotificationsList.Items.Refresh();
 
             }));
+            //We need to set the currnt viewer for banners
 
             try
             {
