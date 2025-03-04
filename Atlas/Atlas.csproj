@@ -53,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Themes\banners\f95.xaml" />
     <Page Remove="Themes\test.xaml" />
   </ItemGroup>
 
@@ -93,6 +94,10 @@
     <Resource Include="Assets\Images\config_image.webp" />
     <EmbeddedResource Include="Assets\Images\default.jpg" />
     <EmbeddedResource Include="CustomXAML.xshd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Themes\banners\f95.xaml" />
   </ItemGroup>
 
   <ItemGroup>

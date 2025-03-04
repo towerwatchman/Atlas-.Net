@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
       xmlns:my="clr-namespace:Atlas.UI.Pages"
+      xmlns:vm="clr-namespace:Atlas.UI.ViewModel"
       mc:Ignorable="d"
       d:DesignHeight="450"
       d:DesignWidth="800"
@@ -20,17 +21,21 @@
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="False"
-                  MaxHeight="10000"
-                  ItemTemplate="{DynamicResource GameBannerDataTemplate}">
+                  MaxHeight="10000">
             <ListView.Template>
                 <ControlTemplate>
                     <ScrollViewer Background="{DynamicResource Primary}">
                         <vwp:VirtualizingWrapPanel Background="{DynamicResource Panel}"
-                                                   
                                                    IsItemsHost="True" />
                     </ScrollViewer>
                 </ControlTemplate>
-            </ListView.Template>          
+            </ListView.Template>
+            <ListView.ItemTemplate>
+                <DataTemplate 
+                              DataType="{x:Type vm:GameViewModel}">
+                    <ContentControl Content="{DynamicResource GameBannerControl}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"

@@ -33,12 +33,14 @@
                d:DesignWidth="{DynamicResource bannerX}"
                Height="{DynamicResource bannerY}"
                Width="{DynamicResource bannerX}">
-            <Grid Height="81" VerticalAlignment="Top">
+            <Grid Height="81"
+                  VerticalAlignment="Top">
                 <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay, FallbackValue={StaticResource config_image}}"
                        Stretch="UniformToFill"
                        Height="{DynamicResource bannerY}" />
             </Grid>
-            <Grid VerticalAlignment="Top" Height="2"
+            <Grid VerticalAlignment="Top"
+                  Height="2"
                   Width="{DynamicResource bannerX}"
                   Background="{DynamicResource WindowAccent}"
                   Margin="0,81,0,0" />
@@ -46,8 +48,7 @@
                   x:Name="OverlayBottom"
                   Height="72"
                   Width="{DynamicResource bannerX}"
-                  Background="{DynamicResource Tertiary}"
-                 />
+                  Background="{DynamicResource Tertiary}" />
             <!-- Text for Layout-->
             <TextBlock VerticalAlignment="Bottom"
                        HorizontalAlignment="Left"
@@ -56,8 +57,9 @@
                        Margin="3,0,0,31"
                        Padding="2"
                        Background="Transparent"
-                       FontSize="14" FontWeight="Bold"></TextBlock>
-            <TextBox VerticalAlignment="Center" 
+                       FontSize="14"
+                       FontWeight="Bold"></TextBlock>
+            <TextBox VerticalAlignment="Center"
                      HorizontalAlignment="Left"
                      Text="{Binding Engine, FallbackValue=Unity}"
                      Foreground="White"
@@ -73,7 +75,6 @@
                     </Style>
                 </TextBox.Resources>
             </TextBox>
-           
             <Button x:Name="UpdateAvailable"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Right"
