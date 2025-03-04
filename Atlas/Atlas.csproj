@@ -53,7 +53,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Remove="Themes\banners\f95.xaml" />
     <Page Remove="Themes\test.xaml" />
   </ItemGroup>
 

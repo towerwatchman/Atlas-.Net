@@ -9,6 +9,8 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace Atlas
 {
@@ -139,6 +141,14 @@ namespace Atlas
                 //Default to regular theme
                 Logger.Error(ex);
             }
+
+            //------------
+
+
+            //------------
+
+
+
             UpdateLauncherProgressBar(20);
 
             Logger.Info("Running DB Migrations");
@@ -285,5 +295,6 @@ namespace Atlas
                 LauncherProgressBar.Value = value;
             });
         }
+
     }
 }

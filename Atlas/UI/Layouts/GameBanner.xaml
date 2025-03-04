@@ -4,39 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	<UserControl.Resources>
+		<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                             xmlns:sys="clr-namespace:System;assembly=mscorlib">
-            <sys:Double x:Key="bannerX">537</sys:Double>
-            <sys:Double x:Key="bannerY">251</sys:Double>
-            <!-- Overlay Top and Bottom-->
-            <sys:Double x:Key="overlayTopH">26</sys:Double>
-            <sys:Double x:Key="overlayBottomH">26</sys:Double>
-            <sys:Boolean x:Key="overlayTopEnable">true</sys:Boolean>
-            <sys:Boolean x:Key="overlayBottomEnable">true</sys:Boolean>
-            <SolidColorBrush x:Key="overlayTopColor">#000000</SolidColorBrush>
-            <SolidColorBrush x:Key="overlayBottomColor">#000000</SolidColorBrush>
-            <SolidColorBrush x:Key="updateColor">Gold</SolidColorBrush>
-            <sys:Double x:Key="overlayOpacity">.8</sys:Double>
-            <!-- Grid Resources. DO NOT EDIT-->
-            <sys:Int32 x:Key="Rows">0</sys:Int32>
-            <sys:Int32 x:Key="Columns">0</sys:Int32>
-            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
-			<BitmapImage x:Key="config_image"
-                         UriSource="pack://application:,,,/Assets/Images/config_image.webp" />
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Grid x:Name="LayoutRoot">
-        <Grid Margin="4">
-            <Border  BorderThickness="1"
-                     BorderBrush="Black">
-                <Grid  d:DesignHeight="{DynamicResource bannerY}"
+			<sys:Double x:Key="bannerX">537</sys:Double>
+			<sys:Double x:Key="bannerY">251</sys:Double>
+			<!-- Overlay Top and Bottom-->
+			<sys:Double x:Key="overlayTopH">26</sys:Double>
+			<sys:Double x:Key="overlayBottomH">26</sys:Double>
+			<sys:Boolean x:Key="overlayTopEnable">true</sys:Boolean>
+			<sys:Boolean x:Key="overlayBottomEnable">true</sys:Boolean>
+			<SolidColorBrush x:Key="overlayTopColor">#000000</SolidColorBrush>
+			<SolidColorBrush x:Key="overlayBottomColor">#000000</SolidColorBrush>
+			<SolidColorBrush x:Key="updateColor">Gold</SolidColorBrush>
+			<sys:Double x:Key="overlayOpacity">.8</sys:Double>
+			<!-- Grid Resources. DO NOT EDIT-->
+			<sys:Int32 x:Key="Rows">0</sys:Int32>
+			<sys:Int32 x:Key="Columns">0</sys:Int32>
+			<BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Grid x:Name="LayoutRoot">
+		<Grid Margin="1">
+			<Border  BorderThickness="1"
+                     BorderBrush="Black"  Height="{DynamicResource bannerY}"
+                       Width="{DynamicResource bannerX}">
+				<Grid  d:DesignHeight="{DynamicResource bannerY}"
                        d:DesignWidth="{DynamicResource bannerX}"
                        Height="{DynamicResource bannerY}"
                        Width="{DynamicResource bannerX}">
-                    <!-- Layout is backwards. Topmost item is at the back-->
-                    <!--<Image Source="{Binding ImageData}" Stretch="Fill" RenderOptions.BitmapScalingMode="LowQuality" Height="{DynamicResource bannerY}">
+					<!-- Layout is backwards. Topmost item is at the back-->
+					<!--<Image Source="{Binding ImageData}" Stretch="Fill" RenderOptions.BitmapScalingMode="LowQuality" Height="{DynamicResource bannerY}">
             <Image.Effect>
                 <BlurEffect Radius="20"/>
             </Image.Effect>
@@ -55,23 +54,23 @@
                 </LinearGradientBrush>
             </Image.OpacityMask>
         </Image>-->
-                    <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay, FallbackValue={StaticResource config_image}}"
+					<Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay}"
                            Stretch="Uniform"
                            Height="{DynamicResource bannerY}" />
-                    <Grid VerticalAlignment="Top"
+					<Grid VerticalAlignment="Top"
                           x:Name="OverlayTop"
                           Height="{DynamicResource overlayTopH}"
                           Width="{DynamicResource bannerX}"
                           Background="{DynamicResource overlayTopColor}"
                           Opacity="{DynamicResource overlayOpacity}" />
-                    <Grid VerticalAlignment="Bottom"
+					<Grid VerticalAlignment="Bottom"
                           x:Name="OverlayBottom"
                           Height="{DynamicResource overlayBottomH}"
                           Width="{DynamicResource bannerX}"
                           Background="{DynamicResource overlayTopColor}"
                           Opacity="{DynamicResource overlayOpacity}" />
-                    <!-- Text for Layout-->
-                    <TextBlock VerticalAlignment="Bottom"
+					<!-- Text for Layout-->
+					<TextBlock VerticalAlignment="Bottom"
                                HorizontalAlignment="Center"
                                Text="{Binding Title, FallbackValue=Galaxy Crossing: First Conquest}"
                                Foreground="White"
@@ -79,7 +78,7 @@
                                Padding="2"
                                Background="Transparent"
                                FontSize="14"></TextBlock>
-                    <TextBox VerticalAlignment="Bottom"
+					<TextBox VerticalAlignment="Bottom"
                              HorizontalAlignment="Left"
                              Text="{Binding Engine, FallbackValue=Unity}"
                              Foreground="White"
@@ -88,14 +87,14 @@
                              Background="Transparent"
                              FontSize="12"
                              BorderThickness="0">
-                        <TextBox.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius"
+						<TextBox.Resources>
+							<Style TargetType="{x:Type Border}">
+								<Setter Property="CornerRadius"
                                         Value="3" />
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-                    <TextBox VerticalAlignment="Top"
+							</Style>
+						</TextBox.Resources>
+					</TextBox>
+					<TextBox VerticalAlignment="Top"
                              HorizontalAlignment="Left"
                              Text="{Binding Creator, FallbackValue=Altas Games}"
                              Foreground="White"
@@ -104,7 +103,7 @@
                              Background="Transparent"
                              FontSize="12"
                              BorderThickness="0" />
-                    <Button x:Name="UpdateAvailable"
+					<Button x:Name="UpdateAvailable"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Content="Update Available!"
@@ -118,7 +117,7 @@
                             BorderThickness="3"
                             BorderBrush="{DynamicResource updateColor}"
                             Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BoolToVisConverter},Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}" />
-                    <!--<TextBox VerticalAlignment="Top"
+					<!--<TextBox VerticalAlignment="Top"
                  HorizontalAlignment="Right"
                  Text="{Binding Version}"
                  Foreground="White"
@@ -127,7 +126,7 @@
                  Background="Transparent"
                  FontSize="12"
                  BorderThickness="0" />-->
-                    <TextBox VerticalAlignment="Bottom"
+					<TextBox VerticalAlignment="Bottom"
                              HorizontalAlignment="Right"
                              Text="{Binding Status, FallbackValue=Complete}"
                              Foreground="White"
@@ -136,8 +135,8 @@
                              Background="Transparent"
                              FontSize="12"
                              BorderThickness="0" />
-                </Grid>
-            </Border>
-        </Grid>
-    </Grid>
+				</Grid>
+			</Border>
+		</Grid>
+	</Grid>
 </UserControl>

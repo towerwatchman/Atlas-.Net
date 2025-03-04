@@ -26,6 +26,13 @@ namespace Atlas.UI.Pages
             VersionsList.Visibility = Visibility.Hidden;
             _ = BuildGameDetailAsync();
 
+            SizeChanged += GameDetailPage_SizeChanged;
+
+        }
+
+        private void GameDetailPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //APainter.ProcessImage(CurrentGame.BannerImage, (int)banner_main.Height, (int)ActualWidth, 100, 10);
         }
 
         private async Task BuildGameDetailAsync()
@@ -39,14 +46,15 @@ namespace Atlas.UI.Pages
                     ImageData.Freeze();
                     if (System.IO.Path.GetExtension(CurrentGame.MainCapsule) == ".gif")
                     {
-                        AnimationBehavior.SetSourceUri(AnimatedBanner, new System.Uri(CurrentGame.MainCapsule));
+                        //AnimationBehavior.SetSourceUri(AnimatedBanner, new System.Uri(CurrentGame.MainCapsule));
                     }
                     else
                     {
-                        banner_main.Source = ImageData;
+                        
 
                     }
-                    banner_background.Source = ImageData;
+                    banner_main.Source = ImageData;//APainter.ProcessImage(ImageData, (int)banner_main.Height, 1280, 100, 10);
+                   // banner_background.Source = ImageData;
                 }
 
                 GameTitle.Content = CurrentGame.Title;

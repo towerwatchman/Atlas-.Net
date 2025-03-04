@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Atlas.UI.Pages.Settings
@@ -85,9 +86,17 @@ namespace Atlas.UI.Pages.Settings
 
                 if (System.IO.File.Exists(xamlFilePath))
                 {
-                    string xamlContent = File.ReadAllText(xamlFilePath);
-                    InterfaceHelper.UpdateUserControlContent(xamlFilePath, "Atlas.UI.Pages.BannerViewPage", "Atlas.UI.GameBanner");
-                    Atlas.Core.Settings.Config.BannerTheme = ThemeName;
+                    using (FileStream fs = new FileStream(xamlFilePath, FileMode.Open))
+                    {
+                        UserControl newControl = (UserControl)XamlReader.Load(fs);
+
+                        DataTemplate newTemplate = new DataTemplate();
+                        FrameworkElementFactory factory = new FrameworkElementFactory(typeof(Atlas.UI.GameBanner));
+                        newTemplate.VisualTree = factory;
+
+                        // Update the resource - DynamicResource will handle the refresh
+                        Application.Current.Resources["GameBannerDataTemplate"] = newTemplate;
+                    }
                 }
             }
             catch (Exception ex)
@@ -96,7 +105,27 @@ namespace Atlas.UI.Pages.Settings
             }
        
         }
+        private void RefreshListView()
+        {
+            var BannerView = InterfaceHelper.BannerView;
+            if (BannerView != null)
+            {
+                // Option 1: Force reapply the ItemTemplate
+                BannerView.ItemTemplate = null;
+                BannerView.ItemTemplate = (DataTemplate)Application.Current.Resources["GameBannerDataTemplate"];
 
-       
+                // Option 2: Force update layout
+                BannerView.UpdateLayout();
+
+                // Option 3: If using ItemsSource, refresh the collection
+                if (BannerView.ItemsSource != null)
+                {
+                    var itemsSource = BannerView.ItemsSource;
+                    BannerView.ItemsSource = null;
+                    BannerView.ItemsSource = itemsSource;
+                }
+            }
+        }
+
     }
 }

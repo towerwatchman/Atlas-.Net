@@ -1,18 +1,27 @@
 ﻿<Application x:Class="Atlas.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Atlas"
+             xmlns:local="clr-namespace:Atlas.UI"
+             xmlns:vm="clr-namespace:Atlas.UI.ViewModel"
              StartupUri="Launcher.xaml"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
             <!-- #region ResourceDictionary.MergedDictionaries [Loaded at Runtime]-->
+            
             <ResourceDictionary.MergedDictionaries>
+                
                 <ResourceDictionary Source="/Assets/Images/icons.xaml" />
                 <!-- Default theme -->
                 <ResourceDictionary x:Name="rdTheme"
                                     Source="/Themes/ui/dark.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="GameBannerDataTemplate"
+                          DataType="{x:Type vm:GameViewModel}">
+                <local:GameBanner />
+            </DataTemplate>
+            <BitmapImage x:Key="config_image"
+                         UriSource="pack://application:,,,/Assets/Images/config_image.webp" />
             <!--#endregion-->
             <!-- #region x:Type Radio Button -->
             <Style TargetType="{x:Type RadioButton}">
