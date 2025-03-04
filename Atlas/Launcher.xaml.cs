@@ -71,23 +71,7 @@ namespace Atlas
                     Application.Current.Dispatcher.Invoke((Action)delegate
                     {
                         LaunchMainWindow();
-                   
-
-                    //We cant change the view until after Atlas has loaded and the mainwindow is shown. 
-                    try
-                    {
-                        string ThemePath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners", $"{Atlas.Core.Settings.Config.BannerTheme}.xaml");
-                        if (System.IO.File.Exists(ThemePath))
-                        {
-                           
-                                InterfaceHelper.UpdateUserControlContent(ThemePath, "Atlas.UI.Pages.BannerViewPage", "Atlas.UI.GameBanner");
-                            
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Warn($"Unable to load custom banner theme: {ex}");
-                    } });
+                   });
 
                 }
                 catch (Exception ex)
