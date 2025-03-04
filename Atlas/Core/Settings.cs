@@ -22,8 +22,8 @@ namespace Atlas.Core
             Config.ThemesPath = Config.ThemesPath == null || Config.ThemesPath == "" ? Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes") : Config.ThemesPath;
 
             //APP
-            Config.Theme = Config.Theme == null || Config.Theme == "" ? "Dark.xaml" : Config.Theme;
-            Config.BannerTheme = Config.BannerTheme == null || Config.BannerTheme == "" ? "Default.xaml" : Config.Theme;
+            Config.Theme = Config.Theme == null || Config.Theme == "" ? "Dark" : Config.Theme;
+            Config.BannerTheme = Config.BannerTheme == null || Config.BannerTheme == "" ? "default" : Config.BannerTheme;
             Config.ShowListView = Config.FTS != true ? true : Config.ShowListView;
 
             //IMPORTER

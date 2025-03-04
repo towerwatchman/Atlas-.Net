@@ -53,17 +53,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Themes\banners\f95.xaml" />
     <Page Remove="Themes\test.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\Icons\appicon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Themes\ui\test.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -114,6 +109,12 @@
     <None Update="Nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Themes\ui\Test.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

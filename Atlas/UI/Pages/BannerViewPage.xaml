@@ -21,7 +21,7 @@
                   HorizontalAlignment="Stretch"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
-                  ScrollViewer.IsDeferredScrollingEnabled="True"
+                  ScrollViewer.IsDeferredScrollingEnabled="False"
                   MaxHeight="10000">
             <ListView.Template>
                 <ControlTemplate>
@@ -55,7 +55,7 @@
                             Value="0" />
                     <Setter Property="RenderTransformOrigin"
                             Value="0.5,0.5" />
-                    <Style.Triggers>
+                    <!--<Style.Triggers>
                         <Trigger Property="IsMouseOver"
                                  Value="True">
                             <Setter Property="Panel.ZIndex"
@@ -67,7 +67,7 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                    </Style.Triggers>
+                    </Style.Triggers>-->
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.Resources></ListView.Resources>

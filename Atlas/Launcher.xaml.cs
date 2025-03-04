@@ -125,12 +125,12 @@ namespace Atlas
 
             try
             {
-                string theme = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", $"{Settings.Config.Theme}.xaml");
+                string theme = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "ui", $"{Settings.Config.Theme}.xaml");
                 var themeUri = new Uri(theme, UriKind.RelativeOrAbsolute);
                 if (System.IO.File.Exists(theme))
                 {
                     //This is not the best way to do this. We will need to change this
-                    Application.Current.Resources.MergedDictionaries.RemoveAt(2);
+                    Application.Current.Resources.MergedDictionaries.RemoveAt(1);
                     Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = themeUri });
                 }
             }

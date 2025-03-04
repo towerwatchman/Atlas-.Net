@@ -13,7 +13,7 @@ namespace Atlas.UI
             InitializeComponent();
         }
 
-        private void UpdateAvailable_Click(object sender, System.Windows.RoutedEventArgs e)
+        /*private void UpdateAvailable_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             Button obButton = e.OriginalSource as Button;
 
@@ -22,6 +22,6 @@ namespace Atlas.UI
                 FileName = obButton.Tag.ToString(),
                 UseShellExecute = true
             });
-        }
+        }*/
     }
 }

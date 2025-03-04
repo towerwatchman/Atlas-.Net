@@ -47,6 +47,8 @@ namespace Atlas
 
             GameImportBox.Visibility = Visibility.Hidden;
 
+            InterfaceHelper.MainWindow = this;
+
             //Assign Update Section to InterfaceHelper
             InterfaceHelper.GameImportBox = GameImportBox;
             InterfaceHelper.GameImportTextBox = GameImportTextBox;
@@ -104,6 +106,21 @@ namespace Atlas
 
         private void InitBannerView()
         {
+            Game game = new Game
+            {
+                AtlasID = -1,
+                RecordID = -1,
+                F95ID = -1,
+                Title = "",
+                Creator = "",
+                Engine = "",
+                Versions = new List<GameVersion>()
+            };
+            if (ModelData.GameCollection.Count <= 0)
+            {
+                ModelData.GameCollection.Add(new GameViewModel(game));
+            }
+
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {
                 this.GameListBox.Items.Clear();
@@ -261,9 +278,9 @@ namespace Atlas
                     UseShellExecute = true
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Logger.Error(ex);   
+                Logger.Error(ex);
             }
         }
 
@@ -343,9 +360,9 @@ namespace Atlas
 
             Application.Current.Resources["Rows"] = (int)rows;
             Console.WriteLine(Application.Current.Resources["Rows"]);*/
-                }
+        }
 
-                private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
                 Application.Current.Dispatcher.InvokeAsync(new Action(() =>

@@ -24,7 +24,7 @@ namespace Atlas.Core
         public string MainCapsule { get; set; }
         public string SiteUrl { get; set; }
         public string[] Screens { get; set; }
-        public required Uri ImageUriAnimated { get; set; }
+        public Uri ImageUriAnimated { get; set; }
         public string Tags { get; set; }
         public string Collection { get; set; }
         public string CurrentSelectedVersion { get; internal set; }

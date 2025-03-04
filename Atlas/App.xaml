@@ -9,8 +9,6 @@
             <!-- #region ResourceDictionary.MergedDictionaries [Loaded at Runtime]-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Assets/Images/icons.xaml" />
-                <!--<ResourceDictionary Source="/UI/Dictionaries/GameBanner.xaml" />-->
-                <ResourceDictionary Source="/UI/Dictionaries/DefaultControls.xaml" />
                 <!-- Default theme -->
                 <ResourceDictionary x:Name="rdTheme"
                                     Source="/Themes/ui/dark.xaml" />
@@ -609,7 +607,7 @@
                 <Setter Property="OverridesDefaultStyle"
                         Value="true" />
                 <Setter Property="Background"
-                        Value="{DynamicResource Primary}" />                
+                        Value="{DynamicResource Primary}" />
                 <Setter Property="Focusable"
                         Value="false" />
                 <Setter Property="IsTabStop"
@@ -627,7 +625,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
             <Style x:Key="ScrollBarThumbVertical"
                    TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle"
@@ -667,7 +664,8 @@
                    TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle"
                         Value="true" />
-                <Setter Property="Margin" Value="-15,0,5,0"/>
+                <Setter Property="Margin"
+                        Value="-15,0,5,0" />
                 <Setter Property="Background"
                         Value="{DynamicResource Text}" />
                 <Setter Property="IsTabStop"
@@ -750,7 +748,6 @@
                             </Setter.Value>
                         </Setter>
                     </Trigger>
-                    
                     <Trigger Property="Orientation"
                              Value="Horizontal">
                         <Setter Property="Margin"

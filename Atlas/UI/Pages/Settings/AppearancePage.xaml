@@ -49,7 +49,8 @@
                     <Button x:Name="bLoadBanner"
                             Content="Load"
                             Margin="20,0,0,0"
-                            HorizontalAlignment="Right" />
+                            HorizontalAlignment="Right"
+                            Click="bLoadBanner_Click" />
                 </StackPanel>
             </DockPanel>
             <Label Content="This will override the default banner layout. Please check for errors prior to loading"
