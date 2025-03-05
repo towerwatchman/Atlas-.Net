@@ -180,6 +180,8 @@ namespace Atlas.UI
                     var itemsSource = BannerView.ItemsSource;
                     BannerView.ItemsSource = null;
                     BannerView.ItemsSource = itemsSource;
+                   
+
 
                     Logger.Info($"f95 template applied. Items count: {BannerView.Items.Count}");
                 }

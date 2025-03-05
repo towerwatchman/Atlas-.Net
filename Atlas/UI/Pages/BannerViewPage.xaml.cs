@@ -16,7 +16,7 @@ namespace Atlas.UI.Pages
         private bool isGameDetailShown = false;
         public BannerViewPage()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
     }
 }

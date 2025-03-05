@@ -142,13 +142,6 @@ namespace Atlas
                 Logger.Error(ex);
             }
 
-            //------------
-
-
-            //------------
-
-
-
             UpdateLauncherProgressBar(20);
 
             Logger.Info("Running DB Migrations");

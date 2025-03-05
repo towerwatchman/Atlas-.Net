@@ -75,8 +75,6 @@ namespace Atlas
             InterfaceHelper.BannerView = bvp.BannerView;
             InterfaceHelper.NotificationsPage = notificationsPage.NotificationsList;
 
-            InterfaceHelper.SetBannerTemplate("default");
-
             //Initalize the BannerViews
             //InitListView();
             InitBannerView();
@@ -107,41 +105,27 @@ namespace Atlas
         }
 
         private void InitBannerView()
-        {
-            Game game = new Game
+        {           
+            this.GameListBox.ItemsSource = ModelData.GameCollection;
+            bvp.BannerView.ItemsSource = ModelData.GameCollection;
+
+            Logger.Info($"ItemsSource set with {ModelData.GameCollection.Count} items");
+
+            try
             {
-                AtlasID = -1,
-                RecordID = -1,
-                F95ID = -1,
-                Title = "",
-                Creator = "",
-                Engine = "",
-                Versions = new List<GameVersion>()
-            };
-            if (ModelData.GameCollection.Count <= 0)
-            {
-                ModelData.GameCollection.Add(new GameViewModel(game));
+                //InterfaceHelper.SetBannerTemplate("default");
+                string theme = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "ui", $"{Atlas.Core.Settings.Config.BannerTheme}.xaml");
+
+                if (System.IO.File.Exists(theme))
+                {
+                    InterfaceHelper.SetBannerTemplate(Atlas.Core.Settings.Config.BannerTheme, theme);
+                }
             }
-
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            catch (Exception ex)
             {
-                this.GameListBox.Items.Clear();
-                this.GameListBox.ItemsSource = null;
-                this.GameListBox.ItemsSource = ModelData.GameCollection;
-                this.GameListBox.Items.Refresh();
-                bvp.BannerView.Items.Clear();
-                bvp.BannerView.ItemsSource = null;
-                bvp.BannerView.ItemsSource = ModelData.GameCollection;
-                bvp.BannerView.Items.Refresh();
-
-                //Bind notifications
-                notificationsPage.NotificationsList.Items.Clear();
-                notificationsPage.NotificationsList.ItemsSource = null;
-                notificationsPage.NotificationsList.ItemsSource = ModelData.NotificationCollection;
-                notificationsPage.NotificationsList.Items.Refresh();
-
-            }));
-            //We need to set the currnt viewer for banners
+                //InterfaceHelper.SetBannerTemplate("default");
+                //Default to regular theme
+            }
 
             try
             {
@@ -158,6 +142,9 @@ namespace Atlas
                 TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
             }
             catch (Exception ex) { Logger.Error(ex); }
+
+
+
         }
         private void InitListView()
         {

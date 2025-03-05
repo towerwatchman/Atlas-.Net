@@ -1,17 +1,18 @@
-﻿<!-- test.xaml -->
+﻿<!-- f95.xaml -->
 <UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Grid>
-		<StackPanel>
-			<!-- Bind to basic properties -->
+	<Border Background="LightGray" BorderBrush="Black" BorderThickness="1">
+		<StackPanel Margin="5">
+			<!-- Static content to confirm rendering -->
+			<TextBlock Text="STATIC TEST" Foreground="Red" FontSize="20"/>
+			<!-- Basic bindings -->
 			<TextBlock Text="{Binding Title}" FontSize="16" FontWeight="Bold"/>
 			<TextBlock Text="{Binding Creator}" FontSize="12"/>
-			<TextBlock Text="{Binding Status}" FontStyle="Italic"/>
-
-			<!-- Bind to BannerImage (async-loaded) -->
-			<Image Source="{Binding BannerImage}" Width="100" Height="50" Stretch="UniformToFill"/>
-
-			
+			<!-- Async image -->
+			<Image Source="{Binding BannerImage}" Width="100" Height="50" Stretch="Uniform"/>
+			<TextBlock Text="Update Available!"
+                      
+                       Foreground="Green"/>
 		</StackPanel>
-	</Grid>
+	</Border>
 </UserControl>
