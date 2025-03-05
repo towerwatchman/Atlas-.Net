@@ -144,10 +144,14 @@ namespace Atlas.UI
 
             if (string.IsNullOrEmpty(templateName) || templateName.ToLower() == "default")
             {
-                BannerView.ItemTemplate = resources["GameBannerTemplate"] as DataTemplate;
-                Logger.Info("Switched to default GameBannerTemplate");
-                BannerView.Items.Refresh();
-                BannerView.UpdateLayout();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    BannerView.ItemTemplate = null;
+                    BannerView.ItemTemplate = resources["GameBannerTemplate"] as DataTemplate;
+                    Logger.Info("Switched to default GameBannerTemplate");
+                    BannerView.Items.Refresh();
+                    BannerView.UpdateLayout();
+                });
             }
             else if (!string.IsNullOrEmpty(externalXamlPath))
             {

@@ -116,7 +116,8 @@
                             FontSize="10"
                             BorderThickness="3"
                             BorderBrush="{DynamicResource updateColor}"
-                            Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BoolToVisConverter},Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}" />
+                            Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BoolToVisConverter},Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
+                            Click="UpdateAvailable_Click" />
 					<!--<TextBox VerticalAlignment="Top"
                  HorizontalAlignment="Right"
                  Text="{Binding Version}"
