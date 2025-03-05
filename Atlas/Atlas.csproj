@@ -49,6 +49,7 @@
     <None Remove="Assets\Images\config_image.webp" />
     <None Remove="Assets\Images\default.jpg" />
     <None Remove="CustomXAML.xshd" />
+    <None Remove="Resources\Highlight\XML-Mode.xshd" />
     <None Remove="UI\config_image.webp" />
   </ItemGroup>
 
@@ -95,6 +96,7 @@
     <Resource Include="Assets\Images\config_image.webp" />
     <EmbeddedResource Include="Assets\Images\default.jpg" />
     <EmbeddedResource Include="CustomXAML.xshd" />
+    <EmbeddedResource Include="Resources\Highlight\XML-Mode.xshd" />
   </ItemGroup>
 
   <ItemGroup>

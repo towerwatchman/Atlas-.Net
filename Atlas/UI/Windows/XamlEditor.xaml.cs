@@ -41,7 +41,7 @@ namespace Atlas.UI.Windows
         private void CustomizeSyntaxHighlighting()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            using (var stream = assembly.GetManifestResourceStream("Atlas.CustomXAML.xshd"))
+            using (var stream = assembly.GetManifestResourceStream("Atlas.Resources.Highlight.XML-Mode.xshd"))
             {
                 if (stream != null)
                 {
