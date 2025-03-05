@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- Default GameBannerControl loaded from GameBanner.xaml -->
             <DataTemplate x:Key="GameBannerTemplate" DataType="{x:Type vm:GameViewModel}">
-                <local:GameBanner x:Name="GameBannerControl"/>
+                <local:GameBanner/>
             </DataTemplate>
             <BitmapImage x:Key="config_image"
                          UriSource="pack://application:,,,/Assets/Images/config_image.webp" />

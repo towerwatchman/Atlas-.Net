@@ -120,10 +120,14 @@ namespace Atlas
                 {
                     InterfaceHelper.SetBannerTemplate(Atlas.Core.Settings.Config.BannerTheme, theme);
                 }
+                else
+                {
+                    InterfaceHelper.SetBannerTemplate("default");
+                }
             }
             catch (Exception ex)
             {
-                //InterfaceHelper.SetBannerTemplate("default");
+                InterfaceHelper.SetBannerTemplate("default");
                 //Default to regular theme
             }
 
