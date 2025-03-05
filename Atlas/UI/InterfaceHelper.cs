@@ -1,7 +1,12 @@
-﻿using System.IO;
+﻿using Atlas.UI.ViewModel;
+using NLog;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Threading;
 
@@ -9,6 +14,7 @@ namespace Atlas.UI
 {
     public static class InterfaceHelper
     {
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static ListBox Listbox { get; set; }
         public static DataGrid Datagrid { get; set; }
         public static ProgressBar GameScannerProgressBar { get; set; }
@@ -125,6 +131,63 @@ namespace Atlas.UI
                 if (result != null) return result;
             }
             return null;
+        }
+
+        public static void SetBannerTemplate(string templateName = null, string externalXamlPath = null)
+        {
+            if (BannerView == null)
+                return;
+
+            var resources = Application.Current.Resources;
+
+            if (string.IsNullOrEmpty(templateName) || templateName.ToLower().Contains("default"))
+            {
+                // Use named GameBanner template
+                BannerView.ItemTemplate = resources["GameBannerTemplate"] as DataTemplate;
+            }
+            else if (!string.IsNullOrEmpty(externalXamlPath))
+            {
+                try
+                {
+                    // Read the raw XAML content from f95.xaml
+                    string externalXamlContent = File.ReadAllText(externalXamlPath);
+
+                    // Get the actual assembly name of GameViewModel
+                    string assemblyName = typeof(Atlas.UI.ViewModel.GameViewModel).Assembly.GetName().Name;
+                    string namespaceName = typeof(Atlas.UI.ViewModel.GameViewModel).Namespace;
+
+                    // Construct a DataTemplate XAML string with dynamic assembly and namespace
+                    string templateXaml = $@"
+                        <DataTemplate xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+                                      xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+                                      xmlns:vm=""clr-namespace:{namespaceName};assembly={assemblyName}""
+                                      DataType=""{{x:Type vm:GameViewModel}}"">
+                            {externalXamlContent}
+                        </DataTemplate>";
+
+                    Logger.Debug($"Generated XAML: {templateXaml}");
+
+                    // Convert the string to a Stream
+                    byte[] byteArray = Encoding.UTF8.GetBytes(templateXaml);
+                    using (var stream = new MemoryStream(byteArray))
+                    {
+                        // Parse the XAML into a DataTemplate
+                        var template = (DataTemplate)XamlReader.Load(stream);
+                        BannerView.ItemTemplate = template;
+                    }
+
+                    // Force refresh of the ListView
+                    var itemsSource = BannerView.ItemsSource;
+                    BannerView.ItemsSource = null;
+                    BannerView.ItemsSource = itemsSource;
+
+                    Logger.Info($"f95 template applied. Items count: {BannerView.Items.Count}");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Error loading f95 template");
+                }
+            }
         }
     }
 }

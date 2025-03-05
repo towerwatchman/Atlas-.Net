@@ -30,12 +30,6 @@
                     </ScrollViewer>
                 </ControlTemplate>
             </ListView.Template>
-            <ListView.ItemTemplate>
-                <DataTemplate 
-                              DataType="{x:Type vm:GameViewModel}">
-                    <ContentControl Content="{DynamicResource GameBannerControl}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"

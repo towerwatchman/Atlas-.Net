@@ -28,6 +28,7 @@ namespace Atlas.UI.Pages.Settings
                 }
             }
 
+            cbBanners.Items.Add("default");
             foreach (var item in Directory.GetFiles(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners")))
             {
                 if (System.IO.Path.GetExtension(item) == ".xaml")
@@ -36,7 +37,7 @@ namespace Atlas.UI.Pages.Settings
                 }
             }
             //Try to change theme to config file theme
-            int index = cbThemes.Items.IndexOf(Atlas.Core.Settings.Config.Theme);            
+            int index = cbThemes.Items.IndexOf(Atlas.Core.Settings.Config.Theme);
             cbThemes.SelectedIndex = index;
 
             index = cbBanners.Items.IndexOf(Atlas.Core.Settings.Config.BannerTheme);
@@ -69,7 +70,7 @@ namespace Atlas.UI.Pages.Settings
 
         private void bOpenXamlEditor_Click(object sender, RoutedEventArgs e)
         {
-            XamlEditor editor =  new XamlEditor();
+            XamlEditor editor = new XamlEditor();
             editor.Show();
         }
 
@@ -84,25 +85,13 @@ namespace Atlas.UI.Pages.Settings
             try
             {
                 string xamlFilePath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners", $"{ThemeName}.xaml");
-                if (!File.Exists(xamlFilePath))
-                {
-                    MessageBox.Show("XAML file not found!");
-                    return;
-                }
-
-                using (FileStream fs = new FileStream(xamlFilePath, FileMode.Open))
-                {
-                    var userControl = (UserControl)XamlReader.Load(fs);
-                    var resourceDict = Application.Current.Resources;
-                    resourceDict.Remove("GameBannerControl");
-                    resourceDict.Add("GameBannerControl", userControl);
-                }
+                InterfaceHelper.SetBannerTemplate(ThemeName, xamlFilePath);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
             }
-       
-        }       
+
+        }
     }
 }

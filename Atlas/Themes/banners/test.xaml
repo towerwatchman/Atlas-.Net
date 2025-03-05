@@ -1,0 +1,17 @@
+﻿<!-- test.xaml -->
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Grid>
+		<StackPanel>
+			<!-- Bind to basic properties -->
+			<TextBlock Text="{Binding Title}" FontSize="16" FontWeight="Bold"/>
+			<TextBlock Text="{Binding Creator}" FontSize="12"/>
+			<TextBlock Text="{Binding Status}" FontStyle="Italic"/>
+
+			<!-- Bind to BannerImage (async-loaded) -->
+			<Image Source="{Binding BannerImage}" Width="100" Height="50" Stretch="UniformToFill"/>
+
+			
+		</StackPanel>
+	</Grid>
+</UserControl>

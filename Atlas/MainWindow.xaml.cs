@@ -75,6 +75,8 @@ namespace Atlas
             InterfaceHelper.BannerView = bvp.BannerView;
             InterfaceHelper.NotificationsPage = notificationsPage.NotificationsList;
 
+            InterfaceHelper.SetBannerTemplate("default");
+
             //Initalize the BannerViews
             //InitListView();
             InitBannerView();
