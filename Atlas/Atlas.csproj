@@ -95,7 +95,6 @@
     <Resource Include="Assets\Icons\settings.svg" />
     <Resource Include="Assets\Images\config_image.webp" />
     <EmbeddedResource Include="Assets\Images\default.jpg" />
-    <EmbeddedResource Include="CustomXAML.xshd" />
     <EmbeddedResource Include="Resources\Highlight\XML-Mode.xshd" />
   </ItemGroup>
 
