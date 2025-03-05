@@ -172,7 +172,7 @@ namespace Atlas.UI.ViewModel
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Logger.Warn("Property Changed");
+            Logger.Warn($"Property Changed:{propertyName}");
         }
     }
 }
