@@ -20,8 +20,8 @@
                   HorizontalAlignment="Stretch"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
-                  ScrollViewer.IsDeferredScrollingEnabled="False"
-                  MaxHeight="10000">
+                  ScrollViewer.IsDeferredScrollingEnabled="True"
+                  VerticalAlignment="Stretch">
             <ListView.Template>
                 <ControlTemplate>
                     <ScrollViewer Background="{DynamicResource Primary}">
@@ -33,28 +33,13 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
-                            Value="Stretch" />
+                            Value="Stretch" />                    
                     <Setter Property="BorderThickness"
                             Value="0" />
                     <Setter Property="Padding"
                             Value="0" />
                     <Setter Property="Margin"
                             Value="0" />
-                    <Setter Property="RenderTransformOrigin"
-                            Value="0.5,0.5" />
-                    <!--<Style.Triggers>
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-                            <Setter Property="Panel.ZIndex"
-                                    Value="1000" />
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX="1.01"
-                                                    ScaleY="1.01" />
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                    </Style.Triggers>-->
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.Resources></ListView.Resources>

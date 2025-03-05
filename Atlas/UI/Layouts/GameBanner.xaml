@@ -25,7 +25,7 @@
 			<BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Grid x:Name="LayoutRoot">
+	<Grid x:Name="LayoutRoot" Margin="2">
 		<Grid Margin="1">
 			<Border  BorderThickness="1"
                      BorderBrush="Black"  Height="{DynamicResource bannerY}"

@@ -42,7 +42,7 @@ namespace Atlas
         public MainWindow()
         {
             InitializeComponent();
-            atlas_frame.Content = bvp;
+            atlas_frame.Navigate(bvp);
             Atlas.Core.Global.DeleteAfterImport = false;
 
             GameImportBox.Visibility = Visibility.Hidden;
@@ -97,6 +97,16 @@ namespace Atlas
                 notificationsPage.NotificationsList.Items.Refresh();
 
             }));
+
+            Loaded += (s, e) =>
+            {
+                Logger.Info($"atlas_frame ActualHeight: {atlas_frame.ActualHeight}, ActualWidth: {atlas_frame.ActualWidth}");
+                if (InterfaceHelper.BannerView != null)
+                {
+                    Logger.Info($"BannerView ActualHeight: {InterfaceHelper.BannerView.ActualHeight}, ActualWidth: {InterfaceHelper.BannerView.ActualWidth}");
+                }
+                Logger.Debug($"RecordView ActualHeight: {RecordView.ActualHeight}, ActualWidth: {RecordView.ActualWidth}");
+            };
         }
 
         private void BannerView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -111,7 +121,7 @@ namespace Atlas
 
             Logger.Info($"ItemsSource set with {ModelData.GameCollection.Count} items");
 
-            try
+            /*try
             {
                 //InterfaceHelper.SetBannerTemplate("default");
                 string theme = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "ui", $"{Atlas.Core.Settings.Config.BannerTheme}.xaml");
@@ -129,7 +139,7 @@ namespace Atlas
             {
                 InterfaceHelper.SetBannerTemplate("default");
                 //Default to regular theme
-            }
+            }*/
 
             try
             {
@@ -147,7 +157,11 @@ namespace Atlas
             }
             catch (Exception ex) { Logger.Error(ex); }
 
-
+            bvp.BannerView.Items.Refresh();
+            bvp.BannerView.UpdateLayout();
+            Logger.Debug($"Atlas Frame: x{atlas_frame.Width}, y{atlas_frame.Height}");
+            Logger.Debug($"BannerView ActualHeight: {bvp.BannerView.ActualHeight}, ActualWidth: {bvp.BannerView.ActualWidth}");
+            
 
         }
         private void InitListView()

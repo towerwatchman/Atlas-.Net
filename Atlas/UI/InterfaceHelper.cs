@@ -132,54 +132,73 @@ namespace Atlas.UI
             }
             return null;
         }
-
         public static void SetBannerTemplate(string templateName = null, string externalXamlPath = null)
         {
             if (BannerView == null)
+            {
+                Logger.Warn("BannerView is null, cannot set template.");
                 return;
+            }
 
             var resources = Application.Current.Resources;
 
-            if (string.IsNullOrEmpty(templateName) || templateName.ToLower().Contains("default"))
+            if (string.IsNullOrEmpty(templateName) || templateName.ToLower() == "default")
             {
                 BannerView.ItemTemplate = resources["GameBannerTemplate"] as DataTemplate;
                 Logger.Info("Switched to default GameBannerTemplate");
+                BannerView.Items.Refresh();
+                BannerView.UpdateLayout();
             }
             else if (!string.IsNullOrEmpty(externalXamlPath))
             {
                 try
                 {
+                    // Validate the path
+                    Logger.Debug($"Attempting to read file at: {externalXamlPath}");
+                    if (!File.Exists(externalXamlPath))
+                    {
+                        Logger.Error($"File not found: {externalXamlPath}");
+                        return;
+                    }
+
                     string externalXamlContent = File.ReadAllText(externalXamlPath);
+                    Logger.Debug($"Read XAML content: {externalXamlContent.Substring(0, Math.Min(100, externalXamlContent.Length))}..."); // Log first 100 chars
+
                     string assemblyName = typeof(Atlas.UI.ViewModel.GameViewModel).Assembly.GetName().Name;
                     string namespaceName = typeof(Atlas.UI.ViewModel.GameViewModel).Namespace;
 
                     string templateXaml = $@"
-                        <DataTemplate xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-                                      xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-                                      xmlns:vm=""clr-namespace:{namespaceName};assembly={assemblyName}""
-                                      DataType=""{{x:Type vm:GameViewModel}}"">
-                            {externalXamlContent}
-                        </DataTemplate>";
+                <DataTemplate xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+                              xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+                              xmlns:vm=""clr-namespace:{namespaceName};assembly={assemblyName}""
+                              DataType=""{{x:Type vm:GameViewModel}}"">
+                    {externalXamlContent}
+                </DataTemplate>";
 
                     Logger.Debug($"Generated XAML: {templateXaml}");
 
                     byte[] byteArray = Encoding.UTF8.GetBytes(templateXaml);
+                    DataTemplate template;
                     using (var stream = new MemoryStream(byteArray))
                     {
-                        var template = (DataTemplate)XamlReader.Load(stream);
-                        BannerView.ItemTemplate = template;
-                        Logger.Info($"Template object created: {template != null}");
+                        template = (DataTemplate)XamlReader.Load(stream);
+                        Logger.Info($"f95 template created: {template != null}");
                     }
 
-                    var itemsSource = BannerView.ItemsSource;
-                    BannerView.ItemsSource = null;
-                    BannerView.ItemsSource = itemsSource;
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        BannerView.ItemTemplate = null;
+                        BannerView.ItemTemplate = template;
+                        Logger.Debug($"ItemTemplate set: {BannerView.ItemTemplate != null}");
+                        BannerView.Items.Refresh();
+                        BannerView.UpdateLayout();
+                    });
 
                     Logger.Info($"f95 template applied. Items count: {BannerView.Items.Count}");
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex, "Error loading f95 template");
+                    Logger.Error(ex, $"Error loading f95 template from {externalXamlPath}");
                 }
             }
         }

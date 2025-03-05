@@ -106,7 +106,9 @@
             <!--#region Grid Definitions-->
             <Grid Height="Auto"
                   Width="Auto"
-                  DockPanel.Dock="Top">
+                  DockPanel.Dock="Top"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="1*" />
@@ -376,12 +378,16 @@
                 <!--#endregion-->
                 <!-- This is where each page will be inserted -->
                 <Grid Grid.Column="2"
-                      Grid.Row="2">
+                      Grid.Row="2"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
                     <!--#region Game View and Game List-->
                     <Grid x:Name="RecordView"
                           Background="{DynamicResource Canvas}"
                           Visibility="Visible"
-                          Panel.ZIndex="30">
+                          Panel.ZIndex="30"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="1*" />
@@ -402,35 +408,15 @@
                             </ListBox.ItemTemplate>
                             <!-- Scroll Bar -->
                         </ListBox>
-                        <Grid Grid.Column="1">
+                        <Grid Grid.Column="1"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch">
                             <Frame x:Name="atlas_frame"
-                                   NavigationUIVisibility="Hidden" />
+                                   NavigationUIVisibility="Hidden"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch" />
                         </Grid>
                     </Grid>
-                    <!--#endregion-->
-                    <!--#region Updates-->
-                    <Grid x:Name="Updater"
-                          Background="{DynamicResource Canvas}"
-                          Visibility="Hidden">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*" />
-                            <!-- Important for .Net Core -->
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*" />
-                            <!-- Important for .Net Core -->
-                        </Grid.RowDefinitions>
-                        <DockPanel LastChildFill="True">
-                            <Grid DockPanel.Dock="Top"
-                                  Height="200"
-                                  Background="{DynamicResource Tertiary}" />
-                            <ListView DockPanel.Dock="Bottom"
-                                      Background="{DynamicResource Primary}"
-                                      BorderThickness="0,1,0,0"
-                                      BorderBrush="{DynamicResource Accent}" />
-                        </DockPanel>
-                    </Grid>
-                    <!--#endregion-->
                 </Grid>
             </Grid>
         </DockPanel>

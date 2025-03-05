@@ -32,7 +32,9 @@
         <Grid  d:DesignHeight="{DynamicResource bannerY}"
                d:DesignWidth="{DynamicResource bannerX}"
                Height="{DynamicResource bannerY}"
-               Width="{DynamicResource bannerX}">
+               Width="{DynamicResource bannerX}"
+               MinHeight="{DynamicResource bannerY}"
+               MinWidth="{DynamicResource bannerX}">
             <Grid Height="81"
                   VerticalAlignment="Top">
                 <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay, FallbackValue={StaticResource config_image}}"
