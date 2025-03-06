@@ -608,7 +608,7 @@ namespace Atlas
                     // Logger.Info(GameDetail.Title);
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        NotificationCollection.Add(new NotificationViewModel(notification));
+                        //NotificationCollection.Add(new NotificationViewModel(notification));
                         GameImportTextBox.Content = $"Adding Game: {GameDetail.Title} | Version: {GameDetail.Version}";
                     });
                     //In some instances the database data will have spaces at the end. We need to remove those. 

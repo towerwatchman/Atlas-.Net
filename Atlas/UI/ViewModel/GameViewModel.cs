@@ -1,13 +1,16 @@
 ﻿using Atlas.Core;
-using Atlas.Core.Utilities;
 using NLog;
-using NLog.LayoutRenderers;
 using System;
+using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using Windows.Services.Maps.LocalSearch;
 
 namespace Atlas.UI.ViewModel
 {
@@ -50,6 +53,10 @@ namespace Atlas.UI.ViewModel
 
         }
         private bool _isUpdateAvailable;
+        //private string _smallCapsule;
+        private BitmapSource _bannerImage;
+        private static readonly ConcurrentDictionary<string, BitmapSource> ImageCache = new ConcurrentDictionary<string, BitmapSource>();
+
         public int RecordID { get; private set; }
         public int AtlasID { get; private set; }
         public int F95ID { get; private set; }
@@ -65,7 +72,15 @@ namespace Atlas.UI.ViewModel
         public string Overview { get; private set; }
         public string OS { get; private set; }
         public bool IsFavorite { get; private set; }
-        public string SmallCapsule { get; set; }
+        /*public string SmallCapsule
+        {
+            get => _smallCapsule;
+            set { _smallCapsule = value; OnPropertyChanged(); }
+        }*/
+        public string SmallCapsule
+        {
+            get; set;
+        }
         public string MainCapsule { get; set; }
         public string ImageUriAnimated { get; set; }
         public string SiteUrl { get; private set; }
@@ -127,7 +142,7 @@ namespace Atlas.UI.ViewModel
                 OnPropertyChanged(nameof(IsUpdateAvailable));
             }
         }
-        public BitmapSource BannerImage
+        /*public BitmapSource BannerImage
         {
             get
             {
@@ -156,7 +171,7 @@ namespace Atlas.UI.ViewModel
                 return _bannerImage;
             }
             set { _bannerImage = value; }
-        }
+        }*/
 
         public string Genre { get; set; }
         public string ReleaseDate { get; set; }
@@ -164,15 +179,172 @@ namespace Atlas.UI.ViewModel
         public string Voice { get; internal set; }
         public string ShortName { get; internal set; }
 
-        BitmapSource _bannerImage;
-
-        public static List<int> BannersInView = new List<int>();
-
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             Logger.Warn($"Property Changed:{propertyName}");
+        }
+        public BitmapSource BannerImage
+        {
+            get => _bannerImage;
+            set { _bannerImage = value; OnPropertyChanged(); }
+        }
+        public void RenderImage() // For synchronous calls
+        {
+            if (BannerImage == null && !string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
+            {
+                if (ImageCache.TryGetValue(SmallCapsule, out BitmapSource cachedImage))
+                {
+                    BannerImage = cachedImage;
+                }
+                else
+                {
+                    BannerImage = RenderCompositeImageFromPath(SmallCapsule);
+                    ImageCache.TryAdd(SmallCapsule, BannerImage);
+                }
+            }
+        }
+        public BitmapSource RenderImageOffThread() // For async calls
+        {
+            if (BannerImage == null && !string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
+            {
+                if (ImageCache.TryGetValue(SmallCapsule, out BitmapSource cachedImage))
+                {
+                    return cachedImage;
+                }
+                else
+                {
+                    BitmapSource image = RenderCompositeImageFromPath(SmallCapsule);
+                    ImageCache.TryAdd(SmallCapsule, image);
+                    return image;
+                }
+            }
+            return null;
+        }
+        public void ClearImage()
+        {
+            BannerImage = null; // Cache persists, so we don’t need to reload
+        }
+
+        private BitmapSource RenderCompositeImageFromPath(string imagePath)
+        {
+            BitmapImage originalImage = new BitmapImage();
+            originalImage.BeginInit();
+            originalImage.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+            originalImage.CacheOption = BitmapCacheOption.OnLoad;
+            originalImage.EndInit();
+            originalImage.Freeze(); // Freeze to make it thread-safe
+
+            return RenderCompositeImage(originalImage);
+        }
+
+        private BitmapSource RenderCompositeImage(BitmapSource originalImage)
+        {
+            if (originalImage == null) return null;
+
+            const double width = 537;
+            const double height = 251;
+
+            // Simplify blur by scaling down only once
+            BitmapSource blurredBackground = CreateBlurredBackground(originalImage, width, height);
+
+            DrawingVisual drawingVisual = new DrawingVisual();
+            using (DrawingContext dc = drawingVisual.RenderOpen())
+            {
+                dc.DrawImage(blurredBackground, new Rect(0, 0, width, height));
+
+                double imgWidth = originalImage.PixelWidth;
+                double imgHeight = originalImage.PixelHeight;
+                double scale = Math.Min(width / imgWidth, height / imgHeight);
+                double scaledWidth = imgWidth * scale;
+                double scaledHeight = imgHeight * scale;
+                double xOffset = (width - scaledWidth) / 2;
+                double yOffset = (height - scaledHeight) / 2;
+
+                RenderTargetBitmap mask = CreateFeatherMask(width, height, imgHeight > imgWidth);
+                dc.PushOpacityMask(new ImageBrush(mask));
+                dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
+                dc.Pop();
+            }
+
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
+            rtb.Render(drawingVisual);
+            rtb.Freeze(); // Freeze for thread safety
+            return rtb; // Simplified: ApplyBlur removed for performance
+        }
+
+        private BitmapSource CreateBlurredBackground(BitmapSource source, double width, double height)
+        {
+            // Simplified blur: scale down and up once
+            double scaleFactor = 0.25; // Lower scale factor for faster blur
+            int smallWidth = (int)(width * scaleFactor);
+            int smallHeight = (int)(height * scaleFactor);
+
+            TransformedBitmap scaledDown = new TransformedBitmap(source, new ScaleTransform(scaleFactor, scaleFactor));
+            RenderTargetBitmap smallBitmap = new RenderTargetBitmap(smallWidth, smallHeight, 96, 96, PixelFormats.Pbgra32);
+            DrawingVisual smallVisual = new DrawingVisual();
+            using (DrawingContext dc = smallVisual.RenderOpen()) // Correct: RenderOpen on DrawingVisual
+            {
+                dc.DrawImage(scaledDown, new Rect(0, 0, smallWidth, smallHeight));
+            }
+            smallBitmap.Render(smallVisual); // Render DrawingVisual to RenderTargetBitmap
+
+            TransformedBitmap scaledUp = new TransformedBitmap(smallBitmap, new ScaleTransform(1 / scaleFactor, 1 / scaleFactor));
+            RenderTargetBitmap finalBitmap = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
+            DrawingVisual finalVisual = new DrawingVisual();
+            using (DrawingContext dc = finalVisual.RenderOpen()) // Correct: RenderOpen on DrawingVisual
+            {
+                dc.DrawImage(scaledUp, new Rect(0, 0, width, height));
+            }
+            finalBitmap.Render(finalVisual); // Render DrawingVisual to RenderTargetBitmap
+            finalBitmap.Freeze();
+            return finalBitmap;
+        }
+
+        private RenderTargetBitmap CreateFeatherMask(double width, double height, bool isTaller)
+        {
+            DrawingVisual maskVisual = new DrawingVisual();
+            using (DrawingContext dc = maskVisual.RenderOpen())
+            {
+                if (isTaller)
+                {
+                    LinearGradientBrush gradient = new LinearGradientBrush
+                    {
+                        StartPoint = new Point(0, 0),
+                        EndPoint = new Point(0, 1),
+                        GradientStops = new GradientStopCollection
+                        {
+                            new GradientStop(Colors.Transparent, 0),
+                            new GradientStop(Colors.White, 0.1),
+                            new GradientStop(Colors.White, 0.9),
+                            new GradientStop(Colors.Transparent, 1)
+                        }
+                    };
+                    dc.DrawRectangle(gradient, null, new Rect(0, 0, width, height));
+                }
+                else
+                {
+                    LinearGradientBrush gradient = new LinearGradientBrush
+                    {
+                        StartPoint = new Point(0, 0),
+                        EndPoint = new Point(1, 0),
+                        GradientStops = new GradientStopCollection
+                        {
+                            new GradientStop(Colors.Transparent, 0),
+                            new GradientStop(Colors.White, 0.1),
+                            new GradientStop(Colors.White, 0.9),
+                            new GradientStop(Colors.Transparent, 1)
+                        }
+                    };
+                    dc.DrawRectangle(gradient, null, new Rect(0, 0, width, height));
+                }
+            }
+
+            RenderTargetBitmap mask = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
+            mask.Render(maskVisual);
+            mask.Freeze();
+            return mask;
         }
     }
 }

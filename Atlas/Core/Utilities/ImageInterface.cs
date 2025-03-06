@@ -70,11 +70,8 @@ namespace Atlas.Core.Utilities
             //BitmapImage bitmapImage;
             Uri uri = new Uri("pack://application:,,,/Assets/Images/default.jpg");
             string path = "";// "pack://application:,,,/Assets/Images/default.jpg";
-
-
             try
             {
-
                 if (File.Exists(bannerPath))
                 {
                     path = bannerPath;
@@ -83,7 +80,6 @@ namespace Atlas.Core.Utilities
                 {
                     return null;// new BitmapImage(uri);
                 }
-
 
                 BitmapImage bitmapImage;
 

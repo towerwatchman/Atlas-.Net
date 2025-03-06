@@ -64,7 +64,7 @@ namespace Atlas.Core
                 Task.Run(() =>
                 {
                     bool found_executable = false;
-                    Logger.Info(dir);
+                    //Logger.Info(dir);
 
                     //int folder_size = 0;
                     int cur_level = 0;
@@ -237,7 +237,7 @@ namespace Atlas.Core
                     }
                     f95_id = SQLiteInterface.FindF95ID(AtlasID);
                     ResultVisibilityState = Visibility.Hidden;
-                    Logger.Info(title);
+                    //Logger.Info(title);
                 }
 
                 if (data.Count > 1)
@@ -313,7 +313,7 @@ namespace Atlas.Core
                             {
                                 //AddGameToBannerView(gd);
 
-                                Logger.Info($"{_GameDetailList.Count.ToString()} Total Games");
+                                //Logger.Info($"{_GameDetailList.Count.ToString()} Total Games");
                                 potentialGames = _GameDetailList.Count;
                                 UpdatePotentialGames(potentialGames);
 

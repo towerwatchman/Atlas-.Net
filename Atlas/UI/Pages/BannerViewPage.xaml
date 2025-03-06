@@ -17,19 +17,14 @@
                   Foreground="{DynamicResource Text}"
                   BorderThickness="0"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  HorizontalAlignment="Stretch"
-                  VirtualizingStackPanel.IsVirtualizing="True"
-                  VirtualizingStackPanel.VirtualizationMode="Recycling"
-                  ScrollViewer.IsDeferredScrollingEnabled="True"
-                  VerticalAlignment="Stretch">
-            <ListView.Template>
-                <ControlTemplate>
-                    <ScrollViewer Background="{DynamicResource Primary}">
-                        <vwp:VirtualizingWrapPanel Background="{DynamicResource Panel}"
-                                                   IsItemsHost="True" />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ListView.Template>
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <vwp:VirtualizingWrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
