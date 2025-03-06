@@ -54,7 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Remove="Themes\banners\atlas_default.xaml" />
+    <Page Remove="Themes\banners\default.xaml" />
     <Page Remove="Themes\banners\f95.xaml" />
     <Page Remove="Themes\banners\test.xaml" />
     <Page Remove="Themes\test.xaml" />
@@ -99,7 +99,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Themes\banners\atlas_default.xaml" />
+    <None Include="Themes\banners\default.xaml" />
     <None Include="Themes\banners\f95.xaml" />
     <None Include="Themes\banners\test.xaml">
       <Generator>MSBuild:Compile</Generator>

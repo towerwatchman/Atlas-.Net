@@ -322,7 +322,7 @@
                             Background="Transparent"
                             Tag="{Binding SiteUrl}"
                             FontSize="10"
-                            BorderThickness="3"
+                            BorderThickness="1"
                             BorderBrush="{DynamicResource updateColor}"
                             Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BoolToVisConverter},Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}" />
                     <!--#region Status & Version-->

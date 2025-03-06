@@ -143,7 +143,7 @@ namespace Atlas.UI
 
             var resources = Application.Current.Resources;
 
-            if (string.IsNullOrEmpty(templateName) || templateName.ToLower() == "default")
+            /*if (string.IsNullOrEmpty(templateName) || templateName.ToLower() == "default")
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -154,7 +154,8 @@ namespace Atlas.UI
                     BannerView.UpdateLayout();
                 });
             }
-            else if (!string.IsNullOrEmpty(externalXamlPath))
+            else */
+            if (!string.IsNullOrEmpty(externalXamlPath))
             {
                 try
                 {

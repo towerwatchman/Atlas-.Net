@@ -1,14 +1,55 @@
 ﻿<!-- f95.xaml -->
 <UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             MinWidth="100" MinHeight="50"
-             Background="LightGreen">
-	<Border Background="LightGray" BorderBrush="Black" BorderThickness="1" MinWidth="100" MinHeight="50">
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Atlas.UI"
+             xmlns:viewmodel="clr-namespace:Atlas.UI.ViewModel"
+             d:DataContext="{d:DesignInstance Type=viewmodel:GameViewModel}"
+             mc:Ignorable="d"
+             FontFamily="sans-serif">
+    <UserControl.Resources>
+        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:Double x:Key="bannerX">300</sys:Double>
+            <sys:Double x:Key="bannerY">155</sys:Double>
+            <!-- Overlay Top and Bottom-->
+            <sys:Double x:Key="overlayTopH">26</sys:Double>
+            <sys:Double x:Key="overlayBottomH">26</sys:Double>
+            <sys:Boolean x:Key="overlayTopEnable">true</sys:Boolean>
+            <sys:Boolean x:Key="overlayBottomEnable">true</sys:Boolean>
+            <SolidColorBrush x:Key="overlayTopColor">#000000</SolidColorBrush>
+            <SolidColorBrush x:Key="overlayBottomColor">#000000</SolidColorBrush>
+            <SolidColorBrush x:Key="updateColor">Gold</SolidColorBrush>
+            <sys:Double x:Key="overlayOpacity">.8</sys:Double>
+            <!-- Grid Resources. DO NOT EDIT-->
+            <sys:Int32 x:Key="Rows">0</sys:Int32>
+            <sys:Int32 x:Key="Columns">0</sys:Int32>
+            <BitmapImage x:Key="config_image"
+                         UriSource="pack://application:,,,/Assets/Images/config_image.webp" />
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Background="LightGray" BorderBrush="Black" BorderThickness="1" MinWidth="100" MinHeight="50">
+        <Grid>
 		<StackPanel Margin="5">
 			<TextBlock Text="STATIC TEST" Foreground="Red" FontSize="20" MinWidth="90" MinHeight="25"/>
-			<TextBlock Text="{Binding Title}" FontSize="16" FontWeight="Bold" MinWidth="90" MinHeight="20"/>
-			<TextBlock Text="{Binding Creator}" FontSize="12" MinWidth="90" MinHeight="15"/>
-			<TextBlock Text="{Binding CurrentSelectedVersion }" FontSize="12" MinWidth="90" MinHeight="15"/>
+            <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay}"
+                   Stretch="Fill"
+                   Height="50"
+                   Width="100" />
+            <TextBlock Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                           Foreground="Red"
+                       FontSize="16" FontWeight="Bold" MinWidth="90" MinHeight="20"/>
+            <TextBlock Text="{Binding Creator}"
+                           Foreground="Red"
+                       FontSize="12" MinWidth="90" MinHeight="15"/>
+            <TextBlock Text="{Binding LatestVersion }"
+                           Foreground="Red"
+                       FontSize="12" MinWidth="90" MinHeight="15"/>
 		</StackPanel>
-	</Border>
+        </Grid>
+    </Border>
 </UserControl>
