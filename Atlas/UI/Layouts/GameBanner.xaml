@@ -269,7 +269,6 @@
                            Stretch="Uniform"
                            Height="{DynamicResource bannerY}" />
                     <!--#endregion-->
-                    <Path Data="{StaticResource like_icon}" />
                     <Grid VerticalAlignment="Top"
                           x:Name="OverlayTop"
                           Height="{DynamicResource overlayTopH}"
