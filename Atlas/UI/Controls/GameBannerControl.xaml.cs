@@ -42,7 +42,7 @@ namespace Atlas.UI
             Unloaded += GameBannerControl_Unloaded;
             DataContextChanged += GameBannerControl_DataContextChanged;
         }
-        private void UpdateAvailable_Click(object sender, System.Windows.RoutedEventArgs e)
+        /*private void UpdateAvailable_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             Button obButton = e.OriginalSource as Button;
 
@@ -51,7 +51,7 @@ namespace Atlas.UI
                 FileName = obButton.Tag.ToString(),
                 UseShellExecute = true
             });
-        }
+        }*/
         private static void OnImageRenderModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is GameBannerControl control)

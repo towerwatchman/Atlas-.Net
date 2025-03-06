@@ -1,5 +1,4 @@
-﻿<UserControl
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,8 +7,6 @@
              xmlns:viewmodel="clr-namespace:Atlas.UI.ViewModel"
              d:DataContext="{d:DesignInstance Type=viewmodel:GameViewModel}"
              mc:Ignorable="d"
-             Loaded="GameBannerControl_Loaded"
-             Unloaded="GameBannerControl_Unloaded"
              FontFamily="sans-serif">
     <!--#region Resources-->
     <UserControl.Resources>
@@ -327,8 +324,7 @@
                             FontSize="10"
                             BorderThickness="3"
                             BorderBrush="{DynamicResource updateColor}"
-                            Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BoolToVisConverter},Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
-                            Click="UpdateAvailable_Click" />
+                            Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BoolToVisConverter},Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}" />
                     <!--#region Status & Version-->
                     <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Bottom"

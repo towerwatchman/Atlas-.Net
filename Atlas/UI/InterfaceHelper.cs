@@ -1,4 +1,5 @@
 ﻿using Atlas.UI.ViewModel;
+using Castle.Core.Logging;
 using NLog;
 using System.Diagnostics;
 using System.IO;
@@ -170,14 +171,21 @@ namespace Atlas.UI
 
                     string assemblyName = typeof(Atlas.UI.ViewModel.GameViewModel).Assembly.GetName().Name;
                     string namespaceName = typeof(Atlas.UI.ViewModel.GameViewModel).Namespace;
+                    string uiNamespace = "clr-namespace:Atlas.UI;assembly=" + assemblyName; // Adj
 
                     string templateXaml = $@"
                 <DataTemplate xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
                               xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
                               xmlns:vm=""clr-namespace:{namespaceName};assembly={assemblyName}""
-                              DataType=""{{x:Type vm:GameViewModel}}"">
-                    {externalXamlContent}
-                </DataTemplate>";
+                              xmlns:ui=""clr-namespace:Atlas.UI;assembly={assemblyName}""
+                              DataType=""{{x:Type vm:GameViewModel}}"">                              
+                    <ui:GameBannerControl>
+                        <ui:GameBannerControl.Content>
+                            {externalXamlContent}
+                        </ui:GameBannerControl.Content>
+                    </ui:GameBannerControl>
+                </DataTemplate>
+                    ";
 
                     Logger.Debug($"Generated XAML: {templateXaml}");
 
