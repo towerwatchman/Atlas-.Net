@@ -190,7 +190,7 @@ namespace Atlas.UI.ViewModel
             get => _bannerImage;
             set { _bannerImage = value; OnPropertyChanged(); }
         }
-        public void RenderImage() // For synchronous calls
+        public async void RenderImage()
         {
             if (BannerImage == null && !string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
             {
@@ -200,12 +200,13 @@ namespace Atlas.UI.ViewModel
                 }
                 else
                 {
-                    BannerImage = RenderCompositeImageFromPath(SmallCapsule);
+                    BannerImage = await RenderCompositeImageFromPathAsync(SmallCapsule);
                     ImageCache.TryAdd(SmallCapsule, BannerImage);
                 }
             }
         }
-        public BitmapSource RenderImageOffThread() // For async calls
+
+        public async Task<BitmapSource> RenderImageOffThread()
         {
             if (BannerImage == null && !string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
             {
@@ -215,89 +216,102 @@ namespace Atlas.UI.ViewModel
                 }
                 else
                 {
-                    BitmapSource image = RenderCompositeImageFromPath(SmallCapsule);
+                    BitmapSource image = await RenderCompositeImageFromPathAsync(SmallCapsule);
                     ImageCache.TryAdd(SmallCapsule, image);
                     return image;
                 }
             }
             return null;
         }
+
         public void ClearImage()
         {
-            BannerImage = null; // Cache persists, so we don’t need to reload
+            BannerImage = null;
         }
 
-        private BitmapSource RenderCompositeImageFromPath(string imagePath)
+        private async Task<BitmapSource> RenderCompositeImageFromPathAsync(string imagePath)
         {
-            BitmapImage originalImage = new BitmapImage();
-            originalImage.BeginInit();
-            originalImage.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
-            originalImage.CacheOption = BitmapCacheOption.OnLoad;
-            originalImage.EndInit();
-            originalImage.Freeze(); // Freeze to make it thread-safe
+            // Load image off-thread
+            BitmapImage originalImage = await Task.Run(() =>
+            {
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                img.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+                img.CacheOption = BitmapCacheOption.OnLoad;
+                img.EndInit();
+                img.Freeze();
+                return img;
+            });
 
-            return RenderCompositeImage(originalImage);
+            return await RenderCompositeImageAsync(originalImage);
         }
 
-        private BitmapSource RenderCompositeImage(BitmapSource originalImage)
+        private async Task<BitmapSource> RenderCompositeImageAsync(BitmapSource originalImage)
         {
             if (originalImage == null) return null;
 
             const double width = 537;
             const double height = 251;
 
-            // Simplify blur by scaling down only once
-            BitmapSource blurredBackground = CreateBlurredBackground(originalImage, width, height);
+            // Blur on UI thread, then composite off-thread
+            BitmapSource blurredBackground = await Application.Current.Dispatcher.InvokeAsync(() =>
+                CreateBlurredBackground(originalImage, width, height, .05),
+                System.Windows.Threading.DispatcherPriority.Background);
 
-            DrawingVisual drawingVisual = new DrawingVisual();
-            using (DrawingContext dc = drawingVisual.RenderOpen())
+            return await Task.Run(() =>
             {
-                dc.DrawImage(blurredBackground, new Rect(0, 0, width, height));
+                DrawingVisual drawingVisual = new DrawingVisual();
+                using (DrawingContext dc = drawingVisual.RenderOpen())
+                {
+                    dc.DrawImage(blurredBackground, new Rect(0, 0, width, height));
 
-                double imgWidth = originalImage.PixelWidth;
-                double imgHeight = originalImage.PixelHeight;
-                double scale = Math.Min(width / imgWidth, height / imgHeight);
-                double scaledWidth = imgWidth * scale;
-                double scaledHeight = imgHeight * scale;
-                double xOffset = (width - scaledWidth) / 2;
-                double yOffset = (height - scaledHeight) / 2;
+                    double imgWidth = originalImage.PixelWidth;
+                    double imgHeight = originalImage.PixelHeight;
+                    double scale = Math.Min(width / imgWidth, height / imgHeight);
+                    double scaledWidth = imgWidth * scale;
+                    double scaledHeight = imgHeight * scale;
+                    double xOffset = (width - scaledWidth) / 2;
+                    double yOffset = (height - scaledHeight) / 2;
 
-                RenderTargetBitmap mask = CreateFeatherMask(width, height, imgHeight > imgWidth);
-                dc.PushOpacityMask(new ImageBrush(mask));
-                dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
-                dc.Pop();
-            }
+                    bool isTaller = width == scaledWidth ? false : true;
+                    RenderTargetBitmap mask = CreateFeatherMask(width, height, isTaller);
+                    dc.PushOpacityMask(new ImageBrush(mask));
+                    dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
+                    dc.Pop();
+                }
 
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
-            rtb.Render(drawingVisual);
-            rtb.Freeze(); // Freeze for thread safety
-            return rtb; // Simplified: ApplyBlur removed for performance
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
+                rtb.Render(drawingVisual);
+                rtb.Freeze();
+                return rtb;
+            });
         }
 
-        private BitmapSource CreateBlurredBackground(BitmapSource source, double width, double height)
+        private BitmapSource CreateBlurredBackground(BitmapSource source, double width, double height, double blurFactor)
         {
-            // Simplified blur: scale down and up once
-            double scaleFactor = 0.25; // Lower scale factor for faster blur
-            int smallWidth = (int)(width * scaleFactor);
-            int smallHeight = (int)(height * scaleFactor);
+            // Ensure blurFactor is between 0 and 1, where smaller values = more blur
+            blurFactor = Math.Clamp(blurFactor, 0.05, 1.0); // Min 0.05 to avoid excessive scaling
 
-            TransformedBitmap scaledDown = new TransformedBitmap(source, new ScaleTransform(scaleFactor, scaleFactor));
+            int smallWidth = (int)(width * blurFactor);
+            int smallHeight = (int)(height * blurFactor);
+
+            TransformedBitmap scaledDown = new TransformedBitmap(source, new ScaleTransform(blurFactor, blurFactor));
             RenderTargetBitmap smallBitmap = new RenderTargetBitmap(smallWidth, smallHeight, 96, 96, PixelFormats.Pbgra32);
             DrawingVisual smallVisual = new DrawingVisual();
-            using (DrawingContext dc = smallVisual.RenderOpen()) // Correct: RenderOpen on DrawingVisual
+            using (DrawingContext dc = smallVisual.RenderOpen())
             {
                 dc.DrawImage(scaledDown, new Rect(0, 0, smallWidth, smallHeight));
             }
-            smallBitmap.Render(smallVisual); // Render DrawingVisual to RenderTargetBitmap
+            smallBitmap.Render(smallVisual);
 
-            TransformedBitmap scaledUp = new TransformedBitmap(smallBitmap, new ScaleTransform(1 / scaleFactor, 1 / scaleFactor));
+            TransformedBitmap scaledUp = new TransformedBitmap(smallBitmap, new ScaleTransform(1 / blurFactor, 1 / blurFactor));
             RenderTargetBitmap finalBitmap = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
             DrawingVisual finalVisual = new DrawingVisual();
-            using (DrawingContext dc = finalVisual.RenderOpen()) // Correct: RenderOpen on DrawingVisual
+            using (DrawingContext dc = finalVisual.RenderOpen())
             {
                 dc.DrawImage(scaledUp, new Rect(0, 0, width, height));
             }
-            finalBitmap.Render(finalVisual); // Render DrawingVisual to RenderTargetBitmap
+            finalBitmap.Render(finalVisual);
             finalBitmap.Freeze();
             return finalBitmap;
         }
@@ -307,12 +321,12 @@ namespace Atlas.UI.ViewModel
             DrawingVisual maskVisual = new DrawingVisual();
             using (DrawingContext dc = maskVisual.RenderOpen())
             {
-                if (isTaller)
+                if (isTaller) // Height > Width: Feather left and right
                 {
                     LinearGradientBrush gradient = new LinearGradientBrush
                     {
                         StartPoint = new Point(0, 0),
-                        EndPoint = new Point(0, 1),
+                        EndPoint = new Point(1, 0),
                         GradientStops = new GradientStopCollection
                         {
                             new GradientStop(Colors.Transparent, 0),
@@ -323,12 +337,12 @@ namespace Atlas.UI.ViewModel
                     };
                     dc.DrawRectangle(gradient, null, new Rect(0, 0, width, height));
                 }
-                else
+                else // Width > Height: Feather top and bottom
                 {
                     LinearGradientBrush gradient = new LinearGradientBrush
                     {
                         StartPoint = new Point(0, 0),
-                        EndPoint = new Point(1, 0),
+                        EndPoint = new Point(0, 1),
                         GradientStops = new GradientStopCollection
                         {
                             new GradientStop(Colors.Transparent, 0),

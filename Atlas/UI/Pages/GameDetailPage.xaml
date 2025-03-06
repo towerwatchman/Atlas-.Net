@@ -31,10 +31,21 @@
             <Image x:Name="banner_main"
                    Height="315"
                    Width="Auto"
-                   Panel.ZIndex="1"
-                  >
-              
-            </Image>
+                   Panel.ZIndex="1">
+                    <Image.OpacityMask>
+                        <LinearGradientBrush StartPoint="0,0.5"
+                                             EndPoint="1,0.5">
+                            <GradientStop Color="Transparent"
+                                          Offset="0.0" />
+                            <GradientStop Color="Black"
+                                          Offset="0.08" />
+                            <GradientStop Color="Black"
+                                          Offset="0.92" />
+                            <GradientStop Color="Transparent"
+                                          Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Image.OpacityMask>
+                </Image>
             </Grid>
         </Grid>
         <!--#region Current Version Selected -->

@@ -7,7 +7,6 @@ using Atlas.UI.Pages;
 using Atlas.UI.ViewModel;
 using Atlas.UI.Windows;
 using NLog;
-using SixLabors.ImageSharp.Formats.Tga;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;

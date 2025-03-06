@@ -1,9 +1,6 @@
 ﻿using Atlas.UI;
 using Newtonsoft.Json.Linq;
 using NLog;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Webp;
-using SixLabors.ImageSharp.Processing;
 using SkiaSharp;
 using System.IO;
 using System.Net;
