@@ -142,36 +142,6 @@ namespace Atlas.UI.ViewModel
                 OnPropertyChanged(nameof(IsUpdateAvailable));
             }
         }
-        /*public BitmapSource BannerImage
-        {
-            get
-            {
-                if (_bannerImage == null)
-                {
-                    //BannersInView.Add(RecordID);
-                    //return _bannerImage;
-                    Task.Run(async () =>
-                    {
-                        BitmapSource bi = await ImageInterface.LoadImageAsync(RecordID, SmallCapsule, Atlas.Core.Settings.Config.ImageRenderWidth);
-                        if (bi != null)
-                        {
-
-                            bi.Freeze();
-                            _bannerImage = bi;
-                            bi = null;
-
-                            OnPropertyChanged("BannerImage");
-
-                            //Logger.Warn($"Loaded Image for id: {RecordID}");
-                        }
-                    });
-
-                    return _bannerImage;
-                }
-                return _bannerImage;
-            }
-            set { _bannerImage = value; }
-        }*/
 
         public string Genre { get; set; }
         public string ReleaseDate { get; set; }
@@ -190,34 +160,36 @@ namespace Atlas.UI.ViewModel
             get => _bannerImage;
             set { _bannerImage = value; OnPropertyChanged(); }
         }
-        public async void RenderImage()
+        public async void RenderImage(ImageRenderMode mode)
         {
             if (BannerImage == null && !string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
             {
-                if (ImageCache.TryGetValue(SmallCapsule, out BitmapSource cachedImage))
+                string cacheKey = SmallCapsule + mode.ToString();
+                if (ImageCache.TryGetValue(cacheKey, out BitmapSource cachedImage))
                 {
                     BannerImage = cachedImage;
                 }
                 else
                 {
-                    BannerImage = await RenderCompositeImageFromPathAsync(SmallCapsule);
-                    ImageCache.TryAdd(SmallCapsule, BannerImage);
+                    BannerImage = await Task.Run(() => RenderImageForMode(SmallCapsule, mode));
+                    ImageCache.TryAdd(cacheKey, BannerImage);
                 }
             }
         }
 
-        public async Task<BitmapSource> RenderImageOffThread()
+        public BitmapSource RenderImageOffThread(ImageRenderMode mode)
         {
             if (BannerImage == null && !string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
             {
-                if (ImageCache.TryGetValue(SmallCapsule, out BitmapSource cachedImage))
+                string cacheKey = SmallCapsule + mode.ToString();
+                if (ImageCache.TryGetValue(cacheKey, out BitmapSource cachedImage))
                 {
                     return cachedImage;
                 }
                 else
                 {
-                    BitmapSource image = await RenderCompositeImageFromPathAsync(SmallCapsule);
-                    ImageCache.TryAdd(SmallCapsule, image);
+                    BitmapSource image = RenderImageForMode(SmallCapsule, mode);
+                    ImageCache.TryAdd(cacheKey, image);
                     return image;
                 }
             }
@@ -229,42 +201,76 @@ namespace Atlas.UI.ViewModel
             BannerImage = null;
         }
 
-        private async Task<BitmapSource> RenderCompositeImageFromPathAsync(string imagePath)
+        private BitmapSource RenderImageForMode(string imagePath, ImageRenderMode mode)
         {
-            // Load image off-thread
-            BitmapImage originalImage = await Task.Run(() =>
-            {
-                BitmapImage img = new BitmapImage();
-                img.BeginInit();
-                img.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
-                img.CacheOption = BitmapCacheOption.OnLoad;
-                img.EndInit();
-                img.Freeze();
-                return img;
-            });
+            BitmapImage originalImage = new BitmapImage();
+            originalImage.BeginInit();
+            originalImage.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+            originalImage.CacheOption = BitmapCacheOption.OnLoad;
+            originalImage.EndInit();
+            originalImage.Freeze();
 
-            return await RenderCompositeImageAsync(originalImage);
+            switch (mode)
+            {
+                case ImageRenderMode.BlurredWithFeather:
+                    return RenderCompositeImage(originalImage);
+                case ImageRenderMode.Uniform:
+                    return RenderSimpleImage(originalImage, Stretch.Uniform);
+                case ImageRenderMode.Stretch:
+                    return RenderSimpleImage(originalImage, Stretch.Fill);
+                case ImageRenderMode.UniformToFill:
+                    return RenderSimpleImage(originalImage, Stretch.UniformToFill);
+                //case ImageRenderMode.UniformToFillCentered:
+                //    return RenderUniformToFillCentered(originalImage);
+                default:
+                    return originalImage;
+            }
         }
 
-        private async Task<BitmapSource> RenderCompositeImageAsync(BitmapSource originalImage)
+        private BitmapSource RenderCompositeImage(BitmapSource originalImage)
         {
-            if (originalImage == null) return null;
-
             const double width = 537;
             const double height = 251;
 
-            // Blur on UI thread, then composite off-thread
-            BitmapSource blurredBackground = await Application.Current.Dispatcher.InvokeAsync(() =>
-                CreateBlurredBackground(originalImage, width, height, .05),
-                System.Windows.Threading.DispatcherPriority.Background);
+            BitmapSource blurredBackground = CreateBlurredBackground(originalImage, width, height, blurFactor: 0.05);
 
-            return await Task.Run(() =>
+            DrawingVisual drawingVisual = new DrawingVisual();
+            using (DrawingContext dc = drawingVisual.RenderOpen())
             {
-                DrawingVisual drawingVisual = new DrawingVisual();
-                using (DrawingContext dc = drawingVisual.RenderOpen())
-                {
-                    dc.DrawImage(blurredBackground, new Rect(0, 0, width, height));
+                dc.DrawImage(blurredBackground, new Rect(0, 0, width, height));
 
+                double imgWidth = originalImage.PixelWidth;
+                double imgHeight = originalImage.PixelHeight;
+                double scale = Math.Min(width / imgWidth, height / imgHeight);
+                double scaledWidth = imgWidth * scale;
+                double scaledHeight = imgHeight * scale;
+                double xOffset = (width - scaledWidth) / 2;
+                double yOffset = (height - scaledHeight) / 2;
+
+                bool isTaller = height == scaledHeight ? true : false;
+                RenderTargetBitmap mask = CreateFeatherMask(width, height, isTaller);
+                dc.PushOpacityMask(new ImageBrush(mask));
+                dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
+                dc.Pop();
+            }
+
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
+            rtb.Render(drawingVisual);
+            rtb.Freeze();
+            return rtb;
+        }
+
+        private BitmapSource RenderSimpleImage(BitmapSource originalImage, Stretch stretch)
+        {
+            const double width = 537;
+            const double height = 251;
+
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
+            DrawingVisual visual = new DrawingVisual();
+            using (DrawingContext dc = visual.RenderOpen())
+            {
+                if (stretch == Stretch.Uniform)
+                {
                     double imgWidth = originalImage.PixelWidth;
                     double imgHeight = originalImage.PixelHeight;
                     double scale = Math.Min(width / imgWidth, height / imgHeight);
@@ -272,25 +278,73 @@ namespace Atlas.UI.ViewModel
                     double scaledHeight = imgHeight * scale;
                     double xOffset = (width - scaledWidth) / 2;
                     double yOffset = (height - scaledHeight) / 2;
-
-                    bool isTaller = width == scaledWidth ? false : true;
-                    RenderTargetBitmap mask = CreateFeatherMask(width, height, isTaller);
-                    dc.PushOpacityMask(new ImageBrush(mask));
                     dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
-                    dc.Pop();
                 }
+                if (stretch == Stretch.Fill)
+                {
+                    double scaledHeight = height;
+                    double scaledWidth = width;
+                    double xOffset = (width - scaledWidth) / 2;
+                    double yOffset = (height - scaledHeight) / 2;
+                    dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
+                }
+                if (stretch == Stretch.UniformToFill)
+                {
+                    double imgWidth = originalImage.PixelWidth;
+                    double imgHeight = originalImage.PixelHeight;
+                    double scale = (imgHeight / imgWidth);
+                    double hDiff = height - imgHeight;
+                    double wDiff = width - imgWidth;
 
-                RenderTargetBitmap rtb = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
-                rtb.Render(drawingVisual);
-                rtb.Freeze();
-                return rtb;
-            });
+                    if (hDiff < wDiff)
+                    {
+                        double scaledHeight = width * scale;
+                        double scaledWidth = width;
+                        double xOffset = (width - scaledWidth) / 2;
+                        double yOffset = (height - scaledHeight) / 2;
+                        dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
+                    }
+                    else
+                    {
+                        double scaledHeight = height;
+                        double scaledWidth = height / (imgHeight/imgWidth); ;
+                        double xOffset = (width - scaledWidth) / 2;
+                        double yOffset = (height - scaledHeight) / 2;
+                        dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
+                    }
+                }
+            }
+            rtb.Render(visual);
+            rtb.Freeze();
+            return rtb;
+        }
+
+        private BitmapSource RenderUniformToFillCentered(BitmapSource originalImage)
+        {
+            const double width = 537;
+            const double height = 251;
+
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
+            DrawingVisual visual = new DrawingVisual();
+            using (DrawingContext dc = visual.RenderOpen())
+            {
+                double imgWidth = originalImage.PixelWidth;
+                double imgHeight = originalImage.PixelHeight;
+                double scale = Math.Min(width / imgWidth, height / imgHeight); // Fit without cropping
+                double scaledWidth = imgWidth * scale;
+                double scaledHeight = imgHeight * scale;
+                double xOffset = (width - scaledWidth) / 2;  // Center horizontally
+                double yOffset = (height - scaledHeight) / 2; // Center vertically
+                dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
+            }
+            rtb.Render(visual);
+            rtb.Freeze();
+            return rtb;
         }
 
         private BitmapSource CreateBlurredBackground(BitmapSource source, double width, double height, double blurFactor)
         {
-            // Ensure blurFactor is between 0 and 1, where smaller values = more blur
-            blurFactor = Math.Clamp(blurFactor, 0.05, 1.0); // Min 0.05 to avoid excessive scaling
+            blurFactor = Math.Clamp(blurFactor, 0.05, 1.0);
 
             int smallWidth = (int)(width * blurFactor);
             int smallHeight = (int)(height * blurFactor);
@@ -321,7 +375,7 @@ namespace Atlas.UI.ViewModel
             DrawingVisual maskVisual = new DrawingVisual();
             using (DrawingContext dc = maskVisual.RenderOpen())
             {
-                if (isTaller) // Height > Width: Feather left and right
+                if (isTaller)
                 {
                     LinearGradientBrush gradient = new LinearGradientBrush
                     {
@@ -337,7 +391,7 @@ namespace Atlas.UI.ViewModel
                     };
                     dc.DrawRectangle(gradient, null, new Rect(0, 0, width, height));
                 }
-                else // Width > Height: Feather top and bottom
+                else
                 {
                     LinearGradientBrush gradient = new LinearGradientBrush
                     {
