@@ -37,9 +37,10 @@
                MinWidth="{DynamicResource bannerX}">
             <Grid Height="81"
                   VerticalAlignment="Top">
-                <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay, FallbackValue={StaticResource config_image}}"
-                       Stretch="UniformToFill"
-                       Height="{DynamicResource bannerY}" />
+                <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay}"
+                       Stretch="Fill"
+                       Height="{DynamicResource bannerY}"
+                       Width="{DynamicResource bannerX}" />
             </Grid>
             <Grid VerticalAlignment="Top"
                   Height="2"

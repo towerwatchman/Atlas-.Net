@@ -37,6 +37,7 @@ namespace Atlas.UI
         {
             InitializeComponent();
             IsVisibleChanged += GameBannerControl_IsVisibleChanged;
+            ImageRenderMode = ImageRenderMode.Uniform; // Set internally in constructor
             Loaded += GameBannerControl_Loaded;
             Unloaded += GameBannerControl_Unloaded;
             DataContextChanged += GameBannerControl_DataContextChanged;

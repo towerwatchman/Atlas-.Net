@@ -11,12 +11,6 @@
              Loaded="GameBannerControl_Loaded"
              Unloaded="GameBannerControl_Unloaded"
              FontFamily="sans-serif">
-    <UserControl.Style>
-        <Style TargetType="{x:Type local:GameBannerControl}">
-            <Setter Property="ImageRenderMode"
-                    Value="UniformToFill" />
-        </Style>
-    </UserControl.Style>
     <!--#region Resources-->
     <UserControl.Resources>
         <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
