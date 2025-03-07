@@ -21,22 +21,22 @@ namespace Atlas.UI.Pages
         public BannerViewPage()
         {
             InitializeComponent();
-            DataContext = this;
-            this.Visibility = Visibility.Hidden;
+            //DataContext = this;
+            //this.Visibility = Visibility.Hidden;
 
             //BannerView.ItemsSource = ModelData.GameCollection;
             Logger.Info($"ItemsSource set with {ModelData.GameCollection.Count} items");
 
-            string f95XamlPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners", $"{Atlas.Core.Settings.Config.BannerTheme}.xaml");
+            //string f95XamlPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners", $"{Atlas.Core.Settings.Config.BannerTheme}.xaml");
 
 
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            /*Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 InterfaceHelper.SetBannerTemplate(Atlas.Core.Settings.Config.BannerTheme, f95XamlPath);
                 BannerView.Items.Refresh();
                 this.Visibility = Visibility.Visible;
                 BannerView.UpdateLayout();
-            }, DispatcherPriority.Background);
+            }, DispatcherPriority.Background);*/
             /*
             Loaded += (s, e) =>
             {

@@ -85,7 +85,7 @@ namespace Atlas.UI.Pages.Settings
             try
             {
                 string xamlFilePath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners", $"{ThemeName}.xaml");
-                InterfaceHelper.SetBannerTemplate(ThemeName, xamlFilePath);
+                //InterfaceHelper.SetBannerTemplate(ThemeName, xamlFilePath);
                 Atlas.Core.Settings.Config.BannerTheme = ThemeName;
             }
             catch (Exception ex)

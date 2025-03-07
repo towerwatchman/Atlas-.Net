@@ -39,63 +39,7 @@ namespace Atlas.UI
 
         //Custom functions for modifying UI
 
-        public static void UpdateUserControlContent(string xamlFilePath, string pageClassName, string targetControlClassName)
-        {
-            try
-            {
-                // Find the Frame in the MainWindow
-                Frame frame = FindFrame(InterfaceHelper.MainWindow);
-                if (frame == null)
-                {
-                    throw new Exception("No Frame found in MainWindow.");
-                }
-
-                // Get the current Page from the Frame
-                if (frame.Content is Page currentPage && currentPage.GetType().FullName == pageClassName)
-                {
-                    // Find the target UserControl in the Page
-                    UserControl targetControl = FindUserControlByClassName(currentPage, targetControlClassName);
-                    if (targetControl != null)
-                    {
-                        // Read and clean the external XAML
-                        string xamlContent = File.ReadAllText(xamlFilePath);
-                        xamlContent = Regex.Replace(xamlContent,
-                            @"x:Class\s*=\s*""[^""]*""",
-                            string.Empty,
-                            RegexOptions.IgnoreCase);
-
-                        // Parse the XAML into a UI element
-                        FrameworkElement newContent = (FrameworkElement)XamlReader.Parse(xamlContent);
-
-                        // Ensure the update happens on the UI thread
-                        InterfaceHelper.Dispatcher.Invoke(() =>
-                        {
-                            // Clear existing content and set new content
-                            targetControl.Content = null; // Force a reset
-                            targetControl.Content = newContent;
-
-                            // Force layout update
-                            targetControl.UpdateLayout();
-
-                            // Verify the update
-                            MessageBox.Show($"Updated control class: {targetControl.GetType().FullName}");
-                        }, DispatcherPriority.Render);
-                    }
-                    else
-                    {
-                        throw new Exception($"UserControl '{targetControlClassName}' not found in '{pageClassName}'.");
-                    }
-                }
-                else
-                {
-                    throw new Exception($"Page '{pageClassName}' is not currently loaded in the Frame.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error updating UserControl: {ex.Message}");
-            }
-        }
+       
 
         // Helper method to find a Frame in the visual tree
         public static Frame FindFrame(DependencyObject parent)
