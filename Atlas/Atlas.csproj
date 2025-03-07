@@ -56,6 +56,7 @@
   <ItemGroup>
     <Page Remove="Themes\banners\default.xaml" />
     <Page Remove="Themes\banners\f95.xaml" />
+    <Page Remove="Themes\banners\image_test.xaml" />
     <Page Remove="Themes\banners\test.xaml" />
     <Page Remove="Themes\test.xaml" />
   </ItemGroup>
@@ -99,7 +100,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Themes\banners\default.xaml" />
+    <None Include="Themes\banners\default.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Include="Themes\banners\image_test.xaml" />
     <None Include="Themes\banners\f95.xaml" />
     <None Include="Themes\banners\test.xaml">
       <Generator>MSBuild:Compile</Generator>
