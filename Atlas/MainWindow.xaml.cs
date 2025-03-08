@@ -116,7 +116,7 @@ namespace Atlas
         private void InitBannerView()
         {           
             this.GameListBox.ItemsSource = ModelData.GameCollection;
-            bvp.BannerView.ItemsSource = ModelData.GameCollection;
+            //bvp.BannerView.ItemsSource = ModelData.GameCollection;
 
             Logger.Info($"ItemsSource set with {ModelData.GameCollection.Count} items");
 
@@ -156,8 +156,8 @@ namespace Atlas
             }
             catch (Exception ex) { Logger.Error(ex); }
 
-            bvp.BannerView.Items.Refresh();
-            bvp.BannerView.UpdateLayout();
+            //bvp.BannerView.Items.Refresh();
+            //bvp.BannerView.UpdateLayout();
             Logger.Debug($"Atlas Frame: x{atlas_frame.Width}, y{atlas_frame.Height}");
             Logger.Debug($"BannerView ActualHeight: {bvp.BannerView.ActualHeight}, ActualWidth: {bvp.BannerView.ActualWidth}");
             

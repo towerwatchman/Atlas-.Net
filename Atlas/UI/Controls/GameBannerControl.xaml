@@ -11,5 +11,49 @@
              Loaded="GameBannerControl_Loaded"
              Unloaded="GameBannerControl_Unloaded"
              FontFamily="sans-serif">
-   
+    <!--#region Resources-->
+    <UserControl.Resources>
+        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:Double x:Key="bannerX">537</sys:Double>
+            <sys:Double x:Key="bannerY">251</sys:Double>
+            <!-- Overlay Top and Bottom-->
+            <sys:Double x:Key="overlayTopH">26</sys:Double>
+            <sys:Double x:Key="overlayBottomH">26</sys:Double>
+            <sys:Boolean x:Key="overlayTopEnable">true</sys:Boolean>
+            <sys:Boolean x:Key="overlayBottomEnable">true</sys:Boolean>
+            <SolidColorBrush x:Key="overlayTopColor">#000000</SolidColorBrush>
+            <SolidColorBrush x:Key="overlayBottomColor">#000000</SolidColorBrush>
+            <SolidColorBrush x:Key="updateColor">Gold</SolidColorBrush>
+            <sys:Double x:Key="overlayOpacity">.8</sys:Double>
+            <!-- Grid Resources. DO NOT EDIT-->
+            <sys:Int32 x:Key="Rows">0</sys:Int32>
+            <sys:Int32 x:Key="Columns">0</sys:Int32>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />            
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <!--#endregion-->
+    <Grid x:Name="LayoutRoot"
+          Margin="2">
+        <Grid Margin="1">
+            <Border  BorderThickness="1"
+                     BorderBrush="Black"
+                     Height="{DynamicResource bannerY}"
+                     Width="{DynamicResource bannerX}">
+                <Grid  d:DesignHeight="{DynamicResource bannerY}"
+                       d:DesignWidth="{DynamicResource bannerX}"
+                       Height="{DynamicResource bannerY}"
+                       Width="{DynamicResource bannerX}">
+                    <!--#region Banner Image Data-->
+                    <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay}"
+                           Stretch="Fill"
+                           Height="{DynamicResource bannerY}"
+                           Width="{DynamicResource bannerX}" />
+                    <!--#endregion-->
+                   
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
 </UserControl>

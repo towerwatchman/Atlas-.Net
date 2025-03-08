@@ -22,12 +22,11 @@ namespace Atlas.UI.Pages
         {
             InitializeComponent();
             DataContext = this;
-            this.Visibility = Visibility.Hidden;
 
-            //BannerView.ItemsSource = ModelData.GameCollection;
+            BannerView.ItemsSource = ModelData.GameCollection;
             Logger.Info($"ItemsSource set with {ModelData.GameCollection.Count} items");
 
-            string f95XamlPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners", $"{Atlas.Core.Settings.Config.BannerTheme}.xaml");
+             /*string f95XamlPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners", $"{Atlas.Core.Settings.Config.BannerTheme}.xaml");
 
 
             Application.Current.Dispatcher.InvokeAsync(() =>
@@ -37,7 +36,7 @@ namespace Atlas.UI.Pages
                 this.Visibility = Visibility.Visible;
                 BannerView.UpdateLayout();
             }, DispatcherPriority.Background);
-            /*
+           
             Loaded += (s, e) =>
             {
                 BannerView.UpdateLayout();

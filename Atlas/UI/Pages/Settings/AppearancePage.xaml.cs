@@ -81,7 +81,7 @@ namespace Atlas.UI.Pages.Settings
 
         private void bLoadBanner_Click(object sender, RoutedEventArgs e)
         {
-            string ThemeName = cbBanners.Text;
+           /* string ThemeName = cbBanners.Text;
             try
             {
                 string xamlFilePath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "themes", "banners", $"{ThemeName}.xaml");
@@ -91,7 +91,7 @@ namespace Atlas.UI.Pages.Settings
             catch (Exception ex)
             {
                 Logger.Error(ex);
-            }
+            }*/
 
         }
     }

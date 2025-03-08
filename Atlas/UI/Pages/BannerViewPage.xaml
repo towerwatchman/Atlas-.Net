@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
       xmlns:my="clr-namespace:Atlas.UI.Pages"
+      xmlns:local="clr-namespace:Atlas.UI"
       xmlns:vm="clr-namespace:Atlas.UI.ViewModel"
       mc:Ignorable="d"
       d:DesignHeight="450"
@@ -25,6 +26,11 @@
                     <vwp:VirtualizingWrapPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:GameBannerControl DataContext="{Binding}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
