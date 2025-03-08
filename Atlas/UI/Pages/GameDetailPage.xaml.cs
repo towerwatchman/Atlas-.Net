@@ -120,7 +120,9 @@ namespace Atlas.UI.Pages
             var button = sender as Button;
             CurrentVersion.Content = button.Content.ToString();
 
+            //### FIX HERE
             //We need to update the game in model data so it will stick
+            /*
             if (CurrentGame != null)
             {
                 GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == CurrentGame.RecordID).FirstOrDefault();
@@ -133,7 +135,7 @@ namespace Atlas.UI.Pages
                     SQLiteInterface.UpdateLastPlayedGame(gameObj.RecordID, gameObj.Title, gameObj.Creator, button.Content.ToString());
                     //Update database
                 }
-            }
+            }*/
             VersionsList.Visibility = Visibility.Hidden;                     
         }
 

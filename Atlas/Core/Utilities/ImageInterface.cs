@@ -170,7 +170,8 @@ namespace Atlas.Core.Utilities
                             img.Freeze();
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(gameDetail.RecordID)).FirstOrDefault();
+                                //### FIX HERE
+                                /*GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(gameDetail.RecordID)).FirstOrDefault();
                                 var index = ModelData.GameCollection.IndexOf(gameObj);
 
                                 if (gameObj != null)
@@ -178,7 +179,7 @@ namespace Atlas.Core.Utilities
                                     ModelData.GameCollection[index].BannerImage = img;
                                     ModelData.GameCollection[index].SmallCapsule = banner_path;
                                     gameObj.OnPropertyChanged("BannerImage");
-                                }
+                                }*/
                             });
                         }
 

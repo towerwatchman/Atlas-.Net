@@ -149,6 +149,8 @@ namespace Atlas.UI.Windows
                 {
                     DeleteGameFolder();
                     //remove from data
+                    //### FIX HERE
+                    /*
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == RecordID).FirstOrDefault();
@@ -170,7 +172,7 @@ namespace Atlas.UI.Windows
                             listBoxItem.Tag = version;
                             VersionListBox.Items.Add(listBoxItem);
                         }
-                    });
+                    });*/
                 }
             }
         }

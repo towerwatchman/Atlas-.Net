@@ -572,111 +572,95 @@ WHERE full_name like '%{full_name}%' Order By LENGTH(full_name) - LENGTH('{full_
             return gameVersions;
         }
 
-        public static async Task<Task> BuildGameListDetails()
+        public static async Task<ObservableCollection<GameViewModel>> BuildGameListDetails()
         {
-            ObservableCollection<GameViewModel> GameCollection = new ObservableCollection<GameViewModel>();
+            ObservableCollection<GameViewModel> gameCollection = new ObservableCollection<GameViewModel>();
+            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "data.db");
+            string query = @"
+                SELECT 
+                    games.record_id as record_id,
+                    atlas_mappings.atlas_id as atlas_id,	
+                    games.title as title,
+                    games.creator as creator,
+                    games.engine as engine,
+                    games.last_played_version,
+                    banners.path as image_path,
+                    f95_zone_data.f95_id as f95_id,
+                    f95_zone_data.site_url as site_url,
+                    f95_zone_data.views as views,
+                    f95_zone_data.likes as likes,
+                    f95_zone_data.tags as tags,
+                    f95_zone_data.rating as rating,
+                    atlas_data.status,
+                    atlas_data.version,
+                    atlas_data.category,
+                    atlas_data.censored,
+                    atlas_data.genre,
+                    atlas_data.language,
+                    atlas_data.os,
+                    atlas_data.overview,
+                    atlas_data.translations,
+                    atlas_data.release_date,
+                    atlas_data.voice,
+                    atlas_data.short_name
+                FROM games
+                LEFT JOIN atlas_mappings on games.record_id = atlas_mappings.record_id
+                LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
+                LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id
+                LEFT JOIN atlas_data on atlas_mappings.atlas_id = atlas_data.atlas_id";
 
-            //this will need to be modified for more data in the future
-            //Modify to pull banner image and screens
-            string query = @"SELECT 
-games.record_id as record_id,
-atlas_mappings.atlas_id as atlas_id,	
-games.title as title,
-games.creator as creator,
-games.engine as engine,
-games.last_played_version,
-banners.path as image_path,
-f95_zone_data.f95_id as f95_id,
-f95_zone_data.site_url as site_url,
-f95_zone_data.views as views,
-f95_zone_data.likes as likes,
-f95_zone_data.tags as tags,
-f95_zone_data.rating as rating,
-atlas_data.status,
-atlas_data.version,
-atlas_data.category,
-atlas_data.censored,
-atlas_data.genre,
-atlas_data.language,
-atlas_data.os,
-atlas_data.overview,
-atlas_data.translations,
-atlas_data.release_date,
-atlas_data.voice,
-atlas_data.short_name
-
-FROM
-games
-LEFT JOIN atlas_mappings on games.record_id = atlas_mappings.record_id
-LEFT JOIN banners on atlas_mappings.record_id = banners.record_id
-LEFT JOIN f95_zone_data on atlas_mappings.atlas_id = f95_zone_data.atlas_id
-LEFT JOIN atlas_data on atlas_mappings.atlas_id = atlas_data.atlas_id";
-
-            await using (var connection = new SqliteConnection($"Data Source={Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "data", "data.db")}"))
+            await using (var connection = new SqliteConnection($"Data Source={dbPath}"))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 var command = connection.CreateCommand();
                 command.CommandText = query;
-                using var reader = command.ExecuteReader();
 
-                if (reader.HasRows)
+                using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
-                    while (reader.Read())
+                    try
                     {
-                        try
+                        Game game = new Game
                         {
-                            ImageInterface image = new ImageInterface();
-                            Game game = new Game
-                            {
-                                AtlasID = reader["atlas_id"] == DBNull.Value ? -1 : Convert.ToInt32(reader["atlas_id"]),
-                                RecordID = Convert.ToInt32(reader["record_id"].ToString()),
-                                F95ID = reader["f95_id"] == DBNull.Value ? -1 : Convert.ToInt32(reader["f95_id"]),
-                                Title = reader["title"].ToString(),
-                                Creator = reader["creator"].ToString(),
-                                Engine = reader["engine"].ToString(),
-                                CurrentSelectedVersion = reader["last_played_version"].ToString(),
-                                SiteUrl = reader["site_url"].ToString(),
-                                Views = reader["views"].ToString(),
-                                Status = reader["status"].ToString(),
-                                Likes = reader["likes"].ToString(),
-                                Tags = reader["tags"].ToString(),
-                                Rating = reader["rating"].ToString(),
-                                LatestVersion = reader["version"].ToString(),
-                                Category = reader["category"].ToString(),
-                                Censored = reader["censored"].ToString(),
-                                Genre = reader["genre"].ToString(),
-                                Language = reader["language"].ToString(),
-                                OS = reader["os"].ToString(),
-                                Overview = reader["overview"].ToString(),
-                                ReleaseDate = reader["release_Date"].ToString(),
-                                SmallCapsule = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, reader["image_path"].ToString()),
-                                MainCapsule = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, reader["image_path"].ToString().Replace("_sc","_mc")),
-                                Translations = reader["translations"].ToString(),
-                                Voice = reader["voice"].ToString(),
-                                ShortName = reader["short_name"].ToString(),
-                                //Versions = null,
-                                Versions = GetVersions(reader["record_id"].ToString()),
-                                ImageUriAnimated = Path.GetExtension(reader["image_path"].ToString()) == ".gif" ?
-                                     new Uri(reader["image_path"].ToString()) :
-                                     null/*,
-                                ImageData = image.LoadImage(reader["image_path"].ToString(), Settings.Config.ImageRenderWidth, Settings.Config.ImageRenderHeight)*/
-                            };
-
-                            GameCollection.Add(new GameViewModel(game));
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex);
-                        }
+                            AtlasID = reader["atlas_id"] == DBNull.Value ? -1 : Convert.ToInt32(reader["atlas_id"]),
+                            RecordID = Convert.ToInt32(reader["record_id"]),
+                            F95ID = reader["f95_id"] == DBNull.Value ? -1 : Convert.ToInt32(reader["f95_id"]),
+                            Title = reader["title"].ToString(),
+                            Creator = reader["creator"].ToString(),
+                            Engine = reader["engine"].ToString(),
+                            CurrentSelectedVersion = reader["last_played_version"].ToString(),
+                            SiteUrl = reader["site_url"].ToString(),
+                            Views = reader["views"].ToString(),
+                            Status = reader["status"].ToString(),
+                            Likes = reader["likes"].ToString(),
+                            Tags = reader["tags"].ToString(),
+                            Rating = reader["rating"].ToString(),
+                            LatestVersion = reader["version"].ToString(),
+                            Category = reader["category"].ToString(),
+                            Censored = reader["censored"].ToString(),
+                            Genre = reader["genre"].ToString(),
+                            Language = reader["language"].ToString(),
+                            OS = reader["os"].ToString(),
+                            Overview = reader["overview"].ToString(),
+                            ReleaseDate = reader["release_Date"].ToString(),
+                            SmallCapsule = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, reader["image_path"].ToString()),
+                            MainCapsule = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, reader["image_path"].ToString().Replace("_sc", "_mc")),
+                            Translations = reader["translations"].ToString(),
+                            Voice = reader["voice"].ToString(),
+                            ShortName = reader["short_name"].ToString(),
+                            Versions = GetVersions(reader["record_id"].ToString())
+                        };
+                        gameCollection.Add(new GameViewModel(game));
                     }
-                    Logger.Info("Loaded");
-                    reader.Close();
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex);
+                    }
                 }
             }
 
-            ModelData.GameCollection = GameCollection;
-
-            return Task.CompletedTask;
+            Logger.Info($"Loaded all {gameCollection.Count} games");
+            return gameCollection;
         }
 
         public static async Task<Game> RetrieveGame(string atlasID)

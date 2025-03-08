@@ -1,22 +1,26 @@
-﻿using Atlas.Core;
+﻿// GameViewModel.cs
+using Atlas.Core;
 using NLog;
-using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Windows;
+using System.IO;
 
 namespace Atlas.UI.ViewModel
 {
     public sealed class GameViewModel : INotifyPropertyChanged
     {
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private bool _isUpdateAvailable;
+        private BitmapSource _bannerImage;
+        private static readonly ConcurrentDictionary<string, WeakReference<BitmapSource>> ImageCache =
+            new ConcurrentDictionary<string, WeakReference<BitmapSource>>();
+        private const int MaxCacheSize = 50;
+
         public GameViewModel(Game game)
         {
             RecordID = game.RecordID;
@@ -50,14 +54,9 @@ namespace Atlas.UI.ViewModel
             Translations = game.Translations;
             Voice = game.Voice;
             ShortName = game.ShortName;
-
         }
-        private bool _isUpdateAvailable;
-        //private string _smallCapsule;
-        private BitmapSource _bannerImage;
-        private static readonly ConcurrentDictionary<string, BitmapSource> ImageCache = new ConcurrentDictionary<string, BitmapSource>();
-        private const int MaxCacheSize = 50; // Adjust based on visible items (e.g., 2-3x the number of visible controls)
 
+        // Properties (unchanged except for SmallCapsule)
         public int RecordID { get; private set; }
         public int AtlasID { get; private set; }
         public int F95ID { get; private set; }
@@ -73,17 +72,8 @@ namespace Atlas.UI.ViewModel
         public string Overview { get; private set; }
         public string OS { get; private set; }
         public bool IsFavorite { get; private set; }
-        /*public string SmallCapsule
-        {
-            get => _smallCapsule;
-            set { _smallCapsule = value; OnPropertyChanged(); }
-        }*/
-        public string SmallCapsule
-        {
-            get; set;
-        }
+        public string SmallCapsule { get; set; }
         public string MainCapsule { get; set; }
-        public string ImageUriAnimated { get; set; }
         public string SiteUrl { get; private set; }
         public string[] Screens { get; private set; }
         public string Tags { get; private set; }
@@ -93,6 +83,11 @@ namespace Atlas.UI.ViewModel
         public string LatestVersion { get; set; }
         public string Censored { get; set; }
         public string Language { get; set; }
+        public string Genre { get; set; }
+        public string ReleaseDate { get; set; }
+        public string Translations { get; set; }
+        public string Voice { get; internal set; }
+        public string ShortName { get; internal set; }
 
         public bool IsUpdateAvailable
         {
@@ -106,10 +101,7 @@ namespace Atlas.UI.ViewModel
                     {
                         latest = Convert.ToInt32(Regex.Replace(LatestVersion, "[^0-9]", ""));
                     }
-                    catch
-                    {
-
-                    }
+                    catch { }
                     foreach (var version in Versions)
                     {
                         int current = 0;
@@ -134,7 +126,6 @@ namespace Atlas.UI.ViewModel
                         OnPropertyChanged(nameof(IsUpdateAvailable));
                     }
                 });
-
                 return _isUpdateAvailable;
             }
             set
@@ -144,36 +135,38 @@ namespace Atlas.UI.ViewModel
             }
         }
 
-        public string Genre { get; set; }
-        public string ReleaseDate { get; set; }
-        public string Translations { get; set; }
-        public string Voice { get; internal set; }
-        public string ShortName { get; internal set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Logger.Warn($"Property Changed:{propertyName}");
-        }
         public BitmapSource BannerImage
         {
             get => _bannerImage;
             set { _bannerImage = value; OnPropertyChanged(); }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Logger.Warn($"Property Changed: {propertyName}");
+        }
+
         public async void RenderImage(ImageRenderMode mode)
         {
             if (BannerImage == null && !string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
             {
                 string cacheKey = SmallCapsule + mode.ToString();
-                if (ImageCache.TryGetValue(cacheKey, out BitmapSource cachedImage))
+                if (ImageCache.TryGetValue(cacheKey, out WeakReference<BitmapSource> weakRef) &&
+                    weakRef.TryGetTarget(out BitmapSource cachedImage))
                 {
                     BannerImage = cachedImage;
                 }
                 else
                 {
                     BannerImage = await Task.Run(() => RenderImageForMode(SmallCapsule, mode));
-                    ImageCache.TryAdd(cacheKey, BannerImage);
+                    if (ImageCache.Count >= MaxCacheSize)
+                    {
+                        ImageCache.Clear();
+                        Logger.Info("ImageCache cleared due to size limit");
+                    }
+                    ImageCache.TryAdd(cacheKey, new WeakReference<BitmapSource>(BannerImage));
                 }
             }
         }
@@ -183,25 +176,38 @@ namespace Atlas.UI.ViewModel
             if (!string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
             {
                 string cacheKey = SmallCapsule + mode.ToString();
-                if (ImageCache.TryGetValue(cacheKey, out BitmapSource cachedImage))
+                if (ImageCache.TryGetValue(cacheKey, out WeakReference<BitmapSource> weakRef) &&
+                    weakRef.TryGetTarget(out BitmapSource cachedImage))
                 {
-                    Logger.Info($"Cache hit for {cacheKey}");
+                    Logger.Info($"Cache hit for {Title} ({cacheKey}), Cache size: {ImageCache.Count}");
                     return cachedImage;
                 }
                 else
                 {
+                    Logger.Info($"Rendering image for {Title} ({cacheKey})");
                     BitmapSource image = RenderImageForMode(SmallCapsule, mode);
+                    if (image == null)
+                    {
+                        Logger.Warn($"Image rendering failed for {Title}");
+                        return null;
+                    }
                     if (ImageCache.Count >= MaxCacheSize)
                     {
-                        ImageCache.Clear(); // Simple eviction; could use LRU for better performance
-                        Logger.Info("ImageCache cleared due to size limit");
+                        ImageCache.Clear();
+                        Logger.Info($"ImageCache cleared due to size limit, was {ImageCache.Count}");
+                        GC.Collect(); // Force GC to test weak references
+                        GC.WaitForPendingFinalizers();
                     }
-                    ImageCache.TryAdd(cacheKey, image);
-                    Logger.Info($"Cached new image: {cacheKey}");
+                    ImageCache.TryAdd(cacheKey, new WeakReference<BitmapSource>(image));
+                    Logger.Info($"Cached new image for {Title} ({cacheKey}), Cache size: {ImageCache.Count}");
                     return image;
                 }
             }
-            return null;
+            else
+            {
+                Logger.Warn($"Invalid SmallCapsule for {Title}: {SmallCapsule}");
+                return null;
+            }
         }
 
         public void ClearImage()
@@ -215,6 +221,8 @@ namespace Atlas.UI.ViewModel
             originalImage.BeginInit();
             originalImage.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
             originalImage.CacheOption = BitmapCacheOption.OnLoad;
+            originalImage.DecodePixelWidth = 537;
+            originalImage.DecodePixelHeight = 251;
             originalImage.EndInit();
             originalImage.Freeze();
 
@@ -228,8 +236,6 @@ namespace Atlas.UI.ViewModel
                     return RenderSimpleImage(originalImage, Stretch.Fill);
                 case ImageRenderMode.UniformToFill:
                     return RenderSimpleImage(originalImage, Stretch.UniformToFill);
-                //case ImageRenderMode.UniformToFillCentered:
-                //    return RenderUniformToFillCentered(originalImage);
                 default:
                     return originalImage;
             }
@@ -255,7 +261,7 @@ namespace Atlas.UI.ViewModel
                 double xOffset = (width - scaledWidth) / 2;
                 double yOffset = (height - scaledHeight) / 2;
 
-                bool isTaller = height == scaledHeight ? true : false;
+                bool isTaller = height == scaledHeight;
                 RenderTargetBitmap mask = CreateFeatherMask(width, height, isTaller);
                 dc.PushOpacityMask(new ImageBrush(mask));
                 dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
@@ -315,35 +321,12 @@ namespace Atlas.UI.ViewModel
                     else
                     {
                         double scaledHeight = height;
-                        double scaledWidth = height / (imgHeight/imgWidth); ;
+                        double scaledWidth = height / (imgHeight / imgWidth);
                         double xOffset = (width - scaledWidth) / 2;
                         double yOffset = (height - scaledHeight) / 2;
                         dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
                     }
                 }
-            }
-            rtb.Render(visual);
-            rtb.Freeze();
-            return rtb;
-        }
-
-        private BitmapSource RenderUniformToFillCentered(BitmapSource originalImage)
-        {
-            const double width = 537;
-            const double height = 251;
-
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
-            DrawingVisual visual = new DrawingVisual();
-            using (DrawingContext dc = visual.RenderOpen())
-            {
-                double imgWidth = originalImage.PixelWidth;
-                double imgHeight = originalImage.PixelHeight;
-                double scale = Math.Min(width / imgWidth, height / imgHeight); // Fit without cropping
-                double scaledWidth = imgWidth * scale;
-                double scaledHeight = imgHeight * scale;
-                double xOffset = (width - scaledWidth) / 2;  // Center horizontally
-                double yOffset = (height - scaledHeight) / 2; // Center vertically
-                dc.DrawImage(originalImage, new Rect(xOffset, yOffset, scaledWidth, scaledHeight));
             }
             rtb.Render(visual);
             rtb.Freeze();

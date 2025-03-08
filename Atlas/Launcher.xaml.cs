@@ -174,8 +174,9 @@ namespace Atlas
             Logger.Info("Loading Assets");
             UpdateLauncherText("Loading Assets");
 
+            //### FIC HERE
             //Load all games in whatever the default view is
-            await Task.Run(async () =>
+            /*await Task.Run(async () =>
             {
                 try
                 {
@@ -197,7 +198,7 @@ namespace Atlas
                 {
                     Logger.Warn(ex);
                 }
-            });
+            });*/
 
             Logger.Info("Launching Atlas");
             UpdateLauncherText("Launching Atlas");

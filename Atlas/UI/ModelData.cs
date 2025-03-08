@@ -7,13 +7,13 @@ namespace Atlas.UI
 {
     public static class ModelData
     {
-        //public static ObservableCollection<Game> Games { get; set; }
-
-        public static ObservableCollection<GameViewModel> GameCollection { get; set; }
-
         public static ObservableCollection<NotificationViewModel> NotificationCollection { get; set; }
-
         public static int TotalGames { get; set; }
         public static int TotalVersions { get; set; }
+
+        static ModelData()
+        {
+            NotificationCollection = new ObservableCollection<NotificationViewModel>();
+        }
     }
 }

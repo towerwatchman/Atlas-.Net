@@ -71,7 +71,7 @@ namespace Atlas
             //Assign version
             tbVersion.Text = $"Version: {Assembly.GetExecutingAssembly().GetName().Version!.ToString()}";
 
-            InterfaceHelper.BannerView = bannerViewPage.BannerView;
+            //InterfaceHelper.BannerView = bannerViewPage.BannerView;
             InterfaceHelper.NotificationsPage = notificationsPage.NotificationsList;
 
             //Initalize the BannerViews
@@ -114,11 +114,12 @@ namespace Atlas
         }
 
         private void InitBannerView()
-        {           
-            this.GameListBox.ItemsSource = ModelData.GameCollection;
+        {
+            //### FIX HERE
+            //this.GameListBox.ItemsSource = bannerViewPage.GameCollection;
             //bannerViewPage.BannerView.ItemsSource = ModelData.GameCollection;
 
-            Logger.Info($"ItemsSource set with {ModelData.GameCollection.Count} items");
+            //Logger.Info($"ItemsSource set with {bannerViewPage.GameCollection.Count} items");
 
             /*try
             {
@@ -140,7 +141,7 @@ namespace Atlas
                 //Default to regular theme
             }*/
 
-            try
+            /*try
             {
                 //if (bannerViewPage.BannerView.Items.Count > 0)
                 //{
@@ -154,7 +155,7 @@ namespace Atlas
                 //Set total Versions & games
                 TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
             }
-            catch (Exception ex) { Logger.Error(ex); }
+            catch (Exception ex) { Logger.Error(ex); }*/
 
             //bannerViewPage.BannerView.Items.Refresh();
             //bannerViewPage.BannerView.UpdateLayout();
@@ -166,10 +167,10 @@ namespace Atlas
         private void InitListView()
         {
             //Reset the list
-            this.GameListBox.ItemsSource = null;
-            bannerViewPage.BannerView.ItemsSource = null;
-            bannerViewPage.BannerView.ItemsSource = ModelData.GameCollection;
-            this.GameListBox.ItemsSource = ModelData.GameCollection;
+            //this.GameListBox.ItemsSource = null;
+            //bannerViewPage.BannerView.ItemsSource = null;
+            //bannerViewPage.BannerView.ItemsSource = ModelData.GameCollection;
+            //this.GameListBox.ItemsSource = ModelData.GameCollection;
 
             try
             {
@@ -417,8 +418,9 @@ namespace Atlas
 
             if (Item.Name.ToString() == "Refresh")
             {
+                //### FIX HERE
                 //Keep user from pressing refresh more than once
-                if (isRefreshRunning == false)
+                /*if (isRefreshRunning == false)
                 {
                     Logger.Info("Running metadata refresh for all game objects");
                     //Disable List box
@@ -516,7 +518,7 @@ namespace Atlas
                 else
                 {
                     Logger.Warn("Game metadata refresh is already running");
-                }
+                }*/
                 Home.IsSelected = true;
             }
             if (Item.Name.ToString() == "Settings")
@@ -718,36 +720,38 @@ namespace Atlas
 
 
                            //Make sure there is only one instance of each game type based on title and creator.
-
-                           Application.Current.Dispatcher.Invoke(() =>
+                           //### FIX HERE
+                           
+                          /* Application.Current.Dispatcher.Invoke(() =>
                            {
-                               if (!ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(GameDetail.RecordID)).Any())
+                               if (!bannerViewPage.GameCollection.Where(x => x.RecordID == Convert.ToInt32(GameDetail.RecordID)).Any())
                                {
-                                   ModelData.GameCollection.Add(new GameViewModel(SQLiteInterface.RetrieveGame(GameDetail.RecordID).Result));
+                                   bannerViewPage.GameCollection.Add(new GameViewModel(SQLiteInterface.RetrieveGame(GameDetail.RecordID).Result));
                                }
                                //Update the model with new data if it already exist
                                else
                                {
-                                   GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(GameDetail.RecordID)).FirstOrDefault();
-                                   var index = ModelData.GameCollection.IndexOf(gameObj);
+                                   GameViewModel gameObj = bannerViewPage.GameCollection.Where(x => x.RecordID == Convert.ToInt32(GameDetail.RecordID)).FirstOrDefault();
+                                   var index = bannerViewPage.GameCollection.IndexOf(gameObj);
 
                                    if (gameObj != null)
                                    {
-                                       ModelData.GameCollection[index] = new GameViewModel(SQLiteInterface.RetrieveGame(GameDetail.RecordID).Result);
+                                       bannerViewPage.GameCollection[index] = new GameViewModel(SQLiteInterface.RetrieveGame(GameDetail.RecordID).Result);
                                        bannerViewPage.BannerView.Items.Refresh();
                                    }
                                }
 
                                //Update game data counts
-                               ModelData.TotalGames = ModelData.GameCollection.Count;
+                               ModelData.TotalGames = bannerViewPage.GameCollection.Count;
                                int versions = 0;
-                               foreach (var modelData in ModelData.GameCollection)
+                               foreach (var modelData in bannerViewPage.GameCollection)
                                {
                                    versions += modelData.Versions.Count;
                                }
                                ModelData.TotalVersions = versions;
                                TotalGames.Text = $"{ModelData.TotalGames} Games Installed, {ModelData.TotalVersions} Total Versions";
-                           });
+                           });*/
+                           
                        }
                        else
                        {
@@ -909,12 +913,15 @@ namespace Atlas
 
             string RecordID = menuItem.Tag.ToString();
 
-            GameViewModel gameObj = ModelData.GameCollection.Where(x => x.RecordID == Convert.ToInt32(RecordID)).FirstOrDefault();
+            //FIX HERE
+            /*
+            GameViewModel gameObj = bannerViewPage.GameCollection.Where(x => x.RecordID == Convert.ToInt32(RecordID)).FirstOrDefault();
+            */
 
             if (!isGameDetailShown)
             {
-                GameDetailWindow gameDetailWindow = new GameDetailWindow(gameObj);
-                gameDetailWindow.Show();
+                //GameDetailWindow gameDetailWindow = new GameDetailWindow(gameObj);
+                //gameDetailWindow.Show();
             }
         }
 

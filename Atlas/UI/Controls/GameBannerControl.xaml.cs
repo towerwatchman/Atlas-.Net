@@ -1,26 +1,28 @@
-﻿using Atlas.UI.ViewModel;
+﻿// GameBannerControl.cs
+using Atlas.UI.ViewModel;
+using NLog;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Atlas.UI
 {
-    /// <summary>
-    /// Interaction logic for GameBannerControl.xaml
-    /// </summary>
     public enum ImageRenderMode
     {
         BlurredWithFeather,
         Uniform,
         Stretch,
-        UniformToFill,
-        //UniformToFillCentered
+        UniformToFill
     }
+
     public partial class GameBannerControl : UserControl
     {
+        private CancellationTokenSource renderCts = new CancellationTokenSource();
+        private DateTime lastRender = DateTime.MinValue;
+        private readonly TimeSpan renderThrottle = TimeSpan.FromMilliseconds(100);
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static readonly DependencyProperty ImageRenderModeProperty =
             DependencyProperty.Register(
                 nameof(ImageRenderMode),
@@ -33,25 +35,17 @@ namespace Atlas.UI
             get => (ImageRenderMode)GetValue(ImageRenderModeProperty);
             set => SetValue(ImageRenderModeProperty, value);
         }
+
         public GameBannerControl()
         {
             InitializeComponent();
             IsVisibleChanged += GameBannerControl_IsVisibleChanged;
-            ImageRenderMode = ImageRenderMode.Uniform; // Set internally in constructor
+            ImageRenderMode = ImageRenderMode.Uniform;
             Loaded += GameBannerControl_Loaded;
             Unloaded += GameBannerControl_Unloaded;
             DataContextChanged += GameBannerControl_DataContextChanged;
         }
-        /*private void UpdateAvailable_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            Button obButton = e.OriginalSource as Button;
 
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = obButton.Tag.ToString(),
-                UseShellExecute = true
-            });
-        }*/
         private static void OnImageRenderModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is GameBannerControl control)
@@ -62,7 +56,11 @@ namespace Atlas.UI
 
         private void GameBannerControl_Loaded(object sender, RoutedEventArgs e)
         {
-            _ = TryRenderImageAsync();
+            if (DataContext is GameViewModel vm)
+            {
+                Logger.Info($"Loaded control for {vm.Title}");
+                _ = TryRenderImageAsync();
+            }
         }
 
         private void GameBannerControl_Unloaded(object sender, RoutedEventArgs e)
@@ -70,18 +68,27 @@ namespace Atlas.UI
             if (DataContext is GameViewModel viewModel)
             {
                 viewModel.ClearImage();
-                viewModel.PropertyChanged -= ViewModel_PropertyChanged; // Unsubscribe
+                viewModel.PropertyChanged -= ViewModel_PropertyChanged;
+                Logger.Info($"Unloaded control for {viewModel.Title}, BannerImage cleared");
             }
+            renderCts.Cancel();
         }
-
         private async void GameBannerControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            await TryRenderImageAsync();
+            if ((bool)e.NewValue && DataContext is GameViewModel vm)
+            {
+                Logger.Info($"Visibility changed to true for {vm.Title}");
+                await TryRenderImageAsync();
+            }
         }
 
         private async void GameBannerControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            await TryRenderImageAsync();
+            if (e.NewValue is GameViewModel vm)
+            {
+                Logger.Info($"DataContext set for {vm.Title}");
+                await TryRenderImageAsync();
+            }
 
             if (e.OldValue is INotifyPropertyChanged oldViewModel)
             {
@@ -98,23 +105,68 @@ namespace Atlas.UI
         {
             if (e.PropertyName == nameof(GameViewModel.SmallCapsule) || e.PropertyName == nameof(GameViewModel.BannerImage))
             {
-                await TryRenderImageAsync();
+                if (DataContext is GameViewModel vm)
+                {
+                    Logger.Info($"Property changed for {vm.Title}: {e.PropertyName}");
+                    await TryRenderImageAsync();
+                }
             }
         }
 
         private async Task TryRenderImageAsync()
         {
-            if (!IsVisible || !(DataContext is GameViewModel viewModel) || viewModel.BannerImage != null)
+            if (!(DataContext is GameViewModel viewModel))
             {
-                return; // Skip if not visible or image already set
+                Logger.Warn("No GameViewModel in DataContext");
+                return;
             }
 
-            ImageRenderMode mode = ImageRenderMode;
-            BitmapSource image = await Task.Run(() => viewModel.RenderImageOffThread(mode));
-            if (image != null)
+            if (!IsLoaded || !IsVisibleInTree())
             {
-                await Dispatcher.InvokeAsync(() => viewModel.BannerImage = image, DispatcherPriority.Background);
+                if (viewModel.BannerImage != null)
+                {
+                    viewModel.ClearImage();
+                    Logger.Info($"Cleared image for {viewModel.Title} as control is not visible");
+                }
+                Logger.Info($"Control not loaded/visible for {viewModel.Title}, skipping render");
+                return;
             }
+
+            if (viewModel.BannerImage != null)
+            {
+                Logger.Info($"Image already set for {viewModel.Title}");
+                return;
+            }
+
+            Logger.Info($"Attempting to render image for {viewModel.Title}");
+            renderCts.Cancel();
+            renderCts = new CancellationTokenSource();
+            try
+            {
+                ImageRenderMode mode = ImageRenderMode;
+                BitmapSource image = await Task.Run(() => viewModel.RenderImageOffThread(mode), renderCts.Token);
+                if (image != null && !renderCts.IsCancellationRequested)
+                {
+                    await Dispatcher.InvokeAsync(() =>
+                    {
+                        viewModel.BannerImage = image;
+                        Logger.Info($"Image set for {viewModel.Title}");
+                    }, DispatcherPriority.Render);
+                }
+                else if (image == null)
+                {
+                    Logger.Warn($"Failed to render image for {viewModel.Title}");
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                Logger.Info($"Render cancelled for {viewModel.Title}");
+            }
+        }
+        // Helper to check if control is in visual tree
+        private bool IsVisibleInTree()
+        {
+            return Window.GetWindow(this) != null && IsVisible;
         }
     }
 }
