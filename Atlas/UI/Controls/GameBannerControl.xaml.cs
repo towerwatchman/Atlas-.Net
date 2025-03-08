@@ -70,6 +70,7 @@ namespace Atlas.UI
             if (DataContext is GameViewModel viewModel)
             {
                 viewModel.ClearImage();
+                viewModel.PropertyChanged -= ViewModel_PropertyChanged; // Unsubscribe
             }
         }
 
@@ -103,9 +104,12 @@ namespace Atlas.UI
 
         private async Task TryRenderImageAsync()
         {
-            if (!IsVisible || !(DataContext is GameViewModel viewModel)) return;
+            if (!IsVisible || !(DataContext is GameViewModel viewModel) || viewModel.BannerImage != null)
+            {
+                return; // Skip if not visible or image already set
+            }
 
-            ImageRenderMode mode = ImageRenderMode; // Fetch on UI thread
+            ImageRenderMode mode = ImageRenderMode;
             BitmapSource image = await Task.Run(() => viewModel.RenderImageOffThread(mode));
             if (image != null)
             {

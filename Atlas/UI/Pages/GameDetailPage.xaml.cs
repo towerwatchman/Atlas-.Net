@@ -111,7 +111,7 @@ namespace Atlas.UI.Pages
 
                     VersionsList.Height = (buttonHeight * index) +20;
                 }
-                //bvp.miPlay.ItemsSource = menuitems;
+                //bannerViewPage.miPlay.ItemsSource = menuitems;
             }
         }
 

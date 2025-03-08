@@ -56,6 +56,7 @@ namespace Atlas.UI.ViewModel
         //private string _smallCapsule;
         private BitmapSource _bannerImage;
         private static readonly ConcurrentDictionary<string, BitmapSource> ImageCache = new ConcurrentDictionary<string, BitmapSource>();
+        private const int MaxCacheSize = 50; // Adjust based on visible items (e.g., 2-3x the number of visible controls)
 
         public int RecordID { get; private set; }
         public int AtlasID { get; private set; }
@@ -179,17 +180,24 @@ namespace Atlas.UI.ViewModel
 
         public BitmapSource RenderImageOffThread(ImageRenderMode mode)
         {
-            if (BannerImage == null && !string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
+            if (!string.IsNullOrEmpty(SmallCapsule) && File.Exists(SmallCapsule))
             {
                 string cacheKey = SmallCapsule + mode.ToString();
                 if (ImageCache.TryGetValue(cacheKey, out BitmapSource cachedImage))
                 {
+                    Logger.Info($"Cache hit for {cacheKey}");
                     return cachedImage;
                 }
                 else
                 {
                     BitmapSource image = RenderImageForMode(SmallCapsule, mode);
+                    if (ImageCache.Count >= MaxCacheSize)
+                    {
+                        ImageCache.Clear(); // Simple eviction; could use LRU for better performance
+                        Logger.Info("ImageCache cleared due to size limit");
+                    }
                     ImageCache.TryAdd(cacheKey, image);
+                    Logger.Info($"Cached new image: {cacheKey}");
                     return image;
                 }
             }

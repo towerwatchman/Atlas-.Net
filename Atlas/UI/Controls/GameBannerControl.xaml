@@ -8,8 +8,6 @@
              xmlns:viewmodel="clr-namespace:Atlas.UI.ViewModel"
              d:DataContext="{d:DesignInstance Type=viewmodel:GameViewModel}"
              mc:Ignorable="d"
-             Loaded="GameBannerControl_Loaded"
-             Unloaded="GameBannerControl_Unloaded"
              FontFamily="sans-serif">
     <!--#region Resources-->
     <UserControl.Resources>
@@ -37,21 +35,16 @@
     <Grid x:Name="LayoutRoot"
           Margin="2">
         <Grid Margin="1">
-            <Border  BorderThickness="1"
-                     BorderBrush="Black"
-                     Height="{DynamicResource bannerY}"
-                     Width="{DynamicResource bannerX}">
-                <Grid  d:DesignHeight="{DynamicResource bannerY}"
-                       d:DesignWidth="{DynamicResource bannerX}"
-                       Height="{DynamicResource bannerY}"
-                       Width="{DynamicResource bannerX}">
-                    <!--#region Banner Image Data-->
+            <Border BorderThickness="1"
+                    BorderBrush="Black"
+                    Height="{DynamicResource bannerY}"
+                    Width="{DynamicResource bannerX}">
+                <Grid Height="{DynamicResource bannerY}"
+                      Width="{DynamicResource bannerX}">
                     <Image Source="{Binding BannerImage, IsAsync=True, Mode=OneWay}"
                            Stretch="Fill"
                            Height="{DynamicResource bannerY}"
                            Width="{DynamicResource bannerX}" />
-                    <!--#endregion-->
-                   
                 </Grid>
             </Border>
         </Grid>
